@@ -1,13 +1,13 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "Shovels Documentation",
   "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "dark": "assets/shovels-logo.png",
+    "light": "assets/shovels-logo.png"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "assets/favicon.png",
   "colors": {
-    "primary": "#0D9373",
+    "primary": "#01654D",
     "light": "#07C983",
     "dark": "#0D9373",
     "anchors": {
@@ -17,75 +17,72 @@
   },
   "topbarLinks": [
     {
-      "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "name": "Contact Support",
+      "url": "mailto:support@shovel.ai"
     }
   ],
   "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "name": "Free Trial",
+    "url": "https://app.shovels.ai"
   },
   "tabs": [
     {
       "name": "API Reference",
-      "url": "api-reference"
+      "url": "api-reference",
+      "openapi": "https://api.shovels.ai/v2/openapi.json"
     }
   ],
   "anchors": [
     {
-      "name": "Documentation",
+      "name": "Data Dictionary",
       "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
+      "url": "https://docs.google.com/spreadsheets/d/1qiIxx37_-6vGfGp2i5pXv4w2FdsLsShjCqSVO5v6OMQ/edit?gid=1818227349#gid=1818227349"
+    },
+    {
+      "name": "Coverage Dashboard",
+      "icon": "map-pin",
+      "url": "https://shovels.metabaseapp.com/public/dashboard/0573503d-88ac-4ba4-a723-346b55de482b?tab=36-summary&state=&city=&county_or_jurisdiction=&zip_code=&date_filter="
     },
     {
       "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
+      "icon": "discord",
+      "url": "https://discord.gg/Nypja3cKDx"
     },
     {
       "name": "Blog",
       "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "url": "https://www.shovels.ai/blog/"
     }
   ],
   "navigation": [
     {
-      "group": "Get Started",
+      "group": "Quickstart",
       "pages": [
-        "introduction",
-        "quickstart",
-        "development"
+        "docs/shovels-online-quickstart-guide",
+        "docs/installation-guide"
       ]
     },
     {
-      "group": "Essentials",
+      "group": "Tutorials",
       "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        "docs/tutorial-1",
+        "docs/tutorial-2"
       ]
     },
     {
-      "group": "API Documentation",
+      "group": "Troubleshooting",
       "pages": [
-        "api-reference/introduction"
-      ]
-    },
-    {
-      "group": "Endpoint Examples",
-      "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "docs/shovels-online-troubleshooting"
       ]
     }
   ],
   "footerSocials": {
-    "x": "https://x.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://linkedin.com/company/mintlify"
+    "discord": "https://discord.gg/Nypja3cKDx",
+    "github": "https://github.com/shovelsai",
+    "linkedin": "https://linkedin.com/company/shovels"
+  },
+  "feedback": {
+    "suggestEdit": true,
+    "raiseIssue": true
   }
 }
