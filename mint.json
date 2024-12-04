@@ -3,22 +3,32 @@
   "name": "Shovels Documentation",
   "logo": {
     "dark": "assets/shovels-logo.png",
-    "light": "assets/shovels-logo.png"
+    "light": "assets/shovels-logo.png",
+    "href": "https://shovels.ai"
   },
   "favicon": "assets/favicon.png",
+  "theme": "prism",
+  "layout": "sidenav",
+  "background": {
+    "style": "gradient"
+  },
   "colors": {
     "primary": "#01654D",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "light": "#e9be51",
+    "dark": "#01654D",
+    "background": {
+      "light": "#eae2cf",
+      "dark": "#101727"
+    },
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#101727",
+      "to": "#01654D"
     }
   },
   "topbarLinks": [
     {
       "name": "Contact Support",
-      "url": "mailto:support@shovel.ai"
+      "url": "mailto:support@shovels.ai"
     }
   ],
   "topbarCtaButton": {
@@ -56,26 +66,54 @@
   ],
   "navigation": [
     {
-      "group": "Quickstart",
+      "group": "",
       "pages": [
-        "docs/shovels-online-quickstart-guide",
-        "docs/installation-guide"
+        "docs/introduction"
       ]
     },
     {
-      "group": "Tutorials",
+      "group": "Shovels Online",
       "pages": [
-        "docs/tutorial-1",
-        "docs/tutorial-2"
+        "docs/shovels-online-quickstart-guide",
+        {
+          "group": "Tutorials",
+          "pages": [
+            "docs/tutorial-1"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Shovels API",
+      "pages": [
+        "docs/shovels-api-introduction",
+        {
+          "group": "Tutorials",
+          "pages": [
+            "docs/tutorial-2"
+          ]
+        }
       ]
     },
     {
       "group": "Troubleshooting",
       "pages": [
-        "docs/shovels-online-troubleshooting"
+        "docs/shovels-online-troubleshooting",
+        "docs/shovels-api-troubleshooting"
       ]
     }
   ],
+  "api": {
+    "baseUrl": "https://api.shovels.ai/v2",
+    "playground": {
+      "mode": "show"
+    },
+    "request": {
+      "example": {
+        "languages": ["curl", "python", "java", "go", "ruby", "php"]
+      }
+    }
+  },
   "footerSocials": {
     "discord": "https://discord.gg/Nypja3cKDx",
     "github": "https://github.com/shovelsai",
@@ -83,6 +121,7 @@
   },
   "feedback": {
     "suggestEdit": true,
+    "thumbsRating": true,
     "raiseIssue": true
   }
 }
