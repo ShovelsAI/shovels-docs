@@ -40,6 +40,10 @@
       "name": "API Reference",
       "url": "api-reference",
       "openapi": "https://api.shovels.ai/v2/openapi.json"
+    },
+    {
+      "name": "Changelog",
+      "url": "changelog"
     }
   ],
   "anchors": [
@@ -74,21 +78,26 @@
     {
       "group": "Shovels Online",
       "pages": [
-        "docs/shovels-online-quickstart-guide",
-        {
-          "group": "Tutorials",
-          "pages": [
-            "docs/tutorial-1"
-          ]
-        }
+        "docs/shovels-online-quickstart-guide"
       ]
     },
     {
       "group": "Shovels API",
       "pages": [
-        "docs/shovels-api-introduction",
+        "docs/shovels-api-introduction"
+      ]
+    },
+    {
+      "group": "Tutorials",
+      "pages": [
         {
-          "group": "Tutorials",
+          "group": "Shovels Online",
+          "pages": [
+            "docs/tutorial-1"
+          ]
+        },
+        {
+          "group": "Shovels API",
           "pages": [
             "docs/tutorial-2"
           ]
@@ -100,6 +109,12 @@
       "pages": [
         "docs/shovels-online-troubleshooting",
         "docs/shovels-api-troubleshooting"
+      ]
+    },
+    {
+      "group": "Changelog",
+      "pages": [
+        "changelog/changelog"
       ]
     }
   ],
