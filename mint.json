@@ -42,8 +42,8 @@
       "openapi": "https://api.shovels.ai/v2/openapi.json"
     },
     {
-      "name": "Changelog",
-      "url": "changelog"
+      "name": "Release Notes",
+      "url": "release-notes"
     }
   ],
   "anchors": [
@@ -112,9 +112,9 @@
       ]
     },
     {
-      "group": "Changelog",
+      "group": "Release Notes",
       "pages": [
-        "changelog/changelog"
+        "release-notes/release-notes"
       ]
     }
   ],
