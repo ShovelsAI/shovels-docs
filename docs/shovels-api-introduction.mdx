@@ -4,4 +4,216 @@ description: Learn how to use the Shovels API to programmatically access permit,
 icon: 'terminal'
 ---
 
-[placeholder text]
+The Shovels API is a REST API that allows you to programmatically access permit, contractor, and demographic data. The use cases are endless, but the most common we see today are:
+
+- **Sales and Marketing**: Generate lead lists with precision, at scale. 
+- **Development**: Build direct product integrations to bring Shovels data into your own applications. 
+- **Market Research**: Programmatically return and export Shovels data into your own tools, dashboards, and reports. 
+
+This guide will help you get started with the Shovels API, become familiar with the endpoints, parameters, and structure of the data, and then dive into some examples. 
+
+If you have any questions, please don't hesitate to reach out to [Support](mailto:support@shovels.ai).
+
+## Authentication
+
+Authentication is required for any API request that you make, whether it's in the API Playground or in your own scripts. 
+
+We use a simple header-based authentication method, <code>X-API-Key: YOUR_API_KEY_HERE</code>.
+
+Here's an example request:
+
+```bash
+    curl -X GET "https://api.shovels.ai/v2/meta/release" \
+        -H "X-API-Key: YOUR_API_KEY_HERE"
+```
+
+If you have any issues with your API key, rate limits, or other authentication issues, please reach out to [Support](mailto:support@shovels.ai).
+
+### API Key
+
+For any API request, you'll need to include your API key. This is available in your [Profile Settings > API Key](https://app.shovels.ai/profile-settings).
+
+### API Free Trial
+
+We want you to be able to adequately test our API before making your decision. Completely separate from the Shovels Online web app trial, there is a free trial of the API key as well. 
+
+API Key free trials include 1000 requests with no time limit or credit card required.
+
+If you exceed 1000 request and still need more, please reach out to [Sales](mailto:sales@shovels.ai) for an extension.
+
+### Acceptable Use Policy
+
+We do not enforce any usage or rate limits at this time, but we expect that you will respect our platform and avoid frivolous requests. 
+
+However, we are constantly monitoring usage and will enforce rate limits on an individual basis as needed. If you feel that you're API key is rate limited, please reach out to [Support](mailto:support@shovels.ai) for clarification.
+
+## API Reference
+
+If you're looking for the Shovels API Reference, then you're in the right place. The API Reference tab in this documentation hub outlines all of our endpoints, parameters, requirements, and responses. 
+
+Additionally, there are examples of both requests and responses to help you get started. 
+
+### Key Details
+
+Here are the key details of our REST API, which will help you make the most of it, in whatever platform you choose. 
+
+#### Requirements
+
+| Type | Description |
+|------|-------------|
+| **SSL Only** | We require that all requests be made over SSL. |
+| **UTF-8 Encoding** | We use UTF-8 encoding for all requests and responses. |
+| **Method** | HTTP GET for all read calls. |
+| **Date Format** | All dates in the API are `strings` in the format: `YYYY-MM-DD`. |
+
+### Using the Shovels API Playground
+
+The easiest way to get started with the Shovels API is to use the API Playground. This is a web-based tool that allows you to test out the API without having to write any code. 
+
+#### Authentication
+
+In order to use the playground, you'll need to authenticate with your API key. 
+
+Enter your API Key in the "Authentication" drop down (as shown below), and proceed to the next step. 
+
+![API Playground Authentication](/assets/screenshots/api-quickstart-guide-authentication.png)
+
+<Info>
+If you have forgotten your API key, or need one in the first place, this is available in your [Profile Settings > API Key](https://app.shovels.ai/profile-settings).
+</Info>
+
+#### Server
+
+Ensure that the "Server" drop down is set to `api.shovels.ai/v2`.
+
+#### Required fields
+
+Different endpoints will have different required fields. Select the "Query" dropdown to see all available fields. Required fields are indicated with a red asterisk (as shown below). 
+
+![API Playground Required Fields](/assets/screenshots/api-quickstart-guide-required-fields.png)
+
+Generally speaking, the required fields are the start and end dates for the query, and the corresponding `geo_id` to point the query to the right place. If the query is for a specific object, like an individual permit, address, or contractor, then you'll only need the corresponding `id` field.
+
+#### Parameters
+
+In order to fine-tune your query results, you can add parameters to the request.
+
+A full list of the parameters available (with definitions) for each endpoint can be found in the "Query Parameters" section, beneath the "Query Dropdown" (as shown below).
+
+![API Playground Query Parameters](/assets/screenshots/api-quickstart-guide-query-parameters.png)
+
+## Tips and Tricks
+
+Using a REST API is generally the same everywhere, but here are a few things that may help you with our Shovels API specifically. 
+
+### Use Optional Parameters
+
+Permit data goes deep, and our data-cleaning allows you to go even deeper. 
+
+Read through all the options in the "Query Parameters" and see if there are any that will help narrow down your query. Not every parameter will have complete fill rates (as in, that field may be null), but it's best to take a bottom-up approach of creating as fine and detailed a query as possible, with all the extra data points you could be interested in. 
+
+If that specific query doesn't return the results you need, in either quality or quantity, then you can slowly whittle away at these extra parameters until you get what you need. 
+
+### Break Down Your Queries
+
+Our endpoints are answers to straightforward questions, and sometimes the query you may want to build isn't possible with a single endpoint. 
+
+In such cases, a sequential approach of chaining endpoint queries together can be effective. In others, where the required field is a value, like a specific `contractor_id` or `address_id`, then it's mandatory to first retrieve the foundational data point before getting the insights for it. 
+
+An example of this can be found in our Tutorial section. 
+
+### Use the API Request Examples
+
+If you're new to using REST APIs, or even if you're a seasoned veteran, it can be helpful to see an example of the exact syntax and formatting of the request, to give you the piece of mind that it's formatted correctly. 
+
+To the right of each endpoint in our API Playground there is a request example in a variety of languages. These will either give you a good starting point for building your own request, or can be directly copy and pasted in simple use cases. 
+
+## Troubleshooting
+
+We will outline below a few of the main methodologies for analyzing what happened to a REST API request, and what to do from there. 
+
+### Error codes
+
+First of all, the **Error Code** is the most important place to start. We provide standard HTTP error codes, with as much details as possible. Our Error Codes and their corresponding meanings are described in our API Reference directly, but we'll reproduce them here for convenience. 
+
+    | <div style={{ width: '200px' }}>Error Code</div> | Description |
+    | --------- | --------- |
+    | `200` **OK** | The request is formatted correctly, and was accepted by the servers. The returned response will show the data that we have, based on the request parameters. |
+    | `400` **Bad Request** | The request is formatted incorrectly, and was not accepted by the servers. |
+    | `401` **Request Unauthorized** | Double check the API key. |
+    | `402` **Payment Required** | You've reached your Free Trial API request limit, please [contact Sales](mailto:sales@shovels.ai). |
+    | `403` **Forbidden** | You're not authorized to make this request, so double check your request. |
+    | `404` **No Data Found** | The request is formatted correctly, and was accepted by the servers. However, there was no matching data found in the system, and so no response is possible. Please double check your request.|
+    | `422` **Unprocessable Entity** | The request is unsuccessful, which could be for a variety of reasons. Please double check your request or read the section on "`422` Error Handling" below to better understand the provided error message. |
+    | `429` **Too Many Requests** | You've hit your API rate limit. Please slow down your request speed and try again shortly. |
+    | `500` **Internal Server Error** | Something broke on our end. Please reach out to [Support](mailto:support@shovels.ai) for assistance. |
+
+#### `422` Error Handling
+
+A 422 Unprocessable Entity response occurs when the server understands the request but cannot process it due to invalid data. This helps you identify issues with your input.
+
+The response includes:
+
+`loc`: The location of the error. The first value indicates the location and the second specifies the problematic field. Common values for the first value include:
+    - `body`: The error is in the request body.
+    - `query`: The error is in the query parameters.
+    - `path`: The error is in the URL path.
+    - `header`: The error is in the request headers.
+`msg`: A message describing the error.
+`type`: The type of error.
+
+Here are some examples:
+
+<CodeGroup>
+    ```json Request Body Error
+    {
+        "loc": ["body", "start_date"],
+        "msg": "Field required",
+        "type": "value_error.missing"
+    }
+    ```
+
+    ```json Query Parameter Error
+    {
+        "loc": ["query", "page"],
+        "msg": "Page must be a positive integer",
+        "type": "type_error.integer"
+    }
+    ```
+
+    ```json Path Parameter Error
+    {
+        "loc": ["path", "contractor_id"],
+        "msg": "Invalid ID format",
+        "type": "value_error.invalid_id"
+    }
+    ```
+    
+    ```json Header Error
+    {
+        "loc": ["header", "X-API-Key"],
+        "msg": "API key is missing",
+        "type": "value_error.missing"
+    }
+    ``` 
+</CodeGroup>
+
+If these examples don't help, please reach out to [Support](mailto:support@shovels.ai) for assistance.
+
+### Missing Data and Empty Fields
+
+A common thought after receiving a `404` error is to wonder if the query itself was incorrect, or somehow misconfigured. 
+
+While that may be the case, it's also important to consider that there may be no data available at this time. 
+
+We talk about this in much more detail under the Shovels Foundations section, but to be succinct: there are many complications in obtaining complete and total permit data, from variability in digitization practices to required permit fields in individual jurisdictions. While we do our best, we aren't there yet. 
+
+**If you find that we're missing key data for your needs, please reach out to [Support](mailto:support@shovels.ai) and we'll confirm for you whether we have it or not, and if not, add it to our roadmap to get it soon.**
+
+### Release Notes
+
+Another possibility, especially for existing queries that failed, are that the endpoints and data structure may have changed. 
+
+Any such changes are documented in our [Release Notes](/release-notes). 
+
+Please note that such breaking changes are exceedingly rare, and we do our best to minimize them wherever possible. If you need any assistance, or notice that existing queries are suddenly failing, please reach out to [Support](mailto:support@shovels.ai) for assistance.

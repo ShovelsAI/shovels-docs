@@ -1,6 +1,179 @@
 ---
 title: Quickstart Guide
 icon: 'shovel'
+description: This guide will help you get started with Shovels Online, the web-based application for exploring the Shovels dataset.
 ---
 
-## This is the quickstart guide for using Shovels. 
+**Shovels Online**, compared with our other platform offerings of the **Shovels API** and **Shovels EDL** (Enterprise Data License), is best for ad hoc and codeless exploration of US construction data, specifically **Contractors** and the **Related Permits**. 
+
+Our coverage and data is not perfect, and we're reliant on individual permit jurisdictions all over the country to digitize their records. We're always working to improve the coverage and data fidelity, so if you're looking for a specific record (and you are certain that there's a permit record for it), then please get in touch and we'll do our best to help.
+
+## Creating an Account
+
+If you haven't already, go to the [Create Account](https://app.shovels.ai/create-account/) page and enter in your details. 
+
+If you already have an account, then just log in at [app.shovels.ai](https://app.shovels.ai). 
+
+For security purposes, we'll send a verification email with a magic link to get you started. 
+
+### Logging In
+
+Once you've verified your email, you'll be directed to log in. Once successful, you'll officially begin your Free Trial and see the Shovels Online Search page. 
+
+### Free Trial Usage
+
+We provide a 7 day Free Trial for all new users, which will allow you to explore the platform, gather some sample data, and get a hang of the data we provide. 
+
+We also understand that you may need additional time to test and vet the system. If your free trial expires, please reach out to [Sales](mailto:sales@shovels.ai) and we'll be happy to help. 
+
+#### Free Trial API Key
+
+All Free Trial accounts are also provided with an API Key, which has a separate, non-time based limit of 1000 requests. Even if your Shovels Online free trial expires, you may continue to test the API with this key until you hit your limit. 
+
+To find your API key, click on your email address in the top right corner. From the account profile page, click the "API Key" tab to view your key, as well as some helpful resources for getting started. 
+
+### Troubleshooting Login Issues
+
+If you're having issue logging in, and the "Reset Password" option isn't working, please reach out to [Support](mailto:support@shovels.ai) and we'll help right away. 
+
+## The Tour
+
+Now that you're logged in, here's a quick guided tour of the Shovels Online platform. 
+
+### Search Filters
+
+When you reach the Search page, you'll see the left-side panel with a variety of filters. This is how you specify the exact results you're looking for. 
+
+<Info>
+
+Search results are limited to 50 per page. This limit carries over to the Map View, so the results will not dynamically adjust based on zooming out or panning around. 
+
+</Info>
+
+Across the top, there will be two tabs labeled "Contractors" and "Related Permits". These tabs allow you to switch between returning top-level contractors, which will include a summary of permit counts, job types, and other company data, and individual permits.
+
+### Contractors vs Permits
+
+Across the top of the page, there will be two tabs labeled "Contractors" and "Related Permits". These tabs allow you to switch between returning top-level contractors, which will include a summary of permit counts, job types, and other company data, and individual permits.
+
+Simply defined, **Contractors** are individuals or companies that file permits and do the underlying work for the project. Our search allows you to filter for contractors by a wide range of factors, including business name, project type and scale, geographical area of work, and more. 
+
+On the other hand, **Permits** are the actual permit records, which can be submitted (and linked to) a Contractor, or could be done by a non-contractor (such as homeowner).
+
+### Saved Profiles
+
+On the upper right-side of the page, you'll see a button for "Saved Profiles". This is where you can save your previous search queries, filters, and results for future use or reference.
+
+There are a wide variety of single objects that you can save, including Contractors, Permits, States, Jurisdictions, Counties, and Cities. 
+
+You can also save entire search queries, so you can easily find and re-run a set of filters that you've used previously.
+
+Finally, even if you haven't saved the Search explicitly, a "Search History" of previous searches will be available to you for convenience. 
+
+### Map View
+
+By default, the results will be displayed in a table view, with each entity represented by a row. However, you can also switch to a map-based view by clicking the "Map" toggle (<Icon icon="map" />) on the far right-hand side of the page. 
+
+## Finding your First Contractor
+
+In this section, we'll walk though a sample search for a contractor in the state of Massachusetts. 
+
+To ensure we're getting Contractors instead of Permits, we'll select the "Contractors" tab.
+
+Let's look for contractors in Hampden County, MA, that specialize in new construction projects, and have at least 10 permits on file. 
+
+### Geography
+
+Shovels data is segmented at all geographical levels, from as low as an individual address to an entire state. 
+
+<Note>
+
+In some cases, the borders between smaller geographical tiers (such as zip codes or jurisdictions) may not perfectly align and overlap with higher level ones. For instance, a jurisdiction may cross into the border of an adjacent state. 
+
+</Note>
+
+For this example, we'll select "County". A text field will appear, where you can enter in the county name of your choice. We'll go with `Hampden, MA`. 
+
+### Date Range
+
+This filter allows you to determine the activity range of Contractors you're searching for. In the Free Trial, there are three relative date options: Last 3 Months, Last 6 Months, and Last 12 Months. Subscribed customers have an additional option for "All Time". 
+
+We'll go with `Last 12 Months`. 
+
+### Financial Filters
+
+These are the technical filters which allow you to get very granular with your criteria.
+
+Financial filters allow you to search by project fees (`Min Permit Fees`) or value (`Min Job Value` and `Min Market Value`). 
+
+We'll leave these blank for now.
+
+### Building Filters
+
+These filters allow you to specify more detail about the specific kind of building your desired contractor will have experience with. 
+
+For an in-depth breakdown of all these fields, please see our [link forthcoming] page. 
+
+We'll go with `Property Type = Residential`, so we can exclude contractors who only work on commercial or other projects. 
+
+### Permit Filters
+
+Permit filters let you specify the exact kind of project the contractor will have experience with, based on the permit details their projects had. 
+
+We'll go with `Categories = New Construction`, which specifies that we want contractors who work on new construction projects, as opposed to renovations or installations. 
+
+### Contractor Filters
+
+Contractor filters let's you specify contractor-specific details, such as License Number, Company Name, and other job history fields. If you have a specific contractor in mind, these filters will be helpful. 
+
+We'll go with `Min Total Permits Count = 10`, which specifies that we want contractors with at least 10 permits on file. 
+
+### Getting Results
+
+Now that we've fine-tuned our filters, click "Apply Filters" at the bottom of the panel and wait for the results. 
+
+In this case, we've made a very narrow search, in a small geographical area. As of time of writing, we see 3 results for Contractors that meet our criteria (`10` permits, with at least one in `New Construction`, in the `last 12 months` in `Hampden County, MA`). 
+
+Each **Contractor** is represented by a row in the results, and if you want more information you can click "View Details" to drill down further. 
+
+## Searching for Related Permits
+
+Thus far, we've been searching for Contractors only. By switching to the "Related Permits" tab, we can instead return a list of all qualifying permits that match our existing and relevant criteria. In this case, Contractor filters aren't applicable. 
+
+### Difference between Contractors and Permits
+
+There are a few key differences in returned results between Contractors and Related Permits. 
+
+* **Contractors** always roll-up their entire job history, so not every permit on their record will necessarily meet all criteria. As long as each criteria is met by at least one or more of their permits, they'll be returned in the search results. 
+    * For more detailed and controlled results, you'll want to explore our API or EDL platforms. 
+* **Related Permits** do not necessarily have an associated **Contractor**, as homeowners may submit permits without hiring a contractor for the project. 
+
+## Next Steps
+
+Now we have our results, and it's time to do something with them.  
+
+### Saving Filters
+
+If this is a set query that you'll want to return to frequently, then you can save this search for future use. Click the "<Icon icon="heart" /> Save" button on the top of the Filters panel to save the existing filter. 
+
+### Saving Profiles
+
+If one of the Contractors is of specific interest, then you could save their profile directly. Click the bookmark icon (<Icon icon="bookmark" />) to save the current object. 
+
+### Exporting Results
+
+Most commonly, you'll want to export this data somehow. In this example, it may be easier to simply take down the information by hand for the three contractors we found. Using their contact details, we can add them to a sales or marketing pipeline to get in contact directly.
+
+For larger search results, as might be the case in a wider geographical or construction-heavy zone, you can use the "Download List <Icon icon="arrow-down-to-line" />" button to save a CSV of the top 1000 results. 
+
+<Important>
+
+Shovels Online doesn't support more than 1000 results for a given search. If you need more, then we recommend either narrowing your search further (such as smaller geographical filter), or using Shovels API to get your data. If you have any questions, please don't hesitate to reach out to [Support](mailto:support@shovels.ai).
+
+</Important>
+
+## Happy Digging!
+
+This example only scratches the surface, and we're still learning of new use cases and ways our data can be leveraged. Check out our [Tutorials] and [Reference Information] for a more in-depth description of all the features, fields, and parameters available. 
+
+And as always, if you have any questions, please don't hesitate to reach out to [Support](mailto:support@shovels.ai).
