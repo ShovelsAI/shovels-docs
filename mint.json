@@ -93,13 +93,13 @@
         {
           "group": "Shovels Online",
           "pages": [
-            "docs/tutorial-1"
+            "docs/tutorial-online-contractor-search"
           ]
         },
         {
           "group": "Shovels API",
           "pages": [
-            "docs/tutorial-2"
+            "docs/tutorial-api-address-permit-history"
           ]
         }
       ]

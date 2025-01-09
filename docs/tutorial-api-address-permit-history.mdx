@@ -1,0 +1,67 @@
+---
+title: Retrieving Permit History for an Address
+description: This tutorial will show you how to use the Shovels API to retrieve permit history for an address.
+---
+
+When using the Shovels API, it's important to know how to chain together information from different endpoints to get the data you need. 
+
+In this tutorial, we'll be looking at the multi-step process of retrieving permit history for a given address. 
+
+Let's get into it. 
+
+## Step-by-Step Recipe
+<Steps>
+    <Step title="Authenticate" titleSize="h3" stepNumber={0}>
+        Authenticate with the Shovels API using your API key. For more information on getting started with the Shovels API, please see our [API Introduction > Authentication](/docs/shovels-api-introduction#authentication).
+    </Step>
+
+    <Step title="Find the Address" titleSize="h3" stepNumber={1}>
+        Use the `GET /v2/addresses/search` endpoint, and enter the address string. 
+
+        In this example, we'll use cURL to make the request, and look for the address "123 Main St".
+
+        ```bash
+        curl -X GET "https://api.shovels.ai/v2/addresses/search?address=123%20Main%20St" \
+            -H "X-API-Key: YOUR_API_KEY_HERE"
+        ```
+
+        This will return a list of addresses that match the search string. Pick the one that matches the address you're looking for originally (you may need to paginate to see the full results).
+    </Step>
+
+    <Step title="Retrieve the Address's GEO_ID" titleSize="h3" stepNumber={2}>
+        From the response body in **Step 1**, note or otherwise extract the `geo_id` of the address. It should look like a alphanumeric string. 
+
+        <Note>
+            The `geo_id` is the unique identifier for all location objects in the Shovels platform. These don't only correspond to individual addresses or property plots, but also exist for other geographical segments like `cities`, `counties`, `jurisdictions`, and `states`. 
+        </Note>
+
+        This `geo_id` will be what you need for **Step 3**.
+    </Step>
+
+    <Step title="Retrieve Permit History" titleSize="h3" stepNumber={3}>
+        Use the `GET /v2/permits/search` endpoint, and enter the `geo_id` you extracted in **Step 2**.
+
+        You will also need to specify the `permit_from` and `permit_to` strings, which are required fields. These represent the time bounds to search for permits for the given address. 
+
+        ```bash
+        curl -X GET "https://api.shovels.ai/v2/permits/search?geo_id=$GEO_ID&permit_from=YYYY-MM-DD&permit_to=YYYY-MM-DD' \
+            -H "X-API-Key: YOUR_API_KEY_HERE"
+        ```
+
+        This will return all permits for the given address within the date range you specified. 
+    </Step>
+
+    <Step title="Do it again (Optional)" titleSize="h3" stepNumber={4}>
+        Now you have your permit history, and you can repeat this for any other addresses you need data for. 
+    </Step>
+</Steps>
+
+## Troubleshooting
+
+Configuring API queries can be tricky, and we're here to help however we can. Double check our [API Troubleshooting](/docs/shovels-api-introduction#troubleshooting) guide for further guidance.
+
+## Additional help
+
+If you still run into issues with your permit history query, or anything else with the Shovels API, please reach out to us at [support@shovels.ai](mailto:support@shovels.ai) and we'll be happy to help.
+
+Happy Digging!

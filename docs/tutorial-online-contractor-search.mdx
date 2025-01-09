@@ -1,0 +1,84 @@
+---
+title: Building an Accurate Contractor Search
+description: This tutorial will help you build an accurate search query in Shovels Online to find Contractors.
+---
+
+When using **Shovels Online**, it can be difficult to know where to start, and what parameters are the best to use, and which might just add extra noise. 
+
+This tutorial is just one example, which will give you a template for building Contractor searches of your own. 
+
+In this example, we'll be looking for contractors in New England (for this case, let's look at Massachusetts), specifically those that specialize in `heat pump` installations in `residential` buildings. 
+
+For best results, we'll limit our search to contractors that have at least 10 permits on file and have been active in the last 6 months. 
+
+Let's get into it. 
+
+## Step-by-Step Tutorial
+
+<Steps>
+     <Step title="Log in to Shovels Online" titleSize="h3" stepNumber={0}>
+          Log in with your username and password at [app.shovels.ai](https://app.shovels.ai).
+     </Step>
+     
+     <Step title="Select Geography" titleSize="h3" stepNumber={1}>
+          Go to the "Filter By" bar on the left-side of the page, and select the "Search In `Geography` dropdown. 
+
+          Select "State". 
+
+          Then, in the "Choose State" field, type in `Massachusetts`.
+     </Step>
+
+     <Step title="Select Date Range" titleSize="h3" stepNumber={2}>
+          Go to the "Date Range" dropdown and select `Last 6 Months`.
+     </Step>
+
+     <Step title="Select Financial Filters (Optional)" titleSize="h3" stepNumber={3}>
+          In this example, we'll leave these filters blank. 
+
+          However, ou can always add them if you'd like to ensure that your searching for contractors with experience working on projects of a certain size, in either fees or market value.
+     </Step>
+
+     <Step title="Select Building Filters (Optional)" titleSize="h3" stepNumber={4}>
+          Click on the "Building Filters" dropdown to expand the list of filters. 
+
+          Select "Property Type" and choose `Residential`.
+
+          As always, there are additional filters here, but we'll keep this example simple. 
+     </Step>
+
+     <Step title="Select Permit Filters (Optional)" titleSize="h3" stepNumber={5}>
+          Click on the "Permits Filters" dropdown to expand the list of filters. 
+
+          Select "Categories" and choose `Heat Pump`. You can select multiple project categories here, but keep in mind that this will potentially limit the results. 
+     </Step>
+     <Step title="Select Contractor Filters (Optional)" titleSize="h3" stepNumber={6}>
+          Click on the "Contractors Filters" dropdown to expand the list of filters. 
+
+          Select "Min Total Permits Count" and type `10`.
+     </Step>
+
+     <Step title="Get Results" titleSize="h3" stepNumber={7}>
+          Click "Apply Filters" at the bottom of the Filters panel, and ensure that the tab for "Contractors" is selected. 
+
+          This will return a list of contractors that with experience working on heat pump installations in Massachusetts residential buildings in the last 6 months. 
+          
+          From there, you can either export the entire list of results (up to 1000 results) as a CSV, or you can click into the details of an individual contractor to dig deeper about their work history and experience. 
+     </Step>
+</Steps>
+
+## Adjusting Your Search
+
+If you're not getting the results you want, then the next step will be to adjust your search filter selections. Depending on your use case, the necessary changes could be wide-ranging.
+
+Below, we'll give you some basic examples of things you could adjust, in either direction. 
+
+* **Changing Geography**: If you have too many results, then you can narrow your search (or the reverse: expand your geographical area for more results).
+* **Changing Date Range**: Similar to above, narrow or expand your results by changing how far back in time you're searching for. 
+* **Granular Permit Details**: If there are certain details that are usually included in the permit, such as keywords or specific brand name materials, etc, then you can search for these strings directly using the `Description` filter (Permits Filters > Description). 
+* **Specific Contractor Details**: If there are specific contractors or contractor types that you're searching for, such as `Company Name` or `Classification`, then those fields (under "Contractor Filters")can be used to more accurately target your search results. 
+
+## Additional help
+
+If you run into any issues with your Contractor search, or anything else with Shovels Online, please reach out to us at [support@shovels.ai](mailto:support@shovels.ai) and we'll be happy to help.
+
+Happy Digging!
