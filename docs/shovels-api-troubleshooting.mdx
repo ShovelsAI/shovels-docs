@@ -1,5 +1,53 @@
 ---
-title: Shovels API
+title: Shovels API Troubleshooting
+description: Common issues and how to fix them when using the Shovels API.
 ---
 
-[placeholder text]
+## General Troubleshooting Workflow
+
+When encountering an issue with the Shovels API, whether it's authentication, execution of the query, or parsing the response, we have a few steps we recommend taking to make sure that everything is working as expected. 
+
+We'll describe these steps in detail here:
+
+1. **Check your API Key**: Ensure that your API key is accurate, and matches what you see in your [Shovels Account Settings](https://app.shovels.ai/profile-settings). 
+2. **Check the Required Fields for the Endpoint**: The required fields may vary from endpoint to endpoint, so ensure that they're all included.
+3. **Confirm the Request Server**: Make sure that you're using the full `api.shovels.ai/v2` URL, and not just `/v2`. 
+4. **Double Check the Request Syntax**: This can vary widely based on the method you use to execute the request, but errors in query configuration can cause issues. Sometimes, the Request Examples in our [API Reference docs](/api-reference/) can help with this. 
+    - We're happy to help with this, just send us the full request (within reason)and we'll see what we can sort out. 
+5. **Check for Conflicting Parameters (for `404` errors)**: For scenarios where you receive a `404` error unexpectedly, it can sometimes come from conflicting parameters which create a query with no possible results.
+    - For example, including both `property_type = "residential"` and `permit_min_fees = "X,XXX"' may result in an incomplete search due to the frequent under-reporting of permit fees on residential projects. 
+6. **Ask for Help**: If you're still having trouble, let us know what you've tried in an email ticket, and we'll do our best to help. 
+
+## Common Issues
+
+This section will highlight some of the more common issues encountered by our users when using the Shovels API. 
+
+If we missed anything, or you have further questions that these answers don't address, please email us at [support@shovels.ai](mailto:support@shovels.ai).
+
+### I'm getting a different HTTP error than you list in your documentation. What do I do?
+
+Occasionally, the system may respond to a query with a less-commonly used HTTP error code.
+
+The first place to look will be the [API Reference > Troubleshooting > Error Codes](/docs/shovels-api-introduction#error-codes) to confirm whether we've documented that specific code or not. 
+
+If not, then please check the [Mozilla Documentation for HTTP Status Codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) to get more insight into the root cause of this error. 
+
+If you still can't fix the issue, then please email us at [support@shovels.ai](mailto:support@shovels.ai) and we'll do our best to help.
+
+Please include the following in the ticket to our Support team:
+
+- The email address of the user who made the request (if it's different from the one you're emailing from)
+- The HTTP error code you received
+- The API request itself (with as much context as possible)
+- What steps you've taken already in your own troubleshooting
+- Any additional context that might help us understand the issue
+
+### Why are there so many `null` values in my response?
+
+We talk about this in more detail in our Shovels Foundations section, but there's a ton of variability in the required fields for permits across all the different permit jurisdictions across the country, and so it's hard to make a unified set of fields that will have data for every permit. 
+
+We put as much of the data included in the permit as possible, and try to fill in the gaps based on other data we have (sometimes the data we'd expect to see in an individual field is included in the `Description` instead, so we try to extract and move that to the right place). 
+
+If you have any questions or think that there's crucial information missing from a specific permit, contractor, or other object in our database, please let us know and we'll investigate for you. 
+
+Happy Digging!

@@ -1,7 +1,44 @@
 ---
-title: Shovels Online
+title: Shovels Online Troubleshooting
+description: Common issues and how to fix them when using Shovels Online.
 ---
 
 ## Common Issues
 
-### Empty Search Results
+These are our most common issues encountered by our users when using Shovels Online, which we'll try our best to answer here. 
+
+If we missed anything, or you have further questions that these answers don't address, please email us at [support@shovels.ai](mailto:support@shovels.ai).
+
+### I know for sure that a permit exists: why can't I find it?
+
+We touch on this more in our Shovels Foundations section, but the short answer is that we do not have every permit in our database (yet). It's a complicated and nuanced problem, and one that our engineering team is actively working on. 
+
+We'll highlight a few of the issues that could be causing this permit to be missing from our system:
+
+- We don't have coverage in that specific jurisdiction. 
+- That jurisdiction may have a slow process for digitization, so it might not be virtually available yet. 
+- (The rarest case) The permit in question may have been garbled in either the submission or the digitization process, and so it's hard for us to parse it and add it to our system. 
+
+The biggest issue here is coverage. There are more than 20,000 permitting jurisdictions in the United States, and those boundaries can change. If there's a jurisdiction or geographical area that's of particular importance to you, please let us know and we'll see what we can do to expedite our coverage there. 
+
+### Why can't I download more than 1000 records?
+
+We limit exporting records to 1000 **per unique search filters** for many reasons, including optimizing performance of our web application, and because in our user research we've found that most users are fine with keeping their searches narrow and granular. 
+
+For broader use cases, especially where there are more data science and engineering resources to leverage, we recommend using the Shovels API, which has no result limit, or our Shovels EDL (Enterprise Data License). 
+
+### Why doesn't the Map View show all the results?
+
+The Map View renders the results of a specific page of results (which is currently set to 50). To see subsequent pages, switch back to the Table view and use the pagination controls.
+
+This is due to a technical limitation for the performance of our web application, and in the future we hope to improve on this user experience. 
+
+### How much of the Contractor `Company Name` do I need to include in my search?
+
+We've found the best results for searching for individual contractor or construction firms by searching with upper case letters, and at least two words of the company name. 
+
+For example, for "Acme Plumbing and Heating Construction, Inc." we'd suggest at least including "Acme" and "Plumbing" in your string. 
+
+This is even more important when the company name includes more common words, like "sun" or "roof" or other terms that are frequently to return a ton of results. 
+
+If you have any issues with finding the right contractor, or using the Shovels Online search more generally, please reach out to us and we'll be happy to help.
