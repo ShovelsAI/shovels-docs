@@ -4,8 +4,58 @@ icon: 'code-merge'
 description: Find out what the Engineering team has been up to across our entire platform, including updates and bugfixes.
 ---
 
-<Update label="V2.0.1" description="2024-12-04">
+<Update label="V2.0.2" description="2025-01-09">
+    <Tabs>
+        <Tab title="Online">
+            ✨ **New**:
+                * Added `employees` to **Contractor Profiles**.
+                * Added links to **Jurisdiction Profiles** for all permits. 
+                * Added links to **City Profiles** and **County Profiles** for all geo-related profiles.
+            
+            🐞 **Bugfixes**:
+                * Fixed password reset bug. 
+        </Tab>
+        <Tab title="API">
+            ✨ **New**:
+                * Added new `/v2/contractors/{id}/employees` endpoint.
+                * Added new `/v2/addresses/{id}/metrics` endpoint.
+            
+            🪦 **End of Life**:
+                * We will **DEPRECATE** the **API V1** by the end of January 2025. 
+                
+                <Warning>Please update all endpoints using the old schema **before January 31, 2025** to ensure continued usage.</Warning>
+                <Tip>If you need any help with this transition, don't hesitate to reach out to us at [support@shovels.ai](mailto:support@shovels.ai).</Tip>
 
+            🐞 **Bugfixes**:
+                * Fixed metrics calculation algorithm on all endpoints.
+        </Tab>
+        <Tab title="EDL (Enterprise Data License)">
+            
+            💥 **Breaking**:
+                * `contractors` table:
+                    * `first_seen_at` **renamed** -> `first_seen_date`. 
+                        * Data type **changed** -> `DATE`.
+                    * `reviews` **renamed** -> `review_count`.
+                * `residents` table: 
+                    * Foreign key **changed** from `permit_id` -> `address_id`.
+                        * **Please note**: The `address_id` field is also the foreign key for the `permits` table, allowing easier joins between `residents` and `permits` tables. 
+                
+                <Warning>Please ensure that any existing queries or automation using `first_seen_at`, `reviews`, or `permit_id` are updated accordingly.</Warning>
+        </Tab>
+    </Tabs>
+    ---
+    <AccordionGroup>
+        <Accordion title="Coverage Expansion">
+            These new permits will be available across the entire platform.
+            
+            ✨ **New**:
+                * +6M permits nationwide.
+                * +9 permit jurisdictions.
+        </Accordion>
+    </AccordionGroup>
+</Update>
+
+<Update label="V2.0.1" description="2024-12-04">
     <Tabs>
         <Tab title="Online">
             ✨ **New**:
@@ -24,10 +74,7 @@ description: Find out what the Engineering team has been up to across our entire
 
             💥 **Breaking**:
                 * Casing standardizations (please update accordingly if your logic is **case-sensitive**):
-                    * `property_type` values are now **lower case**, eg `residential`.
-                    * `property_owner_type` values are now **snake_case**, eg `individual` or `company_owned`.
-                    * `owner_name`, `owner_street`, `owner_city` values are now **upper case**, eg `JANE DOE`, `MAIN ST`, or `AGAWAM`.
-                    * `applicant_name`, `applicant_street`, `applicant_city` values are now **upper case**, just like `owner_$` above. 
+                    * `property_type` values are now **lower case**, eg `residential`. 
 
         </Tab>
         <Tab title="EDL (Enterprise Data License)">
@@ -41,12 +88,15 @@ description: Find out what the Engineering team has been up to across our entire
                 * additional columns in the `residents` table. See "Schema Updates" below for the full list.
 
             💥 **Breaking**:
-                * Casing standardizations (see above in API for full details of the casing changes).
+                * Casing standardizations (in addition to the changes outlined in the API Section previously).
+                    * `property_owner_type` values are now **snake_case**, eg `individual` or `company_owned`.
+                    * `owner_name`, `owner_street`, `owner_city` values are now **upper case**, eg `JANE DOE`, `MAIN ST`, or `AGAWAM`.
+                    * `applicant_name`, `applicant_street`, `applicant_city` values are now **upper case**, just like `owner_$` above.
                 * (PLANNED) Replacement of `permits_ids` with `address_id` in the `residents` table (please update your pipelines that use this foreign key value.)
                     * This change will go into effect **January 2025**.
         </Tab>
     </Tabs>
-
+    ---
     <AccordionGroup>
         <Accordion title="Schema Updates">
             We made a number of additions to our datasets, including new columns. For breaking changes to casing, see "API" above. 
