@@ -1,0 +1,88 @@
+---
+title: Building Blocks
+icon: cubes
+description: Understanding the key data components that make up the Shovels platform. 
+---
+
+## The Shovels Dataset
+
+When we refer to *The Shovels Dataset*, we mean the entirety of the data we have. 
+
+This data has already gone through our processing pipelines and QA, and is the backbone of the entire platform (even if some of the data isn't yet available on all of the platforms yet).
+
+In this article, we'll walk through each of the key object types in our dataset, and a bit about their provenance. 
+
+### Permits
+
+If the Shovels dataset is the backbone of the platform, then permits are the spinal cord running through the entire thing. 
+
+Permits are rich sources of data, which (usually) include a wide range of information such as:
+
+- property address
+- property owner (and contact information)
+- contractor (and contact information) if applicable
+- project description 
+- project category (e.g. residential, commercial, industrial, etc)
+- project sub-category (e.g. single-family, multi-family, office space, etc)
+- permit type (e.g. demolition, excavation, grading, etc)
+- application date
+- approval dates and status
+- project completion, if applicable
+- project value and fees (for calculating applicable taxes)
+- other included documents or materials
+
+That is a treasure trove of information, and when analyzed at scale allows for some intriguing insights. These are our derived metrics, which we add and enrich to the permit object. 
+
+Permit data is extremely useful in too many ways to list here, but if you want to know the status and details of a project, then the permit is the best place to start. 
+
+For more information on how we obtain our permit data (and the challenges that accompany that), see our section on [Permit Availability](/foundations-permit-availability).
+
+#### Permit Categories
+
+In the list above, you'll see a `permit type` field. That is a complicated nut to crack, as there are so many different names and variations of how permits indicate what kind of work is being done. For the Shovels dataset, we refer to this field as **Category**.
+
+These refer to what kind of project the permit is for, such as `heat pump` or `solar panel` or `Additional Dwelling Unit (ADU)`. Sometimes, there isn't a clearly listed category, and the specifics are hidden in the `project description` field. Sometimes, the project spans multiple types, but only a single type is included on the permit field. 
+
+This is where we put the majority of the "ai" in "shovels.ai": by pumping all of the data through our purpose-built and specifically trained LLMs to ensure that we capture every angle of the permit. Even obscure abbreviations or misspellings are corrected and categorized appropriately. 
+
+### Contractors
+
+This can vary widely by permit type and jurisdiction, but most permits applications are submitted by the contractor doing the project, which allows us to create a database of all the permits submitted by individual contractors or contracting companies. 
+
+Using the same fields from the permits, we can keep track in a separate table the contractors, and derive their own subset of special metrics based on their submitted permits. 
+
+Sometimes the permits will contain detailed contact information for the contractor, but in cases where it's lacking we will enrich that ourselves. 
+
+So if you want to reach out by email, phone, or just explore their website and project history, our `contractors` database will be a great place to begin. 
+
+#### Employees
+
+As a subset of the `contractors` table, we also include detailed information about the employees of a contractor organization, if there are any we can find. 
+
+This includes demographic data for the individual employee as well as their role in the company, which will help with understanding who is making the decisions and who is doing the work on the ground. 
+
+<Note>The `employees` table is a new addition, so we're still completing our enrichment process across the board -- results may be incomplete in the short term.</Note>
+
+### Properties
+
+Properties are a required field of every permit. Just like with the contractors, permit data lets us build a database and historical record of construction projects done by parcel or address. 
+
+Combining this with publicly and privately available GIS data let's us do a ton of fancy mapping and geographical analysis, which can be useful for real estate exploration and trend analysis. 
+
+### Parcels
+
+Contrasted against properties, parcels show property characteristics such as zoning, building use, building dimensions and land usage, and more. 
+
+Connected with the same GIS data as with properties, we're able to show an all-encompassing view of properties, nationwide.
+
+### Residents
+
+The crown jewel of any demographics dataset is the people themselves. Combining permit data (which shows home ownership and project involvement) with other publicly available data sources (like census records, zoning and building use designations, and others) let's us extrapolate whether someone is a homeowner, renter, or dependent of either. 
+
+<Important>It's important to us to maintain the highest standards of ethics and data privacy, so we thoroughly vet all of our data sources to ensure that they're publicly available and ethically sourced. Whenever possible, we extrapolate the data from our existing records.</Important>
+
+## More to come?
+
+The construction, energy, and real estate industries are as diverse as they are lucrative, and we know that we're only scratching the surface. 
+
+If there's a particular data type or data point you'd like to see us add, reach out to [Support](mailto:support@shovels.ai) and we'll see what we can do. 

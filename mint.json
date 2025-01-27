@@ -8,6 +8,14 @@
   },
   "favicon": "assets/favicon.png",
   "theme": "prism",
+  "font": {
+    "headings": {
+      "family": "Poppins"
+    },
+    "body": {
+      "family": "Poppins"
+    }
+  },
   "layout": "sidenav",
   "background": {
     "style": "gradient"
@@ -107,8 +115,17 @@
     {
       "group": "Troubleshooting",
       "pages": [
+        "docs/shovels-faq",
         "docs/shovels-online-troubleshooting",
         "docs/shovels-api-troubleshooting"
+      ]
+    },
+    {
+      "group": "Shovels Foundations",
+      "pages": [
+        "docs/foundations-building-blocks",
+        "docs/foundations-data-philosophy",
+        "docs/foundations-understanding-permits"
       ]
     },
     {

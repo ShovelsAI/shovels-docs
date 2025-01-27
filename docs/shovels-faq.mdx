@@ -1,0 +1,85 @@
+---
+title: FAQ
+icon: messages-question
+description: Frequently asked questions about the Shovels platform. 
+---
+
+## <Icon icon="earth-americas" size="20px"/> Shovels Online
+
+### Why can I only download 1000 records?
+
+For performance reasons, we limit the number of records you can export at a single time, for a single search, to 1000 records. 
+
+There is one workaround for this: break your query down into smaller segments (eg, change from `state` to `city` or `zip code`) and then run each one separately. Combined, these can generate a CSV with more than 1000 records. 
+
+On the other hand, the Shovels API has no result limit, so you can export as many records as needed. 
+
+### Why doesn't the Map Search show all the results?
+
+For similar performance reasons as above, we limit the number of results displayed on the map to 50, which is the maximum page size.
+
+In order to view the next page of results in the map format, switch back to the "List View" and paginate as usual, and then switch back to "Map View". 
+
+### Why isn't a permit showing up, even though I know it exists?
+
+We talk about this issue in depth [here](/docs/online-troubleshooting#i-know-for-sure-that-a-permit-exists-why-cant-i-find-it), but the short of it is this:
+
+- There are over 20k permit jurisdictions nationwide, and we don't have access to all of them (though, this number includes an extremely long tail of small rural areas). 
+- When we do have a jurisdiction in our system, there are varying levels of permit and file digitization, which limits how much data we can process. 
+- Sometimes, the digitized permits we do get are incomplete or garbled, and thus unusable (this is the rarest case, but does happen). 
+
+If you're seeing less-than-desired results, [contact us](mailto:support@shovels.com) and we'll investigate which of the above reasons is the likely culprit, and how we might fix it for you. 
+
+## <Icon icon="terminal" size="20px"/> Shovels API
+
+### What's the difference between using the API vs Shovels Online?
+
+The main difference is scale and depth of the data provided. 
+
+With the **Shovels API**, you can programmatically access the same high level data (objects like permits, addresses, contractors, etc), but with deeper data and fields for each one. 
+
+You can also export more records at a time, with greater control and flexibility with filters and parameters. 
+
+Beyond that, using the API allows for much more complex use cases, such as direct product integrations or query automation, which isn't possible with **Shovels Online**. 
+
+### What's the best way to interact with the API?
+
+Like any REST API, there are a wide variety of ways to use it: which one is best depends on your use case. 
+
+I'll outline a few of the most common ways we see our users interact with the API today:
+
+- **Using the API Playground**: our [API Reference documentation](/api-reference) contains a "playground", where you can read through the schema and fields, test out queries, and view responses in real time. Authenticate with your API key and use the "Try it" button to get started. 
+- **cURL HTTP requests**: [cURL](https://everything.curl.dev/) is a command-line tool using `bash` or `zsh` that's great for making basic HTTP requests (among many others). Our [API Reference playground](/api-reference) has example queries in a variety of languages, including cURL. 
+- **Python scripts**: For more in-depth needs, especially in conjunction with other tools or tasks, Python is a great tool to extract the data you need from the Shovels API and then do something else with it. 
+- **Postman**: [Postman](https://www.postman.com/) is a popular tool for developing and testing APIs, and is often used as an isolated environment prior to integrating it with an existing application or tool. 
+
+At the end of the day, there's no right way to use it, and if you have any questions don't hesitate to [reach out to us for help!](mailto:support@shovels.com)
+
+### How do I know how recent the data is?
+
+We update our data monthly, but depending on your platform it may take some time for the actual data to arrive. 
+
+Here's a rough timeline of what our data delivery looks like on any given month:
+
+1. The underlying database (for all **Enterprise Data License** table shares) is updated with the latest data. 
+2. We then ensure that it's ready and compatible with the API schema. *This can take a few days, up to a week.*
+    1.You can check the status of this via our API and the `GET /meta/release` endpoint. 
+3. Once the data is available in the API, it's also available in **Shovels Online**. 
+
+<Note>This timeline is subject to significant change based on a variety of parallel changes, such as API endpoints, schema changes, etc. These changes take time to pan out downstream, so we appreciate your understanding for any delays.</Note>
+
+## <Icon icon="database" size="20px"/> Shovels EDL (Enterprise Data License)
+
+### How do I know when my table share is updated?
+
+This will vary based on delivery method (whether you're getting a table share to your data warehouse or Amazon S3 bucket), but in general there will be a timestamp in the file or folder metadata indicating when it was last updated. 
+
+### New data has been added since my Custom Report was last run. Can I get my report re-run?
+
+It will depend on the data included in the original report, and the nature of the new data that we've added to our system. 
+
+The safest best will be to [Contact Sales](mailto:sales@shovels.com) as we handle these case-by-case.
+
+## <Icon icon="square-info" size="20px"/> Still Have Questions?
+
+Let us know if there's anything else we can help you with! Our Support team is available to help you with any question you might have, just email us at [support@shovels.com](mailto:support@shovels.com). 

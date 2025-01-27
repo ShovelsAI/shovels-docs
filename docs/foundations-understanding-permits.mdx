@@ -1,0 +1,93 @@
+---
+title: Permit Availability
+icon: cloud-arrow-up
+description: Introduction to US permit availability and variation across 20k+ jurisdictions. 
+---
+
+## Introduction
+
+In the US, building permits are a critical part of the construction, energy, and real estate industries. If you're here, you probably know this already. 
+
+Historically, it's been difficult to access this permit data: it was usually a manual process, using paper records, and often was bottle-necked by staffing limitations in permit jurisdiction offices. 
+
+And the difficulties only compound when attempting to access this data at any scale from county to nationwide. 
+
+While Shovels isn't the first to offer this permit data online, we're the first to do using advanced LLM-based processing, the first to make it accessible programmatically via an API, and the first to combine as many datasets (like `properties`, `contractors`, `employees`, `residents`, and more) with the permit data. 
+
+What we offer is as full a picture of the US construction industry as possible, and we're also tackling the problem of jurisdiction coverage to make sure that you can confidently access permit data for every jurisdiction in the country. 
+
+That is our north star, and we're driving towards it every day. 
+
+## Permit Availability
+
+Online permit data brokers either have to source the data themselves by building their own scraping and processing pipelines, or they need to pay for a third party data provider to do that work for them. 
+
+At Shovels, we've been focused on the processing side of the question, and left the scraping to the incumbent data providers. But even still, there are over 20,000 permit jurisdictions in the US, and no one has them all. 
+
+So we do our best with what the market has for sale, and combine different sources to ensure we get as much coverage as possible. But at the core, permit availability is a scraping and automation problem, with linearly-scaling costs for maintenance. And we're getting as much as we can. 
+
+### Digitization
+
+Since scraping is the name of the game, we're reliant on the permit jurisdiction offices to digitize their records, and make them available to the public for digital access. Permit records are public record by law, and technically accessible to anyone that wants them. Major municipalities are usually pretty good about this, and even maintain ongoing projects to digitize their historical records, not just the newly submitted permits. 
+
+However, in the rural counties and unincorporated areas, this is not always the case. 
+
+It's a work in progress, but we're getting there. 
+
+### FOIA requests
+
+In certain cases, Freedom of Information Act (FOIA) requests are a way to directly request the records. Often, the individual jurisdictions will maintain their own request portals, but in cases where they don't the federal FOIA request form is the only recourse. 
+
+We try to avoid this as much as possible as it's an involved and manual process that doesn't scale well. 
+
+### Permit Quality
+
+Now taking the records that *are* digitized and available, we still need to ensure that the data within them is clean and usable. 
+
+The most obvious issue could be the actual quality of the record scan. If the permit paperwork is filled out online, then it's usually pretty good. But if it's done by hand, either by the permit office clerk or the contractor, then it's a different story. 
+
+However, we've gotten pretty good at parsing these records, so it's rare that we need to actually throw out a digitized permit for legibility reasons. 
+
+The biggest hangup in this is the variance in required fields across jurisdictions. Some, like many of the larger cities in California, have well-define requirements that include a wide range of data for the project itself, the property, and the professionals involves. 
+
+Others, like more rural counties or less-regulated states like Texas or New Hampshire, have fewer requirements.
+
+Balancing this variance in data depth and quality in a unified platform is a challenge, but one we're eager to keep tackling. 
+
+## The Shovels Dataset
+
+This now brings us to the end result: the Shovels dataset. 
+
+We have permits from all 50 states (including DC), and have at least *some* coverage in all major metropolitan areas. 
+
+If you'd like to see the exact details, feel free to peruse our [Coverage Map](https://shovels.metabaseapp.com/public/dashboard/0573503d-88ac-4ba4-a723-346b55de482b?tab=36-summary&state=&city=&county_or_jurisdiction=&zip_code=&date_filter=).
+
+### Cleaning, Standardizing, and Deriving
+
+Like we mentioned in the section on Permit Quality, we have a detailed and in-depth pipeline for handling the raw permit data we receive. 
+
+Here's a snippet of the process, from a blog post [overview of our partnership with Prolific](https://www.shovels.ai/blog/unlocking-shovelss-potential-with-prolific/) on how we trained our pipeline to handle the permit data we received. 
+
+Categorizing the data we have is just one step of our process: we also derive interesting metrics where we can. Some of these derived metrics, like `construction_duration` or `inspection_pass_rate` are simple calculations, others like `job_value` (which is an extremely nuanced data point to understand, due to how frequently it's under-reported) involve heavy modeling. 
+
+We don't just provide the construction and permit data, we make it useful. 
+
+### Limitations
+
+Implicit in the entire article thus far are complications and limitations. If something isn't available, or isn't legible, or only goes back a few years, then we (along with anyone else in the construction insights space) are going to struggle. 
+
+But we wouldn't be here if we weren't confident we can sort it out eventually. Thank you for your patience while we keep digging. 
+
+## Where to go from here?
+
+We're ultimately reliant on the jurisdictions' individual digitization efforts, so we're going to ensure that we continue to support and foster relationships with these state and local government offices to ensure a smooth and seamless experience for everyone. 
+
+And we'll keep adding more data sources until we can round every jurisdiction in the US, all 20k+ of them.
+
+### Requesting Permit Data
+
+We have a running roadmap of where we want to get data from next, but we're always open to suggestions from users like you to help us prioritize certain areas over others.
+
+If there's a key geographical area that is important to your business needs, reach out to us at [sales@shovels.ai](mailto:sales@shovels.ai) and we'll add it to our list. 
+
+
