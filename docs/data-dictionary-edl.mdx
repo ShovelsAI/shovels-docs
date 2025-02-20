@@ -1,0 +1,229 @@
+---
+title: Enterprise Data License
+icon: database
+description: The exhaustive list of all fields in the Shovels platform, sorted by table.
+mode: "wide"
+---
+
+<Accordion title="Permits">
+    | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Source</div> |
+    |:-----------|:----------|:------------|:---------|:--------|
+    | id | `string` | The Shovels ID for the permit. | "caf3b9d5ce317d53" | Shovels |
+    | permit_number | `string` | The jurisdiction permit number | "RE2303928" | Permit Jurisdiction |
+    | apn | `string` | Parcel Number | "3209567" | Shovels |
+    | county_fips | `string` | Federal FIPS code for the county | "06193" | Gov (Fed) |
+    | state_fips | `string` | Federal FIPS code for the state | "06" | Gov (Fed) |
+    | cbsa | `string` | Core Based Statistical Area | "San Francisco-Oakland-Berkeley, CA" | Gov (Fed) |
+    | cbsa_fips | `string` | Core Based Statistical Area FIPS code | "41869" | Gov (Fed) |
+    | status | `string` | The status of the permit (active, in_review, in_active, or final) | "active" | Shovels |
+    | start_date | `date` | The earliest date on record for the permit | "2023-01-01" | Shovels |
+    | end_date | `date` | The last date on record for the permit | "2024-12-31" | Shovels |
+    | issue_date | `date` | The date the permit was issued | "2023-01-31" | Permit Jurisdiction |
+    | file_date | `date` | The date the permit was filed with the permit office | "2023-01-01" | Permit Jurisdiction
+    | final_date | `date` | The date the permit (and underlying project) was completed | "2024-12-31" | Permit Jurisdiction
+    | type | `string` | The type of permit (or project) as determined by the jurisdiction | "Residential accessory structure" | Permit Jurisdiction |
+    | subtype | `string` | The sub-type of permit (or project) as determined by the jurisdiction | "garage" | Permit Jurisdiction |
+    | approval_duration | `integer` | The number of days it took to approve the permit | "30" | Shovels |
+    | construction_duration | `integer` | The number of days between permit approval and completion | "700" | Shovels |
+    | total_duration | `integer` | The total number of days between permit filing and completion | "730" | Shovels |
+    | fees | `decimal` | The total reported fees paid for the permit | "1000.00" | Permit Jurisdiction |
+    | job_value | `decimal` | The total reported job value, as self-reported by the applicant | "100000.00" | Permit Jurisdiction |
+    | inspection_pass_rate | `double` | The ratio of passed inspections against total inspections for the permit | "50(%)" | Shovels |
+    | inspection_passed | `boolean` | `TRUE` if the permit passed ANY inspection | "TRUE" | Shovels |
+    | description | `string` | The long-form description of the permit, as reported by the jurisdiction | "single car garage" | Permit Jurisdiction |
+    | owner_name | `string` | The name of the property owner | "John Doe" | Permit Jurisdiction |
+    | owner_street | `string` | The street address of the property owner | "123 Main St" | Permit Jurisdiction |
+    | owner_city | `string` | The city of the property owner | "San Francisco" | Permit Jurisdiction |
+    | owner_state | `string` | The state of the property owner | "CA" | Permit Jurisdiction |
+    | owner_zipcode | `string` | The zipcode of the property owner | "94101" | Permit Jurisdiction |
+    | owner_email | `string` | The email address of the property owner | "john.doe@example.com" | Permit Jurisdiction |
+    | owner_phone | `string` | The phone number of the property owner | "123-456-7890" | Permit Jurisdiction |
+    | applicant_name | `string` | The name of the permit applicant | "John Smith" | Permit Jurisdiction |
+    | applicant_street | `string` | The street address of the permit applicant | "789 A St" | Permit Jurisdiction |
+    | applicant_city | `string` | The city of the permit applicant | "San Francisco" | Permit Jurisdiction |
+    | applicant_state | `string` | The state of the permit applicant | "CA" | Permit Jurisdiction |
+    | applicant_zipcode | `string` | The zipcode of the permit applicant | "94101" | Permit Jurisdiction |
+    | applicant_email | `string` | The email address of the permit applicant | "john.smith@example.com" | Permit Jurisdiction |
+    | applicant_phone | `string` | The phone number of the permit applicant | "123-456-7890" | Permit Jurisdiction |
+    | window_door | `boolean` | `TRUE` if the permit includes a window or door | "TRUE" | Shovels |
+    | street_no | `string` | The street number of the property | "123" | Permit Jurisdiction |
+    | street | `string` | The street name of the property | "Main St" | Permit Jurisdiction |
+    | city | `string` | The city of the property | "San Francisco" | Permit Jurisdiction |
+    | zipcode | `string` | The zipcode of the property | "94101" | Permit Jurisdiction |
+    | zipcode_ext | `string` | The zipcode extension of the property | "1234" | Permit Jurisdiction |
+    | jurisdiction | `string` | The jurisdiction that issued the permit | "San Francisco" | Permit Jurisdiction |
+    | county | `string` | The county of the property | "San Francisco" | Permit Jurisdiction |
+    | state | `string` | The state of the property | "CA" | Permit Jurisdiction |
+    | lat | `decimal` | The latitude of the property | "37.7749" | Shovels |
+    | long | `decimal` | The longitude of the property | "-122.4194" | Shovels |
+    | address_id | `string` | The Shovels `geo_ID` for the address | "caf3b9d5ce317d53" | Shovels |
+    | city_id | `string` | The Shovels `geo_ID` for the city | "KLais31" | Shovels |
+    | jurisdiction_id | `string` | The Shovels `geo_ID` for the jurisdiction | "ALa2s33" | Shovels |
+    | county_id | `string` | The Shovels `geo_ID` for the county | "BLa2s33" | Shovels |
+    | addition | `boolean` | `TRUE` if the permit includes an addition | "TRUE" | Shovels |
+    | adu | `boolean` | `TRUE` if the permit includes an Additional Dwelling Unit (ADU) | "FALSE" | Shovels |
+    | bathroom | `boolean` | `TRUE` if the permit includes a bathroom | "FALSE" | Shovels |
+    | battery | `boolean` | `TRUE` if the permit includes a battery | "FALSE" | Shovels |
+    | demolition | `boolean` | `TRUE` if the permit includes demolition | "FALSE" | Shovels |
+    | electric_meter | `boolean` | `TRUE` if the permit includes an electric meter | "FALSE" | Shovels |
+    | electrical | `boolean` | `TRUE` if the permit includes electrical work | "TRUE" | Shovels |
+    | ev_charger | `boolean` | `TRUE` if the permit includes an EV charger | "TRUE" | Shovels |
+    | fire_sprinkler | `boolean` | `TRUE` if the permit includes a fire sprinkler | "TRUE" | Shovels |
+    | gas | `boolean` | `TRUE` if the permit includes gas work | "FALSE" | Shovels |
+    | generator | `boolean` | `TRUE` if the permit includes a generator | "FALSE" | Shovels |
+    | grading | `boolean` | `TRUE` if the permit includes grading | "FALSE" | Shovels |
+    | heat_pump | `boolean` | `TRUE` if the permit includes a heat pump | "FALSE" | Shovels |
+    | hvac | `boolean` | `TRUE` if the permit includes HVAC work | "FALSE" | Shovels |
+    | kitchen | `boolean` | `TRUE` if the permit includes a kitchen | "FALSE" | Shovels |
+    | new_construction | `boolean` | `TRUE` if the permit includes new construction | "FALSE" | Shovels |
+    | plumbing | `boolean` | `TRUE` if the permit includes plumbing work | "FALSE" | Shovels |
+    | pool_and_hot_tub | `boolean` | `TRUE` if the permit includes a pool or hot tub | "FALSE" | Shovels |
+    | remodel | `boolean` | `TRUE` if the permit includes remodeling work | "FALSE" | Shovels |
+    | roofing | `boolean` | `TRUE` if the permit includes roofing work | "FALSE" | Shovels |
+    | solar | `boolean` | `TRUE` if the permit includes solar work | "TRUE" | Shovels |
+    | water_heater | `boolean` | `TRUE` if the permit includes a water heater | "FALSE" | Shovels |
+    | property_year_built | `integer` | The year the property was built | "1980" | Shovels |
+    | property_lot_size | `integer` | The size of the property lot in square feet | "1000" | Shovels |
+    | property_story_count | `integer` | The number of stories on the property | "2" | Shovels |
+    | property_unit_count | `integer` | The number of units on the property | "1" | Shovels |
+    | property_assess_market_value | `integer` | The assessed market value of the property (in USD) | "19000000.00" | Shovels |
+    | property_type | `string` | The type of property | "Single Family Dwelling" | Shovels |
+    | property_type_detail | `string` | The detailed type of property | "Single Family Dwelling" | Shovels |
+    | property_building_area | `integer` | The total building area of the property (in square feet) | "1000" | Shovels |
+    | property_legal_owner | `string` | The name of the legal owner of the property | "John Doe" | Shovels |
+    | property_owner_type | `string` | The type of owner of the property | "Individual" | Shovels |
+    | property_census_tract | `string` | The property's census tract number | "06075000100" | Gov (Fed) |
+    | property_congressional_district | `string` | The property's congressional district number | "11" | Gov (Fed) |
+    | contractor_id | `string` | The Shovels ID for the contractor (if any) associated with this permit | "John Smith Construction, LLC" | Shovels |
+    | contractor_group_id | `string` | The Shovels ID for the highest level contractor entity associated with this permit | "Smith & Brothers, LLC" | Shovels |
+</Accordion>
+<Accordion title="Contractors">
+    | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Source</div> |
+    |:-----------|:----------|:------------|:---------|:--------|
+    | biz_name | `string` | The business name of the contractor | "John Smith Construction, LLC" | Permit Jurisdiction |
+    | biz_type | `string` | The type of business: Joint Venture, Corporation, Partnership, Limited Liability, Sole Owner | "General Contractor" | Shovels |
+    | name | `string` | The name of the contractor associated with the business, if available | "John Smith" | Permit Jurisdiction |
+    | dba | `string` | The "Doing Business As" name of the contractor, as recorded on the permit | "John Smith Construction, LLC" | Shovels |
+    | classification | `array` | The type of license(s) issued to the contractor | `["General Contractor", "Plumbing"]` | Shovels |
+    | license | `string` | The license number of the contractor | "1234567890" | Shovels |
+    | license_act_date | `date` | The activation date of the contractor's license | "2022-01-04" | Shovels |
+    | license_exp_date | `date` | The expiration date of the contractor's license | "2026-12-31" | Shovels |
+    | license_inact_date | `date` | The inactivation date of the contractor's license | "NULL" | Shovels |
+    | license_issue_date | `date` | The issue date of the contractor's license | "2022-01-01" | Shovels |
+    | first_seen_date | `date` | The date the contractor was first seen in the Shovels database | "2023-01-01" | Shovels |
+    | sic | `string` | The Standard Industrial Classification (SIC) code of the contractor | "1234" | Shovels |
+    | naics | `string` | The North American Industry Classification System (NAICS) code of the contractor | "123456" | Shovels |
+    | phone | `string` | The phone number of the contractor | "123-456-7890" | Permit Jurisdiction |
+    | email | `string` | The email address of the contractor | "john.smith@example.com" | Permit Jurisdiction |
+    | primary_industry | `string` | The primary industry of the contractor | "Construction" | Shovels |
+    | primary_phone | `string` | The most relevant phone number of the contractor, based on recent permits | "123-456-7890" | Shovels |
+    | primary_email | `string` | The most relevant email address of the contractor, based on recent permits | "john.smith@example.com" | Shovels |
+    | linkedin_url | `string` | The LinkedIn URL of the contractor | "www.linkedin.com/in/johnsmith" | Shovels |
+    | website | `string` | The website of the contractor | "www.johnsmithconstruction.com" | Shovels |
+    | revenue | `integer` | The annual revenue of the contractor (in USD) | "1000000" | Shovels |
+    | street | `string` | The street address of the contractor | "A St" | Shovels |
+    | street_no | `string` | The street number of the contractor | "789" | Shovels |
+    | city | `string` | The city of the contractor | "San Francisco" | Shovels |
+    | county | `string` | The county of the contractor | "San Francisco" | Shovels |
+    | state | `string` | The state of the contractor | "CA" | Shovels |
+    | zipcode | `integer` | The zipcode of the contractor | "94101" | Shovels |
+    | zipcode_ext | `integer` | The zipcode extension of the contractor | "1234" | Shovels |
+    | lat | `decimal` | The latitude of the contractor's address | "37.7749" | Shovels |
+    | lng | `decimal` | The longitude of the contractor's address | "-122.4194" | Shovels |
+</Accordion>
+<Accordion title="Employees">
+    | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Source</div> |
+    |:-----------|:----------|:------------|:---------|:--------|
+    | contractor_id | `string` | Unique Shovels ID for each contractor record. | "e79c3393ad" | Shovels |
+    | contractor_group_id | `string` | Unique Shovels ID for related contractor records. | "a894slk74382siv2" | Shovels |
+    | person_id | `string` | Unique ID for the individual contractor or employee. | "aa145cd32c95f69b95e9233f6a957a32" | Shovels |
+    | name | `string` | The name of the individual. | "Jane Smith" | Shovels |
+    | street_no | `string` | The street number of the individual's address. | "789" | Shovels |
+    | street | `string` | The street name of the individual's address. | "A St" | Shovels |
+    | city | `string` | The city of the individual's address. | "San Francisco" | Shovels |
+    | zipcode | `string` | The zipcode of the individual's address. | "94101" | Shovels |
+    | zipcode_ext | `string` | The zipcode extension of the individual's address. | "1234" | Shovels |
+    | state | `string` | The state of the individual's address. | "CA" | Shovels |
+    | phone | `string` | The phone number of the individual. | "123-456-7890" | Shovels |
+    | email | `string` | The personal email address of the individual. | "jane.smith@example.com" | Shovels |
+    | email_validation_status | `string` | State of whether the email address is validated. | "Valid (Digital)" | Shovels |
+    | email_last_seen | `date` | Most recent date the email was confirmed active. | "2025-02-07" | Shovels |
+    | business_email | `string` | The business email of the individual. | "jane.smith@johnsmithconstruction.com" | Shovels |
+    | business_email_validation_status | `string` | State of whether the business email is validated. | "Valid (Digital)" | Shovels |
+    | business_email_last_seen | `date` | Most recent date the business email was confirmed active. | "2025-02-02" | Shovels |
+    | linkedin_url | `string` | The LinkedIn URL of the individual. | "www.linkedin.com/in/jane-smith-construction" | Shovels |
+    | homeowner | `string` | Indicates whether the individual owns their home. | "Y" | Shovels |
+    | gender | `string` | Indicates the gender of the individual. | "F" | Shovels |
+    | age_range | `string` | The age bracket of the individual. | "35-44" | Shovels |
+    | is_married | `boolean` | `TRUE` if the individual is married. | "TRUE" | Shovels |
+    | has_children | `boolean` | `TRUE` if the individual has children. | "FALSE" | Shovels |
+    | income_range | `string` | The annual income bracket of the individual (in USD). | "60,000 to 74,999" | Shovels |
+    | net_worth | `string` | The net worth bracket of the individual (in USD). | "1,000,000 to 2,499,999" | Shovels |
+    | job_title | `string` | Current professional position. | "Revenue Analyst" | Shovels |
+    | seniority_level | `string` | Current seniority level in the individual's position. | "Staff" | Shovels |
+    | department | `string` | Current department or division of employment. | "Revenue Operations" | Shovels |
+    | job_title_last_updated | `date` | The date the job title information was last updated. | "2025-01-01" | Shovels |
+    | work_history | `array` | The individual's employment history details. | `[{"company_name": "John Smith Construction, LLC", "duration": "3 years 5 months", "end_time": "Present"}]` | Shovels |
+    | education_history | `array` | The individual's education history. | `[{"degree": "Bachelors of Arts, Marketing", "institution_name": "University of California, Berkeley", "end_time": "2014-06-01", etc}]` | Shovels |
+</Accordion>
+<Accordion title="Properties">
+    | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Source</div> |
+    |:-----------|:----------|:------------|:---------|:--------|
+    |
+</Accordion>
+<Accordion title="Residents">
+    | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Source</div> |
+    |:-----------|:----------|:------------|:---------|:--------|   
+    | id | `string` | Unique ID for each resident record. | "we8lsd25l08" | Shovels |
+    | company_id | `string` | Unique ID for the company associated with the resident.| "82lsdsso4800x25lk" | Shovels |
+    | name | `string` | The full name of the resident. | "John Doe" | Shovels |
+    | street_no | `string` | The street number of the resident's address. | "123" | Shovels |
+    | street | `string` | The street name of the resident's address. | "Main St" | Shovels   |
+    | city | `string` | The city of the resident's address. | "San Francisco" | Shovels |
+    | zipcode | `string` | The zipcode of the resident's address. | "94101" | Shovels |
+    | zipcode_ext | `string` | The zipcode extension of the resident's address. | "1234" | Shovels |
+    | state | `string` | The state of the resident's address. | "CA" | Shovels |
+    | phone | `string` | The phone number of the resident. | "123-456-7890" | Shovels |
+    | personal_emails | `string` | The personal email addresses of the resident. | "john.doe@example.com" | Shovels |
+    | personal_emails_validation_status | `string` | State of whether the personal email address is validated. | "Valid (Digital)" | Shovels |
+    | personal_emails_last_seen | `date` | Most recent date the personal email was confirmed active. | "2025-01-28" | Shovels |
+    | business_email | `string` | The business email of the resident. | "john.doe@acme.com" | Shovels |
+    | business_email_validation_status | `string` | State of whether the business email is validated. | "Valid (Digital)" | Shovels |
+    | business_email_last_seen | `date` | Most recent date the business email was confirmed active. | "2025-02-08" | Shovels |
+    | linkedin_url | `string` | The LinkedIn URL of the resident. | "www.linkedin.com/in/john-doe-acme" | Shovels |
+    | homeowner | `string` | Indicates whether the resident owns their home. | "Y" | Shovels |
+    | gender | `string` | Indicates the gender of the resident. | "M" | Shovels |
+    | age_range | `string` | The age bracket of the resident. | "55-64" | Shovels |
+    | is_married | `boolean` | `TRUE` if the resident is married. | "TRUE" | Shovels |
+    | has_children | `boolean` | `TRUE` if the resident has children. | "FALSE" | Shovels |
+    | income_range | `string` | The income bracket of the resident. | "100,000 to 124,999" | Shovels |
+    | net_worth | `string` | The net worth bracket of the resident. | "2,500,000 to 3,749,999" | Shovels |
+    | job_title | `string` | The current professional position of the resident. | "Senior Project Manager" | Shovels |
+    | seniority_level | `string` | The current seniority level of the resident in their position. | "Staff" | Shovels |
+    | department | `string` | The current department or division of employment for the resident. | "Operations" | Shovels |
+    | job_title_last_updated | `date` | The date the job title information was last updated. | "2025-02-01" | Shovels |
+    | work_history | `string` | The resident's employment history. | `[{"company_name": "Acme, LLC", "duration": "14 years 9 months", "end_time": "Present"}]` | Shovels |
+    | education_history | `string` | The resident's education history. | `[{"degree": "Bachelors of Science, Electrical Engineering", "institution_name": "University of California, San Diego", "end_time": "1972-06-10", etc}]` | Shovels |
+    | social_connections | `string` | The number or details of the residents professional network connections. | "500+" | Shovels |
+    | company_name | `string` | The name of the company the resident works for. | "Acme, LLC" | Shovels |
+    | company_domain | `string` | The domain of the company the resident works for. | "acme.com" | Shovels |
+    | company_phone | `string` | The primary phone number of the resident's company. | "102-040-5060" | Shovels |
+    | company_sic | `string` | The Standard Industrial Classification (SIC) code of the resident's company. | "1234" | Shovels |
+    | company_street_no | `string` | The company's primary location's street address number. | "111" | Shovels |
+    | company_street | `string` | The company's primary location's street address. | "Acme St" | Shovels |
+    | company_city | `string` | The company's primary location's city. | "San Francisco" | Shovels |
+    | company_zip | `string` | The company's primary location's zipcode. | "94101" | Shovels |
+    | company_state | `string` | The company's primary location's state. | "CA" | Shovels |
+    | company_linkedin_url | `string` | The LinkedIn URL of the company. | "www.linkedin.com/company/acme" | Shovels |
+    | company_revenue | `string` | The annual revenue bracket of the company (in USD). | "1 Billion and over" | Shovels |
+    | company_employee_count | `string` | The number of employees of the company. | "150,000" | Shovels |
+    | company_primary_industry | `string` | The primary industry of the company. | "Manufacturing" | Shovels |
+    | company_description | `string` | The description of the company. | "Acme is a leading manufacturer of cartoon mousetraps." | Shovels |
+    | company_naics | `string` | The North American Industry Classification System (NAICS) code of the company. | "123456" | Shovels |
+    | address_id | `string` | The Shovels ID for the address of the resident. | "we8lsd25l08" | Shovels |
+</Accordion>
+<Accordion title="Parcels (coming soon)">
+    | Field Name | Data Type | Description | Example | Source |
+    |:-----------|:----------|:------------|:---------|:--------|
+    |
+</Accordion>

@@ -121,6 +121,20 @@
       ]
     },
     {
+      "group": "Platform Reference",
+      "pages": [
+        {
+          "group": "Data Dictionaries",
+          "pages": [
+            "docs/data-dictionary-index",
+            "docs/data-dictionary-online",
+            "docs/data-dictionary-api",
+            "docs/data-dictionary-edl"
+          ]
+        }
+      ]
+    },
+    {
       "group": "Shovels Foundations",
       "pages": [
         "docs/foundations-building-blocks",
