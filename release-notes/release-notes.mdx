@@ -4,6 +4,54 @@ icon: 'code-merge'
 description: Find out what the Engineering team has been up to across our entire platform, including general announcements, updates, and bugfixes.
 ---
 
+<Update label="V2.0.4" description="2025-03-14">
+  <Tabs>
+    <Tab title="Online">
+      ✨ **New**:
+
+      * Added **Website Search** filter options to **Contractor Filters**
+      * Added tooltips to the UI to better explain functionality
+      
+      🚀 **Upgrades**:
+
+      * Added Search filter auto-caching to improve UX between page reloads and sessions
+      * Added new **New User** onboarding experience
+      * Adjusted datepicker widget for date range selection to *monthly*, which will improve usability
+    </Tab>
+
+    <Tab title="API">
+      ✨ **New**:
+
+      * Added new fields to the `/contractors/` endpoint group:
+        <Accordion title="New `/contractors/` fields">
+          - `first_seen_date`: Date when the contractor was first recorded in the Shovels platform and given an id.
+          - `license_act_date`: Date when the contractor's license became active.
+          - `license_inact_date`: Date when the contractor's license became inactive.
+          - `review_count`: Number of reviews the contractor has received.
+          - `rating`: Rating of the contractor based on reviews.
+          - `dba`: "Doing Business As" name for the contractor.
+          - `sic`: Standard Industrial Classification (SIC) code of the contractor.
+          - `naics`: North American Industry Classification System (NAICS) code of the contractor.
+          - `linkedin_url`: LinkedIn URL of the contractor.
+          - `revenue`: Annual revenue of the contractor's business.
+          - `employee_count`: Number of employees working for the contractor.
+          - `primary_industry`: Primary industry in which the contractor operates.
+        </Accordion>
+      
+      * Implemented new API rate limits: **1M requests/month**, or **~33k requests/day**.
+    </Tab>
+
+    <Tab title="EDL (Enterprise Data License)">
+      ✨ **New**:
+
+      * Added `first_seen_date` to the `permits` table
+        - this represents the date when the the permit itself was first retrieved for the Shovels platform
+      
+      <Info>This is different than the `first_seen_date` column in the `contractors` table, which by contrast represents the date the contractor was first seen in our platform and assigned an `id`.</Info>
+    </Tab>
+  </Tabs>
+</Update>
+
 <Update label="V2.0.3" description="2025-02-06">
   <Warning>FINAL WARNING: As previously announced, the V1 of the Shovels API is **now deprecated**.</Warning>
 
