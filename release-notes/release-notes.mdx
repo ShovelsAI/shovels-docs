@@ -1,28 +1,74 @@
 ---
-title: Release Notes
-icon: 'code-merge'
-description: Find out what the Engineering team has been up to across our entire platform, including general announcements, updates, and bugfixes.
+title: "Release Notes"
+icon: "code-merge"
+description: "Find out what the Engineering team has been up to across our entire platform, including general announcements, updates, and bugfixes."
 ---
+
+<Update label="V2.0.5" description="2025-04-03">
+  <Tabs>
+    <Tab title="Online">
+      ✨ **New**:
+
+      - General speed improvements
+      - New and improved onboarding flow
+
+      🪲 **Bug Fixes**:
+
+      - Fixed bug that didn't change the geo on the download list button
+      - Fixed bug preventing some filters from being "sticky" in between searches
+      - Fixed bug preventing geography profile filters from updating charts
+    </Tab>
+    <Tab title="API">
+      No API changes this month\!
+    </Tab>
+    <Tab title="EDL (Enterprise Data License)">
+      🏗️ Permits
+
+      - Total permits: The dataset now contains 171M permits — an increase of 2M compared to the previous batch. With 8 new jurisdictions.
+      - `first_seen_date` coverage: ~150M permits have a first_seen_date
+
+      🧑🏼‍🔧 Contractors
+
+      - We now have over 3 million contractors in the dataset, with ~50K new records added this month
+      - License linkage: An additional 80K contractors have been linked to state license files.
+
+      📇 Classification coverage
+
+      - All contractors with a license now have the `classification_derived` field as well. This field maps state-specific classifications into standardized categories.
+      - If a contractor has multiple license classifications, they are concatenated using the pipe ("|") character.
+
+      🗂️ License Files
+
+      - A new table, CSL, is added to our production database. It contains data from 26 states files, and has a total of 1.8 M contractors.
+      - Around 200K contractors are linked to our Contractors table while the others are new. As part of this new dataset, we have around 700K new contractors phone numbers and 200K new emails.
+
+      <Info>
+        There were in total almost 3000 different classifications categories across different state files. We standardized this to the following categories:
+        `concrete_and_paving`,  `demolition_and_excavation`, `electrical`, `fencing_and_glazing`, `framing_and_carpentry`, `general_building_contractor`, `general_engineering_contractor`, `hvac`, `landscaping_and_outdoor_work`, `plumbing`, `roofing`, `specialty_trades`
+      </Info>
+    </Tab>
+  </Tabs>
+</Update>
 
 <Update label="V2.0.4" description="2025-03-14">
   <Tabs>
     <Tab title="Online">
       ✨ **New**:
 
-      * Added **Website Search** filter options to **Contractor Filters**
-      * Added tooltips to the UI to better explain functionality
-      
+      - Added **Website Search** filter options to **Contractor Filters**
+      - Added tooltips to the UI to better explain functionality
+
       🚀 **Upgrades**:
 
-      * Added Search filter auto-caching to improve UX between page reloads and sessions
-      * Added new **New User** onboarding experience
-      * Adjusted datepicker widget for date range selection to *monthly*, which will improve usability
+      - Added Search filter auto-caching to improve UX between page reloads and sessions
+      - Added new **New User** onboarding experience
+      - Adjusted datepicker widget for date range selection to _monthly_, which will improve usability
     </Tab>
-
     <Tab title="API">
       ✨ **New**:
 
-      * Added new fields to the `/contractors/` endpoint group:
+      - Added new fields to the `/contractors/` endpoint group:
+
         <Accordion title="New `/contractors/` fields">
           - `first_seen_date`: Date when the contractor was first recorded in the Shovels platform and given an id.
           - `license_act_date`: Date when the contractor's license became active.
@@ -37,121 +83,108 @@ description: Find out what the Engineering team has been up to across our entire
           - `employee_count`: Number of employees working for the contractor.
           - `primary_industry`: Primary industry in which the contractor operates.
         </Accordion>
-      
-      * Implemented new API rate limits: **1M requests/month**, or **~33k requests/day**.
+      - Implemented new API rate limits: **1M requests/month**, or **~33k requests/day**.
     </Tab>
-
     <Tab title="EDL (Enterprise Data License)">
       ✨ **New**:
 
-      * Added `first_seen_date` to the `permits` table
+      - Added `first_seen_date` to the `permits` table
         - this represents the date when the the permit itself was first retrieved for the Shovels platform
-      
-      <Info>This is different than the `first_seen_date` column in the `contractors` table, which by contrast represents the date the contractor was first seen in our platform and assigned an `id`.</Info>
+
+      <Info>
+        This is different than the `first_seen_date` column in the `contractors` table, which by contrast represents the date the contractor was first seen in our platform and assigned an `id`.
+      </Info>
     </Tab>
   </Tabs>
 </Update>
 
 <Update label="V2.0.3" description="2025-02-06">
-  <Warning>FINAL WARNING: As previously announced, the V1 of the Shovels API is **now deprecated**.</Warning>
-
+  <Warning>
+    FINAL WARNING: As previously announced, the V1 of the Shovels API is **now deprecated**.
+  </Warning>
   <Tabs>
     <Tab title="Online">
       ✨ **New**:
 
-      * Added **Address Profiles**
-
-      * Added **Free Forever** plan in place of a Free Trial. 
+      - Added **Address Profiles**
+      - Added **Free Forever** plan in place of a Free Trial.
 
       🐞 **Bugfix**:
 
-      * Fixed issue where **Geography Profiles** (`City`, `Jurisdiction`, `County`, etc) filters for **Property Type** and **Permit Category** weren't updating counts correctly. 
+      - Fixed issue where **Geography Profiles** (`City`, `Jurisdiction`, `County`, etc) filters for **Property Type** and **Permit Category** weren't updating counts correctly.
     </Tab>
-
     <Tab title="API">
       ✨ **New**:
-      
-      * Added new `/v2/{geography}/{geo_id}/metrics/monthly` endpoint.
 
-      * Added new `/v2/{geography}/{geo_id}/metrics/current` endpoint.
+      - Added new `/v2/{geography}/{geo_id}/metrics/monthly` endpoint.
+      - Added new `/v2/{geography}/{geo_id}/metrics/current` endpoint.
 
       💥 **Breaking**:
-      
-      * Removed `/v2/{geography}/{geo_id}/metrics` endpoint.
 
-      * Changed **monetary value** data types from `decimal` <Icon icon="arrow-right" /> `integer` (eg, `dollars` <Icon icon="arrow-right" /> `cents`). This will affect the following parameters:
-
-        <AccordionGroup>
-          <Accordion title="/permits">
-            * `property_assess_market_value`
-
-            * `job_value`
-
-            * `fees`
-          </Accordion>
-          <Accordion title="/contractors">
-            * `avg_job_value`
-
-            * `total_job_value`
-          </Accordion>
-          <Accordion title="/contractors/{id}/metrics"> 
-            * `avg_job_value`
-
-            * `total_job_value`
-          </Accordion>
-          <Accordion title="/{geography}/{geo_id}/metrics/{interval}">
-            * `total_job_value`
-          </Accordion>
-        </AccordionGroup>
-
-      * Changed **percentage** data types from `decimal` <Icon icon="arrow-right" /> `integer` (eg, `0.75` <Icon icon="arrow-right" /> `75`). This will affect the following parameters:
+      - Removed `/v2/{geography}/{geo_id}/metrics` endpoint.
+      - Changed **monetary value** data types from `decimal` <Icon icon="arrow-right" /> `integer` (eg, `dollars` <Icon icon="arrow-right" /> `cents`). This will affect the following parameters:
 
         <AccordionGroup>
           <Accordion title="/permits">
-            * `inspection_pass_rate`
+            - `property_assess_market_value`
+            - `job_value`
+            - `fees`
           </Accordion>
           <Accordion title="/contractors">
-            * `avg_inspection_pass_rate`
+            - `avg_job_value`
+            - `total_job_value`
           </Accordion>
           <Accordion title="/contractors/{id}/metrics">
-            * `avg_inspection_pass_rate`
+            - `avg_job_value`
+            - `total_job_value`
           </Accordion>
           <Accordion title="/{geography}/{geo_id}/metrics/{interval}">
-            * `avg_inspection_pass_rate`
+            - `total_job_value`
+          </Accordion>
+        </AccordionGroup>
+      - Changed **percentage** data types from `decimal` <Icon icon="arrow-right" /> `integer` (eg, `0.75` <Icon icon="arrow-right" /> `75`). This will affect the following parameters:
+
+        <AccordionGroup>
+          <Accordion title="/permits">
+            - `inspection_pass_rate`
+          </Accordion>
+          <Accordion title="/contractors">
+            - `avg_inspection_pass_rate`
+          </Accordion>
+          <Accordion title="/contractors/{id}/metrics">
+            - `avg_inspection_pass_rate`
+          </Accordion>
+          <Accordion title="/{geography}/{geo_id}/metrics/{interval}">
+            - `avg_inspection_pass_rate`
           </Accordion>
         </AccordionGroup>
     </Tab>
-
     <Tab title="EDL (Enterprise Data License)">
       🐞 **Bugfix**:
 
-      * Fixed issue where `address` object's latitude and longitude coordinates were occasionally reversed, and built in anomaly detection and correction for future processing. 
-        * This fix continues downstream to **API** and **Online** records.
+      - Fixed issue where `address` object's latitude and longitude coordinates were occasionally reversed, and built in anomaly detection and correction for future processing.
+        - This fix continues downstream to **API** and **Online** records.
     </Tab>
   </Tabs>
-
-  ***
+  ---
 
   <AccordionGroup>
     <Accordion title="Breaking Changes Policies">
       In order to ensure smooth transitions between updates, we've settled on a few short term policies.
 
       1. We will do our best to give as much advance warning on breaking changes as possible.
-          - Some recent breaking changes are delayed updates to the schema that should have been part of the V2 launch. **We do not plan on making breaking changes this often.**
-      2. Where sensible and possible, we will provide backward compatibility for new endpoints, parameters, and schemas. 
+         - Some recent breaking changes are delayed updates to the schema that should have been part of the V2 launch. **We do not plan on making breaking changes this often.**
+      2. Where sensible and possible, we will provide backward compatibility for new endpoints, parameters, and schemas.
     </Accordion>
-
     <Accordion title="Address Coordinate Errors">
-      As described under **EDL** changes above, we found that there were rare cases where the latitude and longitude coordinates were reversed. Affected records have been corrected. 
-      
-      We've also beefed up our address-geospatial processing to find and fix these errors going forward. 
+      As described under **EDL** changes above, we found that there were rare cases where the latitude and longitude coordinates were reversed. Affected records have been corrected.
+
+      We've also beefed up our address-geospatial processing to find and fix these errors going forward.
     </Accordion>
     <Accordion title="Effective Dates">
-      * **Online**: Monday, February 03, 2025.
-
-      * **API**: Monday, February 10, 2025.
-
-      * **EDL**: Wednesday, February 6, 2025.
+      - **Online**: Monday, February 03, 2025.
+      - **API**: Monday, February 10, 2025.
+      - **EDL**: Wednesday, February 6, 2025.
     </Accordion>
   </AccordionGroup>
 </Update>
@@ -161,58 +194,51 @@ description: Find out what the Engineering team has been up to across our entire
     <Tab title="Online">
       ✨ **New**:
 
-      * Added `employees` to **Contractor Profiles**.
-
-      * Added links to **Jurisdiction Profiles** for all permits.
-
-      * Added links to **City Profiles** and **County Profiles** for all geo-related profiles.
+      - Added `employees` to **Contractor Profiles**.
+      - Added links to **Jurisdiction Profiles** for all permits.
+      - Added links to **City Profiles** and **County Profiles** for all geo-related profiles.
 
       🐞 **Bugfixes**:
 
-      * Fixed password reset bug.
+      - Fixed password reset bug.
     </Tab>
-
     <Tab title="API">
       ✨ **New**:
 
-      * Added new `/v2/contractors/{id}/employees` endpoint.
-
-      * Added new `/v2/addresses/{id}/metrics` endpoint.
+      - Added new `/v2/contractors/{id}/employees` endpoint.
+      - Added new `/v2/addresses/{id}/metrics` endpoint.
 
       ⚠️ **End of Life**:
 
-      * We will **DEPRECATE** the **API V1** by the end of January 2025.
+      - We will **DEPRECATE** the **API V1** by the end of January 2025.
 
-      <Warning>Please update all endpoints using the old schema **before January 31, 2025** to ensure continued usage.</Warning>
-      <Tip />
-
+      <Warning>
+        Please update all endpoints using the old schema **before January 31, 2025** to ensure continued usage.
+      </Warning>
+      <Tip>
+        
+      </Tip>
       🐞 **Bugfixes**:
 
-      * Fixed metrics calculation algorithm on all endpoints.
+      - Fixed metrics calculation algorithm on all endpoints.
     </Tab>
-
     <Tab title="EDL (Enterprise Data License)">
       💥 **Breaking**:
 
-      * `contractors` table:
+      - `contractors` table:
+        - `first_seen_at` **renamed** <Icon icon="arrow-right" /> `first_seen_date`.
+          - Data type **changed** <Icon icon="arrow-right" /> `DATE`.
+        - `reviews` **renamed** <Icon icon="arrow-right" /> `review_count`.
+      - `residents` table:
+        - Foreign key **changed** from `permit_id` <Icon icon="arrow-right" /> `address_id`.
+          - **Please note**: The `address_id` field is also the foreign key for the `permits` table, allowing easier joins between `residents` and `permits` tables.
 
-        * `first_seen_at` **renamed** <Icon icon="arrow-right" /> `first_seen_date`.
-
-          * Data type **changed** <Icon icon="arrow-right" /> `DATE`.
-
-        * `reviews` **renamed** <Icon icon="arrow-right" /> `review_count`.
-
-      * `residents` table:
-
-        * Foreign key **changed** from `permit_id` <Icon icon="arrow-right" /> `address_id`.
-
-          * **Please note**: The `address_id` field is also the foreign key for the `permits` table, allowing easier joins between `residents` and `permits` tables.
-
-      <Warning>Please ensure that any existing queries or automation using `first_seen_at`, `reviews`, or `permit_id` are updated accordingly.</Warning>
+      <Warning>
+        Please ensure that any existing queries or automation using `first_seen_at`, `reviews`, or `permit_id` are updated accordingly.
+      </Warning>
     </Tab>
   </Tabs>
-
-  ***
+  ---
 
   <AccordionGroup>
     <Accordion title="Coverage Expansion">
@@ -220,9 +246,8 @@ description: Find out what the Engineering team has been up to across our entire
 
       ✨ **New**:
 
-      * +6M permits nationwide.
-
-      * +9 permit jurisdictions.
+      - \+6M permits nationwide.
+      - \+9 permit jurisdictions.
     </Accordion>
   </AccordionGroup>
 </Update>
@@ -232,63 +257,50 @@ description: Find out what the Engineering team has been up to across our entire
     <Tab title="Online">
       ✨ **New**:
 
-      * Added +2M permits in `Texas`.
-
-      * Added metric visualizations to **Contractor Profiles**.
+      - Added \+2M permits in `Texas`.
+      - Added metric visualizations to **Contractor Profiles**.
 
       🐞 **Bugfixes**:
 
-      * Corrected issue where `Contractor Profiles` wouldn't load properly.
+      - Corrected issue where `Contractor Profiles` wouldn't load properly.
     </Tab>
-
     <Tab title="API">
       ✨ **New**:
 
-      * `residents` endpoint.
+      - `residents` endpoint.
 
       🚀 **Upgrades**:
 
-      * Improved address validation for all geography-related fields, in line with US Census data.
+      - Improved address validation for all geography-related fields, in line with US Census data.
 
       💥 **Breaking**:
 
-      * Casing standardizations (please update accordingly if your logic is **case-sensitive**):
-
-        * `property_type` values are now **lower case**, eg `residential`.
+      - Casing standardizations (please update accordingly if your logic is **case-sensitive**):
+        - `property_type` values are now **lower case**, eg `residential`.
     </Tab>
-
     <Tab title="EDL (Enterprise Data License)">
       ✨ **New**:
 
-      * `first_seen_at` column in the `contractor` table.
-
-      * `employees` table, linked to `contractors` table:
-
-        * Includes a wide range of firmographic data for individual employees.
-
-        * See "Schema Updates" below for the full list of columns.
+      - `first_seen_at` column in the `contractor` table.
+      - `employees` table, linked to `contractors` table:
+        - Includes a wide range of firmographic data for individual employees.
+        - See "Schema Updates" below for the full list of columns.
 
       🚀 **Upgrades**:
 
-      * additional columns in the `residents` table. See "Schema Updates" below for the full list.
+      - additional columns in the `residents` table. See "Schema Updates" below for the full list.
 
       💥 **Breaking**:
 
-      * Casing standardizations (in addition to the changes outlined in the API Section previously).
-
-        * `property_owner_type` values are now **snake\_case**, eg `individual` or `company_owned`.
-
-        * `owner_name`, `owner_street`, `owner_city` values are now **upper case**, eg `JANE DOE`, `MAIN ST`, or `AGAWAM`.
-
-        * `applicant_name`, `applicant_street`, `applicant_city` values are now **upper case**, just like `owner_$` above.
-
-      * (PLANNED) Replacement of `permits_ids` with `address_id` in the `residents` table (please update your pipelines that use this foreign key value.)
-
-        * This change will go into effect **January 2025**.
+      - Casing standardizations (in addition to the changes outlined in the API Section previously).
+        - `property_owner_type` values are now **snake_case**, eg `individual` or `company_owned`.
+        - `owner_name`, `owner_street`, `owner_city` values are now **upper case**, eg `JANE DOE`, `MAIN ST`, or `AGAWAM`.
+        - `applicant_name`, `applicant_street`, `applicant_city` values are now **upper case**, just like `owner_$` above.
+      - (PLANNED) Replacement of `permits_ids` with `address_id` in the `residents` table (please update your pipelines that use this foreign key value.)
+        - This change will go into effect **January 2025**.
     </Tab>
   </Tabs>
-
-  ***
+  ---
 
   <AccordionGroup>
     <Accordion title="Schema Updates">
@@ -296,141 +308,76 @@ description: Find out what the Engineering team has been up to across our entire
 
       <AccordionGroup>
         <Accordion title="New columns in the 'residents' table:">
-          * `personal_emails_validation_status` (string): The validation status of the associated personal email. 'Valid' indicates a validated email; null means unknown.
-
-          * `personal_emails_last_seen` (date): The date of the last validation or verification attempt for the personal email. Null if unknown.
-
-          * `business_email` (string): The primary business email observed for this person.
-
-          * `business_email_validation_status` (string): Validation status of the business email. 'Valid' means the email was validated; null means unknown. May contain values like 'Valid-ESP' (validated by email service provider) or 'Valid-Digital' (validated by cookie/digital tag).
-
-          * `business_email_last_seen` (date): The date of the last known validation or verification attempt of the business email. Null if unknown.
-
-          * `linkedin_url` (string): URL of the person’s LinkedIn profile.
-
-          * `homeowner` (string): Reports if the person in this record is a homeowner. Y and N are observed values, P represents that they are likely a homeowner, based on probabilistic modeling, and null values represent 'unknown'.
-
-          * `gender` (string): The person’s gender.
-
-          * `age_range` (string): The person’s age mapped to standard demographic ranges.
-
-          * `is_married` (boolean): Indicates if the person is married.
-
-          * `has_children` (boolean): Indicates if the person has children.
-
-          * `income_range` (string): The person’s income range.
-
-          * `net_worth` (string): The person’s net worth, mapped to standard demographic ranges. Null if unknown.
-
-          * `job_title` (string): The person’s job title.
-
-          * `seniority_level` (string): The seniority level of the person’s role.
-
-          * `department` (string): The department in which the person works.
-
-          * `job_title_last_updated` (date): The last date the person’s job title was updated.
-
-          * `last_updated` (date): The last date any value in this record was updated.
-
-          * `work_history` (string, JSON): A JSON-formatted history of the person’s work experiences (e.g., company name, \* position, duration, start/end time, job description, location, social\_url).
-
-          * `education_history` (string): The person’s education background.
-
-          * `social_connections` (string): The number of social media connections the person has, provided in ranges (e.g., 1-9, 10-49, etc.).
-
-          * `company_name` (string): The name of the company where the person works.
-
-          * `company_domain` (string): The company’s domain.
-
-          * `company_phone` (string): The company’s contact phone number.
-
-          * `company_sic` (string): The Standard Industrial Classification (SIC) code(s) of the company, separated by  semicolons if multiple.
-
-          * `company_street_no` (string): The street number of the company’s address.
-
-          * `company_street` (string): The street name of the company’s address.
-
-          * `company_city` (string): The city in which the company is located.
-
-          * `company_zip` (string): The company’s 5-digit ZIP code.
-
-          * `company_state` (string): The uppercase state abbreviation for the company’s address.
-
-          * `company_linkedin_url` (string): The URL of the company’s LinkedIn profile.
-
-          * `company_revenue` (string): The company’s revenue, expressed in standard ranges.
-
-          * `company_employee_count` (string): The number of observed US enterprise employees at the company, provided in \* standard firmographic ranges.
-
-          * `company_primary_industry` (string): The primary industry in which the company operates.
-
-          * `company_description` (string): A description of the company’s business activities.
-
-          * `company_naics` (string): The company’s North American Industry Classification System (NAICS) code(s).
+          - `personal_emails_validation_status` (string): The validation status of the associated personal email. 'Valid' indicates a validated email; null means unknown.
+          - `personal_emails_last_seen` (date): The date of the last validation or verification attempt for the personal email. Null if unknown.
+          - `business_email` (string): The primary business email observed for this person.
+          - `business_email_validation_status` (string): Validation status of the business email. 'Valid' means the email was validated; null means unknown. May contain values like 'Valid-ESP' (validated by email service provider) or 'Valid-Digital' (validated by cookie/digital tag).
+          - `business_email_last_seen` (date): The date of the last known validation or verification attempt of the business email. Null if unknown.
+          - `linkedin_url` (string): URL of the person’s LinkedIn profile.
+          - `homeowner` (string): Reports if the person in this record is a homeowner. Y and N are observed values, P represents that they are likely a homeowner, based on probabilistic modeling, and null values represent 'unknown'.
+          - `gender` (string): The person’s gender.
+          - `age_range` (string): The person’s age mapped to standard demographic ranges.
+          - `is_married` (boolean): Indicates if the person is married.
+          - `has_children` (boolean): Indicates if the person has children.
+          - `income_range` (string): The person’s income range.
+          - `net_worth` (string): The person’s net worth, mapped to standard demographic ranges. Null if unknown.
+          - `job_title` (string): The person’s job title.
+          - `seniority_level` (string): The seniority level of the person’s role.
+          - `department` (string): The department in which the person works.
+          - `job_title_last_updated` (date): The last date the person’s job title was updated.
+          - `last_updated` (date): The last date any value in this record was updated.
+          - `work_history` (string, JSON): A JSON-formatted history of the person’s work experiences (e.g., company name, \* position, duration, start/end time, job description, location, social_url).
+          - `education_history` (string): The person’s education background.
+          - `social_connections` (string): The number of social media connections the person has, provided in ranges (e.g., 1-9, 10-49, etc.).
+          - `company_name` (string): The name of the company where the person works.
+          - `company_domain` (string): The company’s domain.
+          - `company_phone` (string): The company’s contact phone number.
+          - `company_sic` (string): The Standard Industrial Classification (SIC) code(s) of the company, separated by  semicolons if multiple.
+          - `company_street_no` (string): The street number of the company’s address.
+          - `company_street` (string): The street name of the company’s address.
+          - `company_city` (string): The city in which the company is located.
+          - `company_zip` (string): The company’s 5-digit ZIP code.
+          - `company_state` (string): The uppercase state abbreviation for the company’s address.
+          - `company_linkedin_url` (string): The URL of the company’s LinkedIn profile.
+          - `company_revenue` (string): The company’s revenue, expressed in standard ranges.
+          - `company_employee_count` (string): The number of observed US enterprise employees at the company, provided in \* standard firmographic ranges.
+          - `company_primary_industry` (string): The primary industry in which the company operates.
+          - `company_description` (string): A description of the company’s business activities.
+          - `company_naics` (string): The company’s North American Industry Classification System (NAICS) code(s).
         </Accordion>
       </AccordionGroup>
-
       <AccordionGroup>
         <Accordion title="New 'employees' table (connected to 'contractors'):">
-          * `contractor_id` (string)
-
-          * `person_id` (string)
-
-          * `name` (string)
-
-          * `street_no` (string)
-
-          * `street` (string)
-
-          * `city` (string)
-
-          * `zipcode` (string)
-
-          * `zipcode_ext` (string)
-
-          * `state` (string)
-
-          * `phone` (string)
-
-          * `email` (string)
-
-          * `email_validation_status` (string)
-
-          * `email_last_seen` (date)
-
-          * `business_email` (string)
-
-          * `business_email_validation_status` (string)
-
-          * `business_email_last_seen` (date)
-
-          * `linkedin_url` (string)
-
-          * `homeowner` (string)
-
-          * `gender` (string)
-
-          * `age_range` (string)
-
-          * `is_married` (boolean)
-
-          * `has_children` (boolean)
-
-          * `income_range` (string)
-
-          * `net_worth` (string)
-
-          * `job_title` (string)
-
-          * `seniority_level` (string)
-
-          * `department` (string)
-
-          * `job_title_last_updated` (date)
-
-          * `work_history` (string, JSON formatted)
-
-          * `education_history` (string)
+          - `contractor_id` (string)
+          - `person_id` (string)
+          - `name` (string)
+          - `street_no` (string)
+          - `street` (string)
+          - `city` (string)
+          - `zipcode` (string)
+          - `zipcode_ext` (string)
+          - `state` (string)
+          - `phone` (string)
+          - `email` (string)
+          - `email_validation_status` (string)
+          - `email_last_seen` (date)
+          - `business_email` (string)
+          - `business_email_validation_status` (string)
+          - `business_email_last_seen` (date)
+          - `linkedin_url` (string)
+          - `homeowner` (string)
+          - `gender` (string)
+          - `age_range` (string)
+          - `is_married` (boolean)
+          - `has_children` (boolean)
+          - `income_range` (string)
+          - `net_worth` (string)
+          - `job_title` (string)
+          - `seniority_level` (string)
+          - `department` (string)
+          - `job_title_last_updated` (date)
+          - `work_history` (string, JSON formatted)
+          - `education_history` (string)
         </Accordion>
       </AccordionGroup>
     </Accordion>
