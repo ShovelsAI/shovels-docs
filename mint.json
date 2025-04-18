@@ -47,7 +47,7 @@
     {
       "name": "API Reference",
       "url": "api-reference",
-      "openapi": "https://api.shovels.ai/v2/openapi.json"
+      "openapi": "https://api.shovels.ai/spec/v2/openapi.production.yaml"
     },
     {
       "name": "Release Notes",
