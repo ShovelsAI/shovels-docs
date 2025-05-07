@@ -3,6 +3,51 @@ title: "Release Notes"
 icon: "code-merge"
 description: "Find out what the Engineering team has been up to across our entire platform, including general announcements, updates, and bugfixes."
 ---
+<Update label="V2.0.6" description="2025-05-06">
+  <Tabs>
+    <Tab title="Online">
+      🚀 **Upgrades**:
+
+      - Improved the **Permit Search** logic to always order resulting permits by newest first.
+    </Tab>
+    <Tab title="API">
+      ✨ **New**:
+
+      - Added cursor-based pagination for **all** endpoints, which substantially improves deep search pagination.
+
+      <Warning>This replaces the former `page` parameter for pagination. This old method will be supported for an additional three months, at which point it will be deprecated.</Warning>
+      
+      🚀 **Upgrades**:
+
+      - Improved the response ordering logic to always order results in chronological order, descending.
+    </Tab>
+    <Tab title="EDL (Enterprise Data License)">
+      ✨ **New**:
+
+      - Added a new `apn` column to the `addresses` table
+      
+      - Added two new columns `status` and `status_detailed` to the `csl` and `contractors` tables
+        - Status codes for all states are mapped against the following schema:
+          - `active`: License is active and in good standing with no restrictions.
+          - `active_conditional`: License is active but subject to specific conditions, limitations, or temporary provisions.
+          - `expired`: License has lapsed due to non-renewal; typically eligible for renewal.
+          - `retired`: License has been voluntarily placed in an inactive state, often due to the holder retiring or the business closing.
+          - `suspended`: License is temporarily invalid, usually due to disciplinary actions or unresolved administrative issues.
+          - `revoked`: License has been permanently terminated, typically due to serious violations or disciplinary reasons.
+          - `pending`: License application, renewal, or reinstatement is currently under review or being processed.
+          - `inactive`: License is currently not valid, often due to administrative issues or other undefined reasons not captured by the categories above.
+
+      🚀 **Upgrades**:
+
+      - Expanded `csl` table coverage by adding 11 new states: `CT`, `GA`, `IL`, `MD`, `MO`, `OK`, `NY`, `OR`, `SC`, `TN`, `UT`.
+
+      🐞 **Bugfix**:
+
+      - Fixed an address parsing issue that was affecting `csl` table contractors in `NV`. 
+    </Tab>  
+  </Tabs>
+</Update>
+
 
 <Update label="V2.0.5" description="2025-04-03">
   <Tabs>
