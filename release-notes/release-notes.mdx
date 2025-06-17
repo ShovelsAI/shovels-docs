@@ -3,29 +3,81 @@ title: "Release Notes"
 icon: "code-merge"
 description: "Find out what the Engineering team has been up to across our entire platform, including general announcements, updates, and bugfixes."
 ---
+
+<Update label="V2.0.7" description="2025-06-10">
+  <Tabs>
+    <Tab title="Online">
+      ### 🚀 Upgrades:
+
+      - Faster pagination, especially for deeper pages.
+      - More jurisdiction coverage.
+    </Tab>
+    <Tab title="API">
+      ### ✨ Reminder:
+
+      - Added cursor-based pagination for **all** endpoints, which substantially improves deep search pagination.
+
+      <Warning>
+        This replaces the former `page` parameter for pagination. This old method will be supported for an additional three months, at which point it will be deprecated.
+      </Warning>
+    </Tab>
+    <Tab title="EDL (Enterprise Data License)">
+      ### ✨ New:
+
+      - Added **1.2 million permits**, including **248,000 from May** alone, significantly boosted by our new infrastructure.
+      - **300 new jurisdictions** are now online, increasing our nationwide coverage.
+      - **70,000 new contractors** added, bringing the total to **2.96 million**.
+      - Enhanced deduplication logic eliminated duplicate contractor records, improving data quality.
+      - **40,000 additional contact details** (phone numbers, emails, addresses) were linked, thanks to infrastructure enhancements.
+
+      ⚠️ **Breaking Changes & Compatibility Notes**
+
+      ### ‼️ Permit ID Updates:
+
+      - Approximately **2 million duplicate permits**  from legacy system migrations were removed. The most affected states are **Florida and Texas.**
+      - **~6% of permits now have new IDs.** Attributes such as `permit_number` and address remain unchanged.
+
+      <Warning>
+        If you query by cached `id` and encounter missing results (404), use `permit_number`, address, or other metadata to re-fetch the permit. If you still encounter issues, reach out—we’ll help map old IDs to new ones.
+      </Warning>
+      ### ‼️ Contractor ID Updates
+
+      - **~170,000 contractors have new IDs** that have been regenerated based on improved data quality.
+      - All contractors remain searchable by:
+        - Areas of work
+        - Permit projects
+        - Business names
+
+      <Warning>
+        If you cache contractor IDs on your end and you encounter not-found responses, use other record attributes to update IDs on your end. If ID changes affect your workflow in a more substantial way, contact us directly and we’ll assist.
+      </Warning>
+    </Tab>
+  </Tabs>
+</Update>
+
 <Update label="V2.0.6" description="2025-05-06">
   <Tabs>
     <Tab title="Online">
-      🚀 **Upgrades**:
+      ### 🚀 Upgrades:
 
       - Improved the **Permit Search** logic to always order resulting permits by newest first.
     </Tab>
     <Tab title="API">
-      ✨ **New**:
+      ### ✨ New:
 
       - Added cursor-based pagination for **all** endpoints, which substantially improves deep search pagination.
 
-      <Warning>This replaces the former `page` parameter for pagination. This old method will be supported for an additional three months, at which point it will be deprecated.</Warning>
-      
-      🚀 **Upgrades**:
+      <Warning>
+        This replaces the former `page` parameter for pagination. This old method will be supported for an additional three months, at which point it will be deprecated.
+      </Warning>
+      ### 🚀 Upgrades:
 
       - Improved the response ordering logic to always order results in chronological order, descending.
     </Tab>
     <Tab title="EDL (Enterprise Data License)">
-      ✨ **New**:
+      ### ✨ New:
 
       - Added a new `apn` column to the `addresses` table
-      
       - Added two new columns `status` and `status_detailed` to the `csl` and `contractors` tables
         - Status codes for all states are mapped against the following schema:
           - `active`: License is active and in good standing with no restrictions.
@@ -37,27 +89,26 @@ description: "Find out what the Engineering team has been up to across our entir
           - `pending`: License application, renewal, or reinstatement is currently under review or being processed.
           - `inactive`: License is currently not valid, often due to administrative issues or other undefined reasons not captured by the categories above.
 
-      🚀 **Upgrades**:
+      ### 🚀 Upgrades:
 
       - Expanded `csl` table coverage by adding 11 new states: `CT`, `GA`, `IL`, `MD`, `MO`, `OK`, `NY`, `OR`, `SC`, `TN`, `UT`.
 
-      🐞 **Bugfix**:
+      ### 🐞 Bugfix:
 
-      - Fixed an address parsing issue that was affecting `csl` table contractors in `NV`. 
-    </Tab>  
+      - Fixed an address parsing issue that was affecting `csl` table contractors in `NV`.
+    </Tab>
   </Tabs>
 </Update>
-
 
 <Update label="V2.0.5" description="2025-04-03">
   <Tabs>
     <Tab title="Online">
-      ✨ **New**:
+      ### ✨ New:
 
       - General speed improvements
       - New and improved onboarding flow
 
-      🪲 **Bug Fixes**:
+      ### 🪲 Bug Fixes:
 
       - Fixed bug that didn't change the geo on the download list button
       - Fixed bug preventing some filters from being "sticky" in between searches
@@ -67,22 +118,22 @@ description: "Find out what the Engineering team has been up to across our entir
       No API changes this month\!
     </Tab>
     <Tab title="EDL (Enterprise Data License)">
-      🏗️ Permits
+      ### 🏗️ Permits:
 
       - Total permits: The dataset now contains 171M permits — an increase of 2M compared to the previous batch. With 8 new jurisdictions.
       - `first_seen_date` coverage: ~150M permits have a first_seen_date
 
-      🧑🏼‍🔧 Contractors
+      ### 🧑🏼‍🔧 Contractors:
 
       - We now have over 3 million contractors in the dataset, with ~50K new records added this month
       - License linkage: An additional 80K contractors have been linked to state license files.
 
-      📇 Classification coverage
+      ### 📇 Classification coverage:
 
       - All contractors with a license now have the `classification_derived` field as well. This field maps state-specific classifications into standardized categories.
       - If a contractor has multiple license classifications, they are concatenated using the pipe ("|") character.
 
-      🗂️ License Files
+      ### 🗂️ License Files:
 
       - A new table, CSL, is added to our production database. It contains data from 26 states files, and has a total of 1.8 M contractors.
       - Around 200K contractors are linked to our Contractors table while the others are new. As part of this new dataset, we have around 700K new contractors phone numbers and 200K new emails.
@@ -98,19 +149,19 @@ description: "Find out what the Engineering team has been up to across our entir
 <Update label="V2.0.4" description="2025-03-14">
   <Tabs>
     <Tab title="Online">
-      ✨ **New**:
+      ### ✨ New:
 
       - Added **Website Search** filter options to **Contractor Filters**
       - Added tooltips to the UI to better explain functionality
 
-      🚀 **Upgrades**:
+      ### 🚀 Upgrades:
 
       - Added Search filter auto-caching to improve UX between page reloads and sessions
       - Added new **New User** onboarding experience
       - Adjusted datepicker widget for date range selection to _monthly_, which will improve usability
     </Tab>
     <Tab title="API">
-      ✨ **New**:
+      ### ✨ New:
 
       - Added new fields to the `/contractors/` endpoint group:
 
@@ -131,7 +182,7 @@ description: "Find out what the Engineering team has been up to across our entir
       - Implemented new API rate limits: **1M requests/month**, or **~33k requests/day**.
     </Tab>
     <Tab title="EDL (Enterprise Data License)">
-      ✨ **New**:
+      ### ✨ New:
 
       - Added `first_seen_date` to the `permits` table
         - this represents the date when the the permit itself was first retrieved for the Shovels platform
@@ -149,22 +200,22 @@ description: "Find out what the Engineering team has been up to across our entir
   </Warning>
   <Tabs>
     <Tab title="Online">
-      ✨ **New**:
+      ### ✨ New:
 
       - Added **Address Profiles**
       - Added **Free Forever** plan in place of a Free Trial.
 
-      🐞 **Bugfix**:
+      ### 🐞 Bugfix:
 
       - Fixed issue where **Geography Profiles** (`City`, `Jurisdiction`, `County`, etc) filters for **Property Type** and **Permit Category** weren't updating counts correctly.
     </Tab>
     <Tab title="API">
-      ✨ **New**:
+      ### ✨ New:
 
       - Added new `/v2/{geography}/{geo_id}/metrics/monthly` endpoint.
       - Added new `/v2/{geography}/{geo_id}/metrics/current` endpoint.
 
-      💥 **Breaking**:
+      ### 💥 Breaking:
 
       - Removed `/v2/{geography}/{geo_id}/metrics` endpoint.
       - Changed **monetary value** data types from `decimal` <Icon icon="arrow-right" /> `integer` (eg, `dollars` <Icon icon="arrow-right" /> `cents`). This will affect the following parameters:
@@ -205,7 +256,7 @@ description: "Find out what the Engineering team has been up to across our entir
         </AccordionGroup>
     </Tab>
     <Tab title="EDL (Enterprise Data License)">
-      🐞 **Bugfix**:
+      ### 🐞 Bugfix:
 
       - Fixed issue where `address` object's latitude and longitude coordinates were occasionally reversed, and built in anomaly detection and correction for future processing.
         - This fix continues downstream to **API** and **Online** records.
@@ -237,23 +288,23 @@ description: "Find out what the Engineering team has been up to across our entir
 <Update label="V2.0.2" description="2025-01-09">
   <Tabs>
     <Tab title="Online">
-      ✨ **New**:
+      ### ✨ New:
 
       - Added `employees` to **Contractor Profiles**.
       - Added links to **Jurisdiction Profiles** for all permits.
       - Added links to **City Profiles** and **County Profiles** for all geo-related profiles.
 
-      🐞 **Bugfixes**:
+      ### 🐞 Bugfixes:
 
       - Fixed password reset bug.
     </Tab>
     <Tab title="API">
-      ✨ **New**:
+      ### ✨ New:
 
       - Added new `/v2/contractors/{id}/employees` endpoint.
       - Added new `/v2/addresses/{id}/metrics` endpoint.
 
-      ⚠️ **End of Life**:
+      ### ⚠️ End of Life:
 
       - We will **DEPRECATE** the **API V1** by the end of January 2025.
 
@@ -263,12 +314,12 @@ description: "Find out what the Engineering team has been up to across our entir
       <Tip>
         
       </Tip>
-      🐞 **Bugfixes**:
+      ### 🐞 Bugfixes:
 
       - Fixed metrics calculation algorithm on all endpoints.
     </Tab>
     <Tab title="EDL (Enterprise Data License)">
-      💥 **Breaking**:
+      ### 💥 Breaking:
 
       - `contractors` table:
         - `first_seen_at` **renamed** <Icon icon="arrow-right" /> `first_seen_date`.
@@ -289,7 +340,7 @@ description: "Find out what the Engineering team has been up to across our entir
     <Accordion title="Coverage Expansion">
       These new permits will be available across the entire platform.
 
-      ✨ **New**:
+      ### ✨ New:
 
       - \+6M permits nationwide.
       - \+9 permit jurisdictions.
@@ -300,12 +351,12 @@ description: "Find out what the Engineering team has been up to across our entir
 <Update label="V2.0.1" description="2024-12-04">
   <Tabs>
     <Tab title="Online">
-      ✨ **New**:
+      ### ✨ New:
 
       - Added \+2M permits in `Texas`.
       - Added metric visualizations to **Contractor Profiles**.
 
-      🐞 **Bugfixes**:
+      ### 🐞 Bugfixes:
 
       - Corrected issue where `Contractor Profiles` wouldn't load properly.
     </Tab>
@@ -314,28 +365,28 @@ description: "Find out what the Engineering team has been up to across our entir
 
       - `residents` endpoint.
 
-      🚀 **Upgrades**:
+      ### 🚀 Upgrades:
 
       - Improved address validation for all geography-related fields, in line with US Census data.
 
-      💥 **Breaking**:
+      ### 💥 Breaking:
 
       - Casing standardizations (please update accordingly if your logic is **case-sensitive**):
         - `property_type` values are now **lower case**, eg `residential`.
     </Tab>
     <Tab title="EDL (Enterprise Data License)">
-      ✨ **New**:
+      ### ✨ New:
 
       - `first_seen_at` column in the `contractor` table.
       - `employees` table, linked to `contractors` table:
         - Includes a wide range of firmographic data for individual employees.
         - See "Schema Updates" below for the full list of columns.
 
-      🚀 **Upgrades**:
+      ### 🚀 Upgrades:
 
       - additional columns in the `residents` table. See "Schema Updates" below for the full list.
 
-      💥 **Breaking**:
+      ### 💥 Breaking:
 
       - Casing standardizations (in addition to the changes outlined in the API Section previously).
         - `property_owner_type` values are now **snake_case**, eg `individual` or `company_owned`.
