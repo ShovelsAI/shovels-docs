@@ -1,33 +1,39 @@
 ---
-title: Introducing the Shovels API
-description: Learn how to use the Shovels API to programmatically access permit, contractor, and regional insights.
-icon: 'terminal'
+title: "Introducing the Shovels API"
+description: "Comprehensive guide to the Shovels REST API, including authentication, pagination, error handling, and getting started information."
+icon: "terminal"
 ---
 
-The Shovels API is a REST API that allows you to programmatically access permit, contractor, and demographic data. The use cases are endless, but the most common we see today are:
+The Shovels REST API makes it easy for technology developers in the property, climate, and construction industries to access detailed information about building permits, contractors and construction activity. Our API is designed to be intuitive and fast. We look forward to seeing what you build with it: [let us know](https://docs.google.com/forms/d/e/1FAIpQLSfs5Z6NZyPdnRpL96bMduH95OhfFZgLz9Hkc0-Y7pukUxSLxQ/viewform) and we'll check it out!
+
+## Key Features
+
+The API offers access to two primary objects: **Permits** and **Contractors**.
+
+- **Permits**: Official documents issued by city or county authorities required before commencing construction or alterations to a building.
+- **Contractors**: Skilled professionals in the building trades who undertake permitted construction projects on various properties.
+
+And some additional resources:
+
+- **Lists**: Endpoints for predefined values like tags and property types for query parameters.
+- **Addresses**: Endpoint for searching and resolving valid US addresses.
+- **Meta**: Endpoints for metadata about the API and the data behind it.
+
+## Use Cases
+
+The use cases are endless, but the most common we see today are:
 
 - **Sales and Marketing**: Generate lead lists with precision, at scale. 
 - **Development**: Build direct product integrations to bring Shovels data into your own applications. 
-- **Market Research**: Programmatically return and export Shovels data into your own tools, dashboards, and reports. 
+- **Market Research**: Programmatically return and export Shovels data into your own tools, dashboards, and reports.
 
-This guide will help you get started with the Shovels API, become familiar with the endpoints, parameters, and structure of the data, and then dive into some examples. 
+## Getting Started
 
-If you have any questions, please don't hesitate to reach out to [Support](mailto:support@shovels.ai).
+To begin using the API, please contact our sales team at [sales@shovels.ai](mailto:sales@shovels.ai) or grab a [free API key](https://app.shovels.ai/create-account/).
 
-## Authentication
-
-Authentication is required for any API request that you make, whether it's in the API Playground or in your own scripts. 
-
-We use a simple header-based authentication method, <code>X-API-Key: YOUR_API_KEY_HERE</code>.
-
-Here's an example request:
-
-```bash
-    curl -X GET "https://api.shovels.ai/v2/meta/release" \
-        -H "X-API-Key: YOUR_API_KEY_HERE"
-```
-
-If you have any issues with your API key, rate limits, or other authentication issues, please reach out to [Support](mailto:support@shovels.ai).
+<Info>
+The free API key has a limited number of calls. If you hit the limit and need more, please reach out to [sales@shovels.ai](mailto:sales@shovels.ai) or call us at [1-800-511-7457](tel:+18005117457).
+</Info>
 
 ### API Key
 
@@ -41,36 +47,144 @@ API Key free trials include 1000 requests with no time limit or credit card requ
 
 If you exceed 1000 request and still need more, please reach out to [Sales](mailto:sales@shovels.ai) for an extension.
 
+## Authentication
+
+Authentication is required for any API request that you make, whether it's in the API Playground or in your own scripts. 
+
+Our API uses a straightforward header-based authentication method: <code>X-API-Key: YOUR_API_KEY_HERE</code>.
+
+Here's an example request:
+
+```bash
+curl -X GET "https://api.shovels.ai/v2/meta/release" \
+ -H "X-API-Key: YOUR_API_KEY_HERE"
+```
+
+If you have any issues with your API key, rate limits, or other authentication issues, please reach out to [Support](mailto:support@shovels.ai).
+
 ### Acceptable Use Policy
 
 We do not enforce any usage or rate limits at this time, but we expect that you will respect our platform and avoid frivolous requests. 
 
 However, we are constantly monitoring usage and will enforce rate limits on an individual basis as needed. If you feel that you're API key is rate limited, please reach out to [Support](mailto:support@shovels.ai) for clarification.
 
-## API Reference
+## API Details
 
-If you're looking for the Shovels API Reference, then you're in the right place. The API Reference tab in this documentation hub outlines all of our endpoints, parameters, requirements, and responses. 
+### Quick Overview
 
-Additionally, there are examples of both requests and responses to help you get started. 
-
-### Key Details
-
-Here are the key details of our REST API, which will help you make the most of it, in whatever platform you choose. 
-
-#### Requirements
+A few quick details about our API:
 
 | Type | Description |
-|------|-------------|
+|---------------------|----------------------------------------------------------------------------|
 | **SSL Only** | We require that all requests be made over SSL. |
 | **UTF-8 Encoding** | We use UTF-8 encoding for all requests and responses. |
 | **Method** | HTTP GET for all read calls. |
 | **Date Format** | All dates in the API are `strings` in the format: `YYYY-MM-DD`. |
 
-### Using the Shovels API Playground
+### Response Types
+
+The API supports the following response codes:
+
+| Code | Description |
+|------|-------------|
+| **200 OK** | Everything worked as expected. |
+| **400 Bad Request** | There was something wrong with your request. Double-check your input. |
+| **401 Unauthorized** | You need to log in to access this. Make sure your API key is correct. |
+| **402 Payment Required** | You will get this error if your reach your trial API call limit. |
+| **403 Forbidden** | You don't have permission to access this. |
+| **404 Not Found** | We couldn't find what you're looking for. Check the URL or resource ID. |
+| **422 Unprocessable Entity** | There's an issue with the data you sent. Check [Error Handling](#error-handling) if you get this error. |
+| **429 Too Many Requests** | You're sending requests too quickly. Slow down and try again later. |
+| **500 Internal Server Error** | Yikes, something went wrong on our end. Please let us know at [support@shovels.ai](mailto:support@shovels.ai) |
+
+### Data Format
+
+The API returns data in JSON format, either as pages or single objects.
+
+Paginated responses have the following structure:
+
+```json
+{
+ "items": [...],
+ "page": 1,
+ "size": 50,
+ "next_page": 2 | null
+}
+```
+
+Where objects are returned as an array in the 'items' field.
+
+### Pagination
+
+The API supports two types of pagination:
+
+#### 1. Cursor-Based Pagination (Recommended)
+
+Cursor-based pagination is the default and recommended method for paginating through results. It uses an opaque cursor token to maintain your position in the result set, offering better performance, consistency, and stability, especially for large datasets.
+
+```json
+{
+ "items": [...],
+ "size": 50,
+ "next_cursor": "eyJkYXR.lIjoiMjA.yMy0",
+ "pagination_type": "cursor"
+}
+```
+
+To use cursor-based pagination:
+- For the first page: Simply make a request without any pagination parameters
+- For subsequent pages: Include the `next_cursor` value from the previous response using the `cursor` parameter
+
+Example:
+
+```
+GET /v2/permits/search?size=10
+GET /v2/permits/search?size=10&cursor=eyJkYXR.lIjoiMjA.yMy0
+```
+
+When there are no more results, the `next_cursor` value will be `null`.
+
+#### 2. Offset-Based Pagination (Deprecated)
+
+⚠️ **IMPORTANT**: Offset-based pagination is deprecated and will be removed in a future release. We recommend migrating to cursor-based pagination for better performance and reliability.
+
+This traditional pagination method uses page numbers and is less efficient:
+
+```json
+{
+ "items": [...],
+ "page": 1,
+ "size": 50,
+ "next_page": 2,
+ "pagination_type": "offset"
+}
+```
+
+To use offset-based pagination, explicitly provide a `page` parameter in your request:
+
+```
+GET /v2/permits/search?page=1&size=50
+```
+
+#### Pagination Priority
+
+If both `cursor` and `page` parameters are provided in the same request, cursor-based pagination takes precedence.
+
+### Versioning
+
+The current version of the API is v2, which is reflected in the endpoints URL structure: `/v2/`. We plan to evolve our API by releasing new versions to ensure backward compatibility while maintaining a steady pace of continuous improvements.
+
+## API Reference
+
+If you're looking for the Shovels API Reference, then you're in the right place. The API Reference tab in this documentation hub outlines all of our endpoints, parameters, requirements, and responses. 
+
+Additionally, there are examples of both requests and responses to help you get started.
+
+## Using the Shovels API Playground
 
 The easiest way to get started with the Shovels API is to use the API Playground. This is a web-based tool that allows you to test out the API without having to write any code. 
 
-#### Authentication
+### Authentication
 
 In order to use the playground, you'll need to authenticate with your API key. 
 
@@ -82,11 +196,11 @@ Enter your API Key in the "Authentication" drop down (as shown below), and proce
 If you have forgotten your API key, or need one in the first place, this is available in your [Profile Settings > API Key](https://app.shovels.ai/profile-settings).
 </Info>
 
-#### Server
+### Server
 
 Ensure that the "Server" drop down is set to `api.shovels.ai/v2`.
 
-#### Required fields
+### Required fields
 
 Different endpoints will have different required fields. Select the "Query" dropdown to see all available fields. Required fields are indicated with a red asterisk (as shown below). 
 
@@ -94,7 +208,7 @@ Different endpoints will have different required fields. Select the "Query" drop
 
 Generally speaking, the required fields are the start and end dates for the query, and the corresponding `geo_id` to point the query to the right place. If the query is for a specific object, like an individual permit, address, or contractor, then you'll only need the corresponding `id` field.
 
-#### Parameters
+### Parameters
 
 In order to fine-tune your query results, you can add parameters to the request.
 
@@ -128,77 +242,65 @@ If you're new to using REST APIs, or even if you're a seasoned veteran, it can b
 
 To the right of each endpoint in our API Playground there is a request example in a variety of languages. These will either give you a good starting point for building your own request, or can be directly copy and pasted in simple use cases. 
 
-## Troubleshooting
+## Error Handling
 
-We will outline below a few of the main methodologies for analyzing what happened to a REST API request, and what to do from there. 
+Proper error messages and HTTP codes are provided to help you troubleshoot issues effectively. Refer to the [Response Types](#response-types) section for an overview of HTTP error codes and how to handle them. Below we describe how to interpret HTTP 422 code.
 
-### Error codes
-
-First of all, the **Error Code** is the most important place to start. We provide standard HTTP error codes, with as much details as possible. Our Error Codes and their corresponding meanings are described in our API Reference directly, but we'll reproduce them here for convenience. 
-
-    | <div style={{ width: '200px' }}>Error Code</div> | Description |
-    | --------- | --------- |
-    | `200` **OK** | The request is formatted correctly, and was accepted by the servers. The returned response will show the data that we have, based on the request parameters. |
-    | `400` **Bad Request** | The request is formatted incorrectly, and was not accepted by the servers. |
-    | `401` **Request Unauthorized** | Double check the API key. |
-    | `402` **Payment Required** | You've reached your Free Trial API request limit, please [contact Sales](mailto:sales@shovels.ai). |
-    | `403` **Forbidden** | You're not authorized to make this request, so double check your request. |
-    | `404` **No Data Found** | The request is formatted correctly, and was accepted by the servers. However, there was no matching data found in the system, and so no response is possible. Please double check your request.|
-    | `422` **Unprocessable Entity** | The request is unsuccessful, which could be for a variety of reasons. Please double check your request or read the section on "`422` Error Handling" below to better understand the provided error message. |
-    | `429` **Too Many Requests** | You've hit your API rate limit. Please slow down your request speed and try again shortly. |
-    | `500` **Internal Server Error** | Something broke on our end. Please reach out to [Support](mailto:support@shovels.ai) for assistance. |
-
-#### `422` Error Handling
+### 422 Unprocessable Entity
 
 A 422 Unprocessable Entity response occurs when the server understands the request but cannot process it due to invalid data. This helps you identify issues with your input.
 
 The response includes:
 
-`loc`: The location of the error. The first value indicates the location and the second specifies the problematic field. Common values for the first value include:
-    - `body`: The error is in the request body.
-    - `query`: The error is in the query parameters.
-    - `path`: The error is in the URL path.
-    - `header`: The error is in the request headers.
-`msg`: A message describing the error.
-`type`: The type of error.
+- **loc**: The location of the error. The first value indicates the location and the second specifies the problematic field. Common values for the first value include:
+  - `body`: The error is in the request body.
+  - `query`: The error is in the query parameters.
+  - `path`: The error is in the URL path.
+  - `header`: The error is in the request headers.
+- **msg**: A message describing the error.
+- **type**: The type of error.
 
 Here are some examples:
 
 <CodeGroup>
-    ```json Request Body Error
-    {
-        "loc": ["body", "start_date"],
-        "msg": "Field required",
-        "type": "value_error.missing"
-    }
-    ```
+```json Request Body Error
+{
+    "loc": ["body", "start_date"],
+    "msg": "Field required",
+    "type": "value_error.missing"
+}
+```
 
-    ```json Query Parameter Error
-    {
-        "loc": ["query", "page"],
-        "msg": "Page must be a positive integer",
-        "type": "type_error.integer"
-    }
-    ```
+```json Query Parameter Error
+{
+    "loc": ["query", "page"],
+    "msg": "Page must be a positive integer",
+    "type": "type_error.integer"
+}
+```
 
-    ```json Path Parameter Error
-    {
-        "loc": ["path", "contractor_id"],
-        "msg": "Invalid ID format",
-        "type": "value_error.invalid_id"
-    }
-    ```
-    
-    ```json Header Error
-    {
-        "loc": ["header", "X-API-Key"],
-        "msg": "API key is missing",
-        "type": "value_error.missing"
-    }
-    ``` 
+```json Path Parameter Error
+{
+    "loc": ["path", "contractor_id"],
+    "msg": "Invalid ID format",
+    "type": "value_error.invalid_id"
+}
+```
+
+```json Header Error
+{
+    "loc": ["header", "X-API-Key"],
+    "msg": "API key is missing",
+    "type": "value_error.missing"
+}
+```
 </CodeGroup>
 
 If these examples don't help, please reach out to [Support](mailto:support@shovels.ai) for assistance.
+
+## Troubleshooting
+
+We will outline below a few of the main methodologies for analyzing what happened to a REST API request, and what to do from there. 
 
 ### Missing Data and Empty Fields
 
@@ -217,3 +319,5 @@ Another possibility, especially for existing queries that failed, are that the e
 Any such changes are documented in our [Release Notes](/release-notes). 
 
 Please note that such breaking changes are exceedingly rare, and we do our best to minimize them wherever possible. If you need any assistance, or notice that existing queries are suddenly failing, please reach out to [Support](mailto:support@shovels.ai) for assistance.
+
+If you have any questions, please don't hesitate to reach out to [Support](mailto:support@shovels.ai).
