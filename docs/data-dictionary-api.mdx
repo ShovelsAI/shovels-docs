@@ -7,7 +7,21 @@ description: All fields, parameters, and objects available in the **Shovels API*
 <Accordion title="Permits">
     | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Source</div> |
     |:-----------|:----------|:------------|:---------|:--------|
-    | property_census_tract | `string` | The property's census tract | "06075000100" |  |
+    | id | `string` | The Shovels ID for the permit | "caf3b9d5ce317d53" | Shovels |
+    | number | `string` | The permit jurisdiction's internal tracking number | "No-15837" | Permit Jurisdiction |
+    | jurisdiction | `string` | The jurisdiction that issued the permit | "City of Oakland" | Permit Jurisdiction |
+    | address | `object` | The property's address | | Shovels |
+    | geo_ids | `object` | Geographic identifiers | | Shovels |
+    | description | `string` | The description of the work from the permit | "Solar panel installation" | Permit Jurisdiction |
+    | job_value | `number` | The estimated value of the work to be done | "25000" | Permit Jurisdiction |
+    | issue_date | `string` | The date the permit was issued (YYYY-MM-DD) | "2023-01-31" | Permit Jurisdiction |
+    | file_date | `string` | The date the permit was filed (YYYY-MM-DD) | "2023-01-01" | Permit Jurisdiction |
+    | status | `string` | The status of the permit | "active" | Shovels |
+    | type | `string` | The type of permit | "Residential accessory structure" | Permit Jurisdiction |
+    | sub_type | `string` | The sub-type of permit | "garage" | Permit Jurisdiction |
+    | tags | `array` | A list of tags associated with the permit | `["Solar", "Residential"]` | Shovels |
+    | contractor_id | `string` | The unique ID of the contractor associated with the permit | | Shovels |
+    | property_census_tract | `string` | The property's census tract | "06075000100" | Shovels |
     | property_congressional_district | `string` | The property's congressional district | "11" | Shovels |
     | property_type | `string` | The property's type | "Residential" | Shovels |
     | property_type_detail | `string` | The property's sub-classification | "Single Family Home" | Shovels |
@@ -18,34 +32,50 @@ description: All fields, parameters, and objects available in the **Shovels API*
     | property_story_count | `integer` | The property's number of stories | "2" | Shovels |
     | property_unit_count | `integer` | The property's number of units | "1" | Shovels |
     | property_year_built | `integer` | The property's year built | "1978" | Shovels |
-    | id | `string` | The Shovels ID for the permit | "caf3b9d5ce317d53" | Shovels |
-    | description | `string` | The description of the work from the permit | "Solar panel installation" | Permit Jurisdiction |
-    | number | `string` | The permit jurisdiction's internal tracking number | "No-15837" | Permit Jurisdiction |
-    | jurisdiction | `string` | The jurisdiction that issued the permit | "City of Oakland" | Permit Jurisdiction |
-    | job_value
+    | property_assess_market_value | `number` | The property's assessed market value | "750000" | Shovels |
 </Accordion>
 <Accordion title="Contractors">
     | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Source</div> |
     |:-----------|:----------|:------------|:---------|:--------|
-    | | | | | |
-</Accordion>
-<Accordion title="Employees">
-    | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Source</div> |
-    |:-----------|:----------|:------------|:---------|:--------|
-    | | | | | |
+    | id | `string` | The Shovels ID for the contractor | "c452b7d5cf317a76" | Shovels |
+    | name | `string` | The name of the contractor | "John Builder" | Permit Jurisdiction |
+    | company_name | `string` | The name of the contractor's company | "Builder Co" | Permit Jurisdiction |
+    | type | `string` | The type of contractor | "General Contractor" | Shovels |
+    | license_number | `string` | The contractor's license number | "123456" | Permit Jurisdiction |
+    | license_state | `string` | The state that issued the contractor's license | "CA" | Permit Jurisdiction |
+    | address | `object` | The contractor's address | | Shovels |
 </Accordion>
 <Accordion title="Residents">
     | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Source</div> |
     |:-----------|:----------|:------------|:---------|:--------|
-    | | | | | |
+    | name | `string` | Name of the resident | "Jane Doe" | Shovels |
+    | email | `string` | Email of the resident | "jane.doe@example.com" | Shovels |
+    | phone | `string` | Phone number of the resident | "123-456-7890" | Shovels |
+    | linkedin_url | `string` | LinkedIn URL of the resident | "linkedin.com/in/janedoe" | Shovels |
+    | net_worth | `string` | Net worth range of the resident | "1,000,000-2,499,999" | Shovels |
+    | income_range | `string` | Income range of the resident | "150,000-199,999" | Shovels |
+    | is_homeowner | `boolean` | Whether the resident is a homeowner | "true" | Shovels |
+    | street_no | `string` | Street number of the resident's address | "123" | Shovels |
+    | street | `string` | Street name of the resident's address | "Main St" | Shovels |
+    | city | `string` | City of the resident's address | "Anytown" | Shovels |
+    | state | `string` | State of the resident's address | "CA" | Shovels |
+    | zip_code | `string` | Zip code of the resident's address | "12345" | Shovels |
+    | zip_code_ext | `string` | Zip code extension of the resident's address | "6789" | Shovels |
 </Accordion>
 <Accordion title="Metrics">
     | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Source</div> |
     |:-----------|:----------|:------------|:---------|:--------|
-    | | | | | |
+    | total | `integer` | The total number of permits. | "100" | Shovels |
+    | active | `integer` | The number of permits that are currently active. | "50" | Shovels |
+    | in_review | `integer` | The number of permits that are under review. | "10" | Shovels |
+    | inactive | `integer` | The number of permits that have been completed or expired. | "30" | Shovels |
+    | finalized | `integer` | The number of permits that have been finalized. | "10" | Shovels |
 </Accordion>
 <Accordion title="Geographies">
     | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Source</div> |
     |:-----------|:----------|:------------|:---------|:--------|
-    | | | | | |
+    | state | `string` | The state of the property. | "CA" | Shovels |
+    | county | `string` | The county of the property. | "Santa Clara County" | Shovels |
+    | city | `string` | The city of the property. | "San Jose" | Shovels |
+    | zip_code | `string` | The ZIP code of the property. | "95112" | Shovels |
 </Accordion>
