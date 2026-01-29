@@ -1,0 +1,46 @@
+---
+title: "What Counts as an API Request?"
+description: "Every HTTP call to the Shovels API counts as 1 request, regardless of endpoint or records returned. Get up to 100 records per request with size=100."
+---
+
+**Every HTTP call to the Shovels API counts as exactly 1 request, regardless of which endpoint you use or how many records it returns.** You can retrieve up to 100 records per call by setting `size=100`, making each request highly efficient.
+
+## Request Counting
+
+This applies to:
+- Search endpoints (`GET /v2/permits/search`, `GET /v2/contractors/search`)
+- Detail endpoints (`GET /v2/permits`, `GET /v2/contractors`)
+
+## Records Per Request
+
+You can retrieve up to **100 permits or contractors** in a single call by setting the `size` (or `limit`) parameter to 100. Whether you retrieve 1 record or 100, it counts as only **one request** against your quota.
+
+## Detail Already Included
+
+Search responses contain the full detail payload for every record returned, so you usually don't need a separate detail call. If you do call a detail endpoint—whether for one ID or many IDs—it still counts as only one request.
+
+## Practical Examples
+
+| Request | Count |
+|---------|-------|
+| `GET /v2/permits/search?size=100` | 1 request |
+| `GET /v2/permits?id=123` | 1 request |
+| `GET /v2/contractors/search?size=100` | 1 request |
+| `GET /v2/contractors?id=abc,def,ghi` | 1 request |
+
+Each of these consumes exactly one of your requests.
+
+<Info>
+The same request usage applies whether you're on the free trial or a paid plan.
+</Info>
+
+## Maximizing Your Quota
+
+1. **Use max page size** - Set `size=100` to get the most records per request
+2. **Use search endpoints** - They include full details in the response
+3. **Batch detail lookups** - Pass multiple IDs in a single detail request
+
+## Related Articles
+
+- [API rate limits](/docs/knowledge-base/api/basics/rate-limits)
+- [Permits per API call](/docs/knowledge-base/api/basics/permits-per-call)

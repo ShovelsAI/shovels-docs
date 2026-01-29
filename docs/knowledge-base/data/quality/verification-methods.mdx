@@ -1,0 +1,52 @@
+---
+title: "How Shovels Verifies Data Accuracy"
+description: "Learn about the methods Shovels uses to verify data accuracy, including address standardization and contractor validation."
+---
+
+Shovels verifies data accuracy through multiple external sources to ensure reliability.
+
+## Address Verification
+
+For address standardization, we cross-reference details using **four different address sources**:
+- National Address Dataset from the US Census
+- Open Address dataset
+- Simple Maps
+- ESRI
+
+This multi-source approach ensures:
+- Consistent formatting
+- Accurate geocoding
+- Reliable location identification
+
+## Contractor Verification
+
+We match contractor information against:
+- **Publicly available state license files**
+- **Business registration records**
+
+This ensures contractors in our database are:
+- Properly licensed
+- Legitimate operators in their respective fields
+
+## Data Labeling Process
+
+For permit classification, we employ a rigorous annotation process:
+- Multiple independent annotators label each record
+- Manual review resolves divergent responses
+- Validation sample size is 1-5% of overall data
+
+<Info>
+Our approach has achieved **98% accuracy** in classifications, validated by construction industry experts.
+</Info>
+
+## Golden Dataset Methodology
+
+Annotators independently solve tasks rather than validating model outputs. This:
+- Prevents annotator bias
+- Creates a "golden dataset" of correct answers
+- Enables benchmarking of new model outputs without fresh validation
+
+## Related Articles
+
+- [Data labeling process](/docs/knowledge-base/data/quality/labeling-process)
+- [Data sources](/docs/knowledge-base/data/quality/data-sources)

@@ -1,0 +1,44 @@
+---
+title: "How to Identify Independent Contractors"
+description: "Learn reliable methods to identify sole proprietors and individual contractors in the Shovels API data."
+---
+
+Identifying independent contractors (ICs) in the Shovels API can be accomplished in several ways.
+
+## Primary Method: biz_type Field
+
+The most reliable method is through the `biz_type` field, though it has limited coverage across our dataset.
+
+## Heuristic Indicators
+
+As a practical heuristic, consider these signals:
+
+### Business Name Analysis
+If a business name appears to be a person's name (e.g., "John Smith" rather than "Smith Construction"), it often indicates an independent contractor.
+
+### Other Signals
+
+- **Single contact person** across all permits
+- **Low permit volume** compared to larger firms
+- **Absence of multiple employee records**
+
+## Why It Matters
+
+Independent contractors represent a significant portion of the contracting ecosystem, especially in specialized trades like:
+- Electrical work
+- Plumbing
+- HVAC
+
+Understanding which contractors are independent professionals versus larger companies allows for:
+- More tailored marketing approaches
+- Accurate market segmentation
+- Better targeting for products or services
+
+<Info>
+The `biz_type` field provides the most accurate identification when available, but coverage varies across the dataset.
+</Info>
+
+## Related Articles
+
+- [Contractor search](/docs/knowledge-base/api/contractors/contractor-search)
+- [Filtering by company size](/docs/knowledge-base/api/contractors/filtering-by-size)

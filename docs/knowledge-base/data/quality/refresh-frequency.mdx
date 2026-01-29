@@ -1,0 +1,42 @@
+---
+title: "How Often Does Shovels Update Its Data?"
+description: "Shovels updates data monthly with 5-10 million new permits and 1-5 million status updates. All IDs remain stable across updates."
+---
+
+**Shovels updates data monthly, adding 5-10 million new permit records and 1-5 million status updates nationwide with each refresh.** All IDs (permit, address, contractor) remain stable across updates.
+
+## Update Schedule
+
+Data is refreshed **monthly**. The underlying database is updated first, then made available through the API and Shovels Online. This process can take up to a week after the initial database refresh.
+
+## Monthly Volume
+
+Nationwide, each month we add:
+- **5-10 million new records** to the dataset
+- **1-5 million status updates** to existing records
+
+## How Updates Work
+
+When a permit status or other data field changes:
+1. The jurisdiction updates it in their platform
+2. We access the updated information
+3. We clean up and standardize the data
+4. Updates are released on the 1st and 15th
+
+## ID Stability
+
+Importantly, our IDs remain stable across updates:
+- **Permit IDs** don't change
+- **Address IDs** don't change
+- **Contractor IDs** don't change
+
+This consistency ensures any scripts, analyses, or processes that rely on these IDs won't be impacted by the monthly refresh.
+
+<Info>
+The stability of our ID system allows customers to build reliable data pipelines and maintain referential integrity in their analyses.
+</Info>
+
+## Related Articles
+
+- [EDL monthly deliveries](/docs/knowledge-base/edl/monthly-deliveries)
+- [Data sources](/docs/knowledge-base/data/quality/data-sources)

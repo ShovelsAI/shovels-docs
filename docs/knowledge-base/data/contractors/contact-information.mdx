@@ -1,0 +1,69 @@
+---
+title: "Contractor Contact Information"
+description: "Understand the contractor contact fields in Shovels data, including address information, phone number prioritization, and how contact names relate to emails."
+---
+
+Shovels provides comprehensive contact information for contractors when available.
+
+## Address Information
+
+We provide complete USPS-standardized addresses including:
+- Street address
+- City
+- State
+- ZIP code
+- Unit or suite numbers (when available)
+
+Our addresses undergo rigorous verification against multiple sources:
+- National Address Dataset (US Census)
+- Open Address dataset
+- Simple Maps
+- ESRI
+
+<Tip>
+The standardized format makes it easy to integrate with mapping services, CRM systems, or marketing platforms.
+</Tip>
+
+## Phone Numbers
+
+### primary_phone vs phone
+
+| Field | Description |
+|-------|-------------|
+| **primary_phone** | The most frequently used phone number across all permits for this contractor |
+| **phone** | A comma-separated list of all phone numbers encountered, ordered by frequency |
+
+**Example:** If a contractor used three different phone numbers across their permit history (one on 70% of permits, others on 15% each), the most common number is designated as `primary_phone`, while all three appear in `phone`.
+
+## Contact Names and Emails
+
+### Why They May Not Match
+
+Contact names and email addresses don't always align because they're captured differently:
+
+- **Contact names** are specific to individual permits (the name on that permit application)
+- **primary_email** is determined by analyzing frequency across all permits for a contractor
+
+**Example:** If John Smith is listed on a specific permit, but jane.doe@company.com appears most frequently across all that contractor's permits, `primary_email` shows Jane's email.
+
+<Info>
+This approach ensures you have the most actively used contact point, which increases the likelihood of successful communication.
+</Info>
+
+## Job Titles
+
+Job titles are available across all Shovels products:
+- **API** - Through the employees endpoint
+- **Shovels Online** - In contractor profiles
+- **EDL** - As part of custom reports
+
+Common titles include:
+- Owner
+- Project Manager
+- Office Manager
+- Trade-specific roles (Master Electrician, General Contractor)
+
+## Related Articles
+
+- [Contractor data overview](/docs/knowledge-base/data/contractors/contractor-data-overview)
+- [Employee data via API](/docs/knowledge-base/api/contractors/employee-data)

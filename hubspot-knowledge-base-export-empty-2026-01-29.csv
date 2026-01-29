@@ -1,0 +1,663 @@
+"Knowledge base name","Article title","Article subtitle","Article language","Article URL","Article body","Category","Subcategory","Keywords","Last modified date","Status","Archived"
+"Shovels Knowledge Base","Tracking New vs. Modified Records in EDL Updates","Using first_seen_date to identify new records in data deliveries","en","https://support.shovels.ai/faq/edl-record-changes","For Enterprise Data License (EDL) customers receiving monthly data overwrites, tracking whether a record is new versus pre-existing and modified can be accomplished using the first_seen_date field in the PERMITS table. While there isn't a specific change flag in the current data schema, this timestamp indicates when Shovels first discovered the permit in our data collection process. By comparing first_seen_date with your previous data delivery, you can identify new records where the first_seen_date falls after your last update. For modifications to existing records, you'll need to implement a comparison between the current and previous data deliveries, focusing on fields like status, valuation, or other attributes that might change over time. This approach requires maintaining a copy of previous deliveries for comparison purposes. We're actively working on enhancing our data delivery system to include explicit change tracking flags in future releases, which will simplify this process for customers who need to monitor specific changes in the permit landscape.","EDL","Data Updates","change tracking,first_seen_date,data updates,EDL,record modifications","1769212660064","PUBLISHED","false"
+"Shovels Knowledge Base","Shovels' Key Differentiators","What sets Shovels apart from competitors in the permit data space","en","https://support.shovels.ai/faq/key-differentiators","Shovels differentiates itself through several key factors: 1) Very clean data - addresses are standardized to USPS format and geotagged with coordinates; 2) Comprehensive contractor data derived directly from permit metadata, including contractor grouping that links contractors under the same parent organization; 3) Modern data infrastructure using AI and machine learning, with a documented 98% accuracy validated by construction industry experts; 4) Sophisticated deduplication that maintains a unique identifier for each permit and updates records as permit statuses change, rather than creating duplicate entries.","Company","Market Position","contractor grouping,AI,differentiators,deduplication,clean data","1769213885447","PUBLISHED","false"
+"Shovels Knowledge Base","Tracking Multiple Permits at a Single Property","How Shovels tracks and links multiple permits at the same location","en","https://support.shovels.ai/faq/tracking-multiple-permits","We use a system of unique IDs to track multiple permits at a single property. Each permit gets a unique permit ID that remains persistent throughout its lifecycle. Each address gets a unique address ID the first time it appears, allowing you to easily find and connect all permits at that location. Each contractor gets a unique contractor ID when they first appear on any permit. These IDs act as reference points that allow you to track and join related permits, addresses, and contractors in our database.","Data","Permit Data","unique IDs,multiple permits,permit tracking,address tracking","1769213939492","PUBLISHED","false"
+"Shovels Knowledge Base","What is a Jurisdiction?","Understanding the governmental entities that issue permits","en","https://support.shovels.ai/faq/jurisdiction-definition","<p>In the context of Shovels data, a jurisdiction refers to the Authority Having Jurisdiction (AHJ) - the governmental body responsible for issuing building permits in a specific geographic area. This is typically either a county or a city government. Jurisdictions play a crucial role in the construction permitting process as they establish and enforce building codes, conduct inspections, and maintain official records of construction activities. Nationwide, there are approximately 20,000 different jurisdictions, each with their own specific requirements, processes, and data formats. Shovels has standardized data from over 1,400 jurisdictions, covering approximately 80% of the US population. Understanding which jurisdiction governs a particular property is essential for contractors and service providers, as it determines which rules apply and which office must approve permits. Shovels maintains a comprehensive list of all jurisdictions we cover, which is available on our blog.</p>
+<p>Learn more: <a href=""https://www.shovels.ai/blog/ahj-in-construction/"" target=""_blank"" rel=""noopener"">https://www.shovels.ai/blog/ahj-in-construction/</a></p>","General","Terminology","permit authority,AHJ,jurisdiction,building department,regulatory body","1769214045139","PUBLISHED","false"
+"Shovels Knowledge Base","Regional Variations in Contractor Data Coverage","There are differences is coverage by US geographical region","en","https://support.shovels.ai/faq/contractor-coverage-nuances","Shovels' contractor data includes whatever information is provided on the permits themselves, with coverage quality varying by region. We have strong coverage on the West Coast, in New York, and in certain areas of the Midwest. However, coverage in Upstate New York is not as comprehensive. Massachusetts presents challenges due to its township structure, where permit data and contractor details aren't always readily available online. Similarly, New Jersey has limitations because the state doesn't typically include contractor data on permits. These regional variations reflect the different reporting requirements and data availability across jurisdictions.","Data","Contractor Data","jurisdictional differences,data completeness,contractor coverage,regional variations","1751229781944","PUBLISHED","false"
+"Shovels Knowledge Base","State and Zip Code Validation in Address Searches","Understanding address search behavior with incorrect location parameters","en","https://support.shovels.ai/faq/api-geo-id-state-zip-validation","When using Shovels' API for address searches, it's important to understand that state and zip code parameters are not validated as part of geo_id resolution. If you provide an incorrect state or zip code when searching for addresses, you won't receive an explicit error message. Instead, the API will return an empty result set (null items), indicating no matching address was found. This behavior is by design to accommodate variations in how addresses might be recorded across different jurisdictions. For the most reliable results, we recommend providing as accurate address information as possible, particularly focusing on street name, number, and city. If you're consistently getting empty results for addresses you believe should exist in our system, double-check that you're using the correct state and zip code information. Our system uses multiple address verification sources including the National Address Dataset, Open Address dataset, Simple Maps, and ESRI to ensure the highest possible accuracy in address matching.","API","Address Resolution","empty results,API,address validation,error handling,geo_id","1751085205059","PUBLISHED","false"
+"Shovels Knowledge Base","Handling Errors with geo_id","Managing invalid geolocation IDs in API requests","en","https://support.shovels.ai/faq/api-geo-id-error-handling","When working with Shovels' API, proper handling of geo_id errors is essential for smooth application performance. If you provide an invalid geo_id when querying permits, you'll typically receive a 422 Unprocessable Entity response with the message: ""Invalid geolocation ID value. Have you resolved your address into Shovels geolocation ID?"" This indicates that the geo_id format is incorrect or hasn't been properly obtained through our address resolution endpoint. However, it's important to note that if the format of the geo_id is technically valid but doesn't correspond to any known address or permit in our system, you won't receive an error. Instead, the response will contain no results (an empty items array with a 200 OK status). To avoid these issues, always begin your workflow by resolving addresses through our Address Search API before attempting to query permits with the resulting geo_id. Implementing proper error handling in your application for both 422 responses and empty result sets will improve user experience and help troubleshoot integration issues.","API","Error Management","422 error,API,address resolution,error handling,geo_id","1751085205516","PUBLISHED","false"
+"Shovels Knowledge Base","Source of Coordinate Data","How Shovels determines the geographic coordinates for addresses","en","https://support.shovels.ai/faq/coordinate-data-source","The latitude and longitude coordinates in our data are geocoded addresses. This geocoding process is done in-house at Shovels to ensure accuracy and consistency across our database.","Data","Geographic Information","geographic data,geocoding,latitude,coordinates,longitude","1751085182510","PUBLISHED","false"
+"Shovels Knowledge Base","Tracking Multiple Permits on the Same Property","How our ID system connects related permits at the same location","en","https://support.shovels.ai/faq/multiple-permits-tracking","Shovels uses a robust system of unique IDs to track multiple permits at a single property. Each permit receives a unique permit ID that remains consistent throughout its lifecycle, from application to completion. Each address gets a unique address ID the first time it appears in our system, allowing you to easily connect all permits associated with that location. Similarly, each contractor receives a unique contractor ID when they first appear on any permit. These IDs act as reference points (foreign keys) that enable you to track and join related permits, addresses, and contractors in our database. For example, you can use the address ID to find all permits associated with a specific property, even if the address is written differently across different permits. This system is particularly valuable for tracking property improvements over time, identifying contractors who frequently work at the same location, or analyzing permitting patterns for specific properties. Our consistent ID system makes it simple to build relationships between different data points, enabling sophisticated analysis of construction activity.","Data","Technical Specifications","unique IDs,multiple permits,data relationships,property tracking","1751085187733","PUBLISHED","false"
+"Shovels Knowledge Base","Complete List of Jurisdictions","Where to find our complete list of covered jurisdictions","en","https://support.shovels.ai/faq/jurisdiction-list","Yes, Shovels maintains a comprehensive list of all building permit jurisdictions we cover. This list is publicly available on our blog at https://www.shovels.ai/blog/list-of-all-building-permit-jurisdictions/. The list includes approximately 2,000 jurisdictions, representing about 85% of the US population. Each jurisdiction is an Authority Having Jurisdiction (AHJ) - typically a county or city government responsible for issuing building permits in its&nbsp;area. Our coverage continues to expand, with 10-30 new jurisdictions added each month. The jurisdictions we cover follow a power law distribution: about 15% of jurisdictions represent approximately 85% of the US population, while the remaining 85% of jurisdictions cover just 15% of the population. This is why we prioritize larger jurisdictions while continuously expanding into smaller ones. The jurisdiction list is regularly updated as we add new coverage areas, so checking the link periodically will provide the most current information on our geographic coverage.","Coverage","Geographic Coverage","coverage,building departments,geographic areas,permit authorities,jurisdictions","1763157510396","PUBLISHED","false"
+"Shovels Knowledge Base","Shovels' Mailing Address","Shovels' official mailing address for correspondence","en","https://support.shovels.ai/faq/mailing-address","Shovels' official mailing address is 3515 Mt. Diablo Blvd, Unit #51, Lafayette, CA 94549.","Company","Contact Information","contact information,physical location,mailing address,postal address","1751085194893","PUBLISHED","false"
+"Shovels Knowledge Base","Assessing Contractor Quality Through Data","Using data metrics to evaluate contractor quality and performance","en","https://support.shovels.ai/faq/contractor-quality-indicators","Shovels evaluates contractors based on objective data points, including the quantity of permits pulled, jurisdictional coverage, and timeframes for permit completion. These metrics can serve as indicators of a contractor's quality - for example, their experience level (how many times they've done similar work), their familiarity with specific cities, and their efficiency (how quickly they complete jobs). While Shovels focuses on these quantitative data points, customers often supplement this information with qualitative feedback from sources like Google reviews, Yelp, Thumbtack, and word-of-mouth recommendations to form a more complete picture of contractor quality.","Data","Contractor Data","completion times,contractor quality,performance metrics,contractor assessment,permit volume","1751085198656","PUBLISHED","false"
+"Shovels Knowledge Base","How Monthly EDL Data Deliveries Work","Understanding the replacement model for enterprise data deliveries","en","https://support.shovels.ai/faq/edl-monthly-deliveries","For Enterprise Data License (EDL) customers, Shovels employs an overwrite approach when pushing data into data lakes such as Snowflake, Databricks, or BigQuery. Each monthly delivery is treated as a fresh table, completely replacing the previous month's data with the updated dataset. This approach simplifies data management by eliminating the need to merge incremental updates. Importantly, our permit IDs, address IDs, and contractor IDs remain static and don't change from release to release. This consistency ensures that any scripts, analyses, or processes that rely on these IDs won't be impacted by the monthly refresh. The stability of our ID system allows customers to build reliable data pipelines and maintain referential integrity in their analyses. Each monthly delivery includes all historical data plus new permits and updates, providing a complete and current view of the construction permitting landscape. For customers who need to track changes between deliveries, we recommend using the first_seen_date field in combination with status change indicators to identify new and updated records since the previous delivery.","EDL","Data Updates","EDL,data delivery,monthly updates,overwrite,data lake","1751085201809","PUBLISHED","false"
+"Shovels Knowledge Base","Searching for Permits","Using geo_id to retrieve permit data effectively","en","https://support.shovels.ai/faq/api-permit-search","To search for permits in the Shovels API, you'll need to use the geo_id parameter, which serves as the unique identifier linking addresses to their associated permit data. The process follows these steps: First, use our Address Search endpoint (https://api.shovels.ai/v2/addresses/search) to find the address of interest. When the address is found, you'll receive a geo_id in the response. Then, use this geo_id to query our permits search endpoint, which will return all permits associated with that location. The geo_id system offers several advantages over direct address searching: it ensures consistent identification regardless of address formatting variations, provides a stable reference point even if address details change over time, and improves query performance. Our permit search endpoint supports additional filters including date ranges, permit types, and contractor information, allowing you to narrow results to precisely the permits you need. This two-step process of address resolution followed by permit querying ensures accurate results and optimal API performance.","API","Permit Data","API,address resolution,query parameters,permit search,geo_id","1751085202848","PUBLISHED","false"
+"Shovels Knowledge Base","Understanding Shovels' Resident Data","How Shovels assembles and validates resident demographic data","en","https://support.shovels.ai/faq/resident-data-sources","Shovels' resident data features like gender, age_range, and income_range come from multiple non-LinkedIn sources. We assemble data about individuals via common linkages between a person's name, workplace, personal address, and business or personal contact information. Our data compilation process uses consensus and observation date methodology to select the most likely and current data points for each individual. The data includes both directly observed information and modeled/probabilistic data. For complete details on our data schema, you can refer to our Universal Schema documentation.","Data","Resident Data","data sources,personal information,demographic information,data compilation,resident data","1751085203845","PUBLISHED","false"
+"Shovels Knowledge Base","Source of Latitude and Longitude Data","How Shovels generates accurate location coordinates","en","https://support.shovels.ai/faq/latitude-longitude-source","The latitude and longitude coordinates in Shovels' data are derived from our proprietary geocoding process. Rather than relying on a single third-party service, we perform this geocoding ourselves using multiple reference sources to ensure accuracy. Our process cross-references addresses against several authoritative datasets including the National Address Dataset from the US Census, the Open Address dataset, Simple Maps, and ESRI. This multi-source approach allows us to achieve higher accuracy rates than depending on any single geocoding service. Accurate geocoding is particularly important in the construction industry, where precise location information can impact everything from permit jurisdiction to zoning requirements. These coordinates enable our customers to perform spatial analysis, create map visualizations, calculate distances, and identify geographic patterns in construction activity. The geocoding process is part of our broader address standardization pipeline, which ensures consistent formatting and accurate location data across our entire database, regardless of how addresses may have been formatted in the original permit records.","Data","Geographic Information","geographic data,geocoding,latitude,coordinates,longitude","1751085183189","PUBLISHED","false"
+"Shovels Knowledge Base","The Data Labeling and Annotation Process","How Shovels ensures accuracy in permit classification","en","https://support.shovels.ai/faq/data-labeling-process","Shovels employs a rigorous data labeling and annotation process to ensure high-quality, accurately classified permit data. Our approach involves multiple independent annotators labeling each record, with manual review and resolution in cases where their responses diverge. The validation sample size is proportionate to the representation of each category within the total dataset, typically including between 1-5% of the overall data to ensure adequate validation points for every category. A key aspect of our methodology is having annotators independently solve the task rather than validating model outputs. This prevents annotator bias and creates a ""golden dataset"" of correct answers that can be used to benchmark any new model outputs across iterations without requiring fresh human validation each time. This approach has proven particularly effective for accurately classifying permit descriptions, which often contain industry-specific terminology, abbreviations, and inconsistent formatting. Our case study on using specialist participants for data labeling (available on our blog) details how we achieved 98% accuracy in our classifications by incorporating a panel of experts from the construction industry.","Data","Data Quality","annotation,quality assurance,classification,data labeling,validation","1751085186629","PUBLISHED","false"
+"Shovels Knowledge Base","Permits Without Addresses","How Shovels handles permits for properties without official addresses","en","https://support.shovels.ai/faq/permits-without-addresses","Yes, Shovels does capture permits that don't have an associated address. This situation commonly occurs with newly subdivided parcels or undeveloped land where construction needs to begin before an official address is assigned by the post office. In these cases, Shovels assigns a unique permit ID to track the permit, but there won't be an associated address ID, physical address, or geographic identifiers such as county, city, or jurisdiction codes. The only geo-identifiers included with these address-less permits will be state and jurisdiction information. These permits are still valuable data points as they often represent new construction projects at their earliest stages. For users interested in new development opportunities, these permits can provide early intelligence about upcoming construction activity. As the project progresses and an official address is assigned, we update our records to link the permit with its new address, allowing for continuous tracking throughout the construction lifecycle. This approach ensures we don't miss important permit activity, even when traditional address-based identification isn't possible.","Data","Permit Data","parcel permits,undeveloped land,address-less permits,new construction","1751085187166","PUBLISHED","false"
+"Shovels Knowledge Base","Data Annotation and Validation Process","How Shovels ensures high-quality data through annotation and validation","en","https://support.shovels.ai/faq/data-annotation-process","Our data annotation process involves multiple independent annotators labeling each record. When their responses diverge, we manually review and resolve the discrepancies. The validation sample size is proportionate to each category's representation in the dataset (1-5% of overall data). To avoid bias, annotators independently solve tasks rather than validating model outputs. This approach creates a ""golden dataset"" of correct answers that can benchmark any new model outputs across iterations without requiring new validation rounds.","Data","Data Quality","quality control,data annotation,validation,model benchmarking","1751085192850","PUBLISHED","false"
+"Shovels Knowledge Base","How Individual Permits are Created and Tracked","Understanding how permits are uniquely identified and updated","en","https://support.shovels.ai/faq/permit-lifecycle-tracking","Each permit in the Shovels database receives a unique permit ID that remains persistent throughout its entire lifecycle. As updates are made to the permit - such as status changes, valuation adjustments, or contractor assignments - we update the data while maintaining the same permit ID. This approach ensures a continuous record of the permit's progression without creating duplicate entries. The permit lifecycle typically flows through several stages: filing (status: in_review), approval (status: active), and completion (status: final). If a permit is abandoned or revoked, its status changes to inactive. For each status change, we update the corresponding date fields (file_date, issued_date, final_date) while maintaining the same unique identifier. This consistency allows users to track a permit's complete history without having to piece together fragments across multiple records. Our deduplication process ensures that even when jurisdictions report the same permit multiple times with different statuses, Shovels presents a single, up-to-date record with the most current information.","Data","Permit Data","permit lifecycle,status changes,permit ID,permit tracking","1751085193441","PUBLISHED","false"
+"Shovels Knowledge Base","Why Flat Files Cost More Than API Access","The features that make flat file deliveries more premium than API access","en","https://support.shovels.ai/faq/flat-files-vs-api","Flat file deliveries command a higher price point than API access for several compelling reasons: they contain significantly more data fields, eliminate latency issues, enable complex SQL joins and queries, provide superior support for data science applications, and can include additional datasets like tax assessor files. Furthermore, flat files make it much easier to get complete monthly updates and track differences between time periods - a process that's considerably more challenging when using an API.","Pricing","Product Differences","flat files,data access,API,SQL joins,pricing","1751085194429","PUBLISHED","false"
+"Shovels Knowledge Base","Resolving Addresses","The critical first step in accessing permit data through the API","en","https://support.shovels.ai/faq/api-address-resolution","Address resolution is the essential first step in using Shovels' API effectively. Always begin by resolving the address through our Address Search API endpoint: https://api.shovels.ai/v2/addresses/search. This endpoint searches for addresses that are associated with permits in our system and returns standardized address information along with a unique geo_id. The geo_id serves as the key to unlocking permit data in subsequent API calls. If you query an address that doesn't have any associated permits in our database, the API will return a 200 OK response with an empty items array, indicating the address was understood but no permit data exists. For optimal results, provide as much address information as possible in your query, including street number, street name, city, state, and ZIP code. Our system uses multiple verification sources to standardize addresses, ensuring consistent results even when input formats vary. This standardization process is particularly valuable in the construction industry, where address formatting can be inconsistent across different jurisdictions and permit applications.","API","Address Resolution","search endpoint,address standardization,API,address resolution,geo_id","1751085195482","PUBLISHED","false"
+"Shovels Knowledge Base","Error Handling for Geo ID Queries","Understanding and handling geo_id errors in API requests","en","https://support.shovels.ai/faq/error-handling-geo-id","If you provide an invalid geo_id when querying permits, you'll typically receive a 422 Unprocessable Entity response with the message: ""Invalid geolocation ID value. Have you resolved your address into Shovels geolocation ID?"" Note that if the format is technically valid but doesn't correspond to any known address or permit, you'll receive no error but the response will contain no results.","API","Error Management","troubleshooting,API errors,error handling,geo_id","1751085197362","PUBLISHED","false"
+"Shovels Knowledge Base","Tracking New vs. Modified Records in EDL","How to distinguish between new and modified records in monthly data deliveries","en","https://support.shovels.ai/faq/edl-record-change-tracking","Currently, there is no specific flag indicating changes in the records. However, there is a first_seen_date in the PERMITS table which could be used to determine whether a record is new or pre-existing.","EDL","Data Updates","record tracking,data management,first seen date,data changes","1751085191852","PUBLISHED","false"
+"Shovels Knowledge Base","The ""is_representative"" Field Meaning","Understanding contractor group representation in data deliveries","en","https://support.shovels.ai/faq/edl-representative-field","In Shovels' Enterprise Data License (EDL) deliveries, the ""is_representative"" field serves an important function in understanding contractor relationships. This boolean field indicates whether a particular contractor record is the main representative of a contractor group_id. The group_id is a unique identifier that links together multiple contractors operating under the same parent organization. When is_representative=TRUE, that contractor record contains the canonical or preferred information for the entire group. This feature is particularly valuable for enterprise customers analyzing large contractor datasets, as it helps prevent double-counting of organizations that operate under multiple names or licenses. For example, a national HVAC company might pull permits under regional subsidiaries, but our grouping algorithm identifies these relationships and designates one record as the representative. This enables more accurate market analysis and prevents reaching out to the same organization multiple times under different names.","EDL","Data Structure","contractor groups,EDL,organization structure,data relationships","1751085198021","PUBLISHED","false"
+"Shovels Knowledge Base","Identifying Independent Contractors","Reliable methods to identify sole proprietors and individual contractors","en","https://support.shovels.ai/faq/api-independent-contractor-identification","Identifying independent contractors (ICs) in the Shovels API can be accomplished in several ways. The most reliable method is through the biz_type field, though it has limited coverage across our dataset. As a practical heuristic, if a business name appears to be a person's name (e.g., ""John Smith"" rather than ""Smith Construction""), it often indicates an independent contractor. Other signals that may suggest an independent contractor include: having only a single contact person across all permits, a low permit volume compared to larger firms, and absence of multiple employee records. Independent contractors typically represent a significant portion of the contracting ecosystem, especially in specialized trades like electrical work or plumbing. Understanding which contractors are independent professionals versus larger companies allows for more tailored marketing approaches and helps in accurate market segmentation for products or services targeting the construction industry.","API","Contractor Data","independent contractors,API,business type,contractor identification","1751085185112","PUBLISHED","false"
+"Shovels Knowledge Base","Contractor Address Information Availability","Full USPS addresses available through API responses","en","https://support.shovels.ai/faq/contractor-address-information","Shovels provides complete USPS-standardized addresses for contractors when available through our API responses. This includes street address, city, state, ZIP code, and in many cases unit or suite numbers. Our addresses undergo rigorous verification against multiple sources including the National Address Dataset from the US Census, Open Address dataset, Simple Maps, and ESRI. This multi-source verification ensures the highest possible accuracy for contractor location data. The standardized format makes it easy to integrate with mapping services, CRM systems, or marketing platforms. For enterprise customers using our EDL service, these addresses are delivered in a consistent format that requires minimal cleaning before use in your data pipeline.","Data","Contractor Data","USPS,contractor address,standardized addresses,location data","1751085188190","PUBLISHED","false"
+"Shovels Knowledge Base","Historical Data Coverage","How far back Shovels' historical permit data extends","en","https://support.shovels.ai/faq/data-history","Shovels' data coverage extends back to at least 2010 for all jurisdictions, with many jurisdictions offering data that goes even further back. This timeframe was a technical architecture decision based on the majority of our customers' feedback and use cases. It's worth noting that in some cases, jurisdictions don't pull historical data into their online systems, which can limit how far back certain records go. However, our coverage of the past decade provides sufficient historical context for most analysis needs.","Data","Data Quality","historical data,data timeframe,temporal coverage,data history,2010","1751085188755","PUBLISHED","false"
+"Shovels Knowledge Base","Difference Between Permit Search and Contractor Search","The different results returned by permit versus contractor searches","en","https://support.shovels.ai/faq/permit-contractor-search-difference","Permit search returns permits that were pulled on specific addresses in the geographic area you searched. Contractor search returns B2B contact information, license data, and classification data about the contractors who pulled those permits. It's important to note that not every permit will have an associated contractor. This depends on whether the county/city requires the permit application to include contractor information, and also on whether the contractor chooses to provide this information when applying.","Web Application","User Interface","data retrieval,contractor search,permit search,search functionality","1751085189768","PUBLISHED","false"
+"Shovels Knowledge Base","Differences Between Primary Phone and Phone Fields","How Shovels organizes and prioritizes contractor phone numbers","en","https://support.shovels.ai/faq/phone-field-differences","Shovels differentiates between two important phone number fields in our data: primary_phone and phone. The primary_phone field displays the most frequently used phone number across all permits for a specific contractor, giving you the highest probability contact number for reaching the business. The phone field, on the other hand, provides a comma-separated list of all phone numbers we've encountered for that contractor, ordered by frequency of use. This comprehensive approach gives you both a prioritized main contact number and alternative options if needed. For example, if a contractor has used three different phone numbers across their permit history, with one appearing on 70% of permits and the others on 15% each, the most common number would be designated as the primary_phone, while all three would be listed in the phone field. This dual approach maximizes your chances of successful contractor outreach.","Data","Employee Data","contact information,phone numbers,multiple contacts,primary phone","1751085191393","PUBLISHED","false"
+"Shovels Knowledge Base","NAICS, SIC, and Industry Classification Data","Understanding the sources and limitations of industry classification data","en","https://support.shovels.ai/faq/industry-classification-data","Business industry classifications come from self-reported data, typically through registration or insurance-related transactions. These classifications are quite broad, and companies in higher-risk occupations often use multiple industry identifiers to reduce their workers' compensation insurance liability. There is no central authority governing these categories, so the Primary_industry field should be taken with a grain of salt. NAICS codes are a more modern and specific version of SIC codes, but not as widely adopted, which is why both are included in the data.","Data","Business Information","business categories,SIC,industry classification,NAICS","1751085196208","PUBLISHED","false"
+"Shovels Knowledge Base","Understanding the ""Homeowner"" Field in the Residents Table","How the probabilistic homeowner data is determined and validated","en","https://support.shovels.ai/faq/homeowner-field-residents","The probabilistic homeowner feature in Shovels' residents data is sourced from our data co-op members and represents a consensus-driven determination of property ownership. This data feature is compiled through multiple validation methods to ensure reliability: Consensus: We require 3+ different data signals to confirm data linkages, with reliability ensured through exhaustive validation methods and confirmation from actual usage. For example, the presence of a unit number is considered as part of this compilation. Conformation: This process ensures that data within the ""Consensus"" realm not only represents frequent occurrences but also adheres to proper formatting and data standards, and cannot be invalidated using existing signals. We also offer additional features in our ""Consumer Attributes"" dataset that includes information such as ""number of kids,"" ""grandparent in household,"" etc. Users can also leverage other available features like ""income range,"" ""children,"" and ""net worth"" to identify trends that could help determine homeownership likelihood at certain demographic levels.","Data","Resident Data","homeowner,data reliability,resident attributes,consensus validation,property ownership","1751085184186","PUBLISHED","false"
+"Shovels Knowledge Base","How Filters Work in Shovels Online","Understanding the current limitations of permit counting with filters","en","https://support.shovels.ai/faq/webapp-filter-functionality","When using filters in Shovels Online, it's important to understand how the system processes and displays contractor data. The platform shows contractors based on permits pulled within your specified timeframe and meeting your filter criteria. However, users should note that the count of permits displayed alongside each contractor remains static regardless of the filters applied. This means if a contractor has pulled 100 permits total but only 10 meet your current filter criteria, the platform will still show ""100 permits"" next to their name. We recognize this can be potentially misleading and are working on implementing a dynamic counting system that adjusts according to the applied filters. In the meantime, users can click into individual contractor profiles to see the detailed breakdown of permits that match specific criteria. This functionality is particularly useful for identifying contractors who specialize in certain project types or work in specific geographic areas, even if the count doesn't automatically update with filter changes.","Web Application","User Interface","permit counts,Shovels Online,filters,user interface,search functionality","1751085186136","PUBLISHED","false"
+"Shovels Knowledge Base","Job Titles for Contractor Contacts","Accessing job titles across Shovels products","en","https://support.shovels.ai/faq/contractor-job-titles","Yes, Shovels provides job titles for contractor contacts across all our product offerings. In the API, job titles are available through the employees endpoint, though coverage varies as this information isn't always included in public permit records. For Shovels Online users, you can access job titles by clicking into contractor profiles, where employee information is displayed with their respective roles when available. EDL customers can receive job titles as part of custom reports, with an example available in our documentation. Job titles help you identify decision-makers within contracting companies, allowing for more targeted outreach. Common titles in our database include Owner, Project Manager, Office Manager, and various trade-specific roles like Master Electrician or General Contractor. This information is particularly valuable for sales teams who need to reach specific roles within contracting businesses.","Data","Employee Data","job titles,contractor contacts,roles,decision-makers,employees","1751085190845","PUBLISHED","false"
+"Shovels Knowledge Base","Residential vs. Commercial Permit Distribution","The breakdown of residential versus commercial permits in Shovels' data","en","https://support.shovels.ai/faq/permit-split","Shovels' data includes permits across all asset classes, with a broad distribution of approximately 60% residential permits and 40% commercial permits. This comprehensive coverage ensures that customers have access to permit data across the full spectrum of construction and renovation activities.","Data","Permit Data","asset classes,residential permits,permit distribution,commercial permits","1751085192355","PUBLISHED","false"
+"Shovels Knowledge Base","Data Refresh Frequency and Volume","How often Shovels updates its data and the volume of new information","en","https://support.shovels.ai/faq/data-refresh-frequency","<p>Shovels currently refreshes data twice a month, on the 1st and 15th. Nationwide, we add between 5-10 million new records to the dataset each month, along with 1-5 million status updates to existing records. When a permit status or other data field changes, the jurisdiction updates it in their platform, which allows us to access it. We then clean up the data, incorporate it into our system, and release the updates on the 1st and 15th.</p>","Data","Data Quality","data volume,status updates,new records,update frequency,data refresh","1766111677021","PUBLISHED","false"
+"Shovels Knowledge Base","Size of Data Files","Expected file size for Shovels data deliveries","en","https://support.shovels.ai/faq/file-size","Shovels data is typically delivered as 15-20 GB of Parquet files, optimized for efficient data processing and analysis in modern data environments.","Data","Technical Specifications","data volume,Parquet,file size,technical specifications","1751085196739","PUBLISHED","false"
+"Shovels Knowledge Base","How Shovels Verifies Data Accuracy","The methods Shovels uses to ensure data accuracy and reliability","en","https://support.shovels.ai/faq/data-verification-methods","Shovels verifies data accuracy through multiple external sources. For address standardization, we cross-reference details using four different address sources: the National Address Dataset from the US Census, the Open Address dataset, Simple Maps, and ESRI. For contractor verification, we match contractor information against publicly available state license files, ensuring that the contractors in our database are properly licensed and legitimate operators in their respective fields.","Data","Data Quality","data quality,accuracy,address standardization,data verification,contractor validation","1751085199138","PUBLISHED","false"
+"Shovels Knowledge Base","Contact Names and Emails Discrepancy","Understanding the relationship between contact names and primary emails","en","https://support.shovels.ai/faq/contact-name-email-discrepancy","When working with Shovels data, you may notice that contact names and email addresses don't always align perfectly. This is because our system captures data differently for these two fields. Contact names are specific to individual permits and represent the name provided on that particular permit application. However, primary_email addresses are determined by analyzing frequency across all permits for a given contractor. For example, if John Smith is listed as the contact on a specific permit, but jane.doe@company.com appears most frequently across all of that contractor's permits, the primary_email field will show Jane's email rather than John's. This approach ensures you have the most actively used contact point for the company, which increases the likelihood of successful communication. For customers needing person-specific email matching, we recommend using our advanced contractor profiles which provide more granular employee contact information when available.","Data","Contractor Data","contact information,email addresses,contact names,data relationships","1751085199675","PUBLISHED","false"
+"Shovels Knowledge Base","Filtering Contractors by Company Size","How to use employee count ranges in the API","en","https://support.shovels.ai/faq/api-contractor-filtering","The Shovels API provides comprehensive data about contractors, including their company size. When querying our contractor endpoints, you'll receive employee count ranges in the response payload, which allows you to filter contractors based on specific size requirements. For example, you might want to target only small businesses with fewer than 10 employees, or perhaps you're looking for enterprise-level contractors with 100+ employees. Our size classifications are determined through multiple data points, including business registrations, permit frequency, and other proprietary indicators to ensure accuracy. This feature is particularly useful for sales teams who need to segment their outreach based on company size.","API","Contractor Data","company size,employee count,contractors,API,filtering","1751085201285","PUBLISHED","false"
+"Shovels Knowledge Base","Geographic Coverage and Jurisdiction Distribution","How Shovels prioritizes geographic coverage across jurisdictions","en","https://support.shovels.ai/faq/geographic-coverage","Shovels' coverage follows a power law distribution across the approximately 20,000 jurisdictions in the United States. About 85% of the US population resides in just 15% of jurisdictions, and Shovels has strategically focused on covering these high-density areas first. Currently, we cover approximately 2,000 jurisdictions, representing about 85% of the US population. We continue to expand our coverage, adding 10-30 new jurisdictions and 5-10 million new permits each month. While we're still working on covering the ""long tail"" of smaller jurisdictions, our current coverage already encompasses the majority of America's population centers.","Coverage","Geographic Coverage","population coverage,geographic coverage,jurisdictions,power law,expansion","1763157352153","PUBLISHED","false"
+"Shovels Knowledge Base","What counts as an API request?","New accounts on Shovels receive 250 free API requests to explore our capabilities before committing to a paid plan. This article explains what constitutes an API request so you can maximize the value of those 250 pings.","en","https://support.shovels.ai/what-counts-as-an-api-request","<p data-start=""0"" data-end=""395"">Every HTTP call you make to the Shovels API—no matter which endpoint you hit—deducts 1 request from the 250-request starter quota that comes with new accounts. This applies to the search endpoints (<code data-start=""228"" data-end=""252"">GET /v2/permits/search</code>, <code data-start=""254"" data-end=""282"">GET /v2/contractors/search</code>) and to the detail endpoints (<code data-start=""313"" data-end=""330"">GET /v2/permits</code>, <code data-start=""332"" data-end=""353"" data-is-only-node="""">GET /v2/contractors</code>). <a href=""https://docs.shovels.ai/api-reference/contractors/get-contractors-by-id"" target=""_blank"" rel=""noopener""></a></p>
+<p data-start=""397"" data-end=""682"">How many records can one request return<br>You can ask for up to 100 permits or contractors in a single call by setting the <code data-start=""518"" data-end=""524"">size</code> (or <code data-start=""529"" data-end=""536"">limit</code>) parameter to 100. Whether you retrieve 1 record or 100, it is still just one request against your quota. <a href=""https://docs.shovels.ai/api-reference/permits/search-permits"" target=""_blank"" rel=""noopener""></a></p>
+<p data-start=""684"" data-end=""992"">Detail already included in search results<br>Search responses contain the full detail payload for every record returned, so you usually don’t need a separate detail call. If you do call a detail endpoint—whether for one ID or many IDs—it still counts as only one request. <a href=""https://docs.shovels.ai/api-reference/contractors/get-contractors-by-id"" target=""_blank"" rel=""noopener""></a></p>
+<p data-start=""994"" data-end=""1212"">Practical examples<br data-start=""1012"" data-end=""1015"">• <code data-start=""1017"" data-end=""1050"">GET /v2/permits/search?size=100</code> → 1 request<br data-start=""1062"" data-end=""1065"">• <code data-start=""1067"" data-end=""1091"">GET /v2/permits?id=123</code> → 1 request<br data-start=""1103"" data-end=""1106"">• <code data-start=""1108"" data-end=""1145"">GET /v2/contractors/search?size=100</code> → 1 request<br data-start=""1157"" data-end=""1160"">• <code data-start=""1162"" data-end=""1198"">GET /v2/contractors?id=abc,def,ghi</code> → 1 request</p>
+<p data-start=""1214"" data-end=""1278"">Each of these cases consumes exactly one of your 250 free pings.&nbsp;<br><br>Note that the same request usage applies when you're on a paid plan!&nbsp;</p>","API","","","1751982547308","PUBLISHED","false"
+"Shovels Knowledge Base","How do I find a contractor's service area?","Use the Shovels API to identify all cities and zip codes where a contractor has worked by analyzing their permit history","en","https://support.shovels.ai/how-do-i-find-a-contractors-service-area","<p>Understanding where contractors operate is crucial for expanding coverage to lesser-served regions. Rather than relying on self-reported service areas, you can use a contractor's actual permit history to map their complete service footprint across cities and zip codes.</p>
+<h3 data-hsprotectlevel=""3"">Overview</h3>
+<p>The Shovels API provides access to permit and contractor data, allowing you to programmatically access building permit and contractor information. The API offers access to two primary objects: Permits and Contractors, with permits being official documents issued by city or county authorities required before commencing construction or alterations to a building.</p>
+<h3 data-hsprotectlevel=""3"">How It Works</h3>
+<p>To determine a contractor's service area, you'll analyze their permit history to create a unique list of cities and zip codes where they've worked. This approach provides concrete evidence of their actual operating territories rather than claimed service areas.</p>
+<h3 data-hsprotectlevel=""3"">API Authentication</h3>
+<p>Authentication is required for any API request that you make, whether it's in the API Playground or in your own scripts. We use a simple header-based authentication method, X-API-Key: YOUR_API_KEY_HERE. This is available in your Profile Settings &gt; API Key.</p>
+<h3 data-hsprotectlevel=""3"">Step-by-Step Process</h3>
+<p><strong>Step 1: Get Permits for a Contractor</strong></p>
+<p>Use the <code>/v2/permits/search</code> endpoint to retrieve permits for a specific contractor using the contractor_id parameter. In cases where the required field is a value, like a specific contractor_id or address_id, then it's mandatory to first retrieve the foundational data point before getting the insights for it.</p>
+<div>
+<div>
+<div>
+<div>&nbsp;</div>
+</div>
+</div>
+<div>bash</div>
+<div>
+<pre><code>curl -X GET \<br>  'https://api.shovels.ai/v2/permits/search?contractor_id=YOUR_CONTRACTOR_ID&amp;permit_from=2022-01-01&amp;permit_to=2024-12-31' \<br>  -H 'X-API-Key: YOUR_API_KEY_HERE'</code></pre>
+</div>
+</div>
+<p><strong>Step 2: Extract Geographic Data</strong></p>
+<p>The response includes a wealth of information about each permit including jurisdiction and location details. From each permit record, extract:</p>
+<ul data-hsprotectdepth=""0"">
+<li data-hsprotectindex=""0"">City/jurisdiction names</li>
+<li data-hsprotectindex=""1"">Zip codes</li>
+<li data-hsprotectindex=""2"">Any additional geographic identifiers</li>
+</ul>
+<p><strong>Step 3: Create Unique Lists</strong></p>
+<p>Process the permit data to create deduplicated lists of:</p>
+<ul data-hsprotectdepth=""0"">
+<li data-hsprotectindex=""0"">All cities where the contractor has worked</li>
+<li data-hsprotectindex=""1"">All zip codes in their service area</li>
+<li data-hsprotectindex=""2"">Geographic coverage patterns over time</li>
+</ul>
+<h3 data-hsprotectlevel=""3"">Understanding Permit Data Structure</h3>
+<p>The response includes information about each permit including description, number, jurisdiction, property_type, tags, and other relevant data. The current version of the API is v2, which is reflected in the endpoints URL structure: /v2/.</p>
+<h3 data-hsprotectlevel=""3"">Geographic Filtering Capabilities</h3>
+<p>The new geo_id system enables precise searching by address, zip code, jurisdiction, city, and county - making location-based queries more powerful than ever. With the brand new geo_id schema, we can expand our search capabilities to a broader capacity, now including counties and jurisdictions.</p>
+<h3 data-hsprotectlevel=""3"">Best Practices</h3>
+<ol data-hsprotectdepth=""0"">
+<li data-hsprotectindex=""0""><strong>Use Date Ranges</strong>: Generally speaking, the required fields are the start and end dates for the query, and the corresponding geo_id to point the query to the right place. Query recent permit data (last 2-3 years) for active service areas.</li>
+<li data-hsprotectindex=""1""><strong>Handle Pagination</strong>: The API returns data in JSON format, either as pages or single objects. Make sure to handle paginated responses to get complete permit histories.</li>
+<li data-hsprotectindex=""2""><strong>Filter by Property Type</strong>: Use property_type parameters to filter by residential or commercial work to understand different service area patterns.</li>
+</ol>
+<h3 data-hsprotectlevel=""3"">Shovels Online Alternative</h3>
+<p>In Shovels Online, we show recent permits for each contractor. You can search for permits and contractors at the county, city, or even specific address level and download permit and contractor data to CSV with a single click.</p>
+<h3 data-hsprotectlevel=""3"">Additional Resources</h3>
+<p>For more detailed information about using the API, check out the API Reference tab in the documentation hub which outlines all endpoints, parameters, requirements, and responses. You can also use the /list/* endpoints to get the latest valid values for tags and other filters.</p>
+<p>For technical support or questions about implementing this approach, reach out to Support at <a href=""mailto:support@shovels.ai"">support@shovels.ai.</a></p>","API","Contractor Data","","1752086896315","PUBLISHED","false"
+"Shovels Knowledge Base","How do I pull contractor employee email information at scale?","Learn how to use the Shovels API to retrieve contractor employee contact details including business and personal emails, job titles, and seniority levels for targeted outreach.","en","https://support.shovels.ai/how-do-i-pull-contractor-employee-email-information-at-scale","<p>The Shovels API provides a dedicated endpoint to retrieve employee information for specific contractors, including both personal and business email addresses, job titles, and seniority levels. This is particularly useful for identifying key decision-makers like owners, sales directors, and other personnel likely to respond to outreach efforts.</p>
+<h3 data-hsprotectlevel=""3"">Using the List Contractor Employees Endpoint</h3>
+<p>The <code>/contractors/{id}/employees</code> endpoint returns comprehensive employee data for a specific contractor. Here's how to use it:</p>
+<p><strong>Endpoint:</strong> <code>GET /contractors/{id}/employees</code></p>
+<p><strong>Authentication:</strong> Include your API key in the header as <code>X-API-Key: YOUR_API_KEY_HERE</code></p>
+<p><strong>Required Parameters:</strong></p>
+<ul data-hsprotectdepth=""0"">
+<li data-hsprotectindex=""0""><code>{id}</code> - The contractor ID (path parameter)</li>
+</ul>
+<p><strong>Optional Parameters:</strong></p>
+<ul data-hsprotectdepth=""0"">
+<li data-hsprotectindex=""0""><code>cursor</code> - For pagination through large result sets</li>
+<li data-hsprotectindex=""1""><code>page</code> - Page number for offset-based pagination</li>
+<li data-hsprotectindex=""2""><code>size</code> - Number of items per page (1-100)</li>
+</ul>
+<h3 data-hsprotectlevel=""3"">Sample Request</h3>
+<div>
+<div>
+<div>
+<div>&nbsp;</div>
+</div>
+</div>
+<div>bash</div>
+<div>
+<pre><code>curl --request GET \<br>  --url https://api.shovels.ai/v2/contractors/{id}/employees \<br>  --header 'X-API-Key: YOUR_API_KEY_HERE'</code></pre>
+</div>
+</div>
+<h3 data-hsprotectlevel=""3"">Response Data</h3>
+<p>The API returns employee records containing:</p>
+<p><strong>Contact Information:</strong></p>
+<ul data-hsprotectdepth=""0"">
+<li data-hsprotectindex=""0""><code>email</code> - Personal email address</li>
+<li data-hsprotectindex=""1""><code>business_email</code> - Business email address</li>
+<li data-hsprotectindex=""2""><code>phone</code> - Phone number</li>
+<li data-hsprotectindex=""3""><code>linkedin_url</code> - LinkedIn profile</li>
+</ul>
+<p><strong>Professional Details:</strong></p>
+<ul data-hsprotectdepth=""0"">
+<li data-hsprotectindex=""0""><code>job_title</code> - Current position</li>
+<li data-hsprotectindex=""1""><code>seniority_level</code> - Senior, Mid, Junior, etc.</li>
+<li data-hsprotectindex=""2""><code>department</code> - Department or division</li>
+</ul>
+<p><strong>Additional Data:</strong></p>
+<ul data-hsprotectdepth=""0"">
+<li data-hsprotectindex=""0""><code>name</code> - Full name</li>
+<li data-hsprotectindex=""1"">Address details (street, city, state, zip)</li>
+<li data-hsprotectindex=""2"">Demographics (age range, income range, etc.)</li>
+</ul>
+<h3 data-hsprotectlevel=""3"">Scaling Your Data Collection</h3>
+<p><strong>Pagination:</strong> The endpoint supports cursor-based pagination for handling large employee lists. Use the <code>next_cursor</code> value from the response to retrieve subsequent pages.</p>
+<p><strong>Bulk Processing:</strong> To process multiple contractors at scale:</p>
+<ol data-hsprotectdepth=""0"">
+<li data-hsprotectindex=""0"">First, obtain contractor IDs using the contractors search endpoints</li>
+<li data-hsprotectindex=""1"">Iterate through each contractor ID</li>
+<li data-hsprotectindex=""2"">Call the employees endpoint for each contractor</li>
+<li data-hsprotectindex=""3"">Implement proper error handling and rate limiting</li>
+</ol>
+<p><strong>Targeting Decision Makers:</strong> Filter results by <code>seniority_level</code> (Senior, Executive) and <code>job_title</code> to identify owners, sales directors, and other key personnel most likely to respond to outreach.</p>
+<h3 data-hsprotectlevel=""3"">Best Practices</h3>
+<ul data-hsprotectdepth=""0"">
+<li data-hsprotectindex=""0"">Respect rate limits and avoid frivolous requests</li>
+<li data-hsprotectindex=""1"">Use pagination to handle large datasets efficiently</li>
+<li data-hsprotectindex=""2"">Store and cache results to minimize API calls</li>
+<li data-hsprotectindex=""3"">Filter by job titles and seniority levels to focus on decision-makers</li>
+<li data-hsprotectindex=""4"">Always include proper error handling in your implementation</li>
+</ul>
+<h3 data-hsprotectlevel=""3"">Getting Started</h3>
+<p>To begin using this endpoint, you'll need a Shovels API key available in your Profile Settings. The API includes a free trial with 250 requests to help you test the functionality before committing to a paid plan.</p>","API","Contractor Data","","1752087134725","PUBLISHED","false"
+"Shovels Knowledge Base","Where do you source your data from?","
+","en","https://support.shovels.ai/where-do-you-source-your-data-from","<h4>We source the data directly from the jurisdictions, either via our relationships with the local governments, or through integration with their online permitting portals.</h4>","Data","","","1758735391413","PUBLISHED","false"
+"Shovels Knowledge Base","Is there a unique identifier for each permit?","","en","https://support.shovels.ai/is-there-a-unique-identifier-for-each-permit","Yes, the unique identifier for each permit is the ""ID,"" which is generated by Shovels and is unique to every permit. This is distinct from ""permit_no"" which is the permit number assigned by the jurisdiction. There are cases where two different jurisdictions coincidentally assign the same permit_no to two different permits, so the best way to organize the data by unique permit identifiers is the 'ID"". See our <a href=""https://docs.google.com/spreadsheets/d/1qiIxx37_-6vGfGp2i5pXv4w2FdsLsShjCqSVO5v6OMQ/edit?gid=1818227349#gid=1818227349"" target=""_blank"" rel=""noopener"">data dictionary</a> for more of our schema.","Data","","","1752204986845","PUBLISHED","false"
+"Shovels Knowledge Base","Why do some permit numbers appear to be duplicates?","","en","https://support.shovels.ai/why-do-some-permit-numbers-appear-to-be-duplicates","Permit numbers may appear as duplicates because they are assigned by the city, and different cities may use the same numbering system. The Shovels ID is used to differentiate between permits from different cities. See our <a href=""https://docs.google.com/spreadsheets/d/1qiIxx37_-6vGfGp2i5pXv4w2FdsLsShjCqSVO5v6OMQ/edit?gid=1818227349#gid=1818227349"" target=""_blank"" rel=""noopener"">data dictionary</a> for full schema.","Data","","","1752205057965","PUBLISHED","false"
+"Shovels Knowledge Base","How is the start date and end date defined in the data?","","en","https://support.shovels.ai/how-is-the-start-date-and-end-date-defined-in-the-data","The start date is the first date recorded for a permit, while the end date is the last date recorded. These date fields are generated by Shovels and help customers understand the timeline of each permit. See this <a href=""https://www.shovels.ai/blog/shovels-101-permit-statuses/"" target=""_blank"" rel=""noopener"">blog post</a> for more information.","Data","","","1752205178516","PUBLISHED","false"
+"Shovels Knowledge Base","What does it mean if a permit has a final status but no final date?","","en","https://support.shovels.ai/what-does-it-mean-if-a-permit-has-a-final-status-but-no-final-date","If a permit has a final status but no final date, it typically indicates that the permit was issued as an over-the-counter permit, meaning it was approved immediately without the need for a follow-up inspection.","Data","","","1752205256392","PUBLISHED","false"
+"Shovels Knowledge Base","What format can the data be delivered in?","","en","https://support.shovels.ai/what-format-can-the-data-be-delivered-in","The data can be delivered in various formats, including Parquet, CSV, or JSON. The preferred format can be determined based on the team's needs.","EDL","","","1752205579199","PUBLISHED","false"
+"Shovels Knowledge Base","What types of permits are considered over-the-counter permits?","","en","https://support.shovels.ai/what-types-of-permits-are-considered-over-the-counter-permits","Over-the-counter permits often include simpler projects like solar installations or plumbing work, which may not require extensive review by the city. However, this can vary by city and county.","Data","","","1752205578096","PUBLISHED","false"
+"Shovels Knowledge Base","Will there be ongoing support after the initial data delivery?","","en","https://support.shovels.ai/will-there-be-ongoing-support-after-the-initial-data-delivery","Yes, ongoing support can be arranged through regular calls to help interpret and work through the data as needed.","EDL","","","1752205578681","PUBLISHED","false"
+"Shovels Knowledge Base","How are property types and details categorized in the data?","","en","https://support.shovels.ai/how-are-property-types-and-details-categorized-in-the-data","Property types and details are derived from a tax assessor file, which is included in the data delivery. However, there may be gaps in coverage, and efforts are ongoing to improve this data.","Data","","","1752205579690","PUBLISHED","false"
+"Shovels Knowledge Base","What documentation proves a contractor's legitimacy and compliance with regulations?","","en","https://support.shovels.ai/-temporary-slug-314f14ff-0b4c-4524-b983-afad74f95737","","","","","1752551609532","DRAFT","false"
+"Shovels Knowledge Base","Can Shovels API do fuzzy matching?","","en","https://support.shovels.ai/can-shovels-api-do-fuzzy-matching","<p>Address lookup is fuzzy.</p>
+<p>Contractor lookup is exact, or you can put in part of the name.</p>
+<div aria-setsize=""-1"" data-qa=""virtual-list-item"" data-item-key=""1752873686.388909"" data-hsprotectrole=""listitem"">
+<div data-qa=""message_container"" data-qa-unprocessed=""false"" data-qa-placeholder=""false"" data-hsprotectrole=""presentation"">
+<div data-qa-hover=""true"" data-hsprotectrole=""document"" data-hsprotectaria-roledescription=""message"">
+<div data-qa=""message_content"" data-hsprotectrole=""presentation"">
+<div data-qa=""message-text"">
+<div data-qa=""block-kit-renderer"">
+<div dir=""auto"">&nbsp;</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div aria-setsize=""-1"" data-qa=""virtual-list-item"" data-item-key=""1752873782.345489"" data-hsprotectrole=""listitem"">
+<div data-qa=""message_container"" data-qa-unprocessed=""false"" data-qa-placeholder=""false"" data-hsprotectrole=""presentation"">
+<div data-qa-hover=""true"" data-hsprotectrole=""document"" data-hsprotectaria-roledescription=""message"">
+<div>
+<div>
+<div data-qa=""message_content"" data-hsprotectrole=""presentation"">
+<div>
+<div data-qa=""message-text"">
+<div data-qa=""block-kit-renderer"">
+<div>
+<div dir=""auto"">
+<div>For example, &nbsp;'John Smith Panels' you can search by 'John', 'Joh', 'Sm', 'Panels'</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>","API","","","1752879712404","PUBLISHED","false"
+"Shovels Knowledge Base","What data fields are included in permit  downloads?","Shovels permit record downloads include 40 data fields covering permit details, timelines, property characteristics, and geographic information. Includes permit IDs, job values, approval durations, property valuations, contractor details, and location coordinates.","en","https://support.shovels.ai/what-data-fields-are-included-in-the-permits-file-download","<h4><a href=""https://48146409.fs1.hubspotusercontent-na1.net/hubfs/48146409/permits_download_sample.csv"" rel=""noopener"">Download a sample</a><br></h4>
+<p>Each record in the&nbsp;permits download&nbsp;represents a single permit application with detailed information spanning the entire permit lifecycle, associated property characteristics, and geographic identifiers.</p>
+<h4>Key Data Categories</h4>
+<p><strong>Permit Information</strong> The dataset includes core permit details such as unique identifiers, descriptions, permit numbers, jurisdictions, job values, types and subtypes, associated fees, and current status. This provides essential context for understanding the scope and nature of each construction project.</p>
+<p><strong>Timeline and Duration Tracking</strong> Comprehensive date fields capture the permit journey from initial filing through final completion, including file date, issue date, final date, start date, and end date. Duration metrics track total project time, construction phases, and approval processes, along with inspection pass rates for quality assessment.</p>
+<p><strong>Location and Property Details</strong> Geographic data includes street addresses, cities, counties, ZIP codes, latitude/longitude coordinates, census tracts, and congressional districts. Property characteristics cover ownership information, assessed market values, lot sizes, building areas, story counts, unit counts, and year built - providing crucial context for market analysis and property valuation.</p>
+<p><strong>Additional Metadata</strong> The dataset includes contractor IDs for tracking key industry players and tags for flexible categorization and filtering.</p>","Web Application","","","1753150848564","PUBLISHED","false"
+"Shovels Knowledge Base","What data fields are included in contractor downloads?","Comprehensive contractor dataset with 44 data fields covering business details, contact information, performance metrics, licensing status, and project history. Includes revenue estimates, review ratings, job values, permit counts, and inspection pass rates for informed contractor selection.","en","https://support.shovels.ai/what-data-fields-are-included-in-contractor-downloads","<h4><a href=""https://48146409.fs1.hubspotusercontent-na1.net/hubfs/48146409/contractors_download_sample.csv"" rel=""noopener"">Download a sample</a><br></h4>
+<p>This contractors dataset provides comprehensive contractor intelligence with 1,000 records across 44 data fields. Each record represents a licensed contractor with detailed business information, performance metrics, licensing status, and project history tracked by Shovels.</p>
+<h4>Key Data Categories</h4>
+<p><strong>Business Identity and Contact Information</strong> The dataset includes contractor identification through unique IDs, license numbers, individual and business names, business types, and classifications. Complete contact details feature primary and secondary phone numbers, email addresses, websites, and full address information including street addresses, cities, ZIP codes, jurisdictions, counties, and geographic coordinates.</p>
+<p><strong>Business Intelligence and Market Data</strong> Professional profiles include DBA (doing business as) names, SIC and NAICS industry codes, LinkedIn profiles, revenue estimates, employee counts, and primary industry classifications. Customer feedback is captured through review counts and average ratings, providing reputation insights for contractor evaluation.</p>
+<p><strong>Performance Metrics and Project History</strong> Comprehensive project analytics track average job values, total job values, and permit counts to assess contractor scale and activity levels. Quality indicators include average construction durations and inspection pass rates, enabling performance-based contractor selection and risk assessment.</p>
+<p><strong>Licensing and Status Tracking</strong> License management data covers issue dates, expiration dates, activation dates, and inactivation dates. Activity status is tracked across multiple states including final, active, unknown, and inactive classifications, with first seen dates establishing contractor tenure in the market.</p>
+<p>This contractor intelligence enables users to identify qualified contractors, assess performance history, verify licensing status, and make informed decisions for construction projects and business partnerships.</p>","Web Application","","","1753150760839","PUBLISHED","false"
+"Shovels Knowledge Base","What are the key sources you are pulling data from?","Shovels pulls building permit data primarily from local jurisdictions directly.","en","https://support.shovels.ai/what-are-the-key-sources-you-are-pulling-data-from","<p>We gather permit data from a variety of municipal and county government sources across the United States. Our key sources include:</p>
+<ul>
+<li><strong>Local jurisdiction websites:</strong> We collect data directly from city and county building departments' online permit portals</li>
+<li><strong>Municipal open data portals:</strong> Many jurisdictions publish their permit data through dedicated open data initiatives</li>
+<li><strong>Building department APIs:</strong> When available, we connect to official jurisdiction APIs to access permit information</li>
+<li><strong>Public records requests:</strong> For jurisdictions without digital access, we obtain data through formal records requests</li>
+</ul>
+<p>We then supplement this permit data with additional information from:</p>
+<ul>
+<li><strong>State contractor licensing boards:</strong> To verify contractor information and licensing status</li>
+<li><strong>Address standardization databases:</strong> We use multiple sources (National Address Dataset from the US Census, Open Address dataset, Simple Maps, and ESRI) to standardize and geocode addresses</li>
+<li><strong>Tax assessor records:</strong> To enhance property information associated with permits</li>
+</ul>
+<p>Currently, we cover jurisdictions representing about 80% of the US population, with new jurisdictions being added monthly.</p>
+<!-- notionvc: 12b77a8b-8406-4ebd-a53b-7816871ebb26 -->","Coverage","","","1753151124292","PUBLISHED","false"
+"Shovels Knowledge Base","Where does your data come from?","","en","https://support.shovels.ai/where-does-your-data-come-from","We collect the data directly from the cities and counties, either through digital methods, or offline methods such as calling their offices and submitting requests. We don't purchase this data from any other source, and instead get it straight from the source","Data","","","1754003624407","PUBLISHED","false"
+"Shovels Knowledge Base","What is your pricing structure?","","en","https://support.shovels.ai/pricing-structure","<p>For Shovels Online and Shovels API, you can create an account <a href=""http://app.shovels.ai"" rel=""noopener"">here</a> to see our latest pricing options.</p>
+<p>For Enterprise Data options, please contact sales@shovels.ai to talk to someone about your custom needs.</p>","Pricing","","","1754084415783","PUBLISHED","false"
+"Shovels Knowledge Base","When is it better to us API vs. EDL or vice versa?","","en","https://support.shovels.ai/when-is-it-better-to-us-api-vs.-edl-or-vice-versa","The&nbsp;API&nbsp;is great for looking up addresses and contractors, product integrations, and local lead lists. If you're trying to get every contractor across multiple counties, and you want all the fields we offer, that's our EDL. We can push this directly into BigQuery, Snowflake, or deliver as parquet files.&nbsp;","Data","","","1754148259651","PUBLISHED","false"
+"Shovels Knowledge Base","How do I get resident or homeowner email contact information from Shovels?","","en","https://support.shovels.ai/how-do-i-get-resident-or-homeowner-email-contact-information-from-shovels","Email contact information can be a bit nuanced, because there are several sources where the contact information will come from, so you'll have to take a look across all of them to see what you can find:<br>
+<ul>
+<li>APPLICANT_EMAIL from PERMITS table:&nbsp; If there's an email of the applicant, we will include it here. Sometimes it's the homeowner email, sometimes it's a builder or their contractor (depends on who is applying) - this is EDL only, not in the API</li>
+<li>OWNER_EMAIL from the PERMITS table: same, this comes from the permit; if it's there, we will include it if someone filled it out (note: if filled, this is the owner email at time of permit submission, so it could have changed depending on how old the permit is) - this is EDL only, not in the API</li>
+<li>PERSONAL_EMAILS and BUSINESS_EMAIL from the RESIDENTS table. You'll also have to filter for HOMEOWNER = Y on these. If we have data on the residents (aka homeowners') emails, we''ll include in these fields. - this is both EDL and API</li>
+</ul>
+<p>For API users, to get the contact info from the RESIDENTS table/endpoint, you need to pass the address_id from the permit object into the <a href=""https://docs.shovels.ai/api-reference/addresses/get-residents"" target=""_blank"" rel=""noopener"" data-saferedirecturl=""https://www.google.com/url?q=https://docs.shovels.ai/api-reference/addresses/get-residents&amp;source=gmail&amp;ust=1755206242339000&amp;usg=AOvVaw1iRJy3SIoXXVL-4MmsS_BM"">residents endpoint</a>. This endpoint will give contact info like name, phone, and email on occupants associated with the address.</p>","EDL","","","1755215582585","PUBLISHED","false"
+"Shovels Knowledge Base","How does Shovels Online work?","Shovels Online is a powerful tool to help you find building permits and building contractors anywhere in the USA.","en","https://support.shovels.ai/how-does-shovels-online-work","<h4>Dashboard Search Functionality</h4>
+<h3>How does the search function work?</h3>
+<p>The Shovels dashboard uses an ""AND"" search logic. This means when you select multiple search criteria, the results will show permits that match ALL selected criteria, not just one or the other.</p>
+<h3>Can I search by specific keywords?</h3>
+<p>Yes, you can search by description keywords. This is particularly useful when looking for specific brand names (like Tesla), building materials, or equipment types (such as heat pumps).</p>
+<p>&lt;aside&gt; Note: The search system currently does not account for typos or variations in terminology. Contractors may use different abbreviations (like ""SFR"" instead of ""single family residence""), so keep this in mind when searching.</p>
+<p>&lt;/aside&gt;</p>
+<h4>Permit Statuses Explained</h4>
+<ul>
+<li>
+<p>What do the different permit statuses mean?</p>
+<p>Permits in the Shovels dashboard can have the following statuses:</p>
+<ul>
+<li><strong>Applied For:</strong> The permit is in review</li>
+<li><strong>Active:</strong> The permit has been approved</li>
+<li><strong>Finaled:</strong> The permit is fully completed</li>
+<li><strong>Inactive:</strong> No date changes have been observed for this permit in a while</li>
+</ul>
+<p>For more detailed information on permit statuses, check out the blog post on the Shovels website.</p>
+</li>
+</ul>
+<h4>Contractor Search</h4>
+<h3>How can I find contractors?</h3>
+<p>You can search for contractors based on the types of permits they've pulled. The contractor search provides:</p>
+<ul>
+<li>Business names</li>
+<li>Total lifetime number of permits pulled</li>
+<li>Detailed contractor information (for full subscribers)</li>
+<li>Contact information</li>
+<li>History of permits they've pulled</li>
+</ul>
+<p>&lt;aside&gt; Important: Not all permits include contractor information. Some jurisdictions don't require contractors to provide their contact details.</p>
+<p>&lt;/aside&gt;</p>
+<h4>Permit Search</h4>
+<h3>What information is available about permits?</h3>
+<p>When viewing permits, you'll see:</p>
+<ul>
+<li>Permit status</li>
+<li>Address (when available)</li>
+<li>Detailed information about the work being done</li>
+</ul>
+<p>Note that some permits may not have addresses. This is common with new construction permits where an address hasn't been assigned yet.</p>
+<h4>Data Export Options</h4>
+<h3>Can I export the data?</h3>
+<p>Paying customers can download search results as CSV files. This feature is not available on trial accounts.</p>
+<h4>Additional Resources</h4>
+<h3>Where can I learn more about the data available?</h3>
+<p>Check out the Data Dictionary on the Shovels website. It provides information on:</p>
+<ul>
+<li>Data schema</li>
+<li>Permit categories</li>
+<li>Contractor information</li>
+<li>Additional appended data points</li>
+</ul>
+<h4>Contact Information</h4>
+<p>For support questions: <a href=""mailto:support@shovels.ai"">support@shovels.ai</a></p>
+<p>For sales inquiries about API access, upgrading Shovels Online, or enterprise products: <a href=""mailto:sales@shovels.ai"">sales@shovels.ai</a></p>
+<!-- notionvc: de37e113-4884-4c9e-a9f8-20c2cb8389d5 -->","Web Application","User Interface","","1755480794869","PUBLISHED","false"
+"Shovels Knowledge Base","What if I need to search for permits in a specific state?","","en","https://support.shovels.ai/faq/api-permit-in-state","<div id=""post-body"">
+ <p>Use the 2-letter state abbreviation for the geo_ID. Examples: California = CA, Texas = TX, Florida = FL</p>
+ <p>Access our <a href=""https://docs.shovels.ai/docs/shovels-api-introduction"" rel=""noopener"" target=""_blank"">API documentation</a> for further details.</p> 
+</div>","API","Permit Data","API,state","1758747099777","PUBLISHED","false"
+"Shovels Knowledge Base","Is there a way to automate API calls?","","en","https://support.shovels.ai/faq/api-automate-calls","<div id=""post-body"">
+ <p>Yes, developers can automate API calls by integrating the API into their applications using programming languages like Python, as demonstrated by generating code snippets from the API documentation.</p>
+ <p>Access our <a href=""https://docs.shovels.ai/docs/shovels-api-introduction"" rel=""noopener"" target=""_blank"">API documentation</a> for further details.</p> 
+</div>","API","API Basics","automation,automate,automate calls,API","1758747100226","PUBLISHED","false"
+"Shovels Knowledge Base","What is an API endpoint?","","en","https://support.shovels.ai/faq/api-endpoint","<div id=""post-body"">
+ <p>An API endpoint is a specific URL that represents a particular function or query within the API. Each endpoint is designed to answer a specific question or request related to the data.</p>
+ <p>Access our <a href=""https://docs.shovels.ai/docs/shovels-api-introduction"" rel=""noopener"" target=""_blank"">API documentation</a> for further details.</p> 
+ <p>Access our <a href=""https://docs.shovels.ai/docs/shovels-api-introduction"" rel=""noopener"" target=""_blank"">API documentation</a> for further details.</p> 
+</div>","API","API Basics"," endpoint,api endpoint,API","1758747095619","PUBLISHED","false"
+"Shovels Knowledge Base","How many permits can I retrieve in one API call?","You can retrieve 100 permits per API call","en","https://support.shovels.ai/faq/api-permits-per-call","<div id=""post-body"">
+ <p>You can retrieve a maximum of 100 permits per API call. If you need more data, you will have to paginate through the results using the next cursor value provided in the response.</p>
+ <p>Access our <a href=""https://docs.shovels.ai/docs/shovels-api-introduction"" rel=""noopener"" target=""_blank"">API documentation</a> for further details.</p> 
+</div>","API","API Basics"," permit limit,permits,API,api call","1758747096125","PUBLISHED","false"
+"Shovels Knowledge Base","What are query parameters?","","en","https://support.shovels.ai/faq/api-query-parameters","<div id=""post-body"">
+ <p>Query parameters are additional details you can include in your API request to specify the data you want to retrieve. They help refine your query to get more relevant results.</p>
+ <p>Access our <a href=""https://docs.shovels.ai/docs/shovels-api-introduction"" rel=""noopener"" target=""_blank"">API documentation</a> for further details.</p> 
+</div>","API","API Basics","query parameters,API,query params","1758747096614","PUBLISHED","false"
+"Shovels Knowledge Base","What is the rate limit for API calls?","This depends on your API plan","en","https://support.shovels.ai/faq/api-rate-limit","<div id=""post-body"">
+ <p>It depends on the API plan you're on. API Starter gives you 10,000 calls per month. Shovels also has additional tiers with higher limits, feel free to <a href=""https://www.shovels.ai/contact"" rel=""noopener"" target=""_blank"">contact us</a> for more details.</p>
+ <p>Access our <a href=""https://docs.shovels.ai/docs/shovels-api-introduction"" rel=""noopener"" target=""_blank"">API documentation</a> for further details.</p> 
+</div>","API","API Basics","rate limit,API","1758747098771","PUBLISHED","false"
+"Shovels Knowledge Base","How can I find the Geo ID for a specific address?","","en","https://support.shovels.ai/faq/api-find-geo_id","<div id=""post-body"">
+ <p>You can find the Geo ID for a specific address by using the 'search addresses' endpoint in the API, which will return the geo_id associated with that address.</p>
+ <p>Access our <a href=""https://docs.shovels.ai/docs/shovels-api-introduction"" rel=""noopener"" target=""_blank"">API documentation</a> for further details.</p> 
+</div>","API","API Basics","geo_id,address,geoid,API,geo id","1758747095159","PUBLISHED","false"
+"Shovels Knowledge Base","What does a 422 error mean when making an API call?","A 422 means you are missing a parameter","en","https://support.shovels.ai/faq/api-422-error","<div id=""post-body"">
+ <p>A 422 error indicates that there is a missing required parameter in your API request. For example, if you forget to include the GEOID when querying permits, you will receive this error. The JSON output will help identify what is missing.</p>
+ <p>Access our <a href=""https://docs.shovels.ai/docs/shovels-api-introduction"" rel=""noopener"" target=""_blank"">API documentation</a> for further details.</p> 
+</div>","API","Error Management","422, error 422,API,error","1769214331342","PUBLISHED","false"
+"Shovels Knowledge Base","How can I tell if my API request was successful?","","en","https://support.shovels.ai/faq/api-successful-call","<div id=""post-body"">
+ <p>A successful API request will return a 200 status code along with the requested data. If there are issues, you will receive an error code indicating the problem.</p>
+ <p>Access our <a href=""https://docs.shovels.ai/docs/shovels-api-introduction"" rel=""noopener"" target=""_blank"">API documentation</a> for further details.</p> 
+</div>","API","API Basics","request,success,API","1758747099313","PUBLISHED","false"
+"Shovels Knowledge Base","What happens if I exceed my API call limit?","You must wait until your next billing cycle","en","https://support.shovels.ai/faq/api-exceed-call-limit","<div id=""post-body"">
+ <p>If you exceed your API call limit, you will not be able to make additional requests until your limit resets, which typically occurs at the start of the next billing cycle.</p>
+ <p>Access our <a href=""https://docs.shovels.ai/docs/shovels-api-introduction"" rel=""noopener"" target=""_blank"">API documentation</a> for further details.</p> 
+</div>","API","API Basics","API,call limit,api call limit","1758747094618","PUBLISHED","false"
+"Shovels Knowledge Base","What is the difference between path parameters and query parameters?","","en","https://support.shovels.ai/faq/api-path-vs-query-parameters","<div id=""post-body"">
+ <p>Path parameters are included in the URL path of the API request and are used to specify a particular resource, while query parameters are added to the URL to filter or refine the results of the request.</p>
+ <p>Access our <a href=""https://docs.shovels.ai/docs/shovels-api-introduction"" rel=""noopener"" target=""_blank"">API documentation</a> for further details.</p> 
+</div>","API","API Basics","query parameter,API,path parameter","1758747097297","PUBLISHED","false"
+"Shovels Knowledge Base","How do I access my API key?","To access your API key, login to your Shovels account and go to the Accounts section","en","https://support.shovels.ai/faq/api-access-key","<div id=""post-body"">
+ <p>You can access your API key by <a href=""https://app.shovels.ai/profile-settings/"" rel=""noopener"" target=""_blank"">logging into your account on the Shovels platform</a> and navigating to the Accounts section where the API key is displayed.</p>
+ <p>Access our <a href=""https://docs.shovels.ai/docs/shovels-api-introduction"" rel=""noopener"" target=""_blank"">API documentation</a> for further details.</p> 
+</div>","API","API Basics","API,api key, key","1758751056176","PUBLISHED","false"
+"Shovels Knowledge Base","How does the deduplication process for the CONTRACTOR_ID work?","Are contractor IDs deduplicated across different states? ","en","https://support.shovels.ai/are-contractor-ids-deduplicated-across-different-states","<h4>We assign a unique contractor_ID to any contractor we see in our system, and work very hard to make sure this contractor_ID is deduplicated and a unique ID for the contractors that we collect from the permits. In our permits table, we include the contractor_ID whenever there is an associated contractor. If we believe a unique contractor with a unique contractor_ID is associated with a larger group or parent company (e.g. if we see a local plumber, and believe they are a local branch of a regional plumber), we will also associate that contractor_ID with a contractor group_ID. We do this per state, which means&nbsp;the same contractor ID will not appear across different states. For example, if ABC Plumbing Inc does business in both CA and AZ, it will have 2 unique contractor_IDs. However we are working on creating a national contractor ID, check our blog for latest announcements!</h4>","EDL","","","1759099143644","PUBLISHED","false"
+"Shovels Knowledge Base","Understanding the Difference Between 'Unknown' and 'None' Permit Statuses","","en","https://support.shovels.ai/-temporary-slug-5f05c86f-b524-4b90-b1a3-a8e100c17155","<p><strong>Summary:</strong> This article explains the difference between 'Unknown' and 'None' permit statuses as they relate to permit tracking.</p>
+<h2>Understanding Permit Statuses</h2>
+<p>In the context of permit tracking, various statuses are used to indicate the progress of a permit. Common statuses include &quot;in_review,&quot; &quot;active,&quot; &quot;final,&quot; and &quot;inactive.&quot; These terms help track a permit's journey from filing to completion or discontinuation.</p>
+<h2>Difference Between 'Unknown' and 'None' Permit Status</h2>
+<ul>
+<li>
+<p><strong>Unknown:</strong> This status typically indicates that there is missing or unreported data regarding the permit. It suggests that the system does not have sufficient information to categorize the permit accurately.</p>
+</li>
+<li>
+<p><strong>None:</strong> This status may also reflect a lack of data, but it is often interpreted as the absence of any applicable permit status. It indicates that no permit has been issued or that the permit status is not applicable in the given context.</p>
+</li>
+</ul>
+<p>Both terms are not standard permit statuses found in available documentation, and their exact meanings may vary depending on the context or jurisdiction. For specific cases or further clarification, it may be beneficial to consult a human agent who can provide more detailed assistance.</p>
+<h2>Conclusion</h2>
+<p>Understanding the distinctions between 'Unknown' and 'None' permit statuses is essential for interpreting permit data accurately. If you encounter these statuses, they generally signify missing or unreported information, and further inquiry may be necessary for clarification.</p>
+","","","","1762985692047","DRAFT","false"
+"Shovels Knowledge Base","How to Check Your Account's Auto-Renew Status and Troubleshoot Issues","","en","https://support.shovels.ai/how-to-check-your-accounts-auto-renew-status-and-troubleshoot-issues","<p><strong>Summary:</strong> This article provides information on whether your account is set to auto-renew.</p>
+<h2>Checking Auto-Renew Status</h2>
+<p>To determine if your account is on auto-renew, follow these steps:</p>
+<ol>
+<li><strong>Access Your Subscription Portal</strong>: Log in to your account and navigate to the subscription management section.</li>
+<li><strong>Look for the Manage Button</strong>: There should be a &quot;Manage&quot; button that allows you to view and modify your subscription settings.
+<ul>
+<li>If the &quot;Manage&quot; button is disabled or greyed out, you may not have access to manage your subscription directly at that moment.</li>
+</ul>
+</li>
+<li><strong>Contact Support for Confirmation</strong>: If you are unable to access the management features, you can reach out to customer support for assistance. They can confirm whether your account is set to auto-renew.</li>
+</ol>
+<h2>Auto-Renew Confirmation</h2>
+<p>According to support interactions, if you have an active subscription, it is typically set to auto-renew. If you need confirmation about your specific account status, contacting customer support is recommended.</p>
+<h2>Troubleshooting Access Issues</h2>
+<ul>
+<li>If the &quot;Manage&quot; button is not functioning, it may be due to a recent platform upgrade. In such cases, refreshing the page after a few minutes may resolve the issue.</li>
+<li>If the problem persists, contacting customer support will provide further assistance.</li>
+</ul>
+<h2>Conclusion</h2>
+<p>To check if your account is on auto-renew, access your subscription portal and look for the management options. If you encounter issues, customer support can confirm your auto-renew status and assist with any access problems.</p>
+","","","","1769470733226","DRAFT","false"
+"Shovels Knowledge Base","How to Check if Your Account is Set to Auto-Renew","","en","https://support.shovels.ai/-temporary-slug-d38f912c-12c0-4acf-999b-e23dd596777c","<h2>Summary</h2>
+<p>This article explains how to determine if your account is set to auto-renew.</p>
+<h2>Checking Auto-Renew Status</h2>
+<p>To find out if your account is on auto-renew:</p>
+<ol>
+<li><strong>Contact Support</strong>: If you are unable to access the necessary information through your account portal, reach out to customer support for assistance.</li>
+<li><strong>Provide Your Email</strong>: When contacting support, be prepared to provide the email address associated with your account for verification.</li>
+<li><strong>Subscription Status</strong>: Support representatives can confirm whether your subscription is active and if it is set to auto-renew.</li>
+</ol>
+<h2>Troubleshooting Access Issues</h2>
+<p>If you are having trouble managing your subscription:</p>
+<ul>
+<li><strong>Manage Button Disabled</strong>: If the &quot;Manage&quot; button in your subscription portal is disabled or greyed out, this may be due to a technical issue.</li>
+<li><strong>Refresh the Page</strong>: Try refreshing the page or checking back later, as technical fixes may be in progress.</li>
+</ul>
+<h2>Conclusion</h2>
+<p>To confirm if your account is on auto-renew, contacting customer support is the most reliable method. If you encounter issues with managing your subscription, refreshing the portal may resolve access problems.</p>
+","","","","1762985753637","DRAFT","false"
+"Shovels Knowledge Base","Accessing Resident Demographic Data via the Shovels API","This article explains how to access resident data through the Shovels API, including the types of demographic information available and the process for retrieving it.","en","https://support.shovels.ai/accessing-resident-demographic-data-via-the-shovels-api","<p>The Shovels API supports access to resident data, which includes demographic features such as gender, age range, and income range. This data is compiled from multiple sources and validated using consensus and observation methodologies.</p>
+<h3>Available Resident Data</h3>
+<ul>
+<li><strong>Demographic Features:</strong> The API provides access to various demographic attributes, including:
+<ul>
+<li>Gender</li>
+<li>Age range</li>
+<li>Income range</li>
+</ul>
+</li>
+<li><strong>Data Access Requirements:</strong> To access resident data, common linkages such as name, address, and workplace must be established.</li>
+</ul>
+<h3>API Endpoints for Resident Data</h3>
+<p>While the primary focus of the Shovels API documentation is on permits and contractors, resident demographic data is available through specialized endpoints. The resident data can be accessed via:</p>
+<ul>
+<li><strong>Specialized Data Endpoints:</strong> These endpoints are part of Shovels' extended data products, including the Universal Schema and Consumer Attributes dataset.</li>
+</ul>
+<h3>How to Access Resident Data</h3>
+<ol>
+<li><strong>API Subscription:</strong> To access resident demographic data, you need a Shovels API subscription.</li>
+<li><strong>Documentation Review:</strong> For detailed information on the available resident data fields and schema, refer to the <a href=""https://docs.google.com/spreadsheets/d/1qiIxx37_-6vGfGp2i5pXv4w2FdsLsShjCqSVO5v6OMQ/edit?usp=sharing"" rel=""noopener"">Data Dictionary</a>.</li>
+<li><strong>Data Extraction:</strong> You can extract resident data using the appropriate API endpoints as outlined in the documentation. This includes using specific parameters to retrieve the desired datasets.</li>
+</ol>
+<h3>Limitations</h3>
+<ul>
+<li>The API does not provide individual resident data through the basic permit and contractor endpoints. Instead, it focuses on properties and contractors, aligning with how permit data is collected and published by local jurisdictions.</li>
+<li>Instead, use the geo_id to access the residents from our residents endpoint.</li>
+</ul>
+<h3>Conclusion</h3>
+<p>Accessing resident data through the Shovels API is possible with a subscription and by utilizing specialized endpoints. For comprehensive details on the data available and how to retrieve it, users should refer to the Universal Schema documentation. If you have specific use cases or need further assistance, consider reaching out for additional support.</p>","Data","","","1765203938291","PUBLISHED","false"
+"Shovels Knowledge Base","How to Search for Permits by Address Using API Endpoints","This article explains how to search for permits associated with a specific address using the available API endpoints.","en","https://support.shovels.ai/how-to-search-for-permits-by-address-using-api-endpoints","<p><span style=""background-color: transparent;"">To retrieve the permit history for a specific address, follow this two-step process:</span><span style=""background-color: transparent;""></span></p>
+<h4><strong>Step 1: Get the Address's Geo ID</strong></h4>
+<p>Use the <a href=""/api-reference/addresses/search-addresses"">Search Addresses</a> endpoint with your target address. This returns the address's <code>geo_id</code>—a unique identifier you'll need for the next step.</p>
+<h4><strong>Step 2: Search Permits Using the Geo ID</strong></h4>
+<p>Use the <a href=""/api-reference/permits/search-permits"">Search Permits</a> endpoint with the <code>geo_id</code> from Step 1, along with your desired date range.</p>
+<p><strong>Pro tip:</strong> The <code>geo_id</code> parameter is a unified geography filter. The same permit search works whether you pass in a state abbreviation (<code>CA</code>), a zip code (<code>94103</code>), or an individual address's <code>geo_id</code>. You're just swapping out the geography level.</p>
+<h4><strong>Alternative: Use Shovels Online</strong></h4>
+<p>For quick lookups without code, use the <strong>Location Search</strong> feature in <a href=""https://app.shovels.ai"">Shovels Online</a> to search by address directly.</p>
+<h4>Need Help?</h4>
+<ul>
+<li><a href=""https://docs.shovels.ai/api-reference/permits/search-permits"">Interactive API Playground</a> – test queries in your browser</li>
+<li><a href=""mailto:support@shovels.ai"">Contact Support</a></li>
+</ul>","API","API Basics","","1766180135220","PUBLISHED","false"
+"Shovels Knowledge Base","Exploring Features of the Shovels AI Free Trial: A Guide","This article outlines the features and capabilities available during the free trial of Shovels Online web application.","en","https://support.shovels.ai/exploring-features-of-the-shovels-ai-free-trial-a-guide","<p>&nbsp;</p>
+Features Available in the Free Trial
+<ol>
+<li>
+<p><strong>Permit &amp; Contractor Search Feature</strong>:</p>
+<ul>
+<li>Users can access the <strong>permit</strong> and <strong>contractor</strong> search functionality (left hand side of user interface).<br><br></li>
+</ul>
+</li>
+<li>
+<p><strong>Data Availability</strong>:</p>
+<ul>
+<li>The free trial includes access to the last 12 months of permit &amp; contractor data. Paying customers get access to all historical Shovels data (on average, 25+ years).</li>
+</ul>
+</li>
+<li>
+<p><strong>Filters and Sorting</strong>:</p>
+<ul>
+<li>Users can utilize various filters to refine their searches. Filters are available for categories such as ""Financial,"" ""Building,"" ""Permit,"" and ""Contractor.""</li>
+<li>Paying customers can download search results and sort them in Excel or Google Sheets.</li>
+</ul>
+</li>
+<li>
+<p><strong>Data Refresh Rate</strong>:</p>
+<ul>
+<li>Shovels data is generally updated on a twice monthly basis, with updates typically occurring within the first and third week of each month.</li>
+</ul>
+</li>
+</ol>
+<br>
+<p>The free trial of Shovels Online provides users with valuable tools for accessing and analyzing permit &amp; contractor data, along with various filtering options to enhance their search experience. Users are encouraged to explore these features and provide feedback to help shape future improvements.</p>","General","","Shovels Online,trial","1765393003876","PUBLISHED","false"
+"Shovels Knowledge Base","Permit Status Details","Understanding Shovels Permit Statuses","en","https://support.shovels.ai/permit-status-details","<p>In the context of permit tracking, various statuses are used to indicate the lifecycle and progress of a permit from filing to completion or discontinuation. Common permit statuses include ""in_review,"" ""active,"" ""final,"" and ""inactive."" These statuses help users understand where a permit stands in the overall process. <span style=""background-color: transparent;"">These statuses follow a chronological progression in most cases.&nbsp;</span></p>
+<p>In the Shovels ecosystem, there are&nbsp;<strong>four</strong> statuses that permits can be in:</p>
+<ul>
+<li><code>in_review</code>: From the moment the permit is filed with the local jurisdiction, until it is approved. This is defined by the&nbsp;<code>file_date</code>&nbsp;object.</li>
+<li><code>active</code>: From the moment the permit is approved, until project completion or some other intermediate restriction. This is defined by the&nbsp;<code>issue_date</code>&nbsp;object.</li>
+<li><code>final</code>: When the permit is completed, and submitted back to the jurisdiction upon job completion. This is defined by the&nbsp;<code>final_date</code>&nbsp;object.</li>
+<li><code>inactive</code>: If any part of the process stalls or gets restricted from progression, then the permit status moves to&nbsp;<code>inactive</code>. Disqualifying reasons and reporting time will vary by jurisdiction and local regulation, but can include failing to meet project inspections, the permit may expire before completion or&nbsp;<a href=""https://ecode360.com/6567722#6567722"">inactivity for more than 6 months (180 days)</a>, and many others.</li>
+</ul>
+<p>Sometimes there are ""unknown"" and ""none"" permit statuses. There are various reasons this can happen, including variances in jurisdiction record keeping, lack of data, dates not provided, and more. The exact meanings of these statuses can vary depending on the context or jurisdiction in which they are used.</p>
+For more information on Shovels permit statuses, read <a href=""https://www.shovels.ai/blog/shovels-101-permit-statuses/"" target=""_blank"" rel=""noopener"">Shovels 101: Permit Statuses</a>","Data","Permit Data","permit status","1765394075281","PUBLISHED","false"
+"Shovels Knowledge Base","Tracking Permits for Major Industrial Projects: Key Metadata Explained","","en","https://support.shovels.ai/-temporary-slug-db125dd8-1b61-4c2b-9d0e-944be9d7e3ce","<p><strong>Summary:</strong> This article explains how permits for major industrial projects are tracked and the type of information provided.</p>
+<h2>Tracking Permits for Major Industrial Projects</h2>
+<p>Yes, we track permits for major industrial projects. Our support includes providing detailed metadata about building permits. This metadata encompasses various aspects, including:</p>
+<ul>
+<li><strong>Dates:</strong> Important dates related to the permit process.</li>
+<li><strong>Descriptions:</strong> Information describing the nature of the permits.</li>
+<li><strong>Fees:</strong> Details regarding any associated costs.</li>
+<li><strong>Statuses:</strong> Current status updates on the permits.</li>
+</ul>
+<p>However, it is important to note that we do not provide the actual permit documents or PDFs, such as engineering stamps or site plans. For more technical details, users can refer to our <a href=""https://docs.shovels.ai"">Data Dictionary and API schema</a> for a comprehensive overview of the data we provide.</p>
+<h2>Conclusion</h2>
+<p>In summary, we offer robust support for tracking permits related to major industrial projects, focusing on essential metadata while excluding specific technical documents. For further details, users are encouraged to consult our Data Dictionary and API schema.</p>
+","","","","1766164797831","DRAFT","false"
+"Shovels Knowledge Base","How to Download Building Permit Data to CSV for Analysis","","en","https://support.shovels.ai/-temporary-slug-297a2849-53d4-4b0d-a6a9-4a9b32d63ac4","<p><strong>Summary:</strong> This article explains how to download building permit data to CSV for further analysis.</p>
+<h2>Downloading Results to CSV</h2>
+<p>To download building permit data to CSV for further analysis, follow these steps:</p>
+<ol>
+<li><strong>Access Shovels Online</strong>: Navigate to the Shovels Online platform where you can explore building permit data.</li>
+<li><strong>Select Geography</strong>: Choose a specific geography, such as a city or county, to view its profile. This profile includes various statistics, including permit approval and construction times.</li>
+<li><strong>Locate Download Option</strong>: Once you have accessed the desired data, look for an option to download the results. This option typically allows you to export the data in CSV format.</li>
+<li><strong>Download the CSV File</strong>: Click on the download option to save the data to your device in CSV format for further analysis.</li>
+</ol>
+<h2>Conclusion</h2>
+<p>Downloading building permit data to CSV is a straightforward process that enables you to conduct further analysis on the information. By following the steps outlined above, you can easily access and export the data you need.</p>
+","","","","1766164833070","DRAFT","false"
+"Shovels Knowledge Base","Best Practices for Optimizing Responses with the Shovels API","","en","https://support.shovels.ai/-temporary-slug-e90ddefc-d2d6-4931-a269-5d105aede837","<p>To optimize API responses when using the Shovels API, consider the following best practices:</p>
+<h2>Key Tips for Optimizing API Responses</h2>
+<ol>
+<li>
+<p><strong>Use the Address Search API First</strong>:</p>
+<ul>
+<li>Always start with the Address Search API to obtain a valid geo_id. This step ensures that you receive consistent and accurate results, even if the address format varies.</li>
+</ul>
+</li>
+<li>
+<p><strong>Handle Errors Properly</strong>:</p>
+<ul>
+<li>Be prepared to manage errors effectively. If you use an invalid geo_id, you will receive a 422 error. If the geo_id is valid but not linked to any property data, a 200 response will be returned with an empty result set. Ensure your application can handle both scenarios.</li>
+</ul>
+</li>
+<li>
+<p><strong>Utilize Filters Efficiently</strong>:</p>
+<ul>
+<li>The permit search endpoint allows the use of filters for parameters such as date and permit type. Applying these filters can help narrow down results and reduce the amount of unnecessary data returned.</li>
+</ul>
+</li>
+<li>
+<p><strong>Check for Empty Result Sets</strong>:</p>
+<ul>
+<li>Treat empty result sets as an indication that the address may not be in the system, rather than solely relying on error codes. This can help in understanding the response better.</li>
+</ul>
+</li>
+</ol>
+<h2>Conclusion</h2>
+<p>By following these guidelines, you can enhance the efficiency and accuracy of your API interactions with the Shovels API. Implementing these practices will help ensure smoother operations and better management of API responses.</p>
+","","","","1767979570348","DRAFT","false"
+"Shovels Knowledge Base","How to Request Manual Reports on the Shovels Platform","","en","https://support.shovels.ai/how-to-request-manual-reports-on-the-shovels-platform","Summary
+<p>This article explains how to manually run reports within the Shovels platform, including the current capabilities and options available for users.</p>
+Manual Report Generation
+<p>Currently, users can still request manual reports from the support team while the functionality for generating reports directly from the web app is being improved. If you need a specific report, you can reach out to support and provide details about the format and data you require.</p>
+<h3>Steps to Request a Manual Report</h3>
+<ol>
+<li><strong>Contact Support</strong>: Reach out to the Shovels support team via email (sales@shovels.ai), <a href=""https://www.shovels.ai/contact"" target=""_blank"" rel=""noopener"">Contact Us</a> form, or phone.</li>
+<li><strong>Specify Your Needs</strong>: Clearly describe the type of report you need, including any specific data points or formats you want.</li>
+<li><strong>Provide Examples</strong>: If possible, share an example of the report format you are looking for to help the support team create the report to your specifications.</li>
+</ol>
+<h3>Example Use Cases</h3>
+<ul>
+<li>If you need a list of solar permits for a specific company, such as Vivint or Solar City, mention this in your request.</li>
+<li>If you require historical data beyond the standard limits available in the dashboard, indicate that you need an ""all-time"" history report.</li>
+</ul>
+Current Limitations
+<ul>
+<li>The web app currently allows users to access data only for the last 12 months unless manually adjusted by support.</li>
+<li>There may be limits on the number of results that can be exported at one time, so it is advisable to request reports for smaller batches or specific filters.</li>
+</ul>
+Conclusion
+<p>While the ability to manually run reports is still available through support, users are encouraged to specify their needs clearly to ensure they receive the correct data. As the platform continues to evolve, improvements to report generation capabilities are expected in the future.</p>","EDL","","","1768240248966","PUBLISHED","false"
+"Shovels Knowledge Base","Troubleshooting a Greyed-Out ""Apply Filters"" Button: Steps to Resolve","","en","https://support.shovels.ai/troubleshooting-a-greyed-out-apply-filters-button-steps-to-resolve","<p>If the ""Apply filters"" button is greyed out, it typically indicates one of two issues related to the filters you have set. Here’s what you can do to resolve the problem:</p>
+Possible Reasons for the Greyed-Out Button
+<ol>
+<li>
+<p><strong>Address/Filter Details Not Resolved</strong>:</p>
+<ul>
+<li>The system requires a valid address or search parameter (such as a geo_id) to enable results. If the address or filters do not match what’s in the database, the button will remain inactive, and no results will appear.</li>
+</ul>
+</li>
+<li>
+<p><strong>No Results for Filters</strong>:</p>
+<ul>
+<li>If the information entered is correct but there are no permits that match your filters, the system will also return nothing, causing the ""Apply filters"" button to be greyed out.</li>
+</ul>
+</li>
+</ol>
+Steps to Troubleshoot
+<ul>
+<li>
+<p><strong>Check Required Fields</strong>: Ensure that all required address fields are filled in accurately. This includes:</p>
+<ul>
+<li>geolocation (such as state, county, city, jurisdiction, zip code or address)</li>
+</ul>
+</li>
+<li>
+<p><strong>Verify Dates and Geography</strong>: Make sure you have both date fields and a geographical area set. These are typically the first fields you encounter on the top left of the filter options.</p>
+</li>
+<li>
+<p><strong>Broaden Your Filters</strong>: If you are still encountering issues, try broadening your filters or double-checking the spelling and format of the information you have entered.</p>
+</li>
+</ul>
+<p>If you continue to experience difficulties or need assistance with a specific search, consider reaching out for further help.</p>","General","","","1768240330775","PUBLISHED","false"
+"Shovels Knowledge Base","Why do some permits not have addresses?","","en","https://support.shovels.ai/why-do-some-permits-not-have-addresses","Address IDs are only assigned if physical addresses can be confirmed via internal and third-party databases. Permits for new construction are often submitted before official addresses exist or streets are named, so they naturally lack addresses.","Data","Permit Data","","1768603749383","PUBLISHED","false"
+"Shovels Knowledge Base","Understanding Monthly Query Limits for the $599 API Subscription","","en","https://support.shovels.ai/-temporary-slug-d5c64065-a353-4c5c-80d0-e9d3d8a14ca2","<h2>Summary</h2>
+<p>This article provides information on the number of queries that can be made monthly through the API subscription.</p>
+<h2>Monthly Query Limits</h2>
+<p>For the API subscription priced at $599 per month, users can make up to <strong>10,000 requests</strong> each month.</p>
+<h2>Additional Information</h2>
+<ul>
+<li>Each individual API call can return a maximum of <strong>100 records</strong>.</li>
+<li>Usage is tracked within the app, and users can view their request usage in the profile settings. The usage counts are refreshed nightly.</li>
+</ul>
+<h2>Conclusion</h2>
+<p>With the $599 monthly API subscription, users have the capacity to make a substantial number of queries, allowing for extensive data retrieval and analysis. For more detailed usage tracking, users can access their profile settings within the application.</p>
+","","","","1769141533761","DRAFT","false"
+"Shovels Knowledge Base","How to Check Project Completion and Inspection Status via Permits","","en","https://support.shovels.ai/how-to-check-project-completion-and-inspection-status-via-permits","<h2>Determining Project Completion and Inspection Status from Permit Records</h2>
+<h3>Overview</h3>
+<p>This article explains how to determine if a project was completed and passed inspection using permit records.</p>
+<h3>Checking Project Completion</h3>
+<p>To ascertain whether a project has been completed and passed inspection, you can refer to the permit status. The status will indicate if the project is &quot;final,&quot; which signifies that all work has been completed and the project has passed inspection.</p>
+<h3>Additional Information</h3>
+<ul>
+<li>Permit records can provide various details about the project, but the availability of specific information, such as system size, may depend on what the jurisdiction includes in the permit description.</li>
+<li>Historical permit records can be accessed, with some jurisdictions allowing searches back up to 25 years.</li>
+</ul>
+<h3>Conclusion</h3>
+<p>By checking the permit status for a &quot;final&quot; designation, you can confirm that a project has been completed and passed inspection. For further details or historical data, consult the relevant permit records as needed.</p>
+","Data","","","1769192854672","PUBLISHED","false"
+"Shovels Knowledge Base","How to Request Sample Records for Data Verification","","en","https://support.shovels.ai/how-to-request-sample-records-for-data-verification","<h2>Sample Records for Data Verification</h2>
+<p><strong>Summary:</strong> This article provides information on obtaining sample records to verify if the data fits your needs.</p>
+<h3>Requesting Sample Records</h3>
+<p>If you are interested in verifying data for a specific use case, you can request sample records. Here’s how you can do this:</p>
+<ol>
+<li>
+<p><strong>Specify Your Use Case:</strong> Clearly outline the type of data you need. For example, you might request recent permits for commercial properties in a specific location, such as California, and specify the types of properties you are interested in (e.g., motels, hotels, restaurants).</p>
+</li>
+<li>
+<p><strong>Contact Support:</strong> Reach out to customer support with your request. You can ask for a couple of sample records to assess if the data meets your requirements.</p>
+</li>
+<li>
+<p><strong>API Option:</strong> If you are considering using the API, you can also request sample records through the API subscription. This allows you to explore the data yourself.</p>
+</li>
+</ol>
+<h3>Example Request</h3>
+<p>When making your request, you might say:</p>
+<ul>
+<li>&quot;Could I have a couple of sample records for my use case so I can verify if it fits my needs?&quot;</li>
+</ul>
+<h3>Conclusion</h3>
+<p>Obtaining sample records is a straightforward process that involves specifying your data needs and contacting support. Whether you choose to receive these samples through direct support or via the API, ensure that you clearly communicate your requirements to facilitate a quick response.</p>
+","","","","1769471756865","DRAFT","false"

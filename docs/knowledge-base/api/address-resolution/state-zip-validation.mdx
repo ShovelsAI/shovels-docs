@@ -1,0 +1,54 @@
+---
+title: "State and Zip Code Validation in Address Searches"
+description: "Understand how the Shovels API handles state and zip code validation in address searches and what to expect with incorrect location parameters."
+---
+
+When using Shovels' API for address searches, it's important to understand how state and zip code parameters are processed.
+
+## Key Behavior
+
+**State and zip code parameters are not strictly validated** as part of geo_id resolution.
+
+If you provide an incorrect state or zip code when searching for addresses:
+- You won't receive an explicit error message
+- The API returns a 200 OK response with an empty result set (`null` items)
+
+## Why This Happens
+
+This behavior is by design to accommodate variations in how addresses might be recorded across different jurisdictions.
+
+## Best Practices
+
+For the most reliable results:
+
+1. **Focus on the street address** - Street name, number, and city are most important
+2. **Verify location data** - Double-check state and zip codes before querying
+3. **Handle empty results** - If you consistently get empty results for addresses you expect to find, verify the state and zip information
+
+<Info>
+Our system uses multiple address verification sources to ensure accuracy:
+- National Address Dataset from the US Census
+- Open Address dataset
+- Simple Maps
+- ESRI
+</Info>
+
+## Interpreting Empty Results
+
+An empty result set can mean:
+- The address exists but with different state/zip information
+- The address doesn't have permits in our system
+- There's a formatting mismatch in your query
+
+## Troubleshooting
+
+If you're getting unexpected empty results:
+1. Try the query with just the street address and city
+2. Verify the state abbreviation is correct (use 2-letter codes)
+3. Check that the zip code matches the city
+4. Search at a broader geography level first (city or zip) to confirm coverage
+
+## Related Articles
+
+- [Resolving addresses](/docs/knowledge-base/api/address-resolution/resolving-addresses)
+- [Error handling](/docs/knowledge-base/api/errors/error-handling)

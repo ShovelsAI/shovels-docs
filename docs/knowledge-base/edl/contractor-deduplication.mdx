@@ -1,0 +1,53 @@
+---
+title: "Contractor Deduplication in EDL"
+description: "Understand how contractor IDs are deduplicated in Shovels data, including state-level deduplication and contractor group relationships."
+---
+
+Shovels assigns unique contractor IDs and works to deduplicate contractors across the permits we collect.
+
+## How Deduplication Works
+
+We assign a **unique contractor_ID** to any contractor we see in our system and work to ensure this ID is:
+- Deduplicated within the dataset
+- A unique identifier for each contractor
+
+## Contractor IDs in Permits
+
+In our permits table, we include the `contractor_ID` whenever there is an associated contractor.
+
+## Contractor Groups
+
+If we believe a unique contractor is associated with a larger group or parent company, we also associate that `contractor_ID` with a `contractor group_ID`.
+
+**Example:** If we see a local plumber and believe they are a local branch of a regional plumbing company, both would share the same `group_ID`.
+
+## State-Level Deduplication
+
+Currently, we deduplicate contractors **per state**. This means:
+- The same contractor ID will **not** appear across different states
+- If ABC Plumbing Inc does business in both CA and AZ, it will have **2 unique contractor_IDs**
+
+<Info>
+We are working on creating a national contractor ID system. Check our blog for the latest announcements.
+</Info>
+
+## The is_representative Field
+
+For EDL deliveries, the `is_representative` field indicates whether a contractor record is the main representative of a `group_id`.
+
+| Field | Meaning |
+|-------|---------|
+| `is_representative = TRUE` | This record contains the canonical/preferred information for the entire group |
+| `is_representative = FALSE` | This is a related contractor in the group |
+
+### Why This Matters
+
+This feature helps:
+- Prevent double-counting of organizations operating under multiple names
+- Avoid reaching out to the same organization multiple times
+- Enable more accurate market analysis
+
+## Related Articles
+
+- [is_representative field explained](/docs/knowledge-base/edl/is-representative-field)
+- [EDL overview](/docs/knowledge-base/edl/overview)

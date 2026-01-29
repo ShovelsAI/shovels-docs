@@ -1,0 +1,50 @@
+---
+title: "How Many Permits Can I Retrieve Per API Call?"
+description: "Learn about the maximum number of permits you can retrieve in a single Shovels API call and how to paginate through larger result sets."
+---
+
+You can retrieve a maximum of **100 permits per API call**.
+
+## Setting the Page Size
+
+Use the `size` parameter to control how many records are returned:
+
+```bash
+curl -X GET \
+  "https://api.shovels.ai/v2/permits/search?geo_id=94103&size=100" \
+  -H "X-API-Key: YOUR_API_KEY_HERE"
+```
+
+## Pagination for Larger Results
+
+If you need more than 100 permits, paginate through the results using the `next_cursor` value provided in the response.
+
+### Cursor-Based Pagination
+
+1. Make your initial request
+2. Check the response for `next_cursor`
+3. Use that cursor value in your next request
+4. Repeat until no more results
+
+```bash
+# First request
+GET /v2/permits/search?geo_id=CA&size=100
+
+# Subsequent requests with cursor
+GET /v2/permits/search?geo_id=CA&size=100&cursor=CURSOR_VALUE
+```
+
+<Tip>
+Whether you retrieve 1 record or 100, it counts as only one request against your API quota.
+</Tip>
+
+## Best Practices
+
+- Always set `size=100` to maximize records per request
+- Handle pagination in your code to process complete datasets
+- Store results locally to avoid re-fetching the same data
+
+## Related Articles
+
+- [What counts as an API request?](/docs/knowledge-base/api/basics/request-counts)
+- [Understanding query parameters](/docs/knowledge-base/api/basics/query-parameters)

@@ -1,0 +1,57 @@
+---
+title: "How Monthly EDL Deliveries Work"
+description: "Understand how Shovels delivers monthly data updates to EDL customers using the overwrite model while maintaining ID consistency."
+---
+
+For Enterprise Data License (EDL) customers, Shovels employs an **overwrite approach** when pushing data to your data warehouse.
+
+## How It Works
+
+Each monthly delivery is treated as a **fresh table**, completely replacing the previous month's data with the updated dataset.
+
+### Benefits
+
+This approach simplifies data management by:
+- Eliminating the need to merge incremental updates
+- Providing a complete, consistent dataset each delivery
+- Avoiding complex change-tracking logic
+
+## ID Stability
+
+**Critically important:** Our IDs remain static and don't change from release to release:
+- Permit IDs
+- Address IDs
+- Contractor IDs
+
+This consistency ensures that any scripts, analyses, or processes relying on these IDs won't be impacted by the monthly refresh.
+
+<Info>
+The stability of our ID system allows customers to build reliable data pipelines and maintain referential integrity.
+</Info>
+
+## What's Included
+
+Each monthly delivery includes:
+- All historical data
+- New permits added since last delivery
+- Updates to existing records (status changes, etc.)
+
+This provides a complete and current view of the construction permitting landscape.
+
+## Tracking Changes
+
+For customers who need to track changes between deliveries, we recommend:
+- Using the `first_seen_date` field to identify new records
+- Comparing status change indicators between deliveries
+- Maintaining a copy of previous deliveries for comparison
+
+## Delivery Schedule
+
+EDL data is refreshed on the same schedule as our main database:
+- 1st of the month
+- 15th of the month
+
+## Related Articles
+
+- [Record tracking](/docs/knowledge-base/edl/record-tracking)
+- [EDL overview](/docs/knowledge-base/edl/overview)

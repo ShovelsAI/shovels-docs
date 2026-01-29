@@ -1,0 +1,60 @@
+---
+title: "Understanding the Homeowner Field"
+description: "Learn how the probabilistic homeowner feature in Shovels resident data is determined and validated through consensus methodology."
+---
+
+The probabilistic homeowner feature in Shovels' residents data indicates whether a person is likely the property owner.
+
+## Data Source
+
+The homeowner data is sourced from our data co-op members and represents a **consensus-driven determination** of property ownership.
+
+## Validation Methods
+
+### Consensus
+
+We require **3+ different data signals** to confirm data linkages, with reliability ensured through:
+- Exhaustive validation methods
+- Confirmation from actual usage
+- Multiple data point verification
+
+For example, the presence of a unit number is considered as part of this compilation.
+
+### Conformation
+
+This process ensures that data within the "Consensus" realm:
+- Represents frequent occurrences
+- Adheres to proper formatting and data standards
+- Cannot be invalidated using existing signals
+
+## Using the Homeowner Field
+
+### In EDL Data
+
+Filter for homeowners using:
+```
+HOMEOWNER = 'Y'
+```
+
+### Combined with Other Features
+
+You can use additional features to identify homeownership patterns:
+- Income range
+- Children present
+- Net worth
+
+<Tip>
+Combining the homeowner field with demographic indicators helps identify trends at certain demographic levels.
+</Tip>
+
+## Consumer Attributes Dataset
+
+We also offer additional features in our "Consumer Attributes" dataset including:
+- Number of kids
+- Grandparent in household
+- Other household composition data
+
+## Related Articles
+
+- [Resident data overview](/docs/knowledge-base/data/residents/resident-data)
+- [Resident email contact information](/docs/knowledge-base/edl/resident-contact-info)

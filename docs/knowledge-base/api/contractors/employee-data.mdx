@@ -1,0 +1,82 @@
+---
+title: "How to Get Contractor Employee Information"
+description: "Learn how to use the Shovels API to retrieve contractor employee contact details including business and personal emails, job titles, and seniority levels."
+---
+
+The Shovels API provides a dedicated endpoint to retrieve employee information for specific contractors, including contact details, job titles, and seniority levels.
+
+## Using the Employees Endpoint
+
+**Endpoint:** `GET /contractors/{id}/employees`
+
+### Required Parameters
+
+- `{id}` - The contractor ID (path parameter)
+
+### Optional Parameters
+
+- `cursor` - For pagination through large result sets
+- `page` - Page number for offset-based pagination
+- `size` - Number of items per page (1-100)
+
+## Sample Request
+
+```bash
+curl --request GET \
+  --url https://api.shovels.ai/v2/contractors/{id}/employees \
+  --header 'X-API-Key: YOUR_API_KEY_HERE'
+```
+
+## Response Data
+
+### Contact Information
+- `email` - Personal email address
+- `business_email` - Business email address
+- `phone` - Phone number
+- `linkedin_url` - LinkedIn profile
+
+### Professional Details
+- `job_title` - Current position
+- `seniority_level` - Senior, Mid, Junior, etc.
+- `department` - Department or division
+
+### Additional Data
+- `name` - Full name
+- Address details (street, city, state, zip)
+- Demographics (age range, income range, etc.)
+
+## Scaling Your Data Collection
+
+### Pagination
+
+Use cursor-based pagination for large employee lists. Check for `next_cursor` in the response to retrieve subsequent pages.
+
+### Bulk Processing
+
+To process multiple contractors at scale:
+1. Obtain contractor IDs using the contractors search endpoints
+2. Iterate through each contractor ID
+3. Call the employees endpoint for each contractor
+4. Implement proper error handling and rate limiting
+
+### Targeting Decision Makers
+
+Filter results by `seniority_level` (Senior, Executive) and `job_title` to identify:
+- Owners
+- Sales directors
+- Project managers
+- Other key personnel
+
+## Best Practices
+
+- Respect rate limits and avoid frivolous requests
+- Use pagination to handle large datasets efficiently
+- Store and cache results to minimize API calls
+- Filter by job titles and seniority levels to focus on decision-makers
+- Always include proper error handling in your implementation
+
+## Related Articles
+
+- [Contractor search](/docs/knowledge-base/api/contractors/contractor-search)
+- [Service area lookup](/docs/knowledge-base/api/contractors/service-area-lookup)
+- [API Reference: Contractor Employees](/api-reference/contractors/get-contractor-employees)

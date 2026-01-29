@@ -1,0 +1,44 @@
+---
+title: "API Error Handling"
+description: "Quick guide to handling Shovels API errors. For complete details, see the API Introduction documentation."
+---
+
+**For comprehensive error handling documentation, see the [API Introduction - Error Handling](/docs/shovels-api-introduction#error-handling) section.** This article covers the most common scenarios.
+
+## Most Common Issue: 422 Errors
+
+A 422 error typically means you're missing a required parameter—usually a `geo_id`. **Solution:** Resolve your address first using the Address Search endpoint, then use the returned geo_id in your permit query.
+
+See [422 error explained](/docs/knowledge-base/api/errors/422-error) for details.
+
+## Empty Results vs Errors
+
+An empty `items` array with a 200 response is **not an error**—it means your query was valid but no matching data exists.
+
+```json
+{
+  "items": [],
+  "total": 0
+}
+```
+
+## Quick Reference
+
+| Code | Meaning | Action |
+|------|---------|--------|
+| 200 | Success (may be empty) | Check `items` array |
+| 400 | Bad request | Review request format |
+| 401 | Unauthorized | Check API key |
+| 422 | Missing/invalid parameter | [See 422 guide](/docs/knowledge-base/api/errors/422-error) |
+| 500 | Server error | Contact [support@shovels.ai](mailto:support@shovels.ai) |
+
+## Full Documentation
+
+For complete error handling details, response code explanations, and troubleshooting tips, see:
+- [API Introduction - Error Handling](/docs/shovels-api-introduction#error-handling)
+- [API Introduction - Troubleshooting](/docs/shovels-api-introduction#troubleshooting)
+
+## Related Articles
+
+- [422 error explained](/docs/knowledge-base/api/errors/422-error)
+- [Resolving addresses](/docs/knowledge-base/api/address-resolution/resolving-addresses)
