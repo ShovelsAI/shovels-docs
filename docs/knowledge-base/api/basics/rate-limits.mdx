@@ -1,13 +1,13 @@
 ---
 title: "What is the Shovels API Rate Limit?"
-description: "The Shovels API free trial includes quota for 250 records. Learn about quota limits, maximizing efficiency, and getting higher limits for your needs."
+description: "The Shovels API free trial includes 250 credits. Learn about credit limits, maximizing efficiency, and getting higher limits for your needs."
 ---
 
-**The Shovels API free trial includes quota for 250 records with no time limit.** We don't enforce strict rate limits, but we monitor usage and may apply limits on an individual basis if needed. Contact sales for higher quota allocations.
+**The Shovels API free trial includes 250 credits with no time limit.** We don't enforce strict rate limits, but we monitor usage and may apply limits on an individual basis if needed. Contact sales for higher credit allocations.
 
 ## Free Trial Limits
 
-The API free trial provides quota for **250 records** with no time limit or credit card required. If you need more quota during your trial, contact [sales@shovels.ai](mailto:sales@shovels.ai) for an extension.
+The API free trial provides **250 credits** with no time limit or credit card required. If you need more credits during your trial, contact [sales@shovels.ai](mailto:sales@shovels.ai) for an extension.
 
 ## Paid Plan Limits
 
@@ -23,11 +23,11 @@ If your API key appears to be rate-limited, contact [support@shovels.ai](mailto:
 
 For full details on API usage policies, see the [API Introduction](/docs/shovels-api-introduction#acceptable-use-policy).
 
-## Understanding Your Quota
+## Understanding Your Credits
 
 ### Records Per Call
 
-You can retrieve up to **100 permits or contractors** in a single API call by setting the `size` parameter to 100. Each record returned counts against your quota—so a call returning 100 permits uses 100 quota.
+Search endpoints return up to **100 records per page** (default: 50) by setting the `size` parameter. Detail endpoints accept up to **50 IDs** per call. Each record returned counts against your credits—so a call returning 100 permits uses 100 credits.
 
 ### Efficient Querying
 
@@ -37,7 +37,7 @@ You can retrieve up to **100 permits or contractors** in a single API call by se
 
 ## Tracking Your Usage
 
-Monitor your API usage in the **Profile Settings** section of your account. Usage counts are refreshed nightly.
+Monitor your API usage in the **Profile Settings** section of your account or via the `GET /v2/usage` endpoint. Credits operate on a **30-day rolling window**—your usage resets based on when credits were consumed, not on a fixed calendar date.
 
 ## Need Higher Limits?
 
@@ -47,5 +47,5 @@ Contact our team to discuss higher-tier plans:
 
 ## Related Articles
 
-- [How does API quota work?](/docs/knowledge-base/api/basics/request-counts)
+- [How do API credits work?](/docs/knowledge-base/api/basics/request-counts)
 - [How to access your API key](/docs/knowledge-base/api/basics/api-key-access)

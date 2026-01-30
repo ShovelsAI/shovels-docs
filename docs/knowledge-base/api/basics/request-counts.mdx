@@ -1,18 +1,18 @@
 ---
-title: "How Does API Quota Work?"
-description: "The Shovels API uses a record-based quota system. Each record returned counts against your quota—a search returning 100 permits uses 100 quota, while a single permit lookup uses 1."
+title: "How Do API Credits Work?"
+description: "The Shovels API uses a record-based credit system. Each record returned counts against your credits—a search returning 100 permits uses 100 credits, while a single permit lookup uses 1."
 ---
 
-**The Shovels API uses a record-based quota system.** Each record returned by an API call counts against your quota. A permit search that returns 100 results uses 100 quota, while a detail lookup for a single permit uses 1 quota.
+**The Shovels API uses a record-based credit system.** Each record returned by an API call counts against your credits. A permit search that returns 100 results uses 100 credits, while a detail lookup for a single permit uses 1 credit.
 
-## How Quota is Counted
+## How Credits Are Counted
 
-Your quota is based on **records returned**, not the number of API calls you make:
+Your credits are based on **records returned**, not the number of API calls you make:
 
-- A search returning **100 permits** = **100 quota used**
-- A search returning **50 contractors** = **50 quota used**
-- A detail lookup for **1 permit** = **1 quota used**
-- A detail lookup for **3 contractors** = **3 quota used**
+- A search returning **100 permits** = **100 credits used**
+- A search returning **50 contractors** = **50 credits used**
+- A detail lookup for **1 permit** = **1 credit used**
+- A detail lookup for **3 contractors** = **3 credits used**
 
 This applies to all endpoints:
 - Search endpoints (`GET /v2/permits/search`, `GET /v2/contractors/search`)
@@ -20,8 +20,8 @@ This applies to all endpoints:
 
 ## Practical Examples
 
-| Request | Records Returned | Quota Used |
-|---------|------------------|------------|
+| Request | Records Returned | Credits Used |
+|---------|------------------|--------------|
 | `GET /v2/permits/search?size=100` | 100 permits | 100 |
 | `GET /v2/permits/search?size=100` | 47 permits | 47 |
 | `GET /v2/permits?id=123` | 1 permit | 1 |
@@ -29,10 +29,10 @@ This applies to all endpoints:
 | `GET /v2/contractors?id=abc,def,ghi` | 3 contractors | 3 |
 
 <Info>
-The same quota system applies whether you're on the free trial or a paid plan.
+The same credit system applies whether you're on the free trial or a paid plan.
 </Info>
 
-## Managing Your Quota
+## Managing Your Credits
 
 1. **Use filters effectively** - Narrow your searches to return only the records you need
 2. **Use search endpoints** - They include full details in the response, avoiding extra lookups
@@ -40,7 +40,40 @@ The same quota system applies whether you're on the free trial or a paid plan.
 
 ## Tracking Your Usage
 
-Monitor your quota usage in the **Profile Settings** section of your account. Usage counts are refreshed nightly.
+### Via API
+
+Use the `GET /v2/usage` endpoint to check your credit consumption:
+
+```bash
+curl -X GET "https://api.shovels.ai/v2/usage" \
+  -H "X-API-Key: YOUR_API_KEY_HERE"
+```
+
+Response:
+```json
+{
+  "credits_used": 150,
+  "credit_limit": 250
+}
+```
+
+### Via Response Headers
+
+Every API response includes credit tracking headers:
+
+| Header | Description |
+|--------|-------------|
+| `X-Credits-Request` | Credits consumed by this request |
+| `X-Credits-Limit` | Your total credit limit (omitted if unlimited) |
+| `X-Credits-Remaining` | Credits remaining (omitted if unlimited) |
+
+### Via Profile Settings
+
+You can also view credit usage in the **Profile Settings** section of your account at [app.shovels.ai](https://app.shovels.ai/profile-settings/).
+
+<Info>
+Credits operate on a **30-day rolling window**. Your usage resets based on when credits were consumed, not on a fixed calendar date.
+</Info>
 
 ## Related Articles
 

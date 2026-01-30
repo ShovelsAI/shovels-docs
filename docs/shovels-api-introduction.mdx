@@ -32,7 +32,7 @@ The use cases are endless, but the most common we see today are:
 To begin using the API, please contact our sales team at [sales@shovels.ai](mailto:sales@shovels.ai) or grab a [free API key](https://app.shovels.ai/create-account/).
 
 <Info>
-The free API key has a limited quota. If you hit the limit and need more, please reach out to [sales@shovels.ai](mailto:sales@shovels.ai) or call us at [1-800-511-7457](tel:+18005117457).
+The free API key has a limited number of credits. If you hit the limit and need more, please reach out to [sales@shovels.ai](mailto:sales@shovels.ai) or call us at [1-800-511-7457](tel:+18005117457).
 </Info>
 
 ### API Key
@@ -43,9 +43,9 @@ For any API request, you'll need to include your API key. This is available in y
 
 We want you to be able to adequately test our API before making your decision. Completely separate from the Shovels Online web app trial, there is a free trial of the API key as well.
 
-API Key free trials include quota for 250 records with no time limit or credit card required. Each record returned by the API counts against your quota—for example, a search returning 100 permits uses 100 quota.
+API Key free trials include 250 credits with no time limit or credit card required. Each record returned by the API counts against your credits—for example, a search returning 100 permits uses 100 credits.
 
-If you exceed your quota and still need more, please reach out to [Sales](mailto:sales@shovels.ai) for an extension.
+If you exceed your credit limit and still need more, please reach out to [Sales](mailto:sales@shovels.ai) for an extension.
 
 ## Authentication
 
@@ -81,6 +81,25 @@ A few quick details about our API:
 | **Method** | HTTP GET for all read calls. |
 | **Date Format** | All dates in the API are `strings` in the format: `YYYY-MM-DD`. |
 
+### Credit Tracking
+
+Every API response includes headers to track your credit usage:
+
+| Header | Description |
+|--------|-------------|
+| `X-Credits-Request` | Credits consumed by this request |
+| `X-Credits-Limit` | Your total credit limit (omitted if unlimited) |
+| `X-Credits-Remaining` | Credits remaining (omitted if unlimited) |
+
+You can also check your usage programmatically via the `/v2/usage` endpoint:
+
+```bash
+curl -X GET "https://api.shovels.ai/v2/usage" \
+  -H "X-API-Key: YOUR_API_KEY_HERE"
+```
+
+Credits operate on a **30-day rolling window**—your usage resets based on when credits were consumed, not on a fixed calendar date.
+
 ### Response Types
 
 The API supports the following response codes:
@@ -90,7 +109,7 @@ The API supports the following response codes:
 | **200 OK** | Everything worked as expected. |
 | **400 Bad Request** | There was something wrong with your request. Double-check your input. |
 | **401 Unauthorized** | You need to log in to access this. Make sure your API key is correct. |
-| **402 Payment Required** | You will get this error if your reach your trial API call limit. |
+| **402 Payment Required** | Your credit limit has been exceeded. Contact sales for higher limits. |
 | **403 Forbidden** | You don't have permission to access this. |
 | **404 Not Found** | We couldn't find what you're looking for. Check the URL or resource ID. |
 | **422 Unprocessable Entity** | There's an issue with the data you sent. Check [Error Handling](#error-handling) if you get this error. |
@@ -99,20 +118,19 @@ The API supports the following response codes:
 
 ### Data Format
 
-The API returns data in JSON format, either as pages or single objects.
+The API returns data in JSON format, either as paginated collections or single objects.
 
-Paginated responses have the following structure:
+Paginated responses use cursor-based pagination by default:
 
 ```json
 {
- "items": [...],
- "page": 1,
- "size": 50,
- "next_page": 2 | null
+  "items": [...],
+  "size": 50,
+  "next_cursor": "eyJkYXR..." | null
 }
 ```
 
-Where objects are returned as an array in the 'items' field.
+Where objects are returned as an array in the `items` field. When `next_cursor` is `null`, there are no more results.
 
 ### Pagination
 

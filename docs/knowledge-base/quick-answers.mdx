@@ -14,7 +14,7 @@ Fast, concise answers to the most frequently asked questions about Shovels.
 Shovels Online and API pricing starts with a free tier. View current plans at [app.shovels.ai](https://app.shovels.ai). Enterprise Data License (EDL) pricing requires contacting [sales@shovels.ai](mailto:sales@shovels.ai).
 
 ### Is there a free trial?
-Yes. Free trials include access to the last 12 months of data and API quota for 250 records.
+Yes. Free trials include access to the last 12 months of data and 250 API credits.
 
 ### What's the difference between API and EDL?
 **API**: Best for lookups, integrations, and local lead lists.
@@ -24,14 +24,14 @@ Yes. Free trials include access to the last 12 months of data and API quota for 
 
 ## API Basics
 
-### What is my API quota?
-The free trial includes quota for 250 records. Paid plans have custom limits—no hard rate limits are enforced, but we monitor usage. Contact [sales@shovels.ai](mailto:sales@shovels.ai) for details.
+### What is my API credit limit?
+The free trial includes 250 credits. Paid plans have custom limits—no hard rate limits are enforced, but we monitor usage. Contact [sales@shovels.ai](mailto:sales@shovels.ai) for details.
 
 ### How many records per API call?
-Maximum 100 permits or contractors per call. Set `size=100` for maximum efficiency.
+Search endpoints return up to 100 records per page (default: 50). Detail endpoints accept up to 50 IDs per call.
 
-### How does API quota work?
-Each record returned counts against your quota. A search returning 100 permits uses 100 quota; a single permit lookup uses 1 quota.
+### How do API credits work?
+Each record returned counts against your credits. A search returning 100 permits uses 100 credits; a single permit lookup uses 1 credit.
 
 ### Where do I find my API key?
 Log in at [app.shovels.ai/profile-settings](https://app.shovels.ai/profile-settings/) and find it in the API Key section.
