@@ -1,44 +1,46 @@
 ---
-title: "What Counts as an API Request?"
-description: "Every HTTP call to the Shovels API counts as 1 request, regardless of endpoint or records returned. Get up to 100 records per request with size=100."
+title: "How Does API Quota Work?"
+description: "The Shovels API uses a record-based quota system. Each record returned counts against your quota—a search returning 100 permits uses 100 quota, while a single permit lookup uses 1."
 ---
 
-**Every HTTP call to the Shovels API counts as exactly 1 request, regardless of which endpoint you use or how many records it returns.** You can retrieve up to 100 records per call by setting `size=100`, making each request highly efficient.
+**The Shovels API uses a record-based quota system.** Each record returned by an API call counts against your quota. A permit search that returns 100 results uses 100 quota, while a detail lookup for a single permit uses 1 quota.
 
-## Request Counting
+## How Quota is Counted
 
-This applies to:
+Your quota is based on **records returned**, not the number of API calls you make:
+
+- A search returning **100 permits** = **100 quota used**
+- A search returning **50 contractors** = **50 quota used**
+- A detail lookup for **1 permit** = **1 quota used**
+- A detail lookup for **3 contractors** = **3 quota used**
+
+This applies to all endpoints:
 - Search endpoints (`GET /v2/permits/search`, `GET /v2/contractors/search`)
 - Detail endpoints (`GET /v2/permits`, `GET /v2/contractors`)
 
-## Records Per Request
-
-You can retrieve up to **100 permits or contractors** in a single call by setting the `size` (or `limit`) parameter to 100. Whether you retrieve 1 record or 100, it counts as only **one request** against your quota.
-
-## Detail Already Included
-
-Search responses contain the full detail payload for every record returned, so you usually don't need a separate detail call. If you do call a detail endpoint—whether for one ID or many IDs—it still counts as only one request.
-
 ## Practical Examples
 
-| Request | Count |
-|---------|-------|
-| `GET /v2/permits/search?size=100` | 1 request |
-| `GET /v2/permits?id=123` | 1 request |
-| `GET /v2/contractors/search?size=100` | 1 request |
-| `GET /v2/contractors?id=abc,def,ghi` | 1 request |
-
-Each of these consumes exactly one of your requests.
+| Request | Records Returned | Quota Used |
+|---------|------------------|------------|
+| `GET /v2/permits/search?size=100` | 100 permits | 100 |
+| `GET /v2/permits/search?size=100` | 47 permits | 47 |
+| `GET /v2/permits?id=123` | 1 permit | 1 |
+| `GET /v2/contractors/search?size=50` | 50 contractors | 50 |
+| `GET /v2/contractors?id=abc,def,ghi` | 3 contractors | 3 |
 
 <Info>
-The same request usage applies whether you're on the free trial or a paid plan.
+The same quota system applies whether you're on the free trial or a paid plan.
 </Info>
 
-## Maximizing Your Quota
+## Managing Your Quota
 
-1. **Use max page size** - Set `size=100` to get the most records per request
-2. **Use search endpoints** - They include full details in the response
-3. **Batch detail lookups** - Pass multiple IDs in a single detail request
+1. **Use filters effectively** - Narrow your searches to return only the records you need
+2. **Use search endpoints** - They include full details in the response, avoiding extra lookups
+3. **Cache results locally** - Store fetched data to avoid re-fetching the same records
+
+## Tracking Your Usage
+
+Monitor your quota usage in the **Profile Settings** section of your account. Usage counts are refreshed nightly.
 
 ## Related Articles
 

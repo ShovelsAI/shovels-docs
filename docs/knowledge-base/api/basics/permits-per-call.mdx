@@ -35,7 +35,7 @@ GET /v2/permits/search?geo_id=CA&size=100&cursor=CURSOR_VALUE
 ```
 
 <Tip>
-Whether you retrieve 1 record or 100, it counts as only one request against your API quota.
+Your API quota is based on records returned—a call returning 100 permits uses 100 quota, while a call returning 1 permit uses 1 quota.
 </Tip>
 
 ## Best Practices
@@ -46,5 +46,5 @@ Whether you retrieve 1 record or 100, it counts as only one request against your
 
 ## Related Articles
 
-- [What counts as an API request?](/docs/knowledge-base/api/basics/request-counts)
+- [How does API quota work?](/docs/knowledge-base/api/basics/request-counts)
 - [Understanding query parameters](/docs/knowledge-base/api/basics/query-parameters)
