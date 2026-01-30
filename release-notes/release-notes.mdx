@@ -4,6 +4,191 @@ icon: "code-merge"
 description: "Find out what the Engineering team has been up to across our entire platform, including general announcements, updates, and bugfixes."
 ---
 
+<Update label="V2.1.4" description="2026-01-01">
+  <Tabs>
+    <Tab title="Online">
+      ### Introduction
+
+      Happy New Year! We're starting 2026 with 5.5M new permits, 4.7M additional geocoded records, and 171K new contractors. On the API side, we've added negative query filters and dynamic tallies, plus performance improvements for contractor and text search. Here's everything new this month.
+
+      ### 🚀 What's New
+
+      ### 🏗️ Permits Dataset
+
+      **New Permits Added**
+      - **5.5M Records**
+      - Expanding historical and current coverage across all jurisdictions
+
+      - Permits filed in December 2025: **295K**
+
+      **🧱 Permit Activity by Category**
+
+      - **Electrical Permits:** **+1.3M** - Largest category growth this release
+      - Plumbing permits: **+803K**
+      - HVAC permits: **+569K**
+      - New construction permits: **+460K**
+      - Remodel permits: **+351K**
+      - Roofing permits: **+267K**
+      - Solar permits: **+131K**
+      - ADU permits: **+82K**
+      - Demolition permits: **+65K**
+      - EV charger permits: **+18K**
+
+      ### 📍 Geocoding Improvements
+
+      Additional Permits Geocoded
+      - **+4.7M Records**
+      - Now with latitude and longitude coordinates
+      - Total geocoded permits: **143.9M**
+
+      This release significantly improves spatial completeness for downstream mapping and location-based analysis.
+
+      ### 👷 Contractor Intelligence
+
+      **New Contractors Added**
+      - **+171K Records**
+      - Total now: **3.6M contractors** in our database
+      - Additional contractor licenses captured: **+256K**
+      - Additional primary phone numbers available: **+69K**
+      - Additional primary email addresses available: **+40K**
+    </Tab>
+    <Tab title="API">
+      ### Introduction
+
+      Happy New Year! We're starting 2026 with 5.5M new permits, 4.7M additional geocoded records, and 171K new contractors. On the API side, we've added negative query filters and dynamic tallies, plus performance improvements for contractor and text search. Here's everything new this month.
+
+      ### 🚀 What's New
+
+      ### ⚡ API: New Features
+
+      **Negative Query Filters**
+
+      Exclude specific tags and classifications using a dash prefix:
+
+      ```
+      # Exclude HVAC permits
+      permit_tags=-hvac
+
+      # Mixed: solar permits excluding roofing
+      permit_tags=solar&permit_tags=-roofing
+      ```
+
+      <Warning>
+        **Note:** Pure negative queries at state-level are limited to 365 days. Add a positive filter or use a more specific geo_id to expand the range.
+      </Warning>
+
+      **Dynamic Tallies in Contractor Search**
+
+      Use `include_tallies=true` to get `tag_tally` and `status_tally` per contractor. Tallies are scoped to your search filters (date range, geo, tags).
+
+      **Clarified Contractor Search Semantics**
+
+      Filters work independently: `permit_tags` for capability/expertise, `permit_from/to` for activity period, and `tag_tally` for work breakdown within that period.
+
+      ### 🔧 API: Performance & Bug Fixes
+
+      **Performance improvements**
+      - Contractor search and full-text search (`permit_q`) are now significantly faster, especially for broad geo queries
+      - Text search also supports English stemming, so "installing" matches "install"
+
+      **Invalid date range handling**
+      - Now returns 422 with a clear message instead of 500 Internal Server Error
+
+      **Contractor search pagination**
+      - Fixed an issue where pagination could prematurely signal end of results
+
+      <Info>
+        ✅ **No breaking changes.** All existing integrations continue to work unchanged.
+      </Info>
+
+      ### 🏗️ Permits Dataset
+
+      **New Permits Added**
+      - **5.5M Records**
+      - Expanding historical and current coverage across all jurisdictions
+
+      - **Permits filed in December 2025:** **295K**
+
+      **🧱 Permit Activity by Category**
+
+      - **Electrical Permits:** **+1.3M** - Largest category growth this release
+      - **Plumbing permits:** **+803K**
+      - **HVAC permits:** **+569K**
+      - **New construction permits:** **+460K**
+      - **Remodel permits:** **+351K**
+      - **Roofing permits:** **+267K**
+      - **Solar permits:** **+131K**
+      - **ADU permits:** **+82K**
+      - **Demolition permits:** **+65K**
+      - **EV charger permits:** **+18K**
+
+      ### 📍 Geocoding Improvements
+
+      **Additional Permits Geocoded**
+      - **+4.7M Records**
+      - Now with latitude and longitude coordinates
+      - **Total geocoded permits:** **143.9M**
+
+      This release significantly improves spatial completeness for downstream mapping and location-based analysis.
+
+      ### 👷 Contractor Intelligence
+
+      **New Contractors Added**
+      - **+171K Records**
+      - **Total now:** **3.6M contractors** in our database
+      - **Additional contractor licenses captured:** **+256K**
+      - **Additional primary phone numbers available:** **+69K**
+      - **Additional primary email addresses available:** **+40K**
+    </Tab>
+    <Tab title="EDL (Enterprise Data License)">
+      ### Introduction
+
+      Happy New Year! We're starting 2026 with 5.5M new permits, 4.7M additional geocoded records, and 171K new contractors. On the API side, we've added negative query filters and dynamic tallies, plus performance improvements for contractor and text search. Here's everything new this month.
+
+      ### 🚀 What's New
+
+      ### 🏗️ Permits Dataset
+
+      **New Permits Added**
+      - **5.5M Records**
+      - Expanding historical and current coverage across all jurisdictions
+
+      - **Permits filed in December 2025:** **295K**
+
+      **🧱 Permit Activity by Category**
+
+      - **Electrical Permits:** **+1.3M** - Largest category growth this release
+      - **Plumbing permits:** **+803K**
+      - **HVAC permits:** **+569K**
+      - **New construction permits:** **+460K**
+      - **Remodel permits:** **+351K**
+      - **Roofing permits:** **+267K**
+      - **Solar permits:** **+131K**
+      - **ADU permits:** **+82K**
+      - **Demolition permits:** **+65K**
+      - **EV charger permits:** **+18K**
+
+      ### 📍 Geocoding Improvements
+
+      **Additional Permits Geocoded**
+      - **+4.7M Records**
+      - Now with latitude and longitude coordinates
+      - **Total geocoded permits:** **143.9M**
+
+      This release significantly improves spatial completeness for downstream mapping and location-based analysis.
+
+      ### 👷 Contractor Intelligence
+
+      **New Contractors Added**
+      - **+171K Records**
+      - **Total now:** **3.6M contractors** in our database
+      - **Additional contractor licenses captured:** **+256K**
+      - **Additional primary phone numbers available:** **+69K**
+      - **Additional primary email addresses available:** **+40K**
+    </Tab>
+  </Tabs>
+</Update>
+
 <Update label="V2.1.3" description="2025-12-01">
   <Tabs>
     <Tab title="Online">
