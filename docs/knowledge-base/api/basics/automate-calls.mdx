@@ -1,0 +1,65 @@
+---
+title: "Can I Automate API Calls?"
+description: "Learn how to automate Shovels API calls by integrating the API into your applications using programming languages like Python."
+---
+
+Yes, developers can automate API calls by integrating the Shovels API into their applications.
+
+## Getting Started
+
+The API can be integrated using any programming language that supports HTTP requests. Common choices include:
+- Python
+- JavaScript/Node.js
+- Java
+- Go
+- Ruby
+- PHP
+
+## Example: Python Integration
+
+```python
+import requests
+
+API_KEY = "YOUR_API_KEY_HERE"
+BASE_URL = "https://api.shovels.ai/v2"
+
+headers = {
+    "X-API-Key": API_KEY
+}
+
+# Search for permits
+response = requests.get(
+    f"{BASE_URL}/permits/search",
+    headers=headers,
+    params={
+        "geo_id": "CA",
+        "permit_from": "2024-01-01",
+        "size": 100
+    }
+)
+
+data = response.json()
+print(f"Found {len(data['items'])} permits")
+```
+
+## Code Snippets in Documentation
+
+Our [API documentation](/api-reference) provides code snippets in multiple languages for each endpoint, making it easy to generate integration code for your preferred language.
+
+## Best Practices for Automation
+
+1. **Handle rate limits** - Implement backoff when approaching limits
+2. **Use pagination** - Process large result sets in batches
+3. **Cache results** - Store data locally to minimize API calls
+4. **Error handling** - Handle both errors and empty results gracefully
+5. **Respect the API** - Avoid frivolous or unnecessary requests
+
+<Tip>
+Check your API usage in Profile Settings to monitor your credit consumption.
+</Tip>
+
+## Related Articles
+
+- [API documentation](/api-reference)
+- [Rate limits](/docs/knowledge-base/api/basics/rate-limits)
+- [How do API credits work?](/docs/knowledge-base/api/basics/request-counts)

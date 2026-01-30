@@ -1,0 +1,64 @@
+---
+title: "Getting Resident Contact Information in EDL"
+description: "Learn how to access resident and homeowner email contact information through Shovels EDL data, including which tables and fields to use."
+---
+
+Resident and homeowner email contact information is available through multiple fields in EDL data.
+
+## Where to Find Contact Information
+
+### PERMITS Table
+
+| Field | Description |
+|-------|-------------|
+| `APPLICANT_EMAIL` | Email of the permit applicant (may be homeowner, builder, or contractor depending on who applied) |
+| `OWNER_EMAIL` | Property owner email at time of permit submission |
+
+<Info>
+Note: Owner email reflects ownership at the time of permit submission, which may have changed if the permit is old.
+</Info>
+
+### RESIDENTS Table
+
+| Field | Description |
+|-------|-------------|
+| `PERSONAL_EMAILS` | Personal email addresses for residents |
+| `BUSINESS_EMAIL` | Business email addresses |
+| `HOMEOWNER` | Filter for `HOMEOWNER = Y` to get homeowner contacts |
+
+## Identifying Homeowners
+
+To get homeowner-specific contact information:
+
+```sql
+SELECT personal_emails, business_email, name, phone
+FROM residents
+WHERE homeowner = 'Y'
+```
+
+## API Access
+
+For API users, access resident contact info by:
+1. Get the `address_id` from a permit object
+2. Pass it to the [residents endpoint](/api-reference/addresses/get-residents)
+
+```bash
+GET /v2/addresses/{address_id}/residents
+```
+
+This returns contact info including name, phone, and email for occupants associated with the address.
+
+## EDL vs API Differences
+
+| Data Point | EDL | API |
+|------------|-----|-----|
+| Applicant email | Yes | No |
+| Owner email | Yes | No |
+| Personal emails | Yes | Yes |
+| Business email | Yes | Yes |
+
+## Related Articles
+
+- [Resident data overview](/docs/knowledge-base/data/residents/resident-data)
+- [Homeowner field](/docs/knowledge-base/data/residents/homeowner-field)
+- [EDL overview](/docs/knowledge-base/edl/overview)

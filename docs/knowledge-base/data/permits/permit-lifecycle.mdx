@@ -1,0 +1,44 @@
+---
+title: "How Permits Are Tracked Through Their Lifecycle"
+description: "Understand how Shovels tracks individual permits from filing to completion using unique IDs and status updates without creating duplicates."
+---
+
+Each permit in the Shovels database receives a unique permit ID that remains persistent throughout its entire lifecycle.
+
+## How It Works
+
+As updates are made to a permit—such as status changes, valuation adjustments, or contractor assignments—we update the data while maintaining the same permit ID.
+
+This approach ensures:
+- A continuous record of the permit's progression
+- No duplicate entries from status updates
+- Reliable tracking across data refreshes
+
+## Permit Lifecycle Stages
+
+The permit lifecycle typically flows through several stages:
+
+| Stage | Status | Date Field |
+|-------|--------|------------|
+| Filing | `in_review` | `file_date` |
+| Approval | `active` | `issued_date` |
+| Completion | `final` | `final_date` |
+| Abandoned/Revoked | `inactive` | - |
+
+## Status Updates
+
+For each status change, we update the corresponding date fields while maintaining the same unique identifier. This allows users to track a permit's complete history without piecing together fragments across multiple records.
+
+## Deduplication
+
+Our deduplication process ensures that even when jurisdictions report the same permit multiple times with different statuses, Shovels presents a single, up-to-date record with the most current information.
+
+<Info>
+If a permit has a final status but no final date, it typically indicates an **over-the-counter permit**—one that was approved immediately without the need for a follow-up inspection.
+</Info>
+
+## Related Articles
+
+- [Permit statuses explained](/docs/knowledge-base/data/permits/permit-statuses)
+- [Tracking multiple permits](/docs/knowledge-base/data/permits/permit-tracking)
+- [Understanding start and end dates](/docs/knowledge-base/data/permits/start-end-dates)

@@ -1,0 +1,45 @@
+---
+title: "How to Access Your API Key"
+description: "Learn how to access and manage your Shovels API key from your account dashboard for authenticating API requests."
+---
+
+Your API key is required to authenticate all requests to the Shovels API.
+
+## Accessing Your API Key
+
+1. [Log into your Shovels account](https://app.shovels.ai/profile-settings/)
+2. Navigate to the **Profile Settings** section
+3. Your API key is displayed in the **API Key** field
+
+## Using Your API Key
+
+Include your API key in the header of every API request:
+
+```bash
+curl -X GET "https://api.shovels.ai/v2/meta/release" \
+  -H "X-API-Key: YOUR_API_KEY_HERE"
+```
+
+## Free Trial API Access
+
+New accounts receive **250 credits** to explore our capabilities before committing to a paid plan.
+
+<Info>
+Each record returned by the API counts against your credits. A search returning 100 permits uses 100 credits; a single permit lookup uses 1 credit.
+</Info>
+
+## Tracking Your Usage
+
+You can view your API credit usage in the Profile Settings or by calling the `GET /v2/usage` endpoint. Credits operate on a 30-day rolling window.
+
+## Need More Credits?
+
+If you hit your limit and need more credits:
+- Contact [sales@shovels.ai](mailto:sales@shovels.ai)
+- Call us at [1-800-511-7457](tel:+18005117457)
+
+## Related Articles
+
+- [How do API credits work?](/docs/knowledge-base/api/basics/request-counts)
+- [API rate limits](/docs/knowledge-base/api/basics/rate-limits)
+- [API documentation](https://docs.shovels.ai/docs/shovels-api-introduction)

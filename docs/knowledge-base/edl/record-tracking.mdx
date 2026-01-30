@@ -1,0 +1,52 @@
+---
+title: "Tracking New vs Modified Records in EDL"
+description: "Learn how to use first_seen_date and other fields to identify new versus pre-existing records in monthly EDL data deliveries."
+---
+
+For EDL customers receiving monthly data overwrites, tracking whether a record is new versus pre-existing and modified can be accomplished using the `first_seen_date` field.
+
+## Using first_seen_date
+
+The `first_seen_date` field in the PERMITS table indicates when Shovels first discovered the permit in our data collection process.
+
+### Identifying New Records
+
+Compare `first_seen_date` with your previous data delivery:
+- Records where `first_seen_date` falls **after** your last update are **new**
+- Records where `first_seen_date` falls **before** your last update are **existing**
+
+### Example Logic
+
+```sql
+-- New permits since last delivery (Jan 15)
+SELECT * FROM permits
+WHERE first_seen_date > '2024-01-15'
+```
+
+## Tracking Modifications
+
+Currently, there is no specific flag indicating changes in records. To identify modifications to existing records:
+
+1. **Maintain previous deliveries** - Keep a copy of your previous data
+2. **Compare key fields** - Focus on fields that might change:
+   - Status
+   - Valuation
+   - Dates
+   - Other attributes
+3. **Build comparison logic** - Create queries that identify differences
+
+<Info>
+We're actively working on enhancing our data delivery system to include explicit change tracking flags in future releases.
+</Info>
+
+## Best Practices
+
+1. Store the `first_seen_date` for your comparison baseline
+2. Maintain at least one previous delivery for modification tracking
+3. Focus comparisons on fields relevant to your use case
+4. Consider building automated comparison pipelines
+
+## Related Articles
+
+- [Monthly deliveries](/docs/knowledge-base/edl/monthly-deliveries)
+- [EDL overview](/docs/knowledge-base/edl/overview)

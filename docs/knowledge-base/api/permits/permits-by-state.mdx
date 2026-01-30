@@ -1,0 +1,58 @@
+---
+title: "How to Search Permits by State"
+description: "Learn how to search for building permits in a specific US state using the Shovels API with 2-letter state abbreviations."
+---
+
+Use the 2-letter state abbreviation as the `geo_id` to search for permits in a specific state.
+
+## State Abbreviation Format
+
+Use standard 2-letter US state abbreviations:
+- California = `CA`
+- Texas = `TX`
+- Florida = `FL`
+- New York = `NY`
+
+## Example Request
+
+```bash
+curl -X GET \
+  "https://api.shovels.ai/v2/permits/search?geo_id=CA&permit_from=2024-01-01&permit_to=2024-12-31&size=100" \
+  -H "X-API-Key: YOUR_API_KEY_HERE"
+```
+
+## Narrowing Your Search
+
+State-level searches can return many results. Consider adding filters:
+
+```bash
+# Add property type filter
+?geo_id=CA&property_type=residential
+
+# Add permit type filter
+?geo_id=CA&tags=solar
+
+# Combine with date range
+?geo_id=CA&permit_from=2024-01-01&permit_to=2024-03-31
+```
+
+<Info>
+State-level searches may return large result sets. Use pagination and filters to manage the data effectively.
+</Info>
+
+## Geography Levels
+
+The same `geo_id` parameter works at multiple levels:
+
+| Level | Example |
+|-------|---------|
+| State | `geo_id=CA` |
+| Zip Code | `geo_id=94103` |
+| City | Use city-specific geo_id |
+| Address | Use address-specific geo_id |
+
+## Related Articles
+
+- [How to search for permits](/docs/knowledge-base/api/permits/permit-search)
+- [Understanding query parameters](/docs/knowledge-base/api/basics/query-parameters)
+- [API Reference](/api-reference)

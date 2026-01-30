@@ -1,0 +1,68 @@
+---
+title: "How Many Permits Can I Retrieve Per API Call?"
+description: "Learn about the maximum number of permits you can retrieve in a single Shovels API call and how to paginate through larger result sets."
+---
+
+The number of records you can retrieve depends on the endpoint type:
+
+| Endpoint Type | Max Records | Example |
+|---------------|-------------|---------|
+| **Search endpoints** | 100 per page | `GET /v2/permits/search?size=100` |
+| **Detail endpoints** | 50 IDs per call | `GET /v2/permits?id=123,456,...` |
+
+## Search Endpoints
+
+Use the `size` parameter to control how many records are returned (default: 50, max: 100):
+
+```bash
+curl -X GET \
+  "https://api.shovels.ai/v2/permits/search?geo_id=94103&size=100" \
+  -H "X-API-Key: YOUR_API_KEY_HERE"
+```
+
+## Pagination for Larger Results
+
+If you need more than 100 permits, paginate through the results using the `next_cursor` value provided in the response.
+
+### Cursor-Based Pagination
+
+1. Make your initial request
+2. Check the response for `next_cursor`
+3. Use that cursor value in your next request
+4. Repeat until no more results
+
+```bash
+# First request
+GET /v2/permits/search?geo_id=CA&size=100
+
+# Subsequent requests with cursor
+GET /v2/permits/search?geo_id=CA&size=100&cursor=CURSOR_VALUE
+```
+
+<Tip>
+Your API credits are based on records returned—a call returning 100 permits uses 100 credits, while a call returning 1 permit uses 1 credit.
+</Tip>
+
+## Detail Endpoints
+
+When retrieving specific records by ID, you can request up to **50 IDs** per call:
+
+```bash
+curl -X GET \
+  "https://api.shovels.ai/v2/permits?id=permit_123,permit_456,permit_789" \
+  -H "X-API-Key: YOUR_API_KEY_HERE"
+```
+
+The same limit applies to contractor lookups via `GET /v2/contractors?id=...`.
+
+## Best Practices
+
+- Set `size=100` on search endpoints to maximize records per request
+- Batch detail lookups to avoid exceeding the 50 ID limit
+- Handle pagination in your code to process complete datasets
+- Store results locally to avoid re-fetching the same data
+
+## Related Articles
+
+- [How do API credits work?](/docs/knowledge-base/api/basics/request-counts)
+- [Understanding query parameters](/docs/knowledge-base/api/basics/query-parameters)

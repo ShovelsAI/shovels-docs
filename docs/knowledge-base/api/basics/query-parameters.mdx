@@ -1,0 +1,64 @@
+---
+title: "Understanding Query Parameters"
+description: "Learn how to use query parameters in the Shovels API to filter and refine your permit and contractor searches."
+---
+
+Query parameters are additional details you include in your API request to specify the data you want to retrieve. They help refine your query to get more relevant results.
+
+## Common Query Parameters
+
+### Geographic Filtering
+
+The `geo_id` parameter enables precise searching by:
+- State (e.g., `CA`, `TX`, `FL`)
+- Zip code (e.g., `94103`)
+- City or county
+- Specific address
+
+### Date Filtering
+
+Filter permits by date ranges:
+- `permit_from` - Start date for permit search
+- `permit_to` - End date for permit search
+
+### Pagination
+
+Control result sets:
+- `size` - Number of records per page (default: 50, max: 100)
+- `cursor` - For cursor-based pagination (recommended)
+- `page` - Page number for offset-based pagination (deprecated)
+
+## Example Requests
+
+### Search permits in California from 2024
+
+```bash
+curl -X GET \
+  "https://api.shovels.ai/v2/permits/search?geo_id=CA&permit_from=2024-01-01&permit_to=2024-12-31&size=100" \
+  -H "X-API-Key: YOUR_API_KEY_HERE"
+```
+
+### Search contractors by name
+
+```bash
+curl -X GET \
+  "https://api.shovels.ai/v2/contractors/search?name=Smith" \
+  -H "X-API-Key: YOUR_API_KEY_HERE"
+```
+
+<Tip>
+The `geo_id` parameter is a unified geography filter. The same permit search works whether you pass a state abbreviation, zip code, or individual address geo_id—you're just swapping out the geography level.
+</Tip>
+
+## Using Filters Efficiently
+
+To optimize your API responses:
+1. Apply date filters to narrow results
+2. Use property type filters when relevant
+3. Start with broader geography, then narrow down
+4. Use the `/list/*` endpoints to get valid values for filter parameters
+
+## Learn More
+
+- [API Reference](/api-reference)
+- [Path vs query parameters](/docs/knowledge-base/api/basics/api-endpoints)

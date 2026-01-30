@@ -1,0 +1,58 @@
+---
+title: "How to Verify Your API Request Was Successful"
+description: "Learn how to determine if your Shovels API request succeeded by checking HTTP status codes and response data."
+---
+
+A successful API request returns a **200 status code** along with the requested data.
+
+## Success Response
+
+When your request succeeds, you'll receive:
+- HTTP status code: `200 OK`
+- Response body with your requested data
+
+```json
+{
+  "items": [...],
+  "next_cursor": "...",
+  "total": 150
+}
+```
+
+## Error Responses
+
+If there are issues, you'll receive an error code indicating the problem:
+
+| Status Code | Meaning |
+|-------------|---------|
+| 200 | Success (may have empty results) |
+| 400 | Bad request - check your parameters |
+| 401 | Unauthorized - check your API key |
+| 422 | Unprocessable - missing required parameter |
+| 429 | Rate limit exceeded |
+| 500 | Server error - try again later |
+
+## Empty Results vs Errors
+
+<Warning>
+A 200 response with an empty `items` array is **not an error**. It means:
+- The address or geo_id is valid
+- No permits match your query criteria
+</Warning>
+
+This commonly happens when:
+- The address has no permits in our system
+- Your date filters exclude all results
+- The geo_id format is valid but doesn't match any records
+
+## Troubleshooting
+
+1. **Check your API key** - Ensure it's correctly included in the header
+2. **Verify required parameters** - Most endpoints require a geo_id
+3. **Review date formats** - Use YYYY-MM-DD format
+4. **Check the response body** - Error messages describe what's wrong
+
+## Related Articles
+
+- [Error handling](/docs/knowledge-base/api/errors/error-handling)
+- [422 error explained](/docs/knowledge-base/api/errors/422-error)

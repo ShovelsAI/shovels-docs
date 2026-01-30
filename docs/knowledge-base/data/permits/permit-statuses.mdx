@@ -1,0 +1,75 @@
+---
+title: "What Do Permit Statuses Mean in Shovels?"
+description: "Shovels has 4 permit statuses: in_review (filed, awaiting approval), active (approved), final (completed), and inactive (stalled/expired). Learn what each means."
+---
+
+**Shovels uses four permit statuses: `in_review` (filed, awaiting approval), `active` (approved, work can proceed), `final` (completed, passed inspection), and `inactive` (stalled, expired, or abandoned).** These statuses track a permit's progression through its lifecycle.
+
+## Permit Statuses in Shovels
+
+There are **four** primary statuses that permits can have:
+
+### in_review
+
+From the moment the permit is filed with the local jurisdiction until it is approved.
+
+- **Defined by:** `file_date`
+- **Meaning:** Permit application is being reviewed
+
+### active
+
+From the moment the permit is approved until project completion or some other intermediate restriction.
+
+- **Defined by:** `issue_date`
+- **Meaning:** Permit has been approved, work can proceed
+
+### final
+
+When the permit is completed and submitted back to the jurisdiction upon job completion.
+
+- **Defined by:** `final_date`
+- **Meaning:** Project is complete, passed final inspection
+
+### inactive
+
+If any part of the process stalls or gets restricted from progression.
+
+**Reasons a permit may become inactive:**
+- Failing to meet project inspections
+- Permit expires before completion
+- [Inactivity for more than 6 months (180 days)](https://ecode360.com/6567722#6567722)
+- Other jurisdiction-specific reasons
+
+<Info>
+Disqualifying reasons and reporting timeframes vary by jurisdiction and local regulation.
+</Info>
+
+## Special Cases
+
+### "Unknown" and "None" Statuses
+
+Sometimes permits have "unknown" or "none" statuses. This can happen due to:
+- Variances in jurisdiction record keeping
+- Lack of data
+- Dates not provided by the jurisdiction
+
+The exact meanings may vary depending on the context or jurisdiction.
+
+### Final Status Without Final Date
+
+If a permit has a final status but no final date, it typically indicates an **over-the-counter permit**—one that was approved immediately without needing a follow-up inspection.
+
+Common over-the-counter permits include:
+- Solar installations
+- Simple plumbing work
+- Minor electrical work
+
+<Note>
+This can vary by city and county—some jurisdictions process more permit types over-the-counter than others.
+</Note>
+
+## Learn More
+
+- [Shovels 101: Permit Statuses](https://www.shovels.ai/blog/shovels-101-permit-statuses/) - Blog post with detailed explanations
+- [Permit lifecycle](/docs/knowledge-base/data/permits/permit-lifecycle)
+- [Checking project completion](/docs/knowledge-base/data/permits/project-completion)

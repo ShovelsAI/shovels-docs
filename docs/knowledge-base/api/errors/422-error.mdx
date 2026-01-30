@@ -1,0 +1,54 @@
+---
+title: "What Does a 422 Error Mean in the Shovels API?"
+description: "A 422 error means a required parameter is missing. Usually, you need to resolve your address to a geo_id first using the Address Search endpoint."
+---
+
+**A 422 error in the Shovels API means a required parameter is missing from your request.** The most common cause is querying permits without first resolving your address to a geo_id. Solution: Use the Address Search endpoint to get a geo_id, then use that geo_id in your permit query.
+
+## Common Causes
+
+### Missing geo_id
+
+If you query permits without including a geo_id:
+
+```json
+{
+  "detail": "Invalid geolocation ID value. Have you resolved your address into Shovels geolocation ID?"
+}
+```
+
+### Invalid geo_id Format
+
+If the geo_id format is incorrect or wasn't obtained through address resolution.
+
+## How to Fix
+
+1. **Resolve the address first** - Use the Address Search API to get a valid geo_id
+2. **Check required parameters** - Review the API documentation for required fields
+3. **Review the error message** - The JSON output helps identify what's missing
+
+## Example Workflow
+
+```bash
+# WRONG: Querying permits without resolving address first
+GET /v2/permits/search?street=123+Main+St  # Will return 422
+
+# RIGHT: Resolve address, then query permits
+GET /v2/addresses/search?street=123+Main+St&city=San+Francisco&state=CA
+# Get geo_id from response, then:
+GET /v2/permits/search?geo_id=RESOLVED_GEO_ID
+```
+
+<Tip>
+Always check the error response body—it tells you exactly what's missing or invalid.
+</Tip>
+
+## Full Documentation
+
+For complete 422 error details including all location types and error examples, see [API Introduction - 422 Unprocessable Entity](/docs/shovels-api-introduction#422-unprocessable-entity).
+
+## Related Articles
+
+- [Error handling](/docs/knowledge-base/api/errors/error-handling)
+- [Resolving addresses](/docs/knowledge-base/api/address-resolution/resolving-addresses)
+- [API documentation](/api-reference)

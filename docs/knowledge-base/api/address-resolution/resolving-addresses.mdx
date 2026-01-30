@@ -1,0 +1,62 @@
+---
+title: "Resolving Addresses to geo_id"
+description: "Learn the essential first step in using the Shovels API: resolving addresses through our Address Search endpoint to get the geo_id for permit queries."
+---
+
+Address resolution is the essential first step in using Shovels' API effectively.
+
+## The Two-Step Process
+
+1. **Resolve the address** - Get a `geo_id` from our Address Search endpoint
+2. **Query permits** - Use the `geo_id` to retrieve permit data
+
+## Step 1: Resolve the Address
+
+Use the Address Search API endpoint to find addresses with permits in our system:
+
+```bash
+curl -X GET \
+  "https://api.shovels.ai/v2/addresses/search?street=123+Main+St&city=San+Francisco&state=CA" \
+  -H "X-API-Key: YOUR_API_KEY_HERE"
+```
+
+The response includes:
+- Standardized address information
+- A unique `geo_id`
+
+## Step 2: Query Permits
+
+Use the `geo_id` to retrieve permits:
+
+```bash
+curl -X GET \
+  "https://api.shovels.ai/v2/permits/search?geo_id=ADDRESS_GEO_ID&permit_from=2020-01-01" \
+  -H "X-API-Key: YOUR_API_KEY_HERE"
+```
+
+## Why geo_id Matters
+
+The `geo_id` system offers several advantages:
+- **Consistent identification** regardless of address formatting variations
+- **Stable reference point** even if address details change over time
+- **Improved query performance** compared to direct address searching
+
+<Info>
+If the address doesn't have any permits in our database, the API returns a 200 OK response with an empty `items` array.
+</Info>
+
+## Best Practices
+
+- Provide as much address information as possible (street number, name, city, state, ZIP)
+- Our system standardizes addresses using multiple verification sources
+- The `geo_id` parameter works at multiple levels: address, zip code, city, county, or state
+
+## Alternative: Shovels Online
+
+For quick lookups without code, use the **Location Search** feature in [Shovels Online](https://app.shovels.ai) to search by address directly.
+
+## Related Articles
+
+- [How to find a geo_id](/docs/knowledge-base/api/address-resolution/geo-id-lookup)
+- [State and zip validation](/docs/knowledge-base/api/address-resolution/state-zip-validation)
+- [API Reference: Search Addresses](/api-reference/addresses/search-addresses)
