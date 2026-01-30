@@ -2,11 +2,11 @@
   "$schema": "https://mintlify.com/schema.json",
   "name": "Shovels Documentation",
   "logo": {
-    "dark": "assets/shovels-logo.png",
-    "light": "assets/shovels-logo.png",
+    "dark": "/assets/shovels-logo.png",
+    "light": "/assets/shovels-logo.png",
     "href": "https://www.shovels.ai"
   },
-  "favicon": "assets/favicon.png",
+  "favicon": "/assets/favicon.png",
   "theme": "prism",
   "font": {
     "headings": {
