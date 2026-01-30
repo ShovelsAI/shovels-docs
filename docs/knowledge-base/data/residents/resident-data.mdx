@@ -1,0 +1,74 @@
+---
+title: "Understanding Shovels Resident Data"
+description: "Learn how Shovels assembles and validates resident demographic data, including data sources, available features, and how to access it via API."
+---
+
+Shovels provides resident data features including demographic information compiled from multiple sources.
+
+## Available Data Features
+
+### Demographics
+- Gender
+- Age range
+- Income range
+
+### Additional Consumer Attributes
+- Number of kids
+- Grandparent in household
+- Net worth
+- And more
+
+## Data Sources
+
+Shovels' resident data comes from multiple non-LinkedIn sources. We assemble data about individuals via common linkages between:
+- Person's name
+- Workplace
+- Personal address
+- Business or personal contact information
+
+## Data Compilation Process
+
+Our process uses **consensus and observation date methodology** to select the most likely and current data points for each individual.
+
+### Consensus Validation
+We require 3+ different data signals to confirm data linkages, with reliability ensured through exhaustive validation methods and confirmation from actual usage.
+
+### Conformation
+This process ensures data within the "Consensus" realm not only represents frequent occurrences but also adheres to proper formatting and data standards.
+
+<Info>
+The data includes both directly observed information and modeled/probabilistic data.
+</Info>
+
+## Accessing Resident Data
+
+### Via API
+
+To access resident contact information, pass the `address_id` from a permit object into the [residents endpoint](/api-reference/addresses/get-residents):
+
+```bash
+GET /v2/addresses/{address_id}/residents
+```
+
+This returns contact info like name, phone, and email for occupants associated with the address.
+
+### Via EDL
+
+EDL customers have access to:
+- `PERSONAL_EMAILS` - Personal email addresses
+- `BUSINESS_EMAIL` - Business email addresses
+- `HOMEOWNER` field - Filter for `HOMEOWNER = Y`
+
+## Using Demographics for Homeowner Analysis
+
+You can use available features like:
+- Income range
+- Children present
+- Net worth
+
+To identify trends that could help determine homeownership likelihood at certain demographic levels.
+
+## Related Articles
+
+- [Homeowner field explained](/docs/knowledge-base/data/residents/homeowner-field)
+- [Data Dictionary](https://docs.google.com/spreadsheets/d/1qiIxx37_-6vGfGp2i5pXv4w2FdsLsShjCqSVO5v6OMQ/edit?gid=1818227349#gid=1818227349)

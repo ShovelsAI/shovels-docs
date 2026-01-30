@@ -1,0 +1,43 @@
+---
+title: "How to Check Project Completion and Inspection Status"
+description: "Learn how to determine if a construction project was completed and passed inspection by checking the permit status in Shovels data."
+---
+
+To determine whether a project was completed and passed inspection, check the permit status.
+
+## Checking Completion Status
+
+A permit with status **"final"** indicates:
+- All work has been completed
+- The project has passed inspection
+- The permit lifecycle is complete
+
+```
+status: "final"
+final_date: "2024-06-15"
+```
+
+## What the Status Tells You
+
+| Status | Project State |
+|--------|--------------|
+| `in_review` | Application submitted, not yet approved |
+| `active` | Approved, work may be in progress |
+| `final` | Completed and passed inspection |
+| `inactive` | Stalled, expired, or abandoned |
+
+## Additional Information
+
+Permit records can provide various details about projects, but availability depends on what the jurisdiction includes:
+- **System size** - Depends on permit description detail
+- **Inspection results** - Reflected in status changes
+- **Timeline** - Captured in date fields
+
+<Info>
+Historical permit records can be accessed, with some jurisdictions providing data going back 25+ years.
+</Info>
+
+## Related Articles
+
+- [Permit statuses explained](/docs/knowledge-base/data/permits/permit-statuses)
+- [Permit lifecycle](/docs/knowledge-base/data/permits/permit-lifecycle)

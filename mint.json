@@ -2,11 +2,11 @@
   "$schema": "https://mintlify.com/schema.json",
   "name": "Shovels Documentation",
   "logo": {
-    "dark": "assets/shovels-logo.png",
-    "light": "assets/shovels-logo.png",
-    "href": "https://shovels.ai"
+    "dark": "/assets/shovels-logo.png",
+    "light": "/assets/shovels-logo.png",
+    "href": "https://www.shovels.ai"
   },
-  "favicon": "assets/favicon.png",
+  "favicon": "/assets/favicon.png",
   "theme": "prism",
   "font": {
     "headings": {
@@ -53,6 +53,10 @@
     {
       "name": "Release Notes",
       "url": "release-notes"
+    },
+    {
+      "name": "Knowledge Base",
+      "url": "docs/knowledge-base"
     }
   ],
   "anchors": [
@@ -148,6 +152,155 @@
       "pages": [
         "release-notes/release-notes"
       ]
+    },
+    {
+      "group": "Knowledge Base",
+      "pages": [
+        "docs/knowledge-base/index",
+        "docs/knowledge-base/quick-answers",
+        "docs/knowledge-base/glossary",
+        {
+          "group": "Getting Started",
+          "pages": [
+            "docs/knowledge-base/getting-started/free-trial-guide",
+            "docs/knowledge-base/getting-started/pricing-structure",
+            "docs/knowledge-base/getting-started/key-differentiators"
+          ]
+        },
+        {
+          "group": "API Questions",
+          "pages": [
+            {
+              "group": "API Basics",
+              "pages": [
+                "docs/knowledge-base/api/basics/api-key-access",
+                "docs/knowledge-base/api/basics/api-endpoints",
+                "docs/knowledge-base/api/basics/query-parameters",
+                "docs/knowledge-base/api/basics/rate-limits",
+                "docs/knowledge-base/api/basics/request-counts",
+                "docs/knowledge-base/api/basics/permits-per-call",
+                "docs/knowledge-base/api/basics/successful-requests",
+                "docs/knowledge-base/api/basics/automate-calls"
+              ]
+            },
+            {
+              "group": "Address Resolution",
+              "pages": [
+                "docs/knowledge-base/api/address-resolution/resolving-addresses",
+                "docs/knowledge-base/api/address-resolution/geo-id-lookup",
+                "docs/knowledge-base/api/address-resolution/state-zip-validation"
+              ]
+            },
+            {
+              "group": "Permits",
+              "pages": [
+                "docs/knowledge-base/api/permits/permit-search",
+                "docs/knowledge-base/api/permits/permits-by-state"
+              ]
+            },
+            {
+              "group": "Contractors",
+              "pages": [
+                "docs/knowledge-base/api/contractors/contractor-search",
+                "docs/knowledge-base/api/contractors/employee-data",
+                "docs/knowledge-base/api/contractors/service-area-lookup",
+                "docs/knowledge-base/api/contractors/filtering-by-size",
+                "docs/knowledge-base/api/contractors/independent-contractors"
+              ]
+            },
+            {
+              "group": "Error Handling",
+              "pages": [
+                "docs/knowledge-base/api/errors/error-handling",
+                "docs/knowledge-base/api/errors/422-error"
+              ]
+            }
+          ]
+        },
+        {
+          "group": "Shovels Online",
+          "pages": [
+            "docs/knowledge-base/shovels-online/how-it-works",
+            "docs/knowledge-base/shovels-online/search-functionality",
+            "docs/knowledge-base/shovels-online/filters-and-sorting",
+            "docs/knowledge-base/shovels-online/permit-downloads",
+            "docs/knowledge-base/shovels-online/contractor-downloads"
+          ]
+        },
+        {
+          "group": "Data & Coverage",
+          "pages": [
+            {
+              "group": "Permits",
+              "pages": [
+                "docs/knowledge-base/data/permits/permit-tracking",
+                "docs/knowledge-base/data/permits/permit-lifecycle",
+                "docs/knowledge-base/data/permits/permit-statuses",
+                "docs/knowledge-base/data/permits/permits-without-addresses",
+                "docs/knowledge-base/data/permits/unique-identifiers",
+                "docs/knowledge-base/data/permits/start-end-dates",
+                "docs/knowledge-base/data/permits/project-completion",
+                "docs/knowledge-base/data/permits/permit-distribution"
+              ]
+            },
+            {
+              "group": "Contractors",
+              "pages": [
+                "docs/knowledge-base/data/contractors/contractor-data-overview",
+                "docs/knowledge-base/data/contractors/quality-indicators",
+                "docs/knowledge-base/data/contractors/contact-information",
+                "docs/knowledge-base/data/contractors/industry-classification"
+              ]
+            },
+            {
+              "group": "Residents",
+              "pages": [
+                "docs/knowledge-base/data/residents/resident-data",
+                "docs/knowledge-base/data/residents/homeowner-field"
+              ]
+            },
+            {
+              "group": "Geographic",
+              "pages": [
+                "docs/knowledge-base/data/geographic/coordinates-geocoding",
+                "docs/knowledge-base/data/geographic/jurisdictions",
+                "docs/knowledge-base/data/geographic/coverage-areas"
+              ]
+            },
+            {
+              "group": "Data Quality",
+              "pages": [
+                "docs/knowledge-base/data/quality/data-sources",
+                "docs/knowledge-base/data/quality/verification-methods",
+                "docs/knowledge-base/data/quality/refresh-frequency",
+                "docs/knowledge-base/data/quality/labeling-process",
+                "docs/knowledge-base/data/quality/historical-data"
+              ]
+            }
+          ]
+        },
+        {
+          "group": "Enterprise (EDL)",
+          "pages": [
+            "docs/knowledge-base/edl/overview",
+            "docs/knowledge-base/edl/monthly-deliveries",
+            "docs/knowledge-base/edl/record-tracking",
+            "docs/knowledge-base/edl/contractor-deduplication",
+            "docs/knowledge-base/edl/is-representative-field",
+            "docs/knowledge-base/edl/resident-contact-info",
+            "docs/knowledge-base/edl/manual-reports",
+            "docs/knowledge-base/edl/data-formats",
+            "docs/knowledge-base/edl/sample-records"
+          ]
+        },
+        {
+          "group": "Company",
+          "pages": [
+            "docs/knowledge-base/company/contact-information",
+            "docs/knowledge-base/company/property-types"
+          ]
+        }
+      ]
     }
   ],
   "api": {
@@ -170,5 +323,15 @@
     "suggestEdit": true,
     "thumbsRating": true,
     "raiseIssue": true
+  },
+  "metadata": {
+    "og:site_name": "Shovels Documentation",
+    "og:type": "website",
+    "og:image": "https://docs.shovels.ai/assets/shovels-logo.png",
+    "twitter:card": "summary_large_image",
+    "twitter:site": "@sabordetech"
+  },
+  "seo": {
+    "indexHiddenPages": false
   }
 }

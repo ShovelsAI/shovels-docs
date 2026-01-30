@@ -1,0 +1,73 @@
+---
+title: "How to Find a Contractor's Service Area"
+description: "Use the Shovels API to identify all cities and zip codes where a contractor has worked by analyzing their permit history."
+---
+
+Rather than relying on self-reported service areas, you can use a contractor's actual permit history to map their complete service footprint across cities and zip codes.
+
+## Overview
+
+By analyzing permit data, you can determine:
+- All cities where a contractor has worked
+- All zip codes in their service area
+- Geographic coverage patterns over time
+
+## Step-by-Step Process
+
+### Step 1: Get Permits for a Contractor
+
+Use the `/v2/permits/search` endpoint to retrieve permits for a specific contractor:
+
+```bash
+curl -X GET \
+  'https://api.shovels.ai/v2/permits/search?contractor_id=YOUR_CONTRACTOR_ID&permit_from=2022-01-01&permit_to=2024-12-31' \
+  -H 'X-API-Key: YOUR_API_KEY_HERE'
+```
+
+<Info>
+You need the contractor_id first. Get it by searching for the contractor using the contractors search endpoint.
+</Info>
+
+### Step 2: Extract Geographic Data
+
+From each permit record, extract:
+- City/jurisdiction names
+- Zip codes
+- Any additional geographic identifiers
+
+### Step 3: Create Unique Lists
+
+Process the permit data to create deduplicated lists of:
+- All cities where the contractor has worked
+- All zip codes in their service area
+- Geographic coverage patterns over time
+
+## Best Practices
+
+1. **Use Date Ranges** - Query recent permit data (last 2-3 years) for active service areas
+2. **Handle Pagination** - Make sure to handle paginated responses to get complete permit histories
+3. **Filter by Property Type** - Use `property_type` parameters to understand different service area patterns (residential vs commercial)
+
+## Geographic Filtering Capabilities
+
+The `geo_id` system enables precise searching by:
+- Address
+- Zip code
+- Jurisdiction
+- City
+- County
+
+This makes location-based queries powerful for understanding contractor coverage.
+
+## Alternative: Shovels Online
+
+In Shovels Online, we show recent permits for each contractor. You can:
+- Search at the county, city, or address level
+- Download permit and contractor data to CSV
+- View contractor profiles with permit history
+
+## Related Articles
+
+- [Contractor search](/docs/knowledge-base/api/contractors/contractor-search)
+- [Employee data](/docs/knowledge-base/api/contractors/employee-data)
+- [API Reference](/api-reference)

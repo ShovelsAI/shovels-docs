@@ -1,0 +1,56 @@
+---
+title: "Tracking Multiple Permits at a Property"
+description: "Learn how Shovels uses a system of unique IDs to track and link multiple permits at the same location, enabling comprehensive property analysis."
+---
+
+Shovels uses a robust system of unique IDs to track multiple permits at a single property.
+
+## How Our ID System Works
+
+### Permit IDs
+
+Each permit receives a **unique permit ID** that remains consistent throughout its lifecycle—from application to completion.
+
+### Address IDs
+
+Each address gets a **unique address ID** the first time it appears in our system. This allows you to easily connect all permits associated with that location.
+
+### Contractor IDs
+
+Each contractor receives a **unique contractor ID** when they first appear on any permit.
+
+## Connecting Related Data
+
+These IDs act as reference points (foreign keys) that enable you to:
+- Track all permits at a specific property
+- Find all permits by a specific contractor
+- Join related permits, addresses, and contractors in analysis
+
+<Tip>
+Use the address ID to find all permits associated with a specific property, even if the address is written differently across different permits.
+</Tip>
+
+## Use Cases
+
+This system is particularly valuable for:
+- **Tracking property improvements over time**
+- **Identifying contractors who frequently work at the same location**
+- **Analyzing permitting patterns for specific properties**
+- **Building relationships between different data points**
+
+## ID Persistence
+
+Our IDs are designed to be stable:
+- Permit IDs remain the same as status changes
+- Address IDs persist even with formatting variations
+- Contractor IDs stay consistent across all their permits
+
+<Info>
+The Shovels ID is distinct from the `permit_no` (permit number) assigned by the jurisdiction. Different jurisdictions may coincidentally assign the same permit number, so always use the Shovels ID for unique identification.
+</Info>
+
+## Related Articles
+
+- [Permit lifecycle](/docs/knowledge-base/data/permits/permit-lifecycle)
+- [Unique identifiers explained](/docs/knowledge-base/data/permits/unique-identifiers)
+- [Data Dictionary](https://docs.google.com/spreadsheets/d/1qiIxx37_-6vGfGp2i5pXv4w2FdsLsShjCqSVO5v6OMQ/edit?gid=1818227349#gid=1818227349)

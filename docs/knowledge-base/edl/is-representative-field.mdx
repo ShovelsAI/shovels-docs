@@ -1,0 +1,54 @@
+---
+title: "Understanding the is_representative Field"
+description: "Learn how the is_representative field in EDL data identifies the main contractor record within a group of related contractors."
+---
+
+In Shovels' Enterprise Data License (EDL) deliveries, the `is_representative` field helps you understand contractor group relationships.
+
+## What It Means
+
+The `is_representative` field is a boolean that indicates whether a contractor record is the **main representative** of a `contractor group_id`.
+
+| Value | Meaning |
+|-------|---------|
+| `TRUE` | This record contains the canonical/preferred information for the entire group |
+| `FALSE` | This is a related contractor in the group, not the primary record |
+
+## How Group IDs Work
+
+The `group_id` is a unique identifier that links together multiple contractors operating under the same parent organization.
+
+**Example:** A national HVAC company might pull permits under regional subsidiaries. Our grouping algorithm:
+1. Identifies these relationships
+2. Links them with a shared `group_id`
+3. Designates one record as the representative
+
+## Why This Matters
+
+### Prevent Double-Counting
+
+When analyzing large contractor datasets, `is_representative` helps prevent counting the same organization multiple times under different names or licenses.
+
+### Avoid Duplicate Outreach
+
+Use the representative record to avoid contacting the same organization through different subsidiary entries.
+
+### Accurate Market Analysis
+
+Get a true count of unique contractor organizations, not just contractor records.
+
+## Using is_representative
+
+```sql
+-- Get unique contractor organizations (one per group)
+SELECT * FROM contractors
+WHERE is_representative = TRUE
+
+-- Get all contractors including subsidiaries
+SELECT * FROM contractors
+```
+
+## Related Articles
+
+- [Contractor deduplication](/docs/knowledge-base/edl/contractor-deduplication)
+- [EDL overview](/docs/knowledge-base/edl/overview)

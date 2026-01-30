@@ -1,0 +1,63 @@
+---
+title: "Industry Classification Data (NAICS & SIC)"
+description: "Understand NAICS and SIC industry classification codes in Shovels contractor data, their sources, and limitations."
+---
+
+Shovels includes industry classification data for contractors, though this data has important limitations to understand.
+
+## Available Classification Fields
+
+| Field | Description |
+|-------|-------------|
+| **NAICS** | North American Industry Classification System codes |
+| **SIC** | Standard Industrial Classification codes |
+| **Primary_industry** | General industry classification |
+
+## Data Sources
+
+Business industry classifications come from self-reported data, typically through:
+- Business registration
+- Insurance-related transactions
+
+## Important Limitations
+
+### Self-Reported Nature
+
+Classifications are self-reported by businesses, not verified by Shovels.
+
+### Broad Categories
+
+Classifications are quite broad and may not precisely reflect a contractor's specialization.
+
+### Multiple Classifications
+
+Companies in higher-risk occupations often use multiple industry identifiers to reduce their workers' compensation insurance liability.
+
+### No Central Authority
+
+There is no central authority governing these categories.
+
+<Warning>
+The Primary_industry field should be taken with a grain of salt due to these limitations.
+</Warning>
+
+## NAICS vs SIC
+
+| System | Description |
+|--------|-------------|
+| **NAICS** | More modern and specific classification system |
+| **SIC** | Older system, but more widely adopted |
+
+Both are included in our data because NAICS isn't as widely adopted as SIC codes.
+
+## Better Alternatives
+
+For understanding what a contractor actually does, consider:
+- **Permit descriptions** - What work they've actually permitted
+- **Tags** - Shovels-assigned categories based on permit data
+- **Permit history** - Patterns of work they've completed
+
+## Related Articles
+
+- [Contractor data overview](/docs/knowledge-base/data/contractors/contractor-data-overview)
+- [Contractor search](/docs/knowledge-base/api/contractors/contractor-search)

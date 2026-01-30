@@ -1,0 +1,53 @@
+---
+title: "What is a geo_id and How Do I Get One?"
+description: "A geo_id is Shovels' unified geographic identifier for addresses, zip codes, cities, and states. Use the Address Search endpoint to get a geo_id."
+---
+
+**A geo_id is Shovels' unified geographic identifier that can represent a state (`CA`), zip code (`94103`), city, or specific address.** To get a geo_id for an address, use the Address Search endpoint (`GET /v2/addresses/search`). The returned geo_id is then used to query permits.
+
+## Using Address Search
+
+The address search endpoint returns the `geo_id` associated with an address:
+
+```bash
+curl -X GET \
+  "https://api.shovels.ai/v2/addresses/search?street=123+Main+St&city=San+Francisco&state=CA&zip=94102" \
+  -H "X-API-Key: YOUR_API_KEY_HERE"
+```
+
+## Understanding geo_id
+
+The `geo_id` is a unified geography identifier that works at multiple levels:
+
+| Geography Level | Example geo_id |
+|----------------|----------------|
+| State | `CA` |
+| Zip Code | `94103` |
+| City | City-specific ID |
+| Address | Address-specific ID |
+
+<Tip>
+The same permit search works whether you pass a state abbreviation, zip code, or individual address geo_id—you're just changing the geography level.
+</Tip>
+
+## geo_id for State Searches
+
+For state-level searches, use the 2-letter state abbreviation as the geo_id:
+- California = `CA`
+- Texas = `TX`
+- Florida = `FL`
+
+```bash
+GET /v2/permits/search?geo_id=CA&permit_from=2024-01-01
+```
+
+## What If No geo_id Is Found?
+
+If the address isn't in our system, the API returns a 200 response with an empty `items` array. This means:
+- The address format was understood
+- No permits exist for that address in our database
+
+## Related Articles
+
+- [Resolving addresses](/docs/knowledge-base/api/address-resolution/resolving-addresses)
+- [Error handling for geo_id](/docs/knowledge-base/api/errors/error-handling)

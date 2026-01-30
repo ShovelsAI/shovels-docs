@@ -1,0 +1,44 @@
+---
+title: "How to Filter Contractors by Company Size"
+description: "Learn how to use employee count ranges in the Shovels API to filter contractors by company size for targeted outreach."
+---
+
+The Shovels API provides employee count data for contractors, allowing you to filter by company size.
+
+## Employee Count in Response Data
+
+When querying contractor endpoints, you'll receive employee count ranges in the response payload, enabling filtering by:
+- Small businesses (fewer than 10 employees)
+- Mid-size companies (10-100 employees)
+- Enterprise-level contractors (100+ employees)
+
+## How Company Size Is Determined
+
+Our size classifications are determined through multiple data points:
+- Business registrations
+- Permit frequency
+- Other proprietary indicators
+
+## Use Cases
+
+Filtering by company size is useful for:
+- **Sales teams** segmenting outreach by company size
+- **Marketing** targeting specific business sizes
+- **Market analysis** understanding contractor landscape
+
+## Example Workflow
+
+1. Search for contractors in your target geography
+2. Review employee count data in the response
+3. Filter results based on your size requirements
+4. Focus outreach on your target segment
+
+<Info>
+Employee count data coverage varies. Not all contractors have this information available.
+</Info>
+
+## Related Articles
+
+- [Contractor search](/docs/knowledge-base/api/contractors/contractor-search)
+- [Employee data](/docs/knowledge-base/api/contractors/employee-data)
+- [Identifying independent contractors](/docs/knowledge-base/api/contractors/independent-contractors)

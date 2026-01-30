@@ -1,0 +1,48 @@
+---
+title: "How Property Types Are Categorized"
+description: "Understand how Shovels categorizes property types in permit data using tax assessor records."
+---
+
+Property types and details in Shovels data are categorized using external data sources.
+
+## Data Source
+
+Property type information is derived from **tax assessor files**, which are included in EDL data deliveries.
+
+## Coverage
+
+There may be gaps in property type coverage because:
+- Not all jurisdictions have comprehensive tax assessor data
+- Some properties may not have type classifications
+- Newer developments may not yet be in assessor records
+
+<Info>
+We are continuously working to improve property type data coverage and accuracy.
+</Info>
+
+## Available Classifications
+
+Common property type classifications include:
+- Residential (single-family, multi-family)
+- Commercial
+- Industrial
+- Mixed-use
+
+## Using Property Types
+
+### In Shovels Online
+
+Use the "Building" filters to narrow searches by property type.
+
+### In the API
+
+Use the `property_type` parameter in permit and contractor searches.
+
+### In EDL
+
+Property type fields are included in data deliveries with associated tax assessor information.
+
+## Related Articles
+
+- [Permit distribution](/docs/knowledge-base/data/permits/permit-distribution)
+- [Filters and sorting](/docs/knowledge-base/shovels-online/filters-and-sorting)

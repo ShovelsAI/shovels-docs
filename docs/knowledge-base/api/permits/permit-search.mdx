@@ -1,0 +1,60 @@
+---
+title: "How to Search for Permits"
+description: "Learn how to use the Shovels API to search for building permits using geo_id, including step-by-step instructions and best practices."
+---
+
+To search for permits in the Shovels API, you'll use the `geo_id` parameter as the unique identifier linking addresses to their permit data.
+
+## Two-Step Process
+
+### Step 1: Get the Address's geo_id
+
+Use the [Search Addresses](/api-reference/addresses/search-addresses) endpoint with your target address:
+
+```bash
+curl -X GET \
+  "https://api.shovels.ai/v2/addresses/search?street=123+Main+St&city=San+Francisco&state=CA" \
+  -H "X-API-Key: YOUR_API_KEY_HERE"
+```
+
+This returns the address's `geo_id`—a unique identifier you'll need for the next step.
+
+### Step 2: Search Permits Using the geo_id
+
+Use the [Search Permits](/api-reference/permits/search-permits) endpoint with the `geo_id` and your desired date range:
+
+```bash
+curl -X GET \
+  "https://api.shovels.ai/v2/permits/search?geo_id=ADDRESS_GEO_ID&permit_from=2020-01-01&permit_to=2024-12-31" \
+  -H "X-API-Key: YOUR_API_KEY_HERE"
+```
+
+<Tip>
+The `geo_id` parameter is a unified geography filter. The same permit search works whether you pass a state abbreviation (`CA`), a zip code (`94103`), or an individual address's geo_id. You're just swapping out the geography level.
+</Tip>
+
+## Available Filters
+
+The permit search endpoint supports additional filters:
+- **Date ranges** (`permit_from`, `permit_to`)
+- **Permit types** and subtypes
+- **Property types** (residential, commercial)
+- **Contractor information**
+- **Tags** for specific permit categories
+
+## Alternative: Shovels Online
+
+For quick lookups without code, use the **Location Search** feature in [Shovels Online](https://app.shovels.ai) to search by address directly.
+
+## Best Practices
+
+1. Always resolve addresses first to get accurate geo_ids
+2. Use date ranges to limit result sets
+3. Apply filters to get exactly the permits you need
+4. Handle pagination for large result sets
+
+## Related Articles
+
+- [Resolving addresses](/docs/knowledge-base/api/address-resolution/resolving-addresses)
+- [Permits by state](/docs/knowledge-base/api/permits/permits-by-state)
+- [API Reference: Search Permits](/api-reference/permits/search-permits)

@@ -1,0 +1,70 @@
+---
+title: "How to Search for Contractors"
+description: "Learn the difference between permit search and contractor search in the Shovels API, and how to find contractor contact information and permit history."
+---
+
+Contractor search returns B2B contact information, license data, and classification data about contractors who have pulled permits.
+
+## Permit Search vs Contractor Search
+
+| Search Type | Returns |
+|-------------|---------|
+| **Permit Search** | Permits pulled at specific addresses in a geographic area |
+| **Contractor Search** | Contact information, license data, and classification data for contractors |
+
+<Info>
+Not every permit has an associated contractor. This depends on whether the jurisdiction requires contractor information on permit applications, and whether the contractor provides it.
+</Info>
+
+## Searching for Contractors
+
+### By Name
+
+You can search by contractor name—either the full name or partial:
+
+```bash
+# Full name search
+curl -X GET \
+  "https://api.shovels.ai/v2/contractors/search?name=John+Smith+Panels" \
+  -H "X-API-Key: YOUR_API_KEY_HERE"
+
+# Partial name search
+curl -X GET \
+  "https://api.shovels.ai/v2/contractors/search?name=Smith" \
+  -H "X-API-Key: YOUR_API_KEY_HERE"
+```
+
+### By Geography
+
+Search for contractors in a specific area:
+
+```bash
+curl -X GET \
+  "https://api.shovels.ai/v2/contractors/search?geo_id=94103" \
+  -H "X-API-Key: YOUR_API_KEY_HERE"
+```
+
+## Fuzzy Matching
+
+- **Address lookup** is fuzzy
+- **Contractor lookup** is exact, or you can search by part of the name
+
+For example, searching for "John Smith Panels" you can search by:
+- "John"
+- "Joh"
+- "Sm"
+- "Panels"
+
+## Contractor Information Available
+
+- Business name and DBA
+- Contact information (phone, email, address)
+- License numbers and status
+- Permit history and counts
+- Performance metrics
+
+## Related Articles
+
+- [Employee data](/docs/knowledge-base/api/contractors/employee-data)
+- [Service area lookup](/docs/knowledge-base/api/contractors/service-area-lookup)
+- [Filtering by company size](/docs/knowledge-base/api/contractors/filtering-by-size)
