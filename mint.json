@@ -244,6 +244,15 @@
               ]
             },
             {
+              "group": "Decisions",
+              "pages": [
+                "docs/knowledge-base/data/decisions/overview",
+                "docs/knowledge-base/data/decisions/decision-categories",
+                "docs/knowledge-base/data/decisions/data-fields",
+                "docs/knowledge-base/data/decisions/decision-to-permit"
+              ]
+            },
+            {
               "group": "Contractors",
               "pages": [
                 "docs/knowledge-base/data/contractors/contractor-data-overview",

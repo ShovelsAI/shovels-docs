@@ -1,0 +1,110 @@
+---
+title: "From Decision to Permit: The Development Lifecycle"
+description: "How Shovels Decisions connect to permits and contractor data to provide complete visibility into development projects from proposal to completion."
+---
+
+Shovels is the only platform that connects municipal decisions to permit data, giving you visibility into the complete development lifecycle. This article explains how these data types work together.
+
+## The Development Timeline
+
+A typical development project moves through several stages before construction begins:
+
+```
+City Council Discussion → Zoning Approval → Permit Application → Permit Issued → Construction → Certificate of Occupancy
+        ↑                       ↑                    ↑                                              ↑
+    DECISIONS               DECISIONS             PERMITS                                       PERMITS
+```
+
+### Stage 1: Proposal and Discussion
+
+Development projects often first appear in city council agendas or planning commission meetings. At this stage, the project is being discussed but no formal action has been taken.
+
+**What you see in Decisions:** Meeting agenda items, preliminary discussions, public hearing notices.
+
+### Stage 2: Zoning Approval
+
+If the project requires a zoning change, special use permit, or variance, it must be approved by the relevant municipal body. This is the core of what Shovels Decisions captures.
+
+**What you see in Decisions:** Approved rezonings, conditional use permits, variances, and zoning code modifications.
+
+### Stage 3: Permit Application and Issuance
+
+After zoning is in place, the developer applies for building permits. This is where Shovels permit data begins tracking the project.
+
+**What you see in Permits:** Filed applications, permit approvals, contractor assignments, inspection schedules.
+
+### Stage 4: Construction and Completion
+
+As construction proceeds, permits are updated with status changes, inspections, and eventually final approval.
+
+**What you see in Permits:** Status updates, final inspections, certificates of occupancy.
+
+## Time Advantage
+
+The gap between a zoning decision and permit filing varies by project complexity:
+
+| Project Type | Typical Gap |
+|--------------|-------------|
+| Minor commercial renovation | 2-4 weeks |
+| New single-family home | 1-3 months |
+| Multifamily development | 3-6 months |
+| Large commercial project | 6-12 months |
+
+By monitoring decisions, you gain visibility into projects during this gap—before they appear in permit data.
+
+## Connecting Decisions to Permits
+
+Several fields help you link decisions to eventual permits:
+
+### Geographic Matching
+
+- **Address:** The property address in a decision should match the permit address
+- **Coordinates:** Latitude/longitude enable spatial matching when addresses differ slightly
+- **Geo IDs:** Standardized geographic identifiers allow precise joins
+
+### Entity Matching
+
+- **Applicant/Owner:** The decision applicant often appears as the permit applicant or property owner
+- **Developer:** Development company names may appear in both records
+- **Contractor:** Contractors assigned to permits may be associated with the developer from the decision
+
+### Timeline Correlation
+
+Permits filed within the expected window after a relevant decision at the same location are likely related to that project.
+
+## Use Cases
+
+### Early Lead Generation
+
+Identify projects at the decision stage to reach potential customers before competitors who only monitor permits.
+
+**Example:** A roofing contractor monitors area rezonings for multifamily developments, then contacts developers months before permit applications are filed.
+
+### Site Selection Intelligence
+
+Track zoning decisions to understand where development is being approved and what types of projects municipalities are favoring.
+
+**Example:** A data center operator monitors zoning code modifications related to power infrastructure and industrial uses to identify favorable jurisdictions.
+
+### Competitive Analysis
+
+Monitor decisions involving specific developers or property owners to track their pipeline of upcoming projects.
+
+**Example:** A subcontractor tracks decisions listing their target general contractors as applicants to anticipate bidding opportunities.
+
+### Market Timing
+
+Area rezonings and code modifications signal shifts in what can be built, affecting property values before any construction begins.
+
+**Example:** An investor monitors upzoning decisions to identify neighborhoods where development potential—and land values—are increasing.
+
+<Info>
+The combination of Decisions, Permits, and Contractor data makes Shovels the intelligence layer for the built world—from first proposal to final certificate of occupancy.
+</Info>
+
+## Related Articles
+
+- [What are Shovels Decisions?](/docs/knowledge-base/data/decisions/overview)
+- [Decision categories explained](/docs/knowledge-base/data/decisions/decision-categories)
+- [Decision data fields](/docs/knowledge-base/data/decisions/data-fields)
+- [How permits are tracked through their lifecycle](/docs/knowledge-base/data/permits/permit-lifecycle)

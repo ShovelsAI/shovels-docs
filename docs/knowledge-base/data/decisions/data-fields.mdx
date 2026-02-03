@@ -1,0 +1,127 @@
+---
+title: "Decision Data Fields"
+description: "A complete reference of all data fields available in Shovels Decisions, including metadata, zoning details, property information, and involved parties."
+---
+
+Each Shovels Decision record contains structured data extracted from city council and planning department meetings. This reference covers all available fields.
+
+## Core Metadata
+
+| Field | Description |
+|-------|-------------|
+| `title` | Descriptive name of the decision |
+| `when` | Date the decision was made |
+| `city` | Municipality where the decision applies |
+| `state` | State (full name or abbreviation) |
+| `category` | Decision type (Spot Rezoning, Area Rezoning, etc.) |
+| `subcategory` | More specific categorization |
+| `link` | URL to the official source document |
+
+## Location Data
+
+| Field | Description |
+|-------|-------------|
+| `address_1` | Primary property address |
+| `address_2` | Secondary address (for multi-parcel decisions) |
+| `address_3` | Additional address |
+| `latitude` | GPS latitude coordinate |
+| `longitude` | GPS longitude coordinate |
+| `geo_ids` | Object containing `address_id`, `city_id`, `county_id`, `jurisdiction_id` |
+
+<Info>
+Geographic coordinates enable mapping and spatial analysis. The `geo_ids` field allows you to join decision data with other Shovels datasets.
+</Info>
+
+## Zoning Details
+
+| Field | Description |
+|-------|-------------|
+| `zoning_previous` | Original zoning classification code |
+| `zoning_previous_description` | Detailed description of previous zoning |
+| `zoning_new` | New/amended zoning classification code |
+| `zoning_new_description` | Detailed description of new zoning |
+
+**Example:**
+- `zoning_previous`: "R-1" (Single-Family Residential)
+- `zoning_new`: "MF-2" (Multifamily Medium Density)
+
+## Property Information
+
+| Field | Description |
+|-------|-------------|
+| `size_ac` | Property size in acres |
+| `size_sf` | Property size in square feet |
+| `asset_class` | Property type (Residential, Commercial, Industrial, Multifamily, etc.) |
+| `property_type` | More specific type (Retail, Office, Warehouse, etc.) |
+
+## Regulatory Parameters
+
+These fields capture the development rules associated with the decision:
+
+| Field | Description |
+|-------|-------------|
+| `allowed_uses` | Permitted land uses under the new zoning |
+| `density` | Development density restrictions (units per acre, FAR, etc.) |
+| `minimum_lot_size` | Minimum parcel size requirements |
+| `maximum_building_height` | Height restrictions |
+| `setbacks` | Required distances from property lines |
+| `lot_coverage` | Maximum percentage of lot that can be built upon |
+| `parking_requirements` | Required parking specifications |
+
+## Involved Parties
+
+Decisions often identify the people and organizations involved:
+
+### Applicant
+The person or entity requesting the zoning action.
+
+| Field | Description |
+|-------|-------------|
+| `applicant` | Company or organization name |
+| `applicant_person` | Individual applicant name |
+| `applicant_email` | Contact email |
+| `applicant_linkedin` | LinkedIn profile URL |
+| `applicant_website` | Business website |
+
+### Property Owner
+
+| Field | Description |
+|-------|-------------|
+| `owner` | Property owner name |
+| `owner_email` | Contact email |
+
+### Development Team
+
+| Field | Description |
+|-------|-------------|
+| `developer` | Development company |
+| `engineer` | Project engineer |
+| `architect` | Design architect |
+| `representative` | City council representative or district |
+
+Each role may include associated `_email`, `_linkedin`, and `_website` fields when available.
+
+## Descriptive Content
+
+| Field | Description |
+|-------|-------------|
+| `description` | Detailed explanation of the decision and its context |
+| `summary` | Brief summary of the decision |
+| `why_it_matters` | Analysis of the decision's significance and impact |
+
+## Metadata Fields
+
+| Field | Description |
+|-------|-------------|
+| `newsworthiness` | Confidence score (0-1) indicating relevance |
+| `last_modified_date` | When the record was last updated |
+
+<Info>
+Not all fields are populated for every decision. Field availability depends on what information was included in the source documents.
+</Info>
+
+## Related Articles
+
+- [What are Shovels Decisions?](/docs/knowledge-base/data/decisions/overview)
+- [Decision categories explained](/docs/knowledge-base/data/decisions/decision-categories)
+- [From decision to permit](/docs/knowledge-base/data/decisions/decision-to-permit)
