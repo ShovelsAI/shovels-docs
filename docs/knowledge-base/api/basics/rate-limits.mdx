@@ -1,51 +1,33 @@
 ---
-title: "What is the Shovels API Rate Limit?"
-description: "The Shovels API free trial includes 250 credits. Learn about credit limits, maximizing efficiency, and getting higher limits for your needs."
+title: "What Are the Shovels API Rate Limits?"
+description: "Learn about the Shovels API rate limits that protect system stability and ensure fair access for all users."
 ---
 
-**The Shovels API free trial includes 250 credits with no time limit.** We don't enforce strict rate limits, but we monitor usage and may apply limits on an individual basis if needed. Contact sales for higher credit allocations.
-
-## Free Trial Limits
-
-The API free trial provides **250 credits** with no time limit or credit card required. If you need more credits during your trial, contact [sales@shovels.ai](mailto:sales@shovels.ai) for an extension.
-
-## Paid Plan Limits
-
-We don't enforce hard rate limits for paid plans, but we expect reasonable usage that respects our platform. We monitor usage and will reach out if we notice unusual patterns.
+**API rate limits restrict how quickly you can make requests** to ensure system stability and fair access for all users.
 
 <Info>
-For details on plan limits and pricing, [create an account](https://app.shovels.ai) to see current options or contact [sales@shovels.ai](mailto:sales@shovels.ai).
+**Rate limits vs. credit limits:** Rate limits restrict how quickly you can make requests (a technical concept). Credit limits track how many records you can consume based on your plan (a billing concept). This page covers rate limits. See [API Credit Limits](/docs/knowledge-base/api/basics/credit-limits) for credit limit details.
 </Info>
 
-## If You Hit Your Limit
+## Current Rate Limits
 
-If your API key appears to be rate-limited, contact [support@shovels.ai](mailto:support@shovels.ai) for clarification.
+We expect that you will respect our platform and avoid frivolous requests. We are constantly monitoring usage and will enforce rate limits on an individual basis as needed.
 
-For full details on API usage policies, see the [API Introduction](/docs/shovels-api-introduction#acceptable-use-policy).
+If you receive a **429 Too Many Requests** response, slow down your request rate and retry after a brief delay.
 
-## Understanding Your Credits
+## Best Practices
 
-### Records Per Call
+- **Space out requests** — avoid sending many requests simultaneously
+- **Implement backoff** — when you receive a 429 response, wait before retrying
+- **Use pagination efficiently** — fetch larger pages with the `size` parameter instead of many small requests
+- **Cache results locally** — store fetched data to avoid re-fetching the same records
 
-Search endpoints return up to **100 records per page** (default: 50) by setting the `size` parameter. Detail endpoints accept up to **50 IDs** per call. Each record returned counts against your credits—so a call returning 100 permits uses 100 credits.
+## If You Believe You're Being Rate Limited
 
-### Efficient Querying
-
-- Use search endpoints to get multiple records at once
-- Search responses include full detail payloads—no separate detail call needed
-- Use filters to get exactly the data you need
-
-## Tracking Your Usage
-
-Monitor your API usage in the **Profile Settings** section of your account or via the `GET /v2/usage` endpoint. Credits operate on a **30-day rolling window**—your usage resets based on when credits were consumed, not on a fixed calendar date.
-
-## Need Higher Limits?
-
-Contact our team to discuss higher-tier plans:
-- Email: [sales@shovels.ai](mailto:sales@shovels.ai)
-- Phone: [1-800-511-7457](tel:+18005117457)
+If you feel that your API key is being rate limited unexpectedly, please reach out to [support@shovels.ai](mailto:support@shovels.ai) for clarification.
 
 ## Related Articles
 
+- [API Credit Limits](/docs/knowledge-base/api/basics/credit-limits)
 - [How do API credits work?](/docs/knowledge-base/api/basics/request-counts)
-- [How to access your API key](/docs/knowledge-base/api/basics/api-key-access)
+- [API Introduction](/docs/shovels-api-introduction)

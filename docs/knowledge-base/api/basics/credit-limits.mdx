@@ -1,0 +1,58 @@
+---
+title: "What is My API Credit Limit?"
+description: "Learn about Shovels API credit limits for paid plans, the free trial request system, and how to get higher limits for your needs."
+---
+
+**API credit limits apply to paid plans and control how many records you can retrieve.** Each record returned by the API counts against your credits. Contact sales for credit allocations tailored to your needs.
+
+<Info>
+**Credit limits vs. rate limits:** Credit limits track how many records you can consume based on your plan (a billing concept). Rate limits restrict how quickly you can make requests to protect system stability (a technical concept). This page covers credit limits. See [API Rate Limits](/docs/knowledge-base/api/basics/rate-limits) for rate limiting details.
+</Info>
+
+## Free Trial
+
+The API free trial provides **250 requests** with no time limit or credit card required. During the trial, each API call counts as **1 request regardless of how many records it returns**—so a search returning 100 permits still uses just 1 request.
+
+If you need more requests during your trial, contact [sales@shovels.ai](mailto:sales@shovels.ai) for an extension.
+
+## Paid Plan Credit Limits
+
+Paid plans include custom credit allocations based on your usage needs. Contact [sales@shovels.ai](mailto:sales@shovels.ai) for plan details and pricing.
+
+<Info>
+For details on plan limits and pricing, [create an account](https://app.shovels.ai) to see current options or contact [sales@shovels.ai](mailto:sales@shovels.ai).
+</Info>
+
+## If You Hit Your Credit Limit
+
+When you exceed your credit limit, the API returns a **402 Payment Required** response. Contact [sales@shovels.ai](mailto:sales@shovels.ai) to increase your credit allocation.
+
+For full details on API usage policies, see the [API Introduction](/docs/shovels-api-introduction#acceptable-use-policy).
+
+## Understanding Your Credits
+
+### Records Per Call
+
+Search endpoints return up to **100 records per page** (default: 50) by setting the `size` parameter. Detail endpoints accept up to **50 IDs** per call. Each record returned counts against your credits—so a call returning 100 permits uses 100 credits.
+
+### Efficient Querying
+
+- Use search endpoints to get multiple records at once
+- Search responses include full detail payloads—no separate detail call needed
+- Use filters to get exactly the data you need
+
+## Tracking Your Usage
+
+Monitor your API usage in the **Profile Settings** section of your account or via the `GET /v2/usage` endpoint. Credits operate on a **30-day rolling window**—your usage resets based on when credits were consumed, not on a fixed calendar date.
+
+## Need Higher Credit Limits?
+
+Contact our team to discuss higher-tier plans:
+- Email: [sales@shovels.ai](mailto:sales@shovels.ai)
+- Phone: [1-800-511-7457](tel:+18005117457)
+
+## Related Articles
+
+- [How do API credits work?](/docs/knowledge-base/api/basics/request-counts)
+- [How to access your API key](/docs/knowledge-base/api/basics/api-key-access)
+- [API Rate Limits](/docs/knowledge-base/api/basics/rate-limits)
