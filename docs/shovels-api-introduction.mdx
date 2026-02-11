@@ -32,7 +32,7 @@ The use cases are endless, but the most common we see today are:
 To begin using the API, please contact our sales team at [sales@shovels.ai](mailto:sales@shovels.ai) or grab a [free API key](https://app.shovels.ai/create-account/).
 
 <Info>
-The free API key has a limited number of credits. If you hit the limit and need more, please reach out to [sales@shovels.ai](mailto:sales@shovels.ai) or call us at [1-800-511-7457](tel:+18005117457).
+The free API key includes 250 requests. If you use them all and need more, please reach out to [sales@shovels.ai](mailto:sales@shovels.ai) or call us at [1-800-511-7457](tel:+18005117457).
 </Info>
 
 ### API Key
@@ -43,9 +43,13 @@ For any API request, you'll need to include your API key. This is available in y
 
 We want you to be able to adequately test our API before making your decision. Completely separate from the Shovels Online web app trial, there is a free trial of the API key as well.
 
-API Key free trials include 250 credits with no time limit or credit card required. Each record returned by the API counts against your credits—for example, a search returning 100 permits uses 100 credits.
+API Key free trials include **250 free requests** with no time limit or credit card required. Each API call counts as 1 request, regardless of how many records are returned—so a search returning 100 permits still counts as just 1 request.
 
-If you exceed your credit limit and still need more, please reach out to [Sales](mailto:sales@shovels.ai) for an extension.
+<Info>
+**Free trial vs. paid plans:** The free trial is request-based (250 requests, each API call = 1 request). Paid plans use a credit system where each record returned counts against your credits. See [How do API credits work?](/docs/knowledge-base/api/basics/request-counts) for details on the paid credit system.
+</Info>
+
+If you use all your free trial requests and need more, please reach out to [Sales](mailto:sales@shovels.ai) for an extension.
 
 ## Authentication
 
@@ -60,13 +64,13 @@ curl -X GET "https://api.shovels.ai/v2/meta/release" \
  -H "X-API-Key: YOUR_API_KEY_HERE"
 ```
 
-If you have any issues with your API key, rate limits, or other authentication issues, please reach out to [Support](mailto:support@shovels.ai).
+If you have any issues with your API key, credit limits, or other authentication issues, please reach out to [Support](mailto:support@shovels.ai).
 
 ### Acceptable Use Policy
 
-We do not enforce any usage or rate limits at this time, but we expect that you will respect our platform and avoid frivolous requests. 
+We expect that you will respect our platform and avoid frivolous requests. We are constantly monitoring usage and will enforce rate limits on an individual basis as needed.
 
-However, we are constantly monitoring usage and will enforce rate limits on an individual basis as needed. If you feel that you're API key is rate limited, please reach out to [Support](mailto:support@shovels.ai) for clarification.
+If you feel that your API key is being rate limited, please reach out to [Support](mailto:support@shovels.ai) for clarification.
 
 ## API Details
 

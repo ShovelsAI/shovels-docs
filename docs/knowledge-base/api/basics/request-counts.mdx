@@ -29,7 +29,7 @@ This applies to all endpoints:
 | `GET /v2/contractors?id=abc,def,ghi` | 3 contractors | 3 |
 
 <Info>
-The same credit system applies whether you're on the free trial or a paid plan.
+The credit system described above applies to **paid plans**. The free trial uses a simpler request-based system where each API call counts as 1 request, regardless of records returned.
 </Info>
 
 ## Managing Your Credits
@@ -49,11 +49,11 @@ curl -X GET "https://api.shovels.ai/v2/usage" \
   -H "X-API-Key: YOUR_API_KEY_HERE"
 ```
 
-Response:
+Response (paid plan example):
 ```json
 {
-  "credits_used": 150,
-  "credit_limit": 250
+  "credits_used": 1500,
+  "credit_limit": 10000
 }
 ```
 
@@ -77,5 +77,5 @@ Credits operate on a **30-day rolling window**. Your usage resets based on when 
 
 ## Related Articles
 
-- [API rate limits](/docs/knowledge-base/api/basics/rate-limits)
+- [API credit limits](/docs/knowledge-base/api/basics/credit-limits)
 - [Permits per API call](/docs/knowledge-base/api/basics/permits-per-call)

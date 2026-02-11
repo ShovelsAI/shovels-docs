@@ -176,6 +176,7 @@
                 "docs/knowledge-base/api/basics/api-key-access",
                 "docs/knowledge-base/api/basics/api-endpoints",
                 "docs/knowledge-base/api/basics/query-parameters",
+                "docs/knowledge-base/api/basics/credit-limits",
                 "docs/knowledge-base/api/basics/rate-limits",
                 "docs/knowledge-base/api/basics/request-counts",
                 "docs/knowledge-base/api/basics/permits-per-call",
