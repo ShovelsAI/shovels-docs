@@ -63,12 +63,12 @@
     {
       "name": "Data Dictionary",
       "icon": "book-open-cover",
-      "url": "https://docs.google.com/spreadsheets/d/1qiIxx37_-6vGfGp2i5pXv4w2FdsLsShjCqSVO5v6OMQ/edit?gid=1818227349#gid=1818227349"
+      "url": "https://www.shovels.ai/data-dictionary"
     },
     {
       "name": "Coverage Dashboard",
       "icon": "map-pin",
-      "url": "https://shovels.metabaseapp.com/public/dashboard/0573503d-88ac-4ba4-a723-346b55de482b?tab=36-summary&state=&city=&county_or_jurisdiction=&zip_code=&date_filter="
+      "url": "https://www.shovels.ai/coverage"
     },
     {
       "name": "Community",
