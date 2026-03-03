@@ -4,6 +4,185 @@ icon: "code-merge"
 description: "Find out what the Engineering team has been up to across our entire platform, including general announcements, updates, and bugfixes."
 ---
 
+<Update label="V2.1.6" description="2026-03-02">
+  <Tabs>
+    <Tab title="Online">
+      ### Introduction
+
+      Big month. We're launching Shovels CLI — a new way to query permits, contractors, and addresses from the command line (or let your AI agent do it). On the data side, we added 1.8M new permits and geocoded another 1.4M records. Let's get into it.
+
+      ### ✨ New
+
+      **>_ Introducing Shovels CLI**
+
+      Your AI agent's gateway to U.S. construction data
+
+      One binary. Zero config. Pure JSON.
+
+      Search permits, query contractors, resolve addresses — all from your terminal
+
+      **Install in seconds**
+      ```bash
+      curl -LsSf https://shovels.ai/install.sh | sh
+      ```
+
+      **Built for automation**
+      - JSON-only output to stdout, errors to stderr
+      - Auto-pagination with `--limit all`
+      - Auto-retry with backoff on rate limits
+      - Help text optimized for LLM comprehension
+
+      Works on macOS, Linux, and Windows. Learn more at [shovels.ai/cli](https://shovels.ai/cli)
+
+      ### 🏗️ Permits Dataset
+
+      **New Permits Discovered**
+      - **1.8M** Records
+      - Expanding historical and current coverage across all jurisdictions
+
+      - Permits filed in February 2026: **156K**
+      - Permits filed year-to-date (2026): **462K**
+
+      **🧱 Permit Activity by Category**
+
+      - Electrical Permits: **+388K** - Largest category growth this release
+      - New construction permits: **+203K**
+      - HVAC permits: **+136K**
+      - Remodel permits: **+136K**
+      - Roofing permits: **+91K**
+      - Plumbing permits: **+71K**
+      - Solar permits: **+23K**
+      - Demolition permits: **+19K**
+      - ADU permits: **+12K**
+      - EV charger permits: **+2.2K**
+
+      ### 📍 Geocoding Improvements
+
+      **Additional Permits Geocoded**
+      - **+1.4M** Records
+      - Now with latitude and longitude coordinates for spatial analysis
+    </Tab>
+    <Tab title="API">
+      ### Introduction
+
+      Big month. We're launching Shovels CLI — a new way to query permits, contractors, and addresses from the command line (or let your AI agent do it). The API gained result counts on every paginated endpoint, an improved usage dashboard, and more accurate contractor metrics. On the data side, we added 1.8M new permits and geocoded another 1.4M records.
+
+      ### ✨ New
+
+      **>_ Introducing Shovels CLI**
+
+      Your AI agent's gateway to U.S. construction data
+
+      One binary. Zero config. Pure JSON.
+
+      Search permits, query contractors, resolve addresses — all from your terminal
+
+      **Install in seconds**
+      ```bash
+      curl -LsSf https://shovels.ai/install.sh | sh
+      ```
+
+      **Built for automation**
+      - JSON-only output to stdout, errors to stderr
+      - Auto-pagination with `--limit all`
+      - Auto-retry with backoff on rate limits
+      - Help text optimized for LLM comprehension
+
+      Works on macOS, Linux, and Windows. Learn more at [shovels.ai/cli](https://shovels.ai/cli)
+
+      ### ⚡ API Enhancements
+
+      **Result Counts on All Paginated Endpoints**
+      - **7** Endpoints · `include_count=true`
+      - Get total result counts before paginating
+      - Returns `{value, relation}` shape — exact count or "10,000+" for large sets
+
+      Supported on:
+      - `/v2/permits/search`
+      - `/v2/contractors/search`
+      - `/v2/contractors/{id}/permits`
+      - All **4** `geo_permits` endpoints
+
+      **Enhanced Usage Dashboard**
+
+      `GET /v2/usage` now includes:
+      - Daily breakdown
+      - `is_over_limit` flag
+      - `available_at` projection so you always know your credit status
+      - Over-limit users can still access usage data
+
+      **Improved Contractor Metrics Accuracy**
+
+      Fixed `permit_count` and `total_job_value` inflation for `tag=all` queries. Average metrics now use permit-count-weighted calculations for mathematical precision.
+
+      ### 🏗️ Permits Dataset
+
+      **New Permits Discovered**
+      - **1.8M** Records
+      - Expanding historical and current coverage across all jurisdictions
+
+      - Permits filed in February 2026: **156K**
+      - Permits filed year-to-date (2026): **462K**
+
+      **🧱 Permit Activity by Category**
+
+      - Electrical Permits: **+388K** - Largest category growth this release
+      - New construction permits: **+203K**
+      - HVAC permits: **+136K**
+      - Remodel permits: **+136K**
+      - Roofing permits: **+91K**
+      - Plumbing permits: **+71K**
+      - Solar permits: **+23K**
+      - Demolition permits: **+19K**
+      - ADU permits: **+12K**
+      - EV charger permits: **+2.2K**
+
+      ### 📍 Geocoding Improvements
+
+      **Additional Permits Geocoded**
+      - **+1.4M** Records
+      - Now with latitude and longitude coordinates for spatial analysis
+
+      <Info>
+        ✅ **No breaking changes.** All existing integrations continue to work unchanged.
+      </Info>
+    </Tab>
+    <Tab title="EDL (Enterprise Data License)">
+      ### Introduction
+
+      We added 1.8M new permits and geocoded another 1.4M records this month. Here's the full breakdown.
+
+      ### 🏗️ Permits Dataset
+
+      **New Permits Discovered**
+      - **1.8M** Records
+      - Expanding historical and current coverage across all jurisdictions
+
+      - Permits filed in February 2026: **156K**
+      - Permits filed year-to-date (2026): **462K**
+
+      **🧱 Permit Activity by Category**
+
+      - Electrical Permits: **+388K** - Largest category growth this release
+      - New construction permits: **+203K**
+      - HVAC permits: **+136K**
+      - Remodel permits: **+136K**
+      - Roofing permits: **+91K**
+      - Plumbing permits: **+71K**
+      - Solar permits: **+23K**
+      - Demolition permits: **+19K**
+      - ADU permits: **+12K**
+      - EV charger permits: **+2.2K**
+
+      ### 📍 Geocoding Improvements
+
+      **Additional Permits Geocoded**
+      - **+1.4M** Records
+      - Now with latitude and longitude coordinates for spatial analysis
+    </Tab>
+  </Tabs>
+</Update>
+
 <Update label="V2.1.5" description="2026-02-01">
   <Tabs>
     <Tab title="Online">
