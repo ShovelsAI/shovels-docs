@@ -1,0 +1,192 @@
+---
+title: Shovels CLI Quickstart Guide
+icon: code
+description: Install the Shovels CLI, configure your API key, and run your first permit search in under a minute.
+---
+
+**The Shovels CLI is a single-binary command-line tool for querying U.S. building permit and contractor data.** It outputs JSON to stdout, handles pagination automatically, and retries on rate limits. No runtime dependencies required.
+
+<Info>
+**CLI vs. API vs. Online:** The CLI wraps the same Shovels REST API but handles auth headers, cursor pagination, rate-limit retries, and credit tracking for you. Use it from your terminal, in shell scripts, or from AI agents.
+</Info>
+
+## Install
+
+Run the install script to download the latest release:
+
+```bash
+curl -LsSf https://shovels.ai/install.sh | sh
+```
+
+The script detects your OS and architecture, downloads the correct binary from GitHub Releases, verifies the SHA256 checksum, and installs to `~/.shovels/bin`.
+
+<Tip>
+Add `~/.shovels/bin` to your `PATH` if the installer doesn't do it automatically. For most shells, add `export PATH="$HOME/.shovels/bin:$PATH"` to your shell profile.
+</Tip>
+
+Verify the installation:
+
+```bash
+shovels version
+```
+
+## Configure Your API Key
+
+You need a Shovels API key. If you don't have one, [create a free account](https://app.shovels.ai/create-account/) to get a key with 250 free requests.
+
+There are two ways to provide your API key:
+
+### Option A: Environment variable
+
+```bash
+export SHOVELS_API_KEY=your-api-key
+```
+
+### Option B: Config file (persistent)
+
+```bash
+shovels config set api-key your-api-key
+```
+
+This saves your key to `~/.config/shovels/config.yaml` so you don't need to export it every session.
+
+Confirm your config is set:
+
+```bash
+shovels config show
+```
+
+## Run Your First Query
+
+Search for solar permits in Encinitas, CA (ZIP 92024) from 2024:
+
+```bash
+shovels permits search \
+  --geo-id 92024 \
+  --permit-from 2024-01-01 \
+  --permit-to 2024-12-31 \
+  --tags solar \
+  --limit 5
+```
+
+You'll see JSON output like this:
+
+```json
+{
+  "data": [
+    {
+      "id": "...",
+      "description": "INSTALL ROOF MOUNTED SOLAR PV SYSTEM...",
+      "status": "final",
+      "tags": ["solar"],
+      "address": {
+        "street": "123 Main St",
+        "city": "Encinitas",
+        "state": "CA",
+        "zip_code": "92024"
+      }
+    }
+  ],
+  "meta": {
+    "count": 5,
+    "has_more": true,
+    "credits_used": 1,
+    "credits_remaining": 249
+  }
+}
+```
+
+Every response includes a `meta` object with credit tracking so you always know your usage.
+
+## Understanding geo_id
+
+Most search commands require a `--geo-id` flag. A geo_id can be:
+
+- **A ZIP code** — Use it directly (e.g., `92024`)
+- **A state** — Use the 2-letter code (e.g., `CA`)
+- **A city, county, or jurisdiction** — Use the base64-encoded ID from a search
+
+To find a geo_id for a city:
+
+```bash
+shovels cities search -q "Miami Beach"
+```
+
+```json
+{
+  "data": [
+    {
+      "geo_id": "Q2l0eXxGTHxNaWFtaSBCZWFjaA",
+      "name": "Miami Beach, FL"
+    }
+  ]
+}
+```
+
+Use that `geo_id` in subsequent searches:
+
+```bash
+shovels permits search \
+  --geo-id Q2l0eXxGTHxNaWFtaSBCZWFjaA \
+  --permit-from 2024-01-01 \
+  --permit-to 2024-12-31 \
+  --tags roofing
+```
+
+## Explore More Commands
+
+The CLI covers permits, contractors, addresses, and geographic lookups:
+
+```bash
+# Search contractors by location and specialty
+shovels contractors search \
+  --geo-id 78701 \
+  --permit-from 2024-01-01 \
+  --permit-to 2024-12-31 \
+  --tags electrical
+
+# Look up a specific contractor's permits
+shovels contractors permits CONTRACTOR_ID
+
+# Search for an address
+shovels addresses search -q "1600 Pennsylvania Ave"
+
+# Check your API credit usage
+shovels usage
+
+# List available permit tags
+shovels tags list
+```
+
+Every command has built-in help:
+
+```bash
+shovels permits search --help
+```
+
+## Pipe It
+
+The CLI outputs JSON to stdout, so it works with `jq` and other Unix tools:
+
+```bash
+# Count solar permits in a ZIP code
+shovels permits search --geo-id 92024 \
+  --permit-from 2024-01-01 --permit-to 2024-12-31 \
+  --tags solar --include-count --limit 1 \
+  | jq '.meta.total_count.value'
+
+# Export contractor names and permit counts to CSV
+shovels contractors search --geo-id CA \
+  --permit-from 2024-01-01 --permit-to 2024-12-31 \
+  --tags solar --limit 100 \
+  | jq -r '.data[] | [.name, .permit_count] | @csv' \
+  > solar_contractors.csv
+```
+
+## Next Steps
+
+- [CLI installation options](/docs/knowledge-base/cli/installation) — Platform-specific details and version pinning
+- [CLI commands overview](/docs/knowledge-base/cli/commands-overview) — Full list of commands and flags
+- [Output format and pagination](/docs/knowledge-base/cli/output-and-pagination) — Understanding responses and `--limit all`
+- [Scripting and AI agents](/docs/knowledge-base/cli/scripting-and-agents) — Composing the CLI into workflows
+- [CLI error codes](/docs/knowledge-base/cli/error-codes) — Exit codes and troubleshooting

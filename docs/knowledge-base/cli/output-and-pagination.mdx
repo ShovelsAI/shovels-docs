@@ -1,0 +1,149 @@
+---
+title: "How Does CLI Output and Pagination Work?"
+description: "The Shovels CLI outputs JSON to stdout with automatic pagination. Learn about response formats, the --limit flag, and credit tracking."
+sidebarTitle: "Output & Pagination"
+---
+
+**All CLI output is valid JSON written to stdout. Errors go to stderr.** This makes the CLI safe to pipe into `jq`, scripts, or other tools without worrying about mixed output.
+
+## Response Format
+
+### Paginated Responses (search commands)
+
+```json
+{
+  "data": [
+    { "id": "...", "description": "...", "status": "final" }
+  ],
+  "meta": {
+    "count": 50,
+    "has_more": true,
+    "credits_used": 1,
+    "credits_remaining": 9999
+  }
+}
+```
+
+### Single Object Responses (get commands with one ID)
+
+```json
+{
+  "data": {
+    "id": "...",
+    "name": "...",
+    "permit_count": 42
+  },
+  "meta": {
+    "credits_used": 1,
+    "credits_remaining": 9999
+  }
+}
+```
+
+### Batch Responses (get commands with multiple IDs)
+
+```json
+{
+  "data": [
+    { "id": "ABC", "name": "..." },
+    { "id": "DEF", "name": "..." }
+  ],
+  "meta": {
+    "count": 2,
+    "missing": ["UNKNOWN_ID"],
+    "credits_used": 1,
+    "credits_remaining": 9999
+  }
+}
+```
+
+The `missing` array lists any IDs that weren't found.
+
+## Pagination with --limit
+
+The `--limit` flag controls how many records to return. The CLI handles cursor-based pagination internally — you never need to manage cursors yourself.
+
+| Value | Behavior |
+|---|---|
+| `--limit 50` (default) | Return up to 50 records |
+| `--limit 500` | Return up to 500 records |
+| `--limit all` | Fetch all records (capped by `--max-records`) |
+
+```bash
+# Get first 10 results
+shovels permits search --geo-id 92024 \
+  --permit-from 2024-01-01 --permit-to 2024-12-31 \
+  --limit 10
+
+# Get all results (up to 10,000 by default)
+shovels permits search --geo-id 92024 \
+  --permit-from 2024-01-01 --permit-to 2024-12-31 \
+  --limit all
+```
+
+### --max-records
+
+When using `--limit all`, the `--max-records` flag sets the upper bound (default: 10,000, maximum: 100,000):
+
+```bash
+shovels permits search --geo-id CA \
+  --permit-from 2024-01-01 --permit-to 2024-12-31 \
+  --tags solar --limit all --max-records 50000
+```
+
+### --include-count
+
+Add `--include-count` to include the total number of matching records in the response:
+
+```bash
+shovels permits search --geo-id 92024 \
+  --permit-from 2024-01-01 --permit-to 2024-12-31 \
+  --tags solar --include-count --limit 1
+```
+
+```json
+{
+  "data": ["..."],
+  "meta": {
+    "count": 1,
+    "has_more": true,
+    "total_count": {
+      "value": 581,
+      "relation": "eq"
+    },
+    "credits_used": 1,
+    "credits_remaining": 9999
+  }
+}
+```
+
+<Info>
+Total counts are exact up to 10,000 (`"relation": "eq"`). Above 10,000, the count is approximate (`"relation": "gte"` means "at least this many").
+</Info>
+
+## Credit Tracking
+
+Every response includes `credits_used` and `credits_remaining` in the `meta` object. This lets you monitor usage without making a separate API call.
+
+To check your overall credit status:
+
+```bash
+shovels usage
+```
+
+## Data Types in Responses
+
+| Field Type | Format | Example |
+|---|---|---|
+| Dates | ISO 8601 (`YYYY-MM-DD`) | `"2024-06-15"` |
+| Money amounts | Integer cents | `150000` = $1,500.00 |
+| Ratings | Float 0-5 | `4.2` |
+| Pass rates | Integer 0-100 | `85` (percentage) |
+| Coordinates | `[lat, lng]` float array | `[32.87, -117.25]` |
+| geo_ids | Base64-encoded string | `"Q2l0eXxGTHxNaWFtaQ"` |
+
+## Related Articles
+
+- [CLI commands overview](/docs/knowledge-base/cli/commands-overview) — Full list of commands and flags
+- [CLI error codes](/docs/knowledge-base/cli/error-codes) — Understanding error responses
+- [Scripting and AI agents](/docs/knowledge-base/cli/scripting-and-agents) — Piping CLI output into workflows

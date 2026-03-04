@@ -1,0 +1,93 @@
+---
+title: "How Do I Install the Shovels CLI?"
+description: "Install the Shovels CLI on macOS, Linux, or Windows using the install script or by downloading binaries directly from GitHub Releases."
+sidebarTitle: "Installation"
+---
+
+**The fastest way to install is the one-line install script.** It detects your platform, downloads the correct binary, and verifies the SHA256 checksum.
+
+```bash
+curl -LsSf https://shovels.ai/install.sh | sh
+```
+
+The binary installs to `~/.shovels/bin` by default.
+
+## Supported Platforms
+
+| OS | Architecture | Binary |
+|---|---|---|
+| macOS | Apple Silicon (arm64) | `shovels-darwin-arm64` |
+| macOS | Intel (amd64) | `shovels-darwin-amd64` |
+| Linux | arm64 | `shovels-linux-arm64` |
+| Linux | amd64 | `shovels-linux-amd64` |
+| Windows | amd64 | `shovels-windows-amd64.exe` |
+
+## Install Script Options
+
+The install script supports environment variables for customization:
+
+| Variable | Description | Default |
+|---|---|---|
+| `SHOVELS_VERSION` | Pin to a specific release version | Latest |
+| `SHOVELS_INSTALL_DIR` | Custom installation directory | `~/.shovels/bin` |
+
+Example with custom options:
+
+```bash
+SHOVELS_VERSION=0.1.0 SHOVELS_INSTALL_DIR=/usr/local/bin \
+  curl -LsSf https://shovels.ai/install.sh | sh
+```
+
+## Manual Download
+
+Download binaries directly from [GitHub Releases](https://github.com/ShovelsAI/shovels-cli/releases/latest). Each release includes SHA256 checksums for verification.
+
+```bash
+# Example: download and verify on macOS arm64
+curl -LO https://github.com/ShovelsAI/shovels-cli/releases/latest/download/shovels-darwin-arm64
+curl -LO https://github.com/ShovelsAI/shovels-cli/releases/latest/download/checksums.txt
+sha256sum -c checksums.txt --ignore-missing
+chmod +x shovels-darwin-arm64
+mv shovels-darwin-arm64 /usr/local/bin/shovels
+```
+
+## Add to PATH
+
+If the CLI isn't found after installation, add the install directory to your `PATH`:
+
+```bash
+# Add to ~/.zshrc (macOS) or ~/.bashrc (Linux)
+export PATH="$HOME/.shovels/bin:$PATH"
+```
+
+Then reload your shell:
+
+```bash
+source ~/.zshrc  # or ~/.bashrc
+```
+
+## Verify Installation
+
+```bash
+shovels version
+```
+
+This prints the CLI version, git commit hash, and build date.
+
+## Updating
+
+Re-run the install script to get the latest version:
+
+```bash
+curl -LsSf https://shovels.ai/install.sh | sh
+```
+
+<Info>
+The CLI is a single static binary with no runtime dependencies. Updating simply replaces the binary file.
+</Info>
+
+## Related Articles
+
+- [CLI quickstart guide](/docs/shovels-cli-quickstart) — Get up and running in under a minute
+- [CLI authentication](/docs/knowledge-base/cli/authentication) — Configure your API key
+- [How to access your API key](/docs/knowledge-base/api/basics/api-key-access) — Get an API key from your Shovels account

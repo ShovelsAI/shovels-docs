@@ -1,0 +1,96 @@
+---
+title: "How Does CLI Authentication Work?"
+description: "The Shovels CLI authenticates using your API key, provided via environment variable or config file. Learn how to configure and manage your credentials."
+sidebarTitle: "Authentication"
+---
+
+**The CLI uses the same API key as the Shovels REST API.** You can provide it through an environment variable or a persistent config file.
+
+## Authentication Priority
+
+The CLI checks for your API key in this order (first match wins):
+
+1. `SHOVELS_API_KEY` environment variable
+2. Config file at `~/.config/shovels/config.yaml`
+
+## Option A: Environment Variable
+
+Set your API key for the current session:
+
+```bash
+export SHOVELS_API_KEY=your-api-key
+```
+
+This is useful for CI/CD pipelines, Docker containers, or temporary sessions.
+
+## Option B: Config File (Recommended)
+
+Save your API key persistently:
+
+```bash
+shovels config set api-key your-api-key
+```
+
+This creates or updates `~/.config/shovels/config.yaml`:
+
+```yaml
+api_key: your-api-key
+```
+
+The config file location follows the [XDG Base Directory specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html), so it respects `$XDG_CONFIG_HOME` if set.
+
+## Verify Your Configuration
+
+```bash
+shovels config show
+```
+
+This displays your resolved configuration with the API key partially masked for security.
+
+## Additional Config Options
+
+The config file supports these settings:
+
+| Key | Description | Default |
+|---|---|---|
+| `api_key` | Your Shovels API key | (none) |
+| `base_url` | API base URL override | `https://api.shovels.ai/v2` |
+| `default_limit` | Default result limit | `50` |
+
+Set any option with the `config set` command:
+
+```bash
+shovels config set base-url https://api.shovels.ai/v2
+```
+
+## Authentication Errors
+
+If your API key is missing or invalid, the CLI exits with code `2` and prints a JSON error to stderr:
+
+```json
+{
+  "error": "API key is required. Set SHOVELS_API_KEY or run: shovels config set api-key YOUR_KEY",
+  "code": 2,
+  "error_type": "auth_error"
+}
+```
+
+<Info>
+Some commands don't require authentication: `version`, `config show`, and `usage`. Geographic search commands (`cities search`, `counties search`, etc.) and `tags list` are also credit-free but require a valid API key.
+</Info>
+
+## Getting an API Key
+
+If you don't have an API key yet:
+
+1. [Create a free Shovels account](https://app.shovels.ai/create-account/)
+2. Go to [Profile Settings](https://app.shovels.ai/profile-settings/)
+3. Copy your API key from the **API Key** field
+
+Free accounts include 250 requests to explore the platform.
+
+## Related Articles
+
+- [How to access your API key](/docs/knowledge-base/api/basics/api-key-access) — Find your key in the Shovels dashboard
+- [CLI installation](/docs/knowledge-base/cli/installation) — Install the CLI binary
+- [CLI error codes](/docs/knowledge-base/cli/error-codes) — Understanding exit codes and error types
