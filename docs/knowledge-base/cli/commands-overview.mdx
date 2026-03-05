@@ -1,0 +1,189 @@
+---
+title: "What Commands Are Available in the CLI?"
+description: "A complete overview of Shovels CLI commands for searching permits, contractors, addresses, and geographic data from your terminal."
+sidebarTitle: "Commands Overview"
+---
+
+**The CLI organizes commands into groups: permits, contractors, addresses, geographic lookups, tags, usage, and config.** Every command outputs JSON to stdout and supports `--help` for detailed usage.
+
+## Command Reference
+
+### permits
+
+Search and retrieve building permit data.
+
+| Subcommand | Description | Key Flags |
+|---|---|---|
+| `permits search` | Search permits by location, date, tags, and filters | `--geo-id` (required), `--permit-from` (required), `--permit-to` (required) |
+| `permits get` | Retrieve 1-50 permits by ID | Positional IDs |
+
+**Example: Search permits**
+
+```bash
+shovels permits search \
+  --geo-id 92024 \
+  --permit-from 2024-01-01 \
+  --permit-to 2024-12-31 \
+  --tags solar \
+  --property-type residential \
+  --limit 50
+```
+
+### contractors
+
+Search contractors and access their permits, employees, and metrics.
+
+| Subcommand | Description | Key Flags |
+|---|---|---|
+| `contractors search` | Search contractors by location and filters | `--geo-id` (required) |
+| `contractors get` | Retrieve 1-50 contractors by ID | Positional IDs |
+| `contractors permits` | List permits filed by a contractor | Contractor ID (positional) |
+| `contractors employees` | List employees of a contractor | Contractor ID (positional) |
+| `contractors metrics` | Monthly performance metrics | `--metric-from`, `--metric-to`, `--property-type`, `--tag` (all required) |
+
+**Example: Find electrical contractors in Austin**
+
+```bash
+shovels contractors search \
+  --geo-id 78701 \
+  --permit-from 2024-01-01 \
+  --permit-to 2024-12-31 \
+  --tags electrical \
+  --min-permits 10
+```
+
+<Info>
+Contractor search supports state, county, city, jurisdiction, and ZIP code geo_ids, but **not** address-level geo_ids. Use `permits search` for address-level queries.
+</Info>
+
+### addresses
+
+Search for addresses to resolve geo_ids.
+
+```bash
+shovels addresses search -q "1600 Pennsylvania Ave"
+```
+
+Returns matching addresses with their `geo_id`, formatted name, and coordinates.
+
+### cities, counties, jurisdictions
+
+Resolve geographic names to geo_ids for use in search commands.
+
+```bash
+shovels cities search -q "Miami Beach"
+shovels counties search -q "Los Angeles"
+shovels jurisdictions search -q "San Francisco"
+```
+
+### tags
+
+List available permit tags (work type classifications).
+
+```bash
+shovels tags list
+```
+
+Returns tags like `solar`, `hvac`, `roofing`, `electrical`, `pool_spa`, `new_dwelling`, `kitchen_remodel`, and more. Use these values with the `--tags` flag in search commands.
+
+### usage
+
+Check your API credit usage and limits.
+
+```bash
+shovels usage
+```
+
+### config
+
+Manage persistent CLI settings.
+
+```bash
+shovels config set api-key your-key  # Save API key
+shovels config show                   # Display current config
+```
+
+### version
+
+Print CLI version, git commit, and build date.
+
+```bash
+shovels version
+```
+
+## Common Search Filters
+
+These flags are available on `permits search` and `contractors search`:
+
+### Tag Filters
+
+```bash
+--tags solar                 # Include permits tagged "solar"
+--tags solar,roofing         # Include solar OR roofing
+--tags -electrical           # Exclude electrical permits
+```
+
+Tags support a `-` prefix for exclusion. Mix includes and excludes as needed.
+
+### Property Filters
+
+```bash
+--property-type residential
+--min-market-value 500000
+--min-building-area 2000
+--min-lot-size 5000
+--min-story-count 2
+--min-unit-count 4
+```
+
+### Permit Filters
+
+```bash
+--status final               # final, active, in_review, inactive
+--min-job-value 100000
+--min-fees 500
+--min-approval-duration 30   # days
+--min-construction-duration 90
+--min-inspection-pr 80       # pass rate percentage
+--has-contractor             # only permits with a linked contractor
+-q "solar panel"             # text search in permit description
+```
+
+### Contractor Filters (contractor search only)
+
+```bash
+--contractor-name "Smith"
+--contractor-license "ABC123"
+--classification general,electrical
+--min-permits 50
+--min-job-value 1000000
+```
+
+## Global Flags
+
+These flags apply to all commands:
+
+| Flag | Description | Default |
+|---|---|---|
+| `--limit` | Max records to return (1-100000 or `all`) | `50` |
+| `--max-records` | Cap when using `--limit all` | `10000` |
+| `--include-count` | Include total result count in response | `false` |
+| `--base-url` | Override API endpoint | Config or default |
+| `--no-retry` | Disable automatic retry on rate limits | `false` |
+| `--timeout` | Per-request timeout (Go duration format) | `30s` |
+
+## Getting Help
+
+Every command supports `--help`:
+
+```bash
+shovels --help                  # Top-level help
+shovels permits --help          # Permits group help
+shovels permits search --help   # Detailed search flags and examples
+```
+
+## Related Articles
+
+- [CLI quickstart guide](/docs/shovels-cli-quickstart) — First query in under a minute
+- [Output format and pagination](/docs/knowledge-base/cli/output-and-pagination) — Understanding JSON responses
+- [Scripting and AI agents](/docs/knowledge-base/cli/scripting-and-agents) — Composing CLI commands into workflows

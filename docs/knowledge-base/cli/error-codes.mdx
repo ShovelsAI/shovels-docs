@@ -1,0 +1,141 @@
+---
+title: "What Do CLI Exit Codes and Errors Mean?"
+description: "The Shovels CLI uses structured exit codes and JSON error messages to make troubleshooting straightforward for developers, scripts, and AI agents."
+sidebarTitle: "Error Codes"
+---
+
+**The CLI uses distinct exit codes for each error category.** Scripts and AI agents can branch on the exit code without parsing the error message.
+
+## Exit Codes
+
+| Code | Type | Meaning |
+|---|---|---|
+| `0` | Success | Command completed successfully |
+| `1` | Client error | Invalid flags, validation failure, or bad request |
+| `2` | Auth error | Missing or invalid API key |
+| `3` | Rate limited | Too many requests (HTTP 429) |
+| `4` | Credits exhausted | API credit limit reached (HTTP 402) |
+| `5` | Server/network error | Server failure or connectivity issue |
+
+## Error Response Format
+
+Errors are written to **stderr** as structured JSON:
+
+```json
+{
+  "error": "descriptive message explaining what went wrong",
+  "code": 2,
+  "error_type": "auth_error"
+}
+```
+
+The `error_type` field provides a machine-readable classification:
+
+| error_type | Exit Code | Common Causes |
+|---|---|---|
+| `client_error` | 1 | Missing required flags, invalid flag values |
+| `validation_error` | 1 | Invalid date range, bad geo_id format (HTTP 422) |
+| `auth_error` | 2 | No API key configured, or key is invalid (HTTP 401) |
+| `rate_limited` | 3 | Too many concurrent requests (HTTP 429) |
+| `credit_exhausted` | 4 | Monthly credit limit reached (HTTP 402) |
+| `server_error` | 5 | Shovels API returned a 5xx error |
+| `network_error` | 5 | DNS failure, timeout, or connection refused |
+
+## Common Errors and Solutions
+
+### Exit 1: Client Error
+
+**Missing required flags:**
+
+```
+$ shovels permits search --geo-id 92024
+Error: required flags "permit-from", "permit-to" not set
+```
+
+Fix: Add the required `--permit-from` and `--permit-to` flags.
+
+**Invalid date range:**
+
+```json
+{
+  "error": "permit_from must be before permit_to",
+  "code": 1,
+  "error_type": "validation_error"
+}
+```
+
+Fix: Ensure your `--permit-from` date is earlier than `--permit-to`. Use `YYYY-MM-DD` format.
+
+### Exit 2: Auth Error
+
+```json
+{
+  "error": "API key is required. Set SHOVELS_API_KEY or run: shovels config set api-key YOUR_KEY",
+  "code": 2,
+  "error_type": "auth_error"
+}
+```
+
+Fix: Set your API key via environment variable or config file. See [CLI authentication](/docs/knowledge-base/cli/authentication).
+
+### Exit 3: Rate Limited
+
+```json
+{
+  "error": "rate limited after 3 retries",
+  "code": 3,
+  "error_type": "rate_limited"
+}
+```
+
+The CLI automatically retries rate-limited requests with exponential backoff and jitter (up to 3 retries). If this error appears, wait a moment and try again, or contact support if it persists.
+
+<Info>
+Use `--no-retry` to disable automatic retry if you want to handle rate limits yourself in a script.
+</Info>
+
+### Exit 4: Credits Exhausted
+
+```json
+{
+  "error": "credit limit reached",
+  "code": 4,
+  "error_type": "credit_exhausted"
+}
+```
+
+Your monthly credit allowance is used up. Check your usage with `shovels usage` and contact [sales@shovels.ai](mailto:sales@shovels.ai) to increase your limit.
+
+### Exit 5: Server or Network Error
+
+```json
+{
+  "error": "connection timeout after 30s",
+  "code": 5,
+  "error_type": "network_error"
+}
+```
+
+Check your internet connection. If the Shovels API is down, try again later. You can adjust the timeout with `--timeout 60s`.
+
+## Using Exit Codes in Scripts
+
+```bash
+shovels permits search --geo-id 92024 \
+  --permit-from 2024-01-01 --permit-to 2024-12-31 \
+  > results.json 2> error.json
+
+case $? in
+  0) echo "Success: $(jq '.meta.count' results.json) records" ;;
+  2) echo "Auth failed — check your API key" ;;
+  3) echo "Rate limited — retrying in 60s"; sleep 60 ;;
+  4) echo "Out of credits — contact sales" ;;
+  *) echo "Error: $(cat error.json)" ;;
+esac
+```
+
+## Related Articles
+
+- [CLI authentication](/docs/knowledge-base/cli/authentication) — Configure your API key
+- [API error handling](/docs/knowledge-base/api/errors/error-handling) — REST API error codes
+- [API credit limits](/docs/knowledge-base/api/basics/credit-limits) — Understanding credit consumption

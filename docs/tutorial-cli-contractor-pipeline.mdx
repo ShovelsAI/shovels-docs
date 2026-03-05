@@ -1,0 +1,143 @@
+---
+title: Building a Contractor Pipeline with the CLI
+icon: terminal
+description: This tutorial walks through using the Shovels CLI to find top contractors in a market, pull their details, and export to CSV — all from your terminal.
+---
+
+The Shovels CLI makes it easy to go from a broad market search to a targeted contractor list in a few commands. In this tutorial, we'll find the top solar contractors in a California ZIP code, inspect their permit history, and export the results to CSV.
+
+This is a common workflow for sales teams, market researchers, and AI agents building lead lists.
+
+## <Icon icon="cauldron" size="30px"/> Step-by-Step Recipe
+
+<Steps>
+    <Step title="Set Up the CLI" titleSize="h3" stepNumber={0}>
+        If you haven't already, install the CLI and configure your API key:
+
+        ```bash
+        curl -LsSf https://shovels.ai/install.sh | sh
+        shovels config set api-key YOUR_API_KEY
+        ```
+
+        Verify it works:
+
+        ```bash
+        shovels version
+        ```
+
+        For detailed setup instructions, see the [CLI Quickstart Guide](/docs/shovels-cli-quickstart).
+    </Step>
+
+    <Step title="Find Your Target Market" titleSize="h3" stepNumber={1}>
+        If you know your ZIP code, you can use it directly as a `--geo-id`. If you need to find a city or county geo_id, search for it:
+
+        ```bash
+        shovels cities search -q "Encinitas"
+        ```
+
+        ```json
+        {
+          "data": [
+            {
+              "geo_id": "Q2l0eXxDQXxFbmNpbml0YXM",
+              "name": "Encinitas, CA"
+            }
+          ]
+        }
+        ```
+
+        For this tutorial, we'll use ZIP code `92024` (Encinitas, CA).
+    </Step>
+
+    <Step title="Search for Contractors" titleSize="h3" stepNumber={2}>
+        Search for solar contractors active in 2024:
+
+        ```bash
+        shovels contractors search \
+          --geo-id 92024 \
+          --permit-from 2024-01-01 \
+          --permit-to 2024-12-31 \
+          --tags solar \
+          --limit 20
+        ```
+
+        This returns up to 20 contractors with their names, contact info, permit counts, and ratings.
+
+        <Tip>
+        Add `--include-count` with `--limit 1` to see the total number of matching contractors before fetching the full list.
+        </Tip>
+    </Step>
+
+    <Step title="Inspect a Contractor's Permits" titleSize="h3" stepNumber={3}>
+        Pick a contractor ID from the results and view their permit history:
+
+        ```bash
+        shovels contractors permits CONTRACTOR_ID --limit 10
+        ```
+
+        This returns individual permits with descriptions, dates, job values, and addresses.
+
+        To see monthly performance metrics:
+
+        ```bash
+        shovels contractors metrics CONTRACTOR_ID \
+          --metric-from 2024-01-01 \
+          --metric-to 2024-12-31 \
+          --property-type residential \
+          --tag solar
+        ```
+    </Step>
+
+    <Step title="Export to CSV" titleSize="h3" stepNumber={4}>
+        Use `jq` to transform the JSON output into CSV:
+
+        ```bash
+        shovels contractors search \
+          --geo-id 92024 \
+          --permit-from 2024-01-01 \
+          --permit-to 2024-12-31 \
+          --tags solar \
+          --limit all \
+          | jq -r '["Name","Phone","Email","Permits","Avg Job Value"],
+                   (.data[] | [.name, .primary_phone, .primary_email,
+                    .permit_count, .avg_job_value]) | @csv' \
+          > solar_contractors_encinitas.csv
+        ```
+
+        This creates a CSV with headers, ready for a spreadsheet or CRM import.
+    </Step>
+
+    <Step title="Expand to a Broader Area (Optional)" titleSize="h3" stepNumber={5}>
+        Scale up by searching at the state level:
+
+        ```bash
+        shovels contractors search \
+          --geo-id CA \
+          --permit-from 2024-01-01 \
+          --permit-to 2024-12-31 \
+          --tags solar \
+          --min-permits 10 \
+          --limit all \
+          | jq -r '["Name","Phone","Permits"],
+                   (.data[] | [.name, .primary_phone, .permit_count]) | @csv' \
+          > solar_contractors_ca.csv
+        ```
+
+        Use `--min-permits` to filter for contractors with a track record.
+    </Step>
+</Steps>
+
+## Adjusting Your Search
+
+If your results are too broad or too narrow, here are some adjustments:
+
+- **Too many results**: Add `--min-permits`, `--min-job-value`, or narrow the `--geo-id` to a smaller area
+- **Too few results**: Expand the date range, use a broader geo_id (county or state), or remove tag filters
+- **Wrong specialty**: Use `shovels tags list` to see all available tags and pick the right one
+- **Need specific contractors**: Add `--contractor-name` or `--contractor-license` to filter by known details
+
+## Additional Help
+
+If you run into issues, check the [CLI error codes](/docs/knowledge-base/cli/error-codes) guide or reach out to [support@shovels.ai](mailto:support@shovels.ai).
+
+Happy Digging!
