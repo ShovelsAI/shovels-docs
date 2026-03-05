@@ -101,12 +101,24 @@
       ]
     },
     {
+      "group": "Shovels CLI",
+      "pages": [
+        "docs/shovels-cli-quickstart"
+      ]
+    },
+    {
       "group": "Tutorials",
       "pages": [
         {
           "group": "Shovels Online",
           "pages": [
             "docs/tutorial-online-contractor-search"
+          ]
+        },
+        {
+          "group": "Shovels CLI",
+          "pages": [
+            "docs/tutorial-cli-contractor-pipeline"
           ]
         },
         {
@@ -216,6 +228,17 @@
                 "docs/knowledge-base/api/errors/422-error"
               ]
             }
+          ]
+        },
+        {
+          "group": "Shovels CLI",
+          "pages": [
+            "docs/knowledge-base/cli/installation",
+            "docs/knowledge-base/cli/authentication",
+            "docs/knowledge-base/cli/commands-overview",
+            "docs/knowledge-base/cli/output-and-pagination",
+            "docs/knowledge-base/cli/error-codes",
+            "docs/knowledge-base/cli/scripting-and-agents"
           ]
         },
         {

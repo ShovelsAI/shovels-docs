@@ -1,0 +1,171 @@
+---
+title: "How Do I Use the CLI in Scripts and AI Agents?"
+description: "The Shovels CLI is designed for composability. Learn how to pipe output with jq, build shell scripts, automate with cron, and integrate with AI coding agents."
+sidebarTitle: "Scripting & AI Agents"
+---
+
+**The CLI follows Unix conventions: JSON to stdout, errors to stderr, meaningful exit codes.** This makes it composable with `jq`, shell scripts, cron jobs, and AI coding agents like Claude Code, Cursor, and Codex.
+
+## Piping with jq
+
+Since all output is valid JSON, use `jq` to extract, filter, and transform results:
+
+```bash
+# Count total solar permits in a ZIP code
+shovels permits search --geo-id 92024 \
+  --permit-from 2024-01-01 --permit-to 2024-12-31 \
+  --tags solar --include-count --limit 1 \
+  | jq '.meta.total_count.value'
+
+# Extract just contractor names and phone numbers
+shovels contractors search --geo-id 78701 \
+  --permit-from 2024-01-01 --permit-to 2024-12-31 \
+  --tags electrical --limit 100 \
+  | jq '.data[] | {name, phone: .primary_phone}'
+
+# Export to CSV
+shovels contractors search --geo-id CA \
+  --permit-from 2024-01-01 --permit-to 2024-12-31 \
+  --tags solar --limit all \
+  | jq -r '.data[] | [.name, .primary_phone, .permit_count] | @csv' \
+  > solar_contractors_ca.csv
+```
+
+## Shell Scripts
+
+### Resolve a city name and search permits
+
+```bash
+#!/bin/bash
+# find-permits.sh — Search permits in a city by name
+
+city_name="$1"
+tag="$2"
+year="$3"
+
+# Resolve city to geo_id
+geo_id=$(shovels cities search -q "$city_name" \
+  | jq -r '.data[0].geo_id')
+
+if [ -z "$geo_id" ] || [ "$geo_id" = "null" ]; then
+  echo "City not found: $city_name" >&2
+  exit 1
+fi
+
+# Search permits
+shovels permits search \
+  --geo-id "$geo_id" \
+  --permit-from "${year}-01-01" \
+  --permit-to "${year}-12-31" \
+  --tags "$tag" \
+  --limit all
+```
+
+Usage:
+
+```bash
+./find-permits.sh "Miami Beach" roofing 2024 | jq '.meta.count'
+```
+
+### Batch lookup contractors by ID
+
+```bash
+#!/bin/bash
+# Given a file with one contractor ID per line, fetch details
+
+while IFS= read -r id; do
+  shovels contractors get "$id" | jq '.data'
+done < contractor_ids.txt
+```
+
+## Cron Jobs
+
+Monitor permit activity on a weekly schedule:
+
+```bash
+# crontab -e
+# Run every Monday at 8 AM
+0 8 * * MON /path/to/weekly-permits.sh
+```
+
+```bash
+#!/bin/bash
+# weekly-permits.sh — Count permits filed in the last 7 days
+
+from_date=$(date -v-7d +%Y-%m-%d)  # macOS
+to_date=$(date +%Y-%m-%d)
+
+count=$(shovels permits search \
+  --geo-id 94110 \
+  --permit-from "$from_date" \
+  --permit-to "$to_date" \
+  --include-count --limit 1 \
+  | jq '.meta.total_count.value')
+
+echo "$count permits filed in 94110 this week"
+```
+
+## AI Agent Integration
+
+The CLI is built with an agent-first design. AI coding agents (Claude Code, Cursor, Codex, or custom agents) can:
+
+1. **Read `--help`** to understand available commands and flags
+2. **Run commands** and parse the JSON output
+3. **Branch on exit codes** to handle errors programmatically
+4. **Chain commands** to build multi-step research workflows
+
+### How an AI agent uses the CLI
+
+```bash
+# Step 1: Agent reads the help to understand the tool
+shovels permits search --help
+
+# Step 2: Agent constructs and runs a query
+shovels permits search --geo-id 94110 \
+  --permit-from 2024-06-01 --permit-to 2024-12-31 \
+  --tags roofing --property-type residential --limit 20
+
+# Step 3: Agent parses the JSON response
+# Step 4: Agent follows up with related queries
+shovels contractors get CONTRACTOR_ID_FROM_RESULTS
+```
+
+<Info>
+The CLI help text is written to be clear and specific so that an LLM can construct the correct command on the first attempt. No human-oriented decorations (colors, spinners, progress bars) interfere with parsing.
+</Info>
+
+### Why CLI over MCP for agents?
+
+The CLI avoids common MCP pain points:
+
+- **No context bloat** — the agent only reads what it requests
+- **No credential juggling** — one API key in the environment
+- **No host lock-in** — works with any agent that can run shell commands
+- **No protocol overhead** — plain JSON in, plain JSON out
+
+## Error Handling in Scripts
+
+```bash
+result=$(shovels permits search --geo-id 92024 \
+  --permit-from 2024-01-01 --permit-to 2024-12-31 2>/tmp/shovels-err.json)
+
+if [ $? -ne 0 ]; then
+  error_type=$(jq -r '.error_type' /tmp/shovels-err.json)
+  case "$error_type" in
+    auth_error) echo "Check your API key" ;;
+    rate_limited) echo "Rate limited — waiting..." && sleep 60 ;;
+    credit_exhausted) echo "Out of credits" ;;
+    *) echo "Error: $(jq -r '.error' /tmp/shovels-err.json)" ;;
+  esac
+  exit 1
+fi
+
+echo "$result" | jq '.data | length'
+```
+
+## Related Articles
+
+- [CLI commands overview](/docs/knowledge-base/cli/commands-overview) — Full list of commands and flags
+- [CLI output and pagination](/docs/knowledge-base/cli/output-and-pagination) — Understanding JSON responses
+- [CLI error codes](/docs/knowledge-base/cli/error-codes) — Exit codes reference
+- [Automate API calls](/docs/knowledge-base/api/basics/automate-calls) — Automating with the REST API directly
