@@ -294,3 +294,67 @@ code across route packages following three-level sharing convention.
 - Get the git branch name from the Linear issue to ensure automatic linking
 
 ---
+
+## Release Notes Process
+
+Monthly release notes are published to `release-notes/release-notes.mdx` following this workflow:
+
+### File Structure
+- Single file containing all releases in reverse chronological order (newest first)
+- Each release uses Mintlify's `<Update>` component
+- Version format: `V2.1.X` where X increments monthly
+- Date format: `YYYY-MM-DD`
+
+### Three-Tab Organization
+Every release must have three tabs with consistent structure:
+
+1. **Online Tab** - Shovels web platform updates
+   - New features and product announcements
+   - Permits dataset updates
+   - Geocoding improvements
+   - User-facing changes
+
+2. **API Tab** - REST API changes
+   - New endpoints and features
+   - API enhancements and improvements
+   - Permits dataset updates (same as Online)
+   - Geocoding improvements (same as Online)
+   - ALWAYS end with: `<Info>✅ **No breaking changes.** All existing integrations continue to work unchanged.</Info>` (unless there are breaking changes)
+
+3. **EDL (Enterprise Data License) Tab** - Enterprise data updates
+   - Permits dataset updates (same as Online/API)
+   - Geocoding improvements (same as Online/API)
+   - Data quality enhancements
+
+### Formatting Conventions
+**Bold numbers only, not entire lines:**
+- ✅ CORRECT: `Permits filed in February 2026: **156K**`
+- ❌ WRONG: `**Permits filed in February 2026:** **156K**`
+- ✅ CORRECT: `Electrical Permits: **+388K**`
+- ❌ WRONG: `**Electrical Permits:** **+388K**`
+- ✅ CORRECT: `**1.8M** Records`
+- ❌ WRONG: `**1.8M Records**`
+
+**Section headers:**
+- Use consistent emoji prefixes: `### 🏗️ Permits Dataset`, `### 📍 Geocoding Improvements`, `### ⚡ API Enhancements`
+- Use `**Bold**` for subsection titles like `**New Permits Discovered**`
+
+### Monthly Workflow
+1. User receives release notes email from HubSpot (currently manual copy/paste)
+2. Use `/release-notes` skill to automate the entire process
+3. Skill automatically:
+   - Creates a new branch (format: `{month}-{year}-release-notes`)
+   - Calculates next version number (reads current and increments)
+   - Prompts for email content
+   - Parses content into appropriate tabs
+   - Applies bold-numbers-only formatting
+   - Inserts at top of file
+   - Optionally starts local preview
+   - Commits changes with proper message
+
+### Version Numbering
+- Read the latest release version from the file
+- Increment the patch number (e.g., V2.1.5 → V2.1.6)
+- Use current date in YYYY-MM-DD format
+
+---
