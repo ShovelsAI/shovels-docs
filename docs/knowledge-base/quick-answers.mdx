@@ -41,6 +41,31 @@ A required parameter is missing. Most commonly, you need to resolve an address t
 
 ---
 
+## CLI (Command Line)
+
+### How do I install the CLI?
+Run the install script: `curl -LsSf https://shovels.ai/install.sh | sh`. The script downloads the correct binary for your platform and installs it to `~/.shovels/bin`. Add to PATH if needed.
+
+### How do I configure my API key?
+Two options: (1) Environment variable: `export SHOVELS_API_KEY=your-key`, or (2) Config file (persistent): `shovels config set api-key your-key`. Verify with `shovels config show`.
+
+### What's the difference between CLI and API?
+The CLI wraps the Shovels REST API but handles authentication headers, cursor pagination, rate-limit retries, and credit tracking automatically. Use the CLI from terminals, shell scripts, or AI agents. Use the API directly for application integrations.
+
+### How do I get all results instead of just 50?
+Use `--limit all`. The CLI automatically handles pagination and fetches up to 10,000 records by default (configurable with `--max-records`).
+
+### What commands are available?
+Main commands: `permits search`, `permits get`, `contractors search`, `contractors get`, `contractors permits`, `contractors employees`, `contractors metrics`, `addresses search`, `cities search`, `tags list`, `usage`, `config`. Run `shovels --help` for full list.
+
+### Can I use the CLI with scripts and AI agents?
+Yes. The CLI outputs JSON to stdout and errors to stderr with meaningful exit codes (0=success, 1=client error, 2=auth error, 3=rate limited, 4=credits exhausted, 5=server error). Perfect for piping to `jq` or scripting.
+
+### What does exit code 2 mean?
+Exit code 2 is an authentication error—your API key is missing or invalid. Set it with `shovels config set api-key YOUR_KEY` or via the `SHOVELS_API_KEY` environment variable.
+
+---
+
 ## Data Coverage
 
 ### What areas does Shovels cover?

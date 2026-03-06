@@ -31,6 +31,9 @@ A unique identifier assigned by Shovels to each contractor. Contractor IDs are d
 ### Contractor Group ID
 An identifier linking multiple contractors that operate under the same parent organization. For example, regional branches of a national company share the same group ID.
 
+### CLI Config File
+A YAML configuration file at `~/.config/shovels/config.yaml` that stores persistent CLI settings like your API key and default preferences. Created with `shovels config set`.
+
 ## D
 
 ### Decision (Shovels Decision)
@@ -46,6 +49,9 @@ The process of identifying and consolidating duplicate records. Shovels deduplic
 
 ### EDL (Enterprise Data License)
 Shovels' bulk data product for enterprise customers. EDL delivers complete datasets to data warehouses like Snowflake, BigQuery, or Databricks, with more fields than the API and monthly refresh cycles.
+
+### Exit Code (CLI)
+A numeric status code returned when a CLI command completes. Used by scripts and AI agents to determine success (0) or error type (1-5): client error, auth error, rate limited, credits exhausted, or server error.
 
 ## F
 
@@ -87,6 +93,11 @@ The date when a permit was approved and issued by the jurisdiction, allowing con
 
 ### Jurisdiction
 The geographic area governed by a specific AHJ. Shovels covers approximately 2,000 jurisdictions representing about 85% of the US population.
+
+## L
+
+### --limit all
+A CLI flag that fetches all available records instead of the default 50-record limit. Automatically handles pagination with an upper bound set by `--max-records` (default: 10,000, max: 100,000).
 
 ## N
 
@@ -136,6 +147,9 @@ An older industry classification system used to categorize businesses. More wide
 
 ### Special Use Permit
 Permission granted by a municipality to conduct a specific activity that isn't automatically allowed in a zone but may be approved with conditions. Also called conditional use permits in some jurisdictions. Special use permits often precede specific business or development activity at a known location.
+
+### Shovels CLI
+A single-binary command-line tool for querying U.S. building permit and contractor data. Outputs JSON to stdout and handles pagination, rate limits, and credit tracking automatically. No runtime dependencies required.
 
 ### Shovels Online
 The web-based application for searching and downloading permit and contractor data. Access at [app.shovels.ai](https://app.shovels.ai).
