@@ -1,0 +1,38 @@
+---
+title: "Why is job_value Returned in Cents?"
+description: "Learn why the Shovels API returns job_value in cents rather than dollars, following industry-standard practices for handling monetary values."
+---
+
+**The `job_value` field is returned in cents, not dollars.** A value of `1000000` represents $10,000.00. This is intentional and follows established API design patterns for handling monetary values.
+
+## Why Cents?
+
+Returning monetary values in cents (the smallest currency unit) is a common practice in financial APIs. This approach:
+
+- **Avoids floating-point precision errors** — representing $10.50 as `1050` cents eliminates rounding issues that can occur with decimal numbers
+- **Simplifies integer arithmetic** — calculations with whole numbers are faster and more reliable
+- **Follows industry standards** — major payment APIs like [Stripe](https://docs.stripe.com/currencies#zero-decimal) use the same convention
+
+## Converting to Dollars
+
+To convert `job_value` to dollars in your application, divide by 100:
+
+```python
+job_value_cents = 1000000
+job_value_dollars = job_value_cents / 100  # Result: 10000.00
+```
+
+```javascript
+const jobValueCents = 1000000;
+const jobValueDollars = jobValueCents / 100; // Result: 10000.00
+```
+
+<Tip>
+When displaying monetary values to users, format the result as currency after converting from cents.
+</Tip>
+
+## Related Articles
+
+- [Understanding Query Parameters](/docs/knowledge-base/api/basics/query-parameters)
+- [Data Dictionary](/docs/data-dictionary-api)
+- [Understanding Permits](/docs/foundations-understanding-permits)
