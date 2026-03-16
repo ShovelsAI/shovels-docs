@@ -10,6 +10,11 @@ description: Install the Shovels CLI, configure your API key, and run your first
 **CLI vs. API vs. Online:** The CLI wraps the same Shovels REST API but handles auth headers, cursor pagination, rate-limit retries, and credit tracking for you. Use it from your terminal, in shell scripts, or from AI agents.
 </Info>
 
+Choose your environment to get started:
+
+<Tabs>
+<Tab title="Terminal / Local">
+
 ## Install
 
 Run the install script to download the latest release:
@@ -55,6 +60,16 @@ Confirm your config is set:
 ```bash
 shovels config show
 ```
+
+## Verify the Setup
+
+Check that the CLI can connect to the API and authenticate:
+
+```bash
+shovels usage
+```
+
+You should see a JSON response with your credit usage, confirming the CLI is installed and configured correctly.
 
 ## Run Your First Query
 
@@ -190,3 +205,46 @@ shovels contractors search --geo-id CA \
 - [Output format and pagination](/docs/knowledge-base/cli/output-and-pagination) — Understanding responses and `--limit all`
 - [Scripting and AI agents](/docs/knowledge-base/cli/scripting-and-agents) — Composing the CLI into workflows
 - [CLI error codes](/docs/knowledge-base/cli/error-codes) — Exit codes and troubleshooting
+
+</Tab>
+<Tab title="Claude Cowork">
+
+## Overview
+
+You can set up the Shovels CLI inside [Claude Cowork](https://claude.ai/cowork) and query building permit data directly from your workspace — no command-line experience required. Just add one file to your Cowork folder and Claude handles the rest.
+
+## What You'll Need
+
+**Download the Shovels CLI binary** — Go to [github.com/ShovelsAI/shovels-cli/releases/latest](https://github.com/ShovelsAI/shovels-cli/releases/latest) and download the `linux_arm64` release (the file ending in `.tar.gz`). Save it to your Cowork folder.
+
+You'll also need your Shovels API key handy. If you don't have one, [create a free account](https://app.shovels.ai/create-account/) to get a key with 250 free requests.
+
+<Warning>
+Only the `linux_arm64` binary works in Cowork. The Cowork environment runs on Linux (arm64 architecture), so make sure you download that specific version from the releases page — not the macOS, Windows, or amd64 versions.
+</Warning>
+
+## Getting Started
+
+Once the `.tar.gz` file is in your Cowork folder, just ask Claude:
+
+> *"Set up the Shovels CLI for me."*
+
+Claude will:
+
+1. **Find and extract the binary** — Claude locates the archive in your folder, unpacks it, and installs the `shovels` binary to `~/.local/bin`.
+2. **Ask for your API key** — Claude will prompt you for your Shovels API key. Just paste it into the chat. Claude uses it to configure the CLI by running `shovels config set api-key`.
+3. **Verify everything works** — Claude runs `shovels usage` to confirm the CLI can connect and authenticate. You should see a response with your credit usage, meaning you're all set.
+
+That's it — you're ready to start querying Shovels data. Try asking Claude something like *"How many permits were pulled in Austin last month?"* and it will use the CLI to find the answer.
+
+## Troubleshooting
+
+If something doesn't go as expected, tell Claude what happened and it can usually fix it. Common issues include:
+
+- **CLI not found after install** — Claude re-adds `~/.local/bin` to the session's `PATH`.
+- **Permission error on the binary** — Claude runs `chmod +x` to fix it.
+- **401 Unauthorized error** — Claude re-runs the config step with your API key.
+- **No `.tar.gz` file found** — Make sure you downloaded the `linux_arm64` release and placed it in your Cowork folder.
+
+</Tab>
+</Tabs>
