@@ -1,0 +1,35 @@
+---
+title: "Why Contractor IDs Can Change"
+description: "Understand why contractor IDs may occasionally change as Shovels discovers new permit data, how branch-level assignment works, and how to stay current with the contractor ID changelog."
+---
+
+Contractor IDs are designed to be stable, but they can occasionally change as we continuously collect new permits and discover additional details about a contractor.
+
+## How Contractor IDs Are Assigned
+
+Contractor IDs are assigned at the **branch level**. This means:
+- A contractor with a business address in City X has a different ID than the same business name in another city
+- If we cannot associate a contractor with a specific business address, they are assigned a separate ID
+
+## When IDs Change
+
+An ID change can happen when a subsequent permit scrape reveals new information. For example:
+- A contractor was previously unassociated with a specific business address
+- A new scrape reveals their address
+- The contractor is matched to an existing branch record, resulting in an updated ID
+
+These changes are infrequent but can occur as our dataset grows and data quality improves.
+
+## Contractor ID Changelog
+
+We maintain a **contractor ID changelog** that tracks these changes. If ID changes affect your workflow, contact us and we can share the changelog for your records.
+
+<Info>
+If you cache contractor IDs and encounter not-found responses, use other record attributes (business name, address, license number) to look up the updated ID. Contact [support@shovels.ai](mailto:support@shovels.ai) if you need the full changelog.
+</Info>
+
+## Related Articles
+
+- [Contractor deduplication](/docs/knowledge-base/edl/contractor-deduplication)
+- [Contractor data overview](/docs/knowledge-base/data/contractors/contractor-data-overview)
+- [Data refresh frequency](/docs/knowledge-base/data/quality/refresh-frequency)
