@@ -4,6 +4,199 @@ icon: "code-merge"
 description: "Find out what the Engineering team has been up to across our entire platform, including general announcements, updates, and bugfixes."
 ---
 
+<Update label="V2.1.7" description="2026-04-02">
+  <Tabs>
+    <Tab title="Online">
+      ### Introduction
+
+      This release marks a major milestone: Shovels is now powered entirely by our own data pipeline. We've transitioned away from our third-party permit data provider, giving us full end-to-end ownership over permit and contractor data quality, enrichment, and refresh cycles. While the total permit count is lower, the data is significantly richer — with improved field coverage across the board, a powerful new `description_derived` field on 81M permits, and better contractor intelligence. This is a one-time transition and a stronger foundation for everything going forward.
+
+      ### ✨ New
+
+      **🔄 Fully Shovels-Owned Pipeline**
+
+      100% Shovels-Owned Data — faster iteration, better enrichment, consistent data provenance.
+
+      All third-party provider data has been removed. This gives us full control over data quality and allows us to iterate faster on enrichments without vendor dependencies. Each future release will continue as a full snapshot, growing as we expand our coverage.
+
+      ### 🏗️ Permits Dataset
+
+      **Net-New Permits Added**
+      - **+11.6M** Permits — expanded coverage across new jurisdictions: NY (+4.0M), TX (+3.5M), FL (+1.9M)
+
+      - Total permits in this release: **129.9M**
+      - Permits retained with original IDs: **118.3M**
+      - Permits filed in March 2026: **352K**
+
+      **New Field: `description_derived`**
+      - **81M** Permits — **62.4%** coverage
+      - A clean, plain-English summary of each permit's raw description (e.g., "Tear off and replace the roof on an existing single-family home")
+
+      **📊 Permit Data Quality**
+
+      Field coverage improved significantly in this release:
+      - Subtype coverage: **75.7%** (+18%)
+      - Final date coverage: **70.5%** (+16%)
+      - Fees coverage: **65.0%** (+11%)
+      - Job value coverage: **62.6%** (+10%)
+      - Issue date coverage: **80.5%** (+9%)
+      - File date coverage: **90.5%** (+4%)
+
+      ### 👷 Contractor Intelligence
+
+      **Contractor License Coverage**
+      - **63.5%** (+20%) — up from 43%, significantly richer licensing data on **2.5M** contractors
+      - Phone number coverage: **57.7%** (+7%)
+      - Email address coverage: **30.2%** (+6%)
+
+      **3 New State Licensing Boards Added**
+
+      Massachusetts plumbing (~**120K** plumbers), North Carolina plumbing & electrical, and Iowa plumbing. CSL dataset grew to **3.14M** records (+4%).
+
+      ### ⚠️ Important Changes
+
+      This release includes breaking changes. Please review carefully.
+
+      **Contractor IDs have been regenerated** — if you've stored contractor IDs, they will need to be updated. We've prepared a contractor ID changelog mapping old IDs to new ones — **81.8%** of new contractors are mapped. Download below:
+
+      - API customers: [CSV](https://email.shovels.ai/e3t/Ctc/2Q+113/d5GN6904/VWDNN14TlTsMW62Df9z7NFx6dW7FnbcL5Mn68SN6hnppx3l5QzW7lCdLW6lZ3kSW5FHHjf6v6tpbW674fRP1R2lLwW1Rn6tN73dcMDW4GsQDQ98SGw3N6vy4lVm4CsvN11-T7bshGFSW6CbHSq3wj5yLW49845J4_sVl9MmY8YFQXg22W4RD6pS4cllXZW4xwn771mwZRWW3tzSlD91mj6HW45VSRj2QqJTMW3h7rtP4sXfpgW4crt1r6vxFBCN907w1gr-_69N707N7PXDYptF2LGBT36Tw3W3w6kF292m2v5W4cdT7k5NRPcvW6Ql9YM86tWgQW4gPSWW6WVzG_W7JS4vG5Kwn7jW11-7yc1SY66qf2ffJC404) · [Parquet](https://email.shovels.ai/e3t/Ctc/2Q+113/d5GN6904/VWDNN14TlTsMW62Df9z7NFx6dW7FnbcL5Mn68SN6hnppx3l5QzW7lCdLW6lZ3pjN8v7d4B7P-fHVsFdnZ1WF_ZrVTqSB76Jnk4dW2N8t4gh4lZW4G1s3Q2N3K35W3X-HKF4Dm42QW7YQ5cn8tjyFSW97DzMJ4KHs3vW53jsbw6wfWLyW1_zx9h1mrW0-N7h_CsCMqPDyW1YLhR48HFFgfMc4wrVJx0N3W35l5Pn717L0RW8fxL3m5vHVLnW3vKBhH2T5W55W1Lzy8-8PW-YnW8W0FX-7lJ_6sW8FNLc73wwRRnW2K1l9V285Bm3W64Hrtb4mbTjMW2hLgLH8gkxbgW3grbJt8t-9WGVGjYY22fn7nSf3BSfSK04)
+      - EDL customers: [CSV](https://email.shovels.ai/e3t/Ctc/2Q+113/d5GN6904/VWDNN14TlTsMW62Df9z7NFx6dW7FnbcL5Mn68SN6hnppx3l5QzW7lCdLW6lZ3nBW8F6Xd224xD1sW3LkhRt3m9crmW3sWkzn2hTQh7N25zvBSZrqkgW1mZy1523Qt3PW39vzvW3cfbGBW19ggrC6TVx_TW6P_try6HvLbJVCq5Kd8qD83bW7jDWPD68H_ZtW6CSqZY4NzgjgW5D8SRM1X_85lW7D3D0826xqsNW24v1751FDK98W6xV5987WGwQKW4y0QjJ2yF0HJW8PLLCq4w7bWNW2BJHJt5j1j1PW7vsg4w51QmjsW8Ynw7j2nC04yW5t1Q4-8XjvXBW6DNRWb6Q1bL2W6zkKY58PJ0dzVNzwPD7JsqV9f662NQv04) · [Parquet](https://email.shovels.ai/e3t/Ctc/2Q+113/d5GN6904/VWDNN14TlTsMW62Df9z7NFx6dW7FnbcL5Mn68SN6hnppx3l5QzW7lCdLW6lZ3lKW7drhVs6TTxHyW80CqX97hWX2tW5PtSbj86S_8VW5XJdRG2VT9MsW8WHTs88r9lvfN6Sk5FG95t6lW1-G_9p1z_jxdW1H599x3CJGLbW6H5WJn5tpGg0W5P2lBq8zRQK5W3Wk8Gz75KCltW19md2K1q6F_jW7W84R6587TJ2W8P6-Dp1fS3SvW2BJ1v48RD2jgW6YVqRt2nLlkFW6Nwx3677NKpMW16RzXG75_gx6N3WC5g6CsC5YW1hLxv59dZJ3_W4hMkc_7wFPBbN1pdJDcbxYL0W2RMp4F9g6NcFN2p4Yd1W6XXgf4q396j04)
+
+      For background on how contractor IDs work, see [Why Contractor IDs Can Change](/knowledge-base/data/contractors/id-changes).
+
+      **Permit count decreased** — from 216M to **130M**. **98M** older permits sourced from a third-party provider were removed. The **118.3M** permits that remain kept their original IDs — no action needed for those records.
+
+      **Contractor count decreased** — from 3.9M to **2.5M**. This reflects the removal of duplicates and low-quality records. The remaining **2.5M** contractors are cleaner and more richly attributed.
+
+      **Some jurisdictions have reduced coverage** — DC was dropped entirely. VT, RI, MA, CT, DE, WI, and NM lost >80% of permits due to the removal of third-party data. Coverage will grow as we expand our own data collection.
+
+      **`first_seen_date` has been reset** — all values now fall between 2025-05-19 and 2026-03-28. Going forward, this field will accumulate normally with each biweekly release.
+
+      **Employee and resident records reduced** — Employees: 38.1M → **12.8M**. Residents: 45.9M → **27.6M**.
+    </Tab>
+    <Tab title="API">
+      ### Introduction
+
+      This release transitions Shovels to a fully owned data pipeline, with richer field coverage, a new `description_derived` field on 81M permits, and better contractor intelligence.
+
+      <Warning>
+        ⚠️ **This release includes breaking changes.** Contractor IDs have been regenerated and permit/contractor counts have changed significantly. See the Important Changes section below.
+      </Warning>
+
+      ### ✨ New
+
+      **🔄 Fully Shovels-Owned Pipeline**
+
+      100% Shovels-Owned Data — faster iteration, better enrichment, consistent data provenance. All third-party provider data has been removed, giving us full control over data quality and enrichment without vendor dependencies.
+
+      ### 🏗️ Permits Dataset
+
+      **Net-New Permits Added**
+      - **+11.6M** Permits — expanded coverage: NY (+4.0M), TX (+3.5M), FL (+1.9M)
+
+      - Total permits in this release: **129.9M**
+      - Permits retained with original IDs: **118.3M**
+      - Permits filed in March 2026: **352K**
+
+      **New Field: `description_derived`**
+      - Available on **81M** permits — **62.4%** coverage
+      - Plain-English summary of each permit's raw description
+
+      **📊 Permit Data Quality**
+
+      - Subtype coverage: **75.7%** (+18%)
+      - Final date coverage: **70.5%** (+16%)
+      - Fees coverage: **65.0%** (+11%)
+      - Job value coverage: **62.6%** (+10%)
+      - Issue date coverage: **80.5%** (+9%)
+      - File date coverage: **90.5%** (+4%)
+
+      ### 👷 Contractor Intelligence
+
+      - Contractor license coverage: **63.5%** (+20%)
+      - Phone number coverage: **57.7%** (+7%)
+      - Email address coverage: **30.2%** (+6%)
+      - **3** new state licensing boards: Massachusetts plumbing, North Carolina plumbing & electrical, Iowa plumbing
+      - CSL dataset: **3.14M** records (+4%)
+
+      ### ⚠️ Important Changes
+
+      **Contractor IDs have been regenerated** — if you've stored contractor IDs, they will need to be updated. We've prepared a contractor ID changelog mapping old IDs to new ones — **81.8%** of new contractors are mapped. Download below:
+
+      - API customers: [CSV](https://email.shovels.ai/e3t/Ctc/2Q+113/d5GN6904/VWDNN14TlTsMW62Df9z7NFx6dW7FnbcL5Mn68SN6hnppx3l5QzW7lCdLW6lZ3kSW5FHHjf6v6tpbW674fRP1R2lLwW1Rn6tN73dcMDW4GsQDQ98SGw3N6vy4lVm4CsvN11-T7bshGFSW6CbHSq3wj5yLW49845J4_sVl9MmY8YFQXg22W4RD6pS4cllXZW4xwn771mwZRWW3tzSlD91mj6HW45VSRj2QqJTMW3h7rtP4sXfpgW4crt1r6vxFBCN907w1gr-_69N707N7PXDYptF2LGBT36Tw3W3w6kF292m2v5W4cdT7k5NRPcvW6Ql9YM86tWgQW4gPSWW6WVzG_W7JS4vG5Kwn7jW11-7yc1SY66qf2ffJC404) · [Parquet](https://email.shovels.ai/e3t/Ctc/2Q+113/d5GN6904/VWDNN14TlTsMW62Df9z7NFx6dW7FnbcL5Mn68SN6hnppx3l5QzW7lCdLW6lZ3pjN8v7d4B7P-fHVsFdnZ1WF_ZrVTqSB76Jnk4dW2N8t4gh4lZW4G1s3Q2N3K35W3X-HKF4Dm42QW7YQ5cn8tjyFSW97DzMJ4KHs3vW53jsbw6wfWLyW1_zx9h1mrW0-N7h_CsCMqPDyW1YLhR48HFFgfMc4wrVJx0N3W35l5Pn717L0RW8fxL3m5vHVLnW3vKBhH2T5W55W1Lzy8-8PW-YnW8W0FX-7lJ_6sW8FNLc73wwRRnW2K1l9V285Bm3W64Hrtb4mbTjMW2hLgLH8gkxbgW3grbJt8t-9WGVGjYY22fn7nSf3BSfSK04)
+      - EDL customers: [CSV](https://email.shovels.ai/e3t/Ctc/2Q+113/d5GN6904/VWDNN14TlTsMW62Df9z7NFx6dW7FnbcL5Mn68SN6hnppx3l5QzW7lCdLW6lZ3nBW8F6Xd224xD1sW3LkhRt3m9crmW3sWkzn2hTQh7N25zvBSZrqkgW1mZy1523Qt3PW39vzvW3cfbGBW19ggrC6TVx_TW6P_try6HvLbJVCq5Kd8qD83bW7jDWPD68H_ZtW6CSqZY4NzgjgW5D8SRM1X_85lW7D3D0826xqsNW24v1751FDK98W6xV5987WGwQKW4y0QjJ2yF0HJW8PLLCq4w7bWNW2BJHJt5j1j1PW7vsg4w51QmjsW8Ynw7j2nC04yW5t1Q4-8XjvXBW6DNRWb6Q1bL2W6zkKY58PJ0dzVNzwPD7JsqV9f662NQv04) · [Parquet](https://email.shovels.ai/e3t/Ctc/2Q+113/d5GN6904/VWDNN14TlTsMW62Df9z7NFx6dW7FnbcL5Mn68SN6hnppx3l5QzW7lCdLW6lZ3lKW7drhVs6TTxHyW80CqX97hWX2tW5PtSbj86S_8VW5XJdRG2VT9MsW8WHTs88r9lvfN6Sk5FG95t6lW1-G_9p1z_jxdW1H599x3CJGLbW6H5WJn5tpGg0W5P2lBq8zRQK5W3Wk8Gz75KCltW19md2K1q6F_jW7W84R6587TJ2W8P6-Dp1fS3SvW2BJ1v48RD2jgW6YVqRt2nLlkFW6Nwx3677NKpMW16RzXG75_gx6N3WC5g6CsC5YW1hLxv59dZJ3_W4hMkc_7wFPBbN1pdJDcbxYL0W2RMp4F9g6NcFN2p4Yd1W6XXgf4q396j04)
+
+      For background on how contractor IDs work, see [Why Contractor IDs Can Change](/knowledge-base/data/contractors/id-changes).
+
+      **Permit count decreased** — from 216M to **130M**. **98M** older third-party permits removed. The **118.3M** permits that remain kept their original IDs.
+
+      **Contractor count decreased** — from 3.9M to **2.5M**, reflecting removal of duplicates and low-quality third-party records.
+
+      **Some jurisdictions have reduced coverage** — DC dropped entirely. VT, RI, MA, CT, DE, WI, and NM lost >80% of permits.
+
+      **Field coverage changes** — geocoding: 72% → **67%**, inspection data: 15% → **3%**, address ID: 78% → **74%** (improving in upcoming releases).
+
+      **`first_seen_date` has been reset** — all values now fall between 2025-05-19 and 2026-03-28.
+    </Tab>
+    <Tab title="EDL (Enterprise Data License)">
+      ### Introduction
+
+      This release transitions Shovels to a fully owned data pipeline, with richer field coverage, a new `description_derived` field on 81M permits, and improved contractor intelligence. Please review the Important Changes section for breaking changes.
+
+      ### 🏗️ Permits Dataset
+
+      **Net-New Permits Added**
+      - **+11.6M** Permits — NY (+4.0M), TX (+3.5M), FL (+1.9M)
+
+      - Total permits in this release: **129.9M**
+      - Permits retained with original IDs: **118.3M**
+      - Permits filed in March 2026: **352K**
+
+      **New Field: `description_derived`**
+      - **81M** Permits — **62.4%** coverage
+      - Plain-English summaries of permit raw descriptions
+
+      **📊 Permit Data Quality**
+
+      - Subtype coverage: **75.7%** (+18%)
+      - Final date coverage: **70.5%** (+16%)
+      - Fees coverage: **65.0%** (+11%)
+      - Job value coverage: **62.6%** (+10%)
+      - Issue date coverage: **80.5%** (+9%)
+      - File date coverage: **90.5%** (+4%)
+
+      ### 👷 Contractor Intelligence
+
+      - Contractor license coverage: **63.5%** (+20%)
+      - Phone number coverage: **57.7%** (+7%)
+      - Email address coverage: **30.2%** (+6%)
+      - **3** new state licensing boards added
+      - CSL dataset: **3.14M** records (+4%)
+
+      ### ⚠️ Important Changes
+
+      **Contractor IDs have been regenerated** — if you've stored contractor IDs, they will need to be updated. We've prepared a contractor ID changelog mapping old IDs to new ones — **81.8%** of new contractors are mapped. Download below:
+
+      - API customers: [CSV](https://email.shovels.ai/e3t/Ctc/2Q+113/d5GN6904/VWDNN14TlTsMW62Df9z7NFx6dW7FnbcL5Mn68SN6hnppx3l5QzW7lCdLW6lZ3kSW5FHHjf6v6tpbW674fRP1R2lLwW1Rn6tN73dcMDW4GsQDQ98SGw3N6vy4lVm4CsvN11-T7bshGFSW6CbHSq3wj5yLW49845J4_sVl9MmY8YFQXg22W4RD6pS4cllXZW4xwn771mwZRWW3tzSlD91mj6HW45VSRj2QqJTMW3h7rtP4sXfpgW4crt1r6vxFBCN907w1gr-_69N707N7PXDYptF2LGBT36Tw3W3w6kF292m2v5W4cdT7k5NRPcvW6Ql9YM86tWgQW4gPSWW6WVzG_W7JS4vG5Kwn7jW11-7yc1SY66qf2ffJC404) · [Parquet](https://email.shovels.ai/e3t/Ctc/2Q+113/d5GN6904/VWDNN14TlTsMW62Df9z7NFx6dW7FnbcL5Mn68SN6hnppx3l5QzW7lCdLW6lZ3pjN8v7d4B7P-fHVsFdnZ1WF_ZrVTqSB76Jnk4dW2N8t4gh4lZW4G1s3Q2N3K35W3X-HKF4Dm42QW7YQ5cn8tjyFSW97DzMJ4KHs3vW53jsbw6wfWLyW1_zx9h1mrW0-N7h_CsCMqPDyW1YLhR48HFFgfMc4wrVJx0N3W35l5Pn717L0RW8fxL3m5vHVLnW3vKBhH2T5W55W1Lzy8-8PW-YnW8W0FX-7lJ_6sW8FNLc73wwRRnW2K1l9V285Bm3W64Hrtb4mbTjMW2hLgLH8gkxbgW3grbJt8t-9WGVGjYY22fn7nSf3BSfSK04)
+      - EDL customers: [CSV](https://email.shovels.ai/e3t/Ctc/2Q+113/d5GN6904/VWDNN14TlTsMW62Df9z7NFx6dW7FnbcL5Mn68SN6hnppx3l5QzW7lCdLW6lZ3nBW8F6Xd224xD1sW3LkhRt3m9crmW3sWkzn2hTQh7N25zvBSZrqkgW1mZy1523Qt3PW39vzvW3cfbGBW19ggrC6TVx_TW6P_try6HvLbJVCq5Kd8qD83bW7jDWPD68H_ZtW6CSqZY4NzgjgW5D8SRM1X_85lW7D3D0826xqsNW24v1751FDK98W6xV5987WGwQKW4y0QjJ2yF0HJW8PLLCq4w7bWNW2BJHJt5j1j1PW7vsg4w51QmjsW8Ynw7j2nC04yW5t1Q4-8XjvXBW6DNRWb6Q1bL2W6zkKY58PJ0dzVNzwPD7JsqV9f662NQv04) · [Parquet](https://email.shovels.ai/e3t/Ctc/2Q+113/d5GN6904/VWDNN14TlTsMW62Df9z7NFx6dW7FnbcL5Mn68SN6hnppx3l5QzW7lCdLW6lZ3lKW7drhVs6TTxHyW80CqX97hWX2tW5PtSbj86S_8VW5XJdRG2VT9MsW8WHTs88r9lvfN6Sk5FG95t6lW1-G_9p1z_jxdW1H599x3CJGLbW6H5WJn5tpGg0W5P2lBq8zRQK5W3Wk8Gz75KCltW19md2K1q6F_jW7W84R6587TJ2W8P6-Dp1fS3SvW2BJ1v48RD2jgW6YVqRt2nLlkFW6Nwx3677NKpMW16RzXG75_gx6N3WC5g6CsC5YW1hLxv59dZJ3_W4hMkc_7wFPBbN1pdJDcbxYL0W2RMp4F9g6NcFN2p4Yd1W6XXgf4q396j04)
+
+      For background on how contractor IDs work, see [Why Contractor IDs Can Change](/knowledge-base/data/contractors/id-changes).
+
+      **Permit count decreased** — from 216M to **130M**. **98M** older third-party permits removed. The **118.3M** permits that remain kept their original IDs.
+
+      **Contractor count decreased** — from 3.9M to **2.5M**, reflecting removal of duplicates and low-quality records.
+
+      **Some jurisdictions have reduced coverage** — DC dropped entirely. VT, RI, MA, CT, DE, WI, and NM lost >80% of permits.
+
+      **Field coverage changes** — geocoding: 72% → **67%**, inspection data: 15% → **3%**, address ID: 78% → **74%** (improving in upcoming releases).
+
+      **`first_seen_date` has been reset** — all values now fall between 2025-05-19 and 2026-03-28.
+
+      **Employee and resident records reduced** — Employees: 38.1M → **12.8M**. Residents: 45.9M → **27.6M**.
+    </Tab>
+  </Tabs>
+</Update>
+
 <Update label="V2.1.6" description="2026-03-02">
   <Tabs>
     <Tab title="Online">
