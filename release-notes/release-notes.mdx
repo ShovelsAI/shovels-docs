@@ -4,6 +4,157 @@ icon: "code-merge"
 description: "Find out what the Engineering team has been up to across our entire platform, including general announcements, updates, and bugfixes."
 ---
 
+<Update label="V2.1.8" description="2026-05-02">
+  <Tabs>
+    <Tab title="Online">
+      ### Introduction
+
+      Plenty of fresh coverage this release. We've added **7.5M** new permits and **32** newly covered jurisdictions — Portland (OR), Orlando (FL), and a strong cluster of Twin Cities suburbs lead the way. **+131K** contractors were added too. Total permits grow by +**7.19M** (+5.4%).
+
+      ### ✨ New
+
+      **Contractor Exports Return Full Result Set**
+
+      When exporting contractors from the Shovels Online web app, the resulting CSV was previously capped at the on-screen page size (**50** rows). Exports now include all matching contractors up to **1,000** rows. No action required.
+
+      ### 🏗️ Permits Dataset
+
+      **New Permits Added**
+      - **+7,479,676** new permits added this release
+      - Total permits: **141,032,194** (+5.4%)
+      - Permits filed in April 2026: **243,517**
+      - Permits with linked address: **105.2M** (74.6%, +0.8pp)
+
+      **New Permits by Type**
+      - Electrical: **1,417,453**
+      - Plumbing: **1,185,763**
+      - HVAC: **942,391**
+      - Remodel: **889,732**
+      - New construction: **648,351**
+      - Roofing: **489,444**
+      - Addition: **325,031**
+      - Demolition: **101,553**
+      - Solar: **91,852**
+
+      **🗺️ Newly Covered Jurisdictions**
+
+      **32** new jurisdictions added, each with >10,000 historical records. Highlights:
+      - OR / Portland: **1,578,132**
+      - FL / Orlando: **1,028,207**
+      - MN / Maple Grove: **331,140**
+      - MN / St. Louis Park: **301,465**
+      - MN / Minnetonka: **264,317**
+      - MN / Eden Prairie: **193,188**
+      - MN / Edina: **168,687**
+      - MN / Apple Valley: **133,736**
+      - MN / Golden Valley: **104,639**
+      - NC / Holly Springs: **99,545**
+      - Plus 22 more across OH, OK, PA, CO, IL, GA, MO, WA, NC
+
+      ### 👷 Contractors
+
+      - Total contractors: **2,638,372** (up from **2,550,254**)
+      - Newly added: **+130,899**
+    </Tab>
+    <Tab title="API">
+      ### Introduction
+
+      This release adds **7.5M** new permits, **32** newly covered jurisdictions, and **131K** new contractors. Total permits reach **141M** (+5.4%).
+
+      ### 🏗️ Permits Dataset
+
+      **New Permits Added**
+      - **+7,479,676** new permits added this release
+      - Total permits: **141,032,194** (+5.4%)
+      - Permits filed in April 2026: **243,517**
+      - Permits with linked address: **105.2M** (74.6%, +0.8pp)
+
+      **New Permits by Type**
+      - Electrical: **1,417,453**
+      - Plumbing: **1,185,763**
+      - HVAC: **942,391**
+      - Remodel: **889,732**
+      - New construction: **648,351**
+      - Roofing: **489,444**
+      - Addition: **325,031**
+      - Demolition: **101,553**
+      - Solar: **91,852**
+
+      **🗺️ Newly Covered Jurisdictions**
+
+      **32** new jurisdictions added, each with >10,000 historical records. Highlights:
+      - OR / Portland: **1,578,132**
+      - FL / Orlando: **1,028,207**
+      - MN / Maple Grove: **331,140**
+      - MN / St. Louis Park: **301,465**
+      - MN / Minnetonka: **264,317**
+      - MN / Eden Prairie: **193,188**
+      - MN / Edina: **168,687**
+      - MN / Apple Valley: **133,736**
+      - MN / Golden Valley: **104,639**
+      - NC / Holly Springs: **99,545**
+      - Plus 22 more across OH, OK, PA, CO, IL, GA, MO, WA, NC
+
+      ### 👷 Contractors
+
+      - Total contractors: **2,638,372** (up from **2,550,254**)
+      - Newly added: **+130,899**
+
+      ### ℹ️ Note on Permit IDs
+
+      As part of routine pipeline updates, **280,010** permits (0.28%) had their `id` regenerated this release. The underlying permits are unchanged — same jurisdiction, state, and `permit_number` — but small shifts in `file_date` regenerate the `id`. Largest impacted: TN / Nashville (**207K**), FL / Seminole County (**43K**). Reply to your release notes email if you need the old_id → new_id changelog.
+
+      <Info>
+        ✅ **No breaking changes.** All existing integrations continue to work unchanged.
+      </Info>
+    </Tab>
+    <Tab title="EDL (Enterprise Data License)">
+      ### 🏗️ Permits Dataset
+
+      **New Permits Added**
+      - **+7,479,676** new permits added this release
+      - Total permits: **141,032,194** (+5.4%)
+      - Permits filed in April 2026: **243,517**
+      - Permits with linked address: **105.2M** (74.6%, +0.8pp)
+
+      **New Permits by Type**
+      - Electrical: **1,417,453**
+      - Plumbing: **1,185,763**
+      - HVAC: **942,391**
+      - Remodel: **889,732**
+      - New construction: **648,351**
+      - Roofing: **489,444**
+      - Addition: **325,031**
+      - Demolition: **101,553**
+      - Solar: **91,852**
+
+      **🗺️ Newly Covered Jurisdictions**
+
+      **32** new jurisdictions added, each with >10,000 historical records. Highlights:
+      - OR / Portland: **1,578,132**
+      - FL / Orlando: **1,028,207**
+      - MN / Maple Grove: **331,140**
+      - MN / St. Louis Park: **301,465**
+      - MN / Minnetonka: **264,317**
+      - MN / Eden Prairie: **193,188**
+      - MN / Edina: **168,687**
+      - MN / Apple Valley: **133,736**
+      - MN / Golden Valley: **104,639**
+      - NC / Holly Springs: **99,545**
+      - Plus 22 more across OH, OK, PA, CO, IL, GA, MO, WA, NC
+
+      ### 👷 Contractors
+
+      - Total contractors: **2,638,372** (up from **2,550,254**)
+      - Newly added: **+130,899**
+
+      ### ℹ️ Note on Permit IDs
+
+      As part of routine pipeline updates, **280,010** permits (0.28%) had their `id` regenerated this release. The underlying permits are unchanged — same jurisdiction, state, and `permit_number` — but small shifts in `file_date` regenerate the `id`. Largest impacted: TN / Nashville (**207K**), FL / Seminole County (**43K**). Contact your account team if you need the old_id → new_id changelog.
+    </Tab>
+  </Tabs>
+</Update>
+
 <Update label="V2.1.7" description="2026-04-02">
   <Tabs>
     <Tab title="Online">
