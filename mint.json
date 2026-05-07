@@ -176,7 +176,8 @@
           "pages": [
             "docs/knowledge-base/getting-started/free-trial-guide",
             "docs/knowledge-base/getting-started/pricing-structure",
-            "docs/knowledge-base/getting-started/key-differentiators"
+            "docs/knowledge-base/getting-started/key-differentiators",
+            "docs/knowledge-base/getting-started/charlie-ai"
           ]
         },
         {
@@ -249,7 +250,8 @@
             "docs/knowledge-base/shovels-online/search-functionality",
             "docs/knowledge-base/shovels-online/filters-and-sorting",
             "docs/knowledge-base/shovels-online/permit-downloads",
-            "docs/knowledge-base/shovels-online/contractor-downloads"
+            "docs/knowledge-base/shovels-online/contractor-downloads",
+            "docs/knowledge-base/shovels-online/cancel-subscription"
           ]
         },
         {
@@ -309,7 +311,8 @@
                 "docs/knowledge-base/data/quality/verification-methods",
                 "docs/knowledge-base/data/quality/refresh-frequency",
                 "docs/knowledge-base/data/quality/labeling-process",
-                "docs/knowledge-base/data/quality/historical-data"
+                "docs/knowledge-base/data/quality/historical-data",
+                "docs/knowledge-base/data/quality/few-results"
               ]
             }
           ]
@@ -332,7 +335,9 @@
           "group": "Company",
           "pages": [
             "docs/knowledge-base/company/contact-information",
-            "docs/knowledge-base/company/property-types"
+            "docs/knowledge-base/company/property-types",
+            "docs/knowledge-base/company/refund-policy",
+            "docs/knowledge-base/company/data-usage-terms"
           ]
         }
       ]
