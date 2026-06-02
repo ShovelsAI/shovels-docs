@@ -1,0 +1,36 @@
+---
+title: "How to Get Decisions by ID"
+description: "Retrieve specific Shovels Decision records by their decision ID using the /decisions endpoint."
+---
+
+When you already know which decisions you want, use the [Get Decisions By ID](/api-reference/decisions/get-decisions-by-id) endpoint to fetch them directly—no date range or geo_id required.
+
+## Request
+
+Pass one or more decision IDs in the `id` parameter:
+
+```bash
+curl -X GET \
+  "https://api.shovels.ai/v2/decisions?id=DECISION_ID_1&id=DECISION_ID_2" \
+  -H "X-API-Key: YOUR_API_KEY_HERE"
+```
+
+| Parameter | Description |
+|-----------|-------------|
+| `id` | One or more decision IDs. Up to **50 IDs** per request. |
+
+## Behavior
+
+- Unknown IDs are **silently omitted**—you won't get a per-ID 404. If you request 50 IDs and only 48 exist, the response contains 48 decisions.
+- The response uses the same paginated envelope and decision fields as the search endpoint.
+
+<Tip>
+Decision IDs come from the [Search Decisions](/docs/knowledge-base/api/decisions/searching-decisions) endpoint. Store the `id` field from search results to look records up again later.
+</Tip>
+
+## Related Articles
+
+- [How to search for decisions](/docs/knowledge-base/api/decisions/searching-decisions)
+- [Where Decisions are available](/docs/knowledge-base/api/decisions/decisions-availability)
+- [Decision data fields](/docs/knowledge-base/data/decisions/data-fields)
+- [API Reference: Get Decisions By ID](/api-reference/decisions/get-decisions-by-id)
