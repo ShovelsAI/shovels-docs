@@ -1,0 +1,79 @@
+---
+title: "How to Search for Decisions"
+description: "Learn how to use the Shovels API to search zoning and land use decisions with the /decisions/search endpoint, including required parameters and filters."
+---
+
+To search Shovels Decisions, use the [Search Decisions](/api-reference/decisions/search-decisions) endpoint. Every request needs a date range and a `geo_id`, then you can narrow results with optional filters.
+
+<Info>
+Decisions are currently in **beta**. For background on the dataset and roadmap, see the [Decisions API launch announcement](https://www.shovels.ai/blog/decisions-api-launch/).
+</Info>
+
+## Required Parameters
+
+Three parameters are required on every decisions search:
+
+| Parameter | Description |
+|-----------|-------------|
+| `decision_from` | Return decisions with a `decision_date` on or after this date (`YYYY-MM-DD`) |
+| `decision_to` | Return decisions with a `decision_date` on or before this date (`YYYY-MM-DD`) |
+| `geo_id` | The geographic area to search |
+
+Omitting any of these returns a [422 error](/docs/knowledge-base/api/errors/422-error).
+
+## Two-Step Process
+
+### Step 1: Get a geo_id
+
+The `geo_id` accepts a US state code (such as `CA`) or a Shovels geolocation ID for an address, city, county, or jurisdiction. Resolve places to a geo_id with one of:
+
+- [Search Addresses](/api-reference/addresses/search-addresses)
+- [Search Cities](/api-reference/cities/search-cities)
+- [Search Counties](/api-reference/counties/search-counties)
+- [Search Jurisdictions](/api-reference/jurisdictions/search-jurisdictions)
+
+<Warning>
+ZIP and ZIP+4 codes are **not** supported for decisions. The upstream source emits no ZIP information, so decisions cannot be filtered by ZIP. Free-form text such as `"123 Main St"` is also not accepted—resolve it to a geo_id first.
+</Warning>
+
+### Step 2: Search Decisions Using the geo_id
+
+```bash
+curl -X GET \
+  "https://api.shovels.ai/v2/decisions/search?geo_id=CA&decision_from=2025-01-01&decision_to=2025-12-31" \
+  -H "X-API-Key: YOUR_API_KEY_HERE"
+```
+
+## Available Filters
+
+All filters use AND logic—a decision must match every parameter you supply.
+
+| Filter | Description |
+|--------|-------------|
+| `category` | One or more decision categories (e.g. Rezoning, Variance) |
+| `subcategory` | One or more decision subcategories |
+| `asset_class` | One or more asset classes (e.g. Residential, Commercial, Mixed-Use) |
+| `property_type` | One or more property types |
+| `min_project_value` | Minimum project value in **cents**, inclusive |
+| `max_project_value` | Maximum project value in **cents**, inclusive |
+| `decision_q` | Full-text query (max 100 characters) against the decision `title` and `description` |
+
+<Tip>
+`min_project_value` and `max_project_value` are expressed in cents. A $5,000,000 project is `500000000`.
+</Tip>
+
+## Pagination
+
+Search responses are paginated:
+
+- `size` — results per page (1–100, default 50)
+- `cursor` — pass the `next_cursor` from the previous response to fetch the next page
+- `include_count` — set to `true` on the first page (no cursor) to include `total_count`. The count is exact up to 10,000; above that it is reported as a "greater than or equal to" value.
+
+## Related Articles
+
+- [Get decisions by ID](/docs/knowledge-base/api/decisions/decisions-by-id)
+- [Where Decisions are available](/docs/knowledge-base/api/decisions/decisions-availability)
+- [What are Shovels Decisions?](/docs/knowledge-base/data/decisions/overview)
+- [Decision categories explained](/docs/knowledge-base/data/decisions/decision-categories)
+- [API Reference: Search Decisions](/api-reference/decisions/search-decisions)

@@ -214,6 +214,14 @@
               ]
             },
             {
+              "group": "Decisions",
+              "pages": [
+                "docs/knowledge-base/api/decisions/searching-decisions",
+                "docs/knowledge-base/api/decisions/decisions-by-id",
+                "docs/knowledge-base/api/decisions/decisions-availability"
+              ]
+            },
+            {
               "group": "Contractors",
               "pages": [
                 "docs/knowledge-base/api/contractors/contractor-search",

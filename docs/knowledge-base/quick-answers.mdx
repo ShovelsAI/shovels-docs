@@ -136,7 +136,16 @@ Decisions precede permits in the development lifecycle. A rezoning approval or s
 Depends on project complexity: 2-4 weeks for minor commercial renovations, 1-3 months for new homes, 3-6 months for multifamily, and 6-12 months for large commercial projects.
 
 ### What information is in a decision record?
-Property location and coordinates, zoning changes (previous and new), involved parties (applicants, developers, owners, engineers), regulatory parameters (density, height limits, setbacks), and links to source documents.
+Property location and coordinates, zoning changes (previous and new), involved parties (applicant, owner, developer, representative), project value and lot size, allowed uses, a "why it matters" summary, and a link to the source meeting record.
+
+### Which plans include Decisions?
+All of them. Decisions are included in the API free trial and in every paid plan at no additional charge. Decisions are currently in beta.
+
+### How do I query Decisions in the API?
+Use the [Search Decisions](/docs/knowledge-base/api/decisions/searching-decisions) endpoint. It requires a date range (`decision_from`, `decision_to`) and a `geo_id`. To fetch specific records, use [Get Decisions By ID](/docs/knowledge-base/api/decisions/decisions-by-id) with up to 50 IDs.
+
+### What's the Decisions coverage?
+At launch, Decisions covered 600+ cities and nearly 200,000 records—about half the jurisdictions where Shovels has permit coverage—and continues to expand. See the [Coverage Dashboard](https://www.shovels.ai/coverage).
 
 ---
 
