@@ -138,18 +138,17 @@ Where objects are returned as an array in the `items` field. When `next_cursor` 
 
 ### Pagination
 
-The API supports two types of pagination:
+The API uses cursor-based pagination:
 
-#### 1. Cursor-Based Pagination (Recommended)
+#### Cursor-Based Pagination
 
-Cursor-based pagination is the default and recommended method for paginating through results. It uses an opaque cursor token to maintain your position in the result set, offering better performance, consistency, and stability, especially for large datasets.
+Cursor-based pagination uses an opaque cursor token to maintain your position in the result set, offering better performance, consistency, and stability, especially for large datasets.
 
 ```json
 {
  "items": [...],
  "size": 50,
- "next_cursor": "eyJkYXR.lIjoiMjA.yMy0",
- "pagination_type": "cursor"
+ "next_cursor": "eyJkYXR.lIjoiMjA.yMy0"
 }
 ```
 
@@ -165,32 +164,6 @@ GET /v2/permits/search?size=10&cursor=eyJkYXR.lIjoiMjA.yMy0
 ```
 
 When there are no more results, the `next_cursor` value will be `null`.
-
-#### 2. Offset-Based Pagination (Deprecated)
-
-⚠️ **IMPORTANT**: Offset-based pagination is deprecated and will be removed in a future release. We recommend migrating to cursor-based pagination for better performance and reliability.
-
-This traditional pagination method uses page numbers and is less efficient:
-
-```json
-{
- "items": [...],
- "page": 1,
- "size": 50,
- "next_page": 2,
- "pagination_type": "offset"
-}
-```
-
-To use offset-based pagination, explicitly provide a `page` parameter in your request:
-
-```
-GET /v2/permits/search?page=1&size=50
-```
-
-#### Pagination Priority
-
-If both `cursor` and `page` parameters are provided in the same request, cursor-based pagination takes precedence.
 
 ### Versioning
 
@@ -295,9 +268,9 @@ Here are some examples:
 
 ```json Query Parameter Error
 {
-    "loc": ["query", "page"],
-    "msg": "Page must be a positive integer",
-    "type": "type_error.integer"
+    "loc": ["query", "size"],
+    "msg": "Input should be a valid integer",
+    "type": "int_parsing"
 }
 ```
 
