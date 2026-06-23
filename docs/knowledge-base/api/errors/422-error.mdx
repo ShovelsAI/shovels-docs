@@ -34,7 +34,7 @@ If the geo_id format is incorrect or wasn't obtained through address resolution.
 GET /v2/permits/search?street=123+Main+St  # Will return 422
 
 # RIGHT: Resolve address, then query permits
-GET /v2/addresses/search?street=123+Main+St&city=San+Francisco&state=CA
+GET /v2/addresses/search?q=123+Main+St,+San+Francisco,+CA
 # Get geo_id from response, then:
 GET /v2/permits/search?geo_id=RESOLVED_GEO_ID
 ```
