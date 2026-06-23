@@ -14,10 +14,15 @@ When your request succeeds, you'll receive:
 ```json
 {
   "items": [...],
+  "size": 50,
   "next_cursor": "...",
-  "total": 150
+  "total_count": { "value": 150, "relation": "eq" }
 }
 ```
+
+<Info>
+`total_count` is returned only when you pass `include_count=true` on the first page (no cursor). `relation` is `eq` for an exact count, or `gte` when the true count exceeds the 10,000 cap.
+</Info>
 
 ## Error Responses
 
