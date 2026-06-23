@@ -16,16 +16,16 @@ By analyzing permit data, you can determine:
 
 ### Step 1: Get Permits for a Contractor
 
-Use the `/v2/permits/search` endpoint to retrieve permits for a specific contractor:
+Use the `/v2/contractors/{id}/permits` endpoint to retrieve all permits associated with a specific contractor:
 
 ```bash
 curl -X GET \
-  'https://api.shovels.ai/v2/permits/search?contractor_id=YOUR_CONTRACTOR_ID&permit_from=2022-01-01&permit_to=2024-12-31' \
+  'https://api.shovels.ai/v2/contractors/YOUR_CONTRACTOR_ID/permits' \
   -H 'X-API-Key: YOUR_API_KEY_HERE'
 ```
 
 <Info>
-You need the contractor_id first. Get it by searching for the contractor using the contractors search endpoint.
+You need the contractor's `id` first. Get it from the [contractor search](/docs/knowledge-base/api/contractors/contractor-search) endpoint. Note that `/permits/search` has no `contractor_id` filter—this dedicated endpoint is the way to pull a single contractor's permits.
 </Info>
 
 ### Step 2: Extract Geographic Data
@@ -44,9 +44,9 @@ Process the permit data to create deduplicated lists of:
 
 ## Best Practices
 
-1. **Use Date Ranges** - Query recent permit data (last 2-3 years) for active service areas
+1. **Filter by Recency** - The endpoint returns the contractor's full permit history; filter client-side on permit dates (e.g. last 2-3 years) for active service areas
 2. **Handle Pagination** - Make sure to handle paginated responses to get complete permit histories
-3. **Filter by Property Type** - Use `property_type` parameters to understand different service area patterns (residential vs commercial)
+3. **Filter by Property Type** - Use each permit's `property_type` field to understand different service area patterns (residential vs commercial)
 
 ## Geographic Filtering Capabilities
 

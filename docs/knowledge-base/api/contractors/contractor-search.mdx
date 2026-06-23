@@ -18,19 +18,23 @@ Not every permit has an associated contractor. This depends on whether the juris
 
 ## Searching for Contractors
 
+<Info>
+`/contractors/search` requires `geo_id`, `permit_from`, and `permit_to` on every request. The date range filters to contractors who pulled permits within that window.
+</Info>
+
 ### By Name
 
-You can search by contractor name—either the full name or partial:
+Add the `contractor_name` filter (minimum 3 characters) to search by full or partial name:
 
 ```bash
 # Full name search
 curl -X GET \
-  "https://api.shovels.ai/v2/contractors/search?name=John+Smith+Panels" \
+  "https://api.shovels.ai/v2/contractors/search?geo_id=CA&permit_from=2024-01-01&permit_to=2024-12-31&contractor_name=John+Smith+Panels" \
   -H "X-API-Key: YOUR_API_KEY_HERE"
 
 # Partial name search
 curl -X GET \
-  "https://api.shovels.ai/v2/contractors/search?name=Smith" \
+  "https://api.shovels.ai/v2/contractors/search?geo_id=CA&permit_from=2024-01-01&permit_to=2024-12-31&contractor_name=Smith" \
   -H "X-API-Key: YOUR_API_KEY_HERE"
 ```
 
@@ -40,7 +44,7 @@ Search for contractors in a specific area:
 
 ```bash
 curl -X GET \
-  "https://api.shovels.ai/v2/contractors/search?geo_id=94103" \
+  "https://api.shovels.ai/v2/contractors/search?geo_id=94103&permit_from=2024-01-01&permit_to=2024-12-31" \
   -H "X-API-Key: YOUR_API_KEY_HERE"
 ```
 
@@ -49,10 +53,9 @@ curl -X GET \
 - **Address lookup** is fuzzy
 - **Contractor lookup** is exact, or you can search by part of the name
 
-For example, searching for "John Smith Panels" you can search by:
+For example, searching for "John Smith Panels" you can search by (minimum 3 characters):
 - "John"
 - "Joh"
-- "Sm"
 - "Panels"
 
 ## Contractor Information Available
