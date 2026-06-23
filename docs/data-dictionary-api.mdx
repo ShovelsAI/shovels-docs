@@ -4,57 +4,96 @@ icon: terminal
 description: All fields, parameters, and objects available in the **Shovels API** schema. 
 ---
 
+<Note>
+    Monetary fields (`job_value`, `fees`, `total_job_value`, `avg_job_value`, `property_assess_market_value`) are integers expressed **in cents** — divide by 100 for the dollar amount (e.g. `2500000` = $25,000).
+</Note>
+
 <Accordion title="Permits">
     | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Source</div> |
     |:-----------|:----------|:------------|:---------|:--------|
-    | id | `string` | The Shovels ID for the permit | "caf3b9d5ce317d53" | Shovels |
-    | number | `string` | The permit jurisdiction's internal tracking number | "No-15837" | Permit Jurisdiction |
-    | jurisdiction | `string` | The jurisdiction that issued the permit | "City of Oakland" | Permit Jurisdiction |
+    | id | `string` | The permit identifier | "caf3b9d5ce317d53" | Shovels |
+    | number | `string` | The permit number provided by the jurisdiction | "No-15837" | Permit Jurisdiction |
+    | jurisdiction | `string` | The jurisdiction where the permit was filed | "City of Oakland" | Permit Jurisdiction |
+    | description | `string` | The free-form description of the work on the permit | "Solar panel installation" | Permit Jurisdiction |
+    | job_value | `integer` | The reported job value on the permit, in cents | 2500000 | Permit Jurisdiction |
+    | type | `string` | The type of permit | "Residential accessory structure" | Permit Jurisdiction |
+    | subtype | `string` | The subtype of permit | "garage" | Permit Jurisdiction |
+    | fees | `integer` | The fees charged by the jurisdiction, in cents | 15000 | Permit Jurisdiction |
+    | status | `string` | The status of the permit | "active" | Shovels |
+    | file_date | `string` | The date the permit was filed (YYYY-MM-DD) | "2023-01-01" | Permit Jurisdiction |
+    | issue_date | `string` | The date the permit was issued (YYYY-MM-DD) | "2023-01-31" | Permit Jurisdiction |
+    | final_date | `string` | The date the permit was finalized (YYYY-MM-DD) | "2023-06-01" | Permit Jurisdiction |
+    | start_date | `string` | The earliest of `file_date`, `issue_date`, and `final_date` | "2023-01-01" | Shovels |
+    | end_date | `string` | The latest of `file_date`, `issue_date`, and `final_date` | "2023-06-01" | Shovels |
+    | total_duration | `integer` | Number of days from `start_date` to `end_date` | 151 | Shovels |
+    | construction_duration | `integer` | Number of days it took to complete the project | 120 | Shovels |
+    | approval_duration | `integer` | Number of days it took to approve the permit | 30 | Shovels |
+    | inspection_pass_rate | `integer` | The inspection pass rate as a percentage (0-100) | 95 | Shovels |
+    | contractor_id | `string` | The unique ID of the contractor associated with the permit | "c452b7d5cf317a76" | Shovels |
+    | tags | `array` | A list of tags associated with the permit | `["solar", "residential"]` | Shovels |
     | address | `object` | The property's address | | Shovels |
     | geo_ids | `object` | Geographic identifiers | | Shovels |
-    | description | `string` | The description of the work from the permit | "Solar panel installation" | Permit Jurisdiction |
-    | job_value | `number` | The estimated value of the work to be done | "25000" | Permit Jurisdiction |
-    | issue_date | `string` | The date the permit was issued (YYYY-MM-DD) | "2023-01-31" | Permit Jurisdiction |
-    | file_date | `string` | The date the permit was filed (YYYY-MM-DD) | "2023-01-01" | Permit Jurisdiction |
-    | status | `string` | The status of the permit | "active" | Shovels |
-    | type | `string` | The type of permit | "Residential accessory structure" | Permit Jurisdiction |
-    | sub_type | `string` | The sub-type of permit | "garage" | Permit Jurisdiction |
-    | tags | `array` | A list of tags associated with the permit | `["Solar", "Residential"]` | Shovels |
-    | contractor_id | `string` | The unique ID of the contractor associated with the permit | | Shovels |
     | property_census_tract | `string` | The property's census tract | "06075000100" | Shovels |
     | property_congressional_district | `string` | The property's congressional district | "11" | Shovels |
     | property_type | `string` | The property's type | "Residential" | Shovels |
     | property_type_detail | `string` | The property's sub-classification | "Single Family Home" | Shovels |
     | property_legal_owner | `string` | The property's legal owner | "Robert Johnson" | Shovels |
     | property_owner_type | `string` | The property's owner classification | "individual" | Shovels |
-    | property_lot_size | `integer` | The property's lot size (in square feet) | "5000" | Shovels |
-    | property_building_area | `integer` | The property's building area (in square feet) | "1250" | Shovels |
-    | property_story_count | `integer` | The property's number of stories | "2" | Shovels |
-    | property_unit_count | `integer` | The property's number of units | "1" | Shovels |
-    | property_year_built | `integer` | The property's year built | "1978" | Shovels |
-    | property_assess_market_value | `number` | The property's assessed market value | "750000" | Shovels |
+    | property_lot_size | `integer` | The property's lot size (in square feet) | 5000 | Shovels |
+    | property_building_area | `integer` | The property's building area (in square feet) | 1250 | Shovels |
+    | property_story_count | `integer` | The property's number of stories | 2 | Shovels |
+    | property_unit_count | `integer` | The property's number of units | 1 | Shovels |
+    | property_year_built | `integer` | The property's year built | 1978 | Shovels |
+    | property_assess_market_value | `integer` | The property's assessed market value, in cents | 75000000 | Shovels |
 </Accordion>
 <Accordion title="Contractors">
     | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Source</div> |
     |:-----------|:----------|:------------|:---------|:--------|
-    | id | `string` | The Shovels ID for the contractor | "c452b7d5cf317a76" | Shovels |
-    | name | `string` | The name of the contractor | "John Builder" | Permit Jurisdiction |
-    | company_name | `string` | The name of the contractor's company | "Builder Co" | Permit Jurisdiction |
-    | type | `string` | The type of contractor | "General Contractor" | Shovels |
-    | license_number | `string` | The contractor's license number | "123456" | Permit Jurisdiction |
-    | license_state | `string` | The state that issued the contractor's license | "CA" | Permit Jurisdiction |
-    | address | `object` | The contractor's address | | Shovels |
+    | id | `string` | The contractor ID | "c452b7d5cf317a76" | Shovels |
+    | license | `string` | The contractor license number | "123456" | Permit Jurisdiction |
+    | name | `string` | The contractor name | "John Builder" | Permit Jurisdiction |
+    | business_name | `string` | The contractor's business name | "Builder Co" | Permit Jurisdiction |
+    | business_type | `string` | The type of business: JointVenture, Corporation, Partnership, Limited Liability, Sole Owner | "Corporation" | Shovels |
+    | classification | `string` | The contractor's classification/certification | "B - General Building" | Shovels |
+    | classification_derived | `array` | Array of derived contractor classifications | `["General Building"]` | Shovels |
+    | license_issue_date | `string` | The license issue date (YYYY-MM-DD) | "2015-04-01" | Permit Jurisdiction |
+    | license_exp_date | `string` | The license expiration date (YYYY-MM-DD) | "2025-04-01" | Permit Jurisdiction |
+    | license_inact_date | `string` | Date the license became inactive (YYYY-MM-DD) | "2020-01-01" | Permit Jurisdiction |
+    | license_act_date | `string` | Date the license became active (YYYY-MM-DD) | "2015-04-01" | Permit Jurisdiction |
+    | primary_phone | `string` | The contractor's primary phone number | "123-456-7890" | Shovels |
+    | primary_email | `string` | The contractor's primary email | "info@builderco.com" | Shovels |
+    | phone | `string` | The contractor's phone number(s) | "123-456-7890" | Shovels |
+    | email | `string` | The contractor's email(s) | "info@builderco.com" | Shovels |
+    | website | `string` | The contractor's website | "builderco.com" | Shovels |
+    | dba | `string` | Doing Business As name for the contractor | "Builder Co" | Shovels |
+    | sic | `string` | Standard Industrial Classification (SIC) code | "1521" | Shovels |
+    | naics | `string` | North American Industry Classification System (NAICS) code | "236118" | Shovels |
+    | linkedin_url | `string` | LinkedIn URL of the contractor | "linkedin.com/company/builderco" | Shovels |
+    | revenue | `string` | Annual revenue of the contractor's business | "$1M-$5M" | Shovels |
+    | employee_count | `string` | Number of employees working for the contractor | "10-50" | Shovels |
+    | primary_industry | `string` | Primary industry in which the contractor operates | "Construction" | Shovels |
+    | review_count | `integer` | Number of reviews the contractor has received | 42 | Shovels |
+    | rating | `number` | Rating of the contractor based on reviews | 4.7 | Shovels |
+    | status_tally | `object` | Summary of status counts for the contractor's work (active, final, unknown, inactive, in_review) | `{"active": 5, "final": 10}` | Shovels |
+    | tag_tally | `object` | Summary of tag counts for the contractor's work | `{"solar": 3}` | Shovels |
+    | permit_count | `integer` | The total number of permits | 100 | Shovels |
+    | avg_job_value | `integer` | The average job value of all permits, in cents | 2500000 | Shovels |
+    | total_job_value | `integer` | The total job value of all permits, in cents | 250000000 | Shovels |
+    | avg_construction_duration | `integer` | The average construction duration in days | 120 | Shovels |
+    | avg_inspection_pass_rate | `integer` | The average inspection pass rate as a percentage (0-100) | 95 | Shovels |
+    | first_seen_date | `string` | Date the contractor was first seen in the system (YYYY-MM-DD) | "2018-06-15" | Shovels |
+    | address | `object` | The contractor's address (street_no, street, city, jurisdiction, zip_code, zip_code_ext, state, latlng) | | Shovels |
 </Accordion>
 <Accordion title="Residents">
     | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Source</div> |
     |:-----------|:----------|:------------|:---------|:--------|
     | name | `string` | Name of the resident | "Jane Doe" | Shovels |
-    | email | `string` | Email of the resident | "jane.doe@example.com" | Shovels |
+    | personal_emails | `string` | Email(s) of the resident | "jane.doe@example.com" | Shovels |
     | phone | `string` | Phone number of the resident | "123-456-7890" | Shovels |
     | linkedin_url | `string` | LinkedIn URL of the resident | "linkedin.com/in/janedoe" | Shovels |
     | net_worth | `string` | Net worth range of the resident | "1,000,000-2,499,999" | Shovels |
     | income_range | `string` | Income range of the resident | "150,000-199,999" | Shovels |
-    | is_homeowner | `boolean` | Whether the resident is a homeowner | "true" | Shovels |
+    | is_homeowner | `boolean` | Whether the resident is a homeowner | true | Shovels |
     | street_no | `string` | Street number of the resident's address | "123" | Shovels |
     | street | `string` | Street name of the resident's address | "Main St" | Shovels |
     | city | `string` | City of the resident's address | "Anytown" | Shovels |
@@ -63,13 +102,22 @@ description: All fields, parameters, and objects available in the **Shovels API*
     | zip_code_ext | `string` | Zip code extension of the resident's address | "6789" | Shovels |
 </Accordion>
 <Accordion title="Metrics">
-    | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Source</div> |
+    Metrics are returned in **current** and **monthly** variants across geographies (address, city, county, jurisdiction, state) and contractors. Fields common to the metrics schemas are listed below; the notes column indicates where a field is variant-specific.
+
+    | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Notes</div> |
     |:-----------|:----------|:------------|:---------|:--------|
-    | total | `integer` | The total number of permits. | "100" | Shovels |
-    | active | `integer` | The number of permits that are currently active. | "50" | Shovels |
-    | in_review | `integer` | The number of permits that are under review. | "10" | Shovels |
-    | inactive | `integer` | The number of permits that have been completed or expired. | "30" | Shovels |
-    | finalized | `integer` | The number of permits that have been finalized. | "10" | Shovels |
+    | geo_id | `string` | Unique identifier for the entity | "CA" | |
+    | tag | `string` | Specific tag or category for the metrics | "solar" | |
+    | permit_count | `integer` | Total number of permits issued | 100 | |
+    | permit_active_count | `integer` | Total number of permits in active status | 50 | Current metrics only |
+    | permit_in_review_count | `integer` | Total number of permits in review status | 10 | Current metrics only |
+    | contractor_count | `integer` | Total number of unique contractors | 25 | |
+    | avg_construction_duration | `integer` | Average duration of construction projects in days | 120 | |
+    | avg_approval_duration | `integer` | Average duration of permit approval process in days | 30 | |
+    | total_job_value | `integer` | Total value of all jobs/permits, in cents | 250000000 | |
+    | avg_inspection_pass_rate | `integer` | Average inspection pass rate as a percentage (0-100) | 95 | |
+    | property_type | `string` | Type of property (e.g. residential, commercial) | "residential" | City/county/jurisdiction metrics only (not address) |
+    | date | `string` | The month for which the metrics are calculated (YYYY-MM-DD) | "2024-01-01" | Monthly metrics only |
 </Accordion>
 <Accordion title="Geographies">
     | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Source</div> |
