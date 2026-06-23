@@ -11,7 +11,7 @@ The address search endpoint returns the `geo_id` associated with an address:
 
 ```bash
 curl -X GET \
-  "https://api.shovels.ai/v2/addresses/search?street=123+Main+St&city=San+Francisco&state=CA&zip=94102" \
+  "https://api.shovels.ai/v2/addresses/search?q=123+Main+St,+San+Francisco,+CA" \
   -H "X-API-Key: YOUR_API_KEY_HERE"
 ```
 
