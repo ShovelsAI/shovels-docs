@@ -1,9 +1,13 @@
 ---
 title: "Decision Data Fields"
-description: "A complete reference of all data fields available in Shovels Decisions, including metadata, zoning details, property information, and involved parties."
+description: "A complete reference of the Shovels Decisions dataset schema, including metadata, zoning details, property information, and involved parties. This documents the full dataset; the API exposes a subset under different names."
 ---
 
-Each Shovels Decision record contains structured data extracted from city council and planning department meetings. This reference covers all available fields.
+Each Shovels Decision record contains structured data extracted from city council and planning department meetings. This reference covers the complete **Decisions dataset** schema.
+
+<Info>
+This page documents the full Decisions **dataset**, a superset of what the API returns. The API `DecisionsRead` response exposes a subset of these fields, some under different names — notably `when` → `decision_date`, `link` → `source_url`, `applicant` → `applicant_name`, `owner` → `owner_name`, `developer` → `developer_name`, `representative` → `representative_name`, `address_1`/`address_2`/`address_3` → `street` / `city` / `state`, and `size_ac`/`size_sf` → `lot_size` (the API also adds `project_value`). See the [API Reference](/api-reference) for the exact API schema.
+</Info>
 
 ## Core Metadata
 
@@ -26,10 +30,13 @@ Each Shovels Decision record contains structured data extracted from city counci
 | `address_3` | Additional address |
 | `latitude` | GPS latitude coordinate |
 | `longitude` | GPS longitude coordinate |
-| `geo_ids` | Object containing `address_id`, `city_id`, `county_id`, `jurisdiction_id` |
+| `address_id` | Shovels address identifier |
+| `city_id` | Shovels city identifier |
+| `county_id` | Shovels county identifier |
+| `jurisdiction_id` | Shovels jurisdiction identifier |
 
 <Info>
-Geographic coordinates enable mapping and spatial analysis. The `geo_ids` field allows you to join decision data with other Shovels datasets.
+Geographic coordinates enable mapping and spatial analysis. The geographic identifiers (`address_id`, `city_id`, `county_id`, `jurisdiction_id`) are flat fields you can use to join decision data with other Shovels datasets. Unlike permits, decisions do not nest these in a `geo_ids` object.
 </Info>
 
 ## Zoning Details
