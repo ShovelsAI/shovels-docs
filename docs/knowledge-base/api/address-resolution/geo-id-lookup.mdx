@@ -1,13 +1,32 @@
 ---
 title: "What is a geo_id and How Do I Get One?"
-description: "A geo_id is Shovels' unified geographic identifier for addresses, zip codes, cities, and states. Use the Address Search endpoint to get a geo_id."
+description: "A geo_id is Shovels' unified geographic identifier for addresses, zip codes, cities, counties, jurisdictions, and states. Each geography level has its own search endpoint for resolving a geo_id."
 ---
 
-**A geo_id is Shovels' unified geographic identifier that can represent a state (`CA`), zip code (`94103`), city, or specific address.** To get a geo_id for an address, use the Address Search endpoint (`GET /v2/addresses/search`). The returned geo_id is then used to query permits.
+**A geo_id is Shovels' unified geographic identifier that can represent a state (`CA`), zip code (`94103`), city, county, jurisdiction, or specific address.** Once you have a geo_id, you pass it to other endpoints (such as permit search) to query data at that geography level.
 
-## Using Address Search
+Each geography level has its own search endpoint for resolving a geo_id. For an address-level geo_id, use the Address Search endpoint (`GET /v2/addresses/search`).
 
-The address search endpoint returns the `geo_id` associated with an address:
+## Understanding geo_id
+
+The `geo_id` is a unified geography identifier that works at multiple levels. State and zip code geo_ids are human-readable, while city, county, jurisdiction, and address geo_ids are opaque encoded strings:
+
+| Geography Level | Example geo_id | Resolve with |
+|----------------|----------------|--------------|
+| State | `CA` | [Search States](/api-reference/states/search-states) |
+| Zip Code | `94103` | [Search Zipcodes](/api-reference/zipcodes/search-zipcodes) |
+| County | `Q291bnR5XzEyMzQ1` | [Search Counties](/api-reference/counties/search-counties) |
+| City | `Q2l0eV8xMjM0NQ` | [Search Cities](/api-reference/cities/search-cities) |
+| Jurisdiction | `Q2l0eV8xMjM0NQ` | [Search Jurisdictions](/api-reference/jurisdictions/search-jurisdictions) |
+| Address | `MDEyMzQ1Njc4OWFiY2RlZg==` | [Search Addresses](/api-reference/addresses/search-addresses) |
+
+<Tip>
+The same permit search works whether you pass a state abbreviation, zip code, or city/address geo_id—you're just changing the geography level.
+</Tip>
+
+## Getting an Address geo_id
+
+The Address Search endpoint returns the `geo_id` associated with an address. Pass your search text in the required `q` parameter:
 
 ```bash
 curl -X GET \
@@ -15,37 +34,42 @@ curl -X GET \
   -H "X-API-Key: YOUR_API_KEY_HERE"
 ```
 
-## Understanding geo_id
+The returned address geo_id is an opaque encoded string. Use it to query permits:
 
-The `geo_id` is a unified geography identifier that works at multiple levels:
+```bash
+GET /v2/permits/search?geo_id=ADDRESS_GEO_ID&permit_from=2024-01-01
+```
 
-| Geography Level | Example geo_id |
-|----------------|----------------|
-| State | `CA` |
-| Zip Code | `94103` |
-| City | City-specific ID |
-| Address | Address-specific ID |
+## State and Zip geo_ids
 
-<Tip>
-The same permit search works whether you pass a state abbreviation, zip code, or individual address geo_id—you're just changing the geography level.
-</Tip>
+State and zip code geo_ids are human-readable, so you can often use them directly without a lookup:
 
-## geo_id for State Searches
-
-For state-level searches, use the 2-letter state abbreviation as the geo_id:
-- California = `CA`
-- Texas = `TX`
-- Florida = `FL`
+- State: the 2-letter abbreviation (California = `CA`, Texas = `TX`, Florida = `FL`)
+- Zip code: the 5-digit ZIP, optionally with a 4-digit extension (`94103` or `94103-1234`)
 
 ```bash
 GET /v2/permits/search?geo_id=CA&permit_from=2024-01-01
 ```
 
+To confirm coverage or look up the exact value, use [Search States](/api-reference/states/search-states) or [Search Zipcodes](/api-reference/zipcodes/search-zipcodes).
+
+## City, County, and Jurisdiction geo_ids
+
+City, county, and jurisdiction geo_ids are opaque encoded strings, so you can't construct them by hand. Resolve them through their dedicated search endpoints first, then pass the returned geo_id to your query:
+
+```bash
+curl -X GET \
+  "https://api.shovels.ai/v2/cities/search?q=San+Francisco,+CA" \
+  -H "X-API-Key: YOUR_API_KEY_HERE"
+```
+
+The same pattern applies to [Search Counties](/api-reference/counties/search-counties) and [Search Jurisdictions](/api-reference/jurisdictions/search-jurisdictions).
+
 ## What If No geo_id Is Found?
 
 If the address isn't in our system, the API returns a 200 response with an empty `items` array. This means:
 - The address format was understood
-- No permits exist for that address in our database
+- No matching address exists for that query in our database
 
 ## Related Articles
 
