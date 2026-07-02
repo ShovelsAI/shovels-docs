@@ -4,6 +4,149 @@ icon: "code-merge"
 description: "Find out what the Engineering team has been up to across our entire platform, including general announcements, updates, and bugfixes."
 ---
 
+<Update label="V2.1.10" description="2026-07-01">
+  <Tabs>
+    <Tab title="Online">
+      ### Introduction
+
+      Our biggest permit release since March: **+12,918,150** new permits, county coverage pushed past **87%** (up more than **16** points), and a new `telecom` tag backfilled across the full permit history — **1,513,665** permits now carry it.
+
+      ### ✨ New
+
+      **New `telecom` Project Tag**
+
+      A `telecom` tag was backfilled across the full permit history — **1,513,665** permits now carry it. It flags telecom-related work: fiber, phone and cable drops, utility right-of-way installs, cell towers, small cells, 5G, antennas, cable installation, conduit, trenching, and boring. It sits alongside the tags you already use (electrical, solar, HVAC, roofing…) and changes nothing else.
+
+      ### 🏗️ Permits Dataset
+
+      **New Permits Added**
+      - **+12,918,150** new permits added this release
+      - Net permits: **+12,406,760** (+8.2%)
+      - Permits newly linked to an address: **+9,977,549**
+
+      **🗺️ Newly Covered Jurisdictions**
+
+      **26** new jurisdictions added this release (50+ permits each), **3.0M** records in total. Highlights:
+      - WA / Spokane: **1,355,156**
+      - OK / Oklahoma City: **861,975**
+      - MN / Eagan: **154,661**
+      - TN / Brentwood: **94,491**
+      - MN / Rosemount: **85,314**
+      - GA / Canton: **78,591**
+      - KY / Oldham County: **62,705**
+      - UT / Draper: **32,696**
+      - MO / Bridgeton: **32,256**
+      - MO / Creve Coeur: **30,838**
+      - TN / Columbia: **30,490**
+      - IL / Glen Ellyn: **29,456**
+      - Plus 14 more
+
+      ### 📍 Geographic Coverage
+
+      A big jump in geo enrichment this release, for better spatial completeness in mapping and location-based analysis.
+      - County: **70.6%** → **87.1%** (up more than **16** points)
+      - CBSA: **60.9%** → **82.0%** (up more than **21** points)
+      - CBSA FIPS: **60.9%** → **82.0%**
+
+      ### 👷 Contractors
+
+      - Newly added: **+233,869**
+      - Net contractors: **+161,448** (+5.4%)
+      - Improved California contractor license file — business-held licenses now include the personnel (officers and members) tied to the company
+    </Tab>
+    <Tab title="API">
+      ### Introduction
+
+      This release adds **+12,918,150** new permits, a big jump in geographic coverage, and a new additive `telecom` tag backfilled across history. Some permit and address IDs shifted this release when we enriched records with more fields — review the **Data Changes** section before it trips up your integration.
+
+      ### ⚠️ Action Required: Data Changes
+
+      **499,834 permit IDs changed (~0.31%)**
+
+      These are the same permits — same `jurisdiction`, `state`, and `permit_number` — but a permit's `id` re-keys whenever we enrich it with more fields. This release we moved several jurisdictions onto data collection that captures more fields and populated or corrected `file_date`. An `old_id → new_id` changelog is available in CSV and Parquet; contact support to receive it. A further **11,556** permits were removed.
+
+      **267,506 permits had their `address_id` change**
+
+      The same enrichment attached an address to many permits that previously had none, so their address link was created or updated. If you cache `address_id` joins, re-sync the affected permits.
+
+      ### 🆕 New Project Tag: `telecom`
+
+      A `telecom` tag was backfilled across the full permit history — **1,513,665** permits now carry it. It flags fiber, phone and cable drops, utility right-of-way installs, cell towers, small cells, 5G, antennas, cable installation, conduit, trenching, and boring. It works in `permit_tags` right away and changes nothing else.
+
+      ### 🏗️ Permits Dataset
+
+      **New Permits Added**
+      - **+12,918,150** new permits added this release
+      - Net permits: **+12,406,760** (+8.2%)
+      - Permits newly linked to an address: **+9,977,549**
+
+      **🗺️ Newly Covered Jurisdictions**
+
+      **26** new jurisdictions added this release (50+ permits each), **3.0M** records in total. Highlights:
+      - WA / Spokane: **1,355,156**
+      - OK / Oklahoma City: **861,975**
+      - MN / Eagan: **154,661**
+      - TN / Brentwood: **94,491**
+      - MN / Rosemount: **85,314**
+      - GA / Canton: **78,591**
+      - Plus 20 more
+
+      ### 📍 Geographic Coverage
+      - County: **70.6%** → **87.1%** (up more than **16** points)
+      - CBSA: **60.9%** → **82.0%** (up more than **21** points)
+      - CBSA FIPS: **60.9%** → **82.0%**
+
+      ### 👷 Contractors
+
+      - Newly added: **+233,869**
+      - Net contractors: **+161,448** (+5.4%)
+      - Improved California contractor license file — business-held licenses now include the personnel (officers and members) tied to the company
+
+      <Info>
+        ✅ **No breaking changes.** The `telecom` tag is additive and all existing integrations continue to work unchanged. The only action needed is a re-sync for the changed permit and address IDs above.
+      </Info>
+    </Tab>
+    <Tab title="EDL (Enterprise Data License)">
+      ### 🆕 New `telecom` Project Tag
+
+      A `telecom` tag was backfilled across the full permit history — **1,513,665** permits now carry it, flagging fiber, cell towers, small cells, 5G, conduit, trenching, and related infrastructure.
+
+      ### 🏗️ Permits Dataset
+
+      **New Permits Added**
+      - **+12,918,150** new permits added this release
+      - Net permits: **+12,406,760** (+8.2%)
+      - Permits newly linked to an address: **+9,977,549**
+
+      **🗺️ Newly Covered Jurisdictions**
+
+      **26** new jurisdictions added this release (50+ permits each), **3.0M** records in total. Highlights:
+      - WA / Spokane: **1,355,156**
+      - OK / Oklahoma City: **861,975**
+      - MN / Eagan: **154,661**
+      - TN / Brentwood: **94,491**
+      - MN / Rosemount: **85,314**
+      - GA / Canton: **78,591**
+      - Plus 20 more
+
+      ### 📍 Geographic Coverage
+      - County: **70.6%** → **87.1%** (up more than **16** points)
+      - CBSA: **60.9%** → **82.0%** (up more than **21** points)
+      - CBSA FIPS: **60.9%** → **82.0%**
+
+      ### 👷 Contractors
+
+      - Newly added: **+233,869**
+      - Net contractors: **+161,448** (+5.4%)
+      - Improved California contractor license file — business-held licenses now include the personnel (officers and members) tied to the company
+
+      ### 🔁 Data Quality
+
+      **499,834** permit IDs changed (~0.31%) and **11,556** were removed as records were enriched with more fields — same permits, same `jurisdiction`, `state`, and `permit_number`. **267,506** permits had their `address_id` change. An `old_id → new_id` changelog is available in CSV and Parquet on request.
+    </Tab>
+  </Tabs>
+</Update>
+
 <Update label="V2.1.9" description="2026-06-01">
   <Tabs>
     <Tab title="Online">
