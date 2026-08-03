@@ -1,6 +1,6 @@
 ---
 title: "How to Search for Properties"
-description: "Learn how to use the Shovels API to search US properties with the /properties/search endpoint, including required parameters, filters, pagination, and CSV export."
+description: "Learn how to use the Shovels API to search US properties with the /properties/search endpoint, including required parameters, filters, and pagination."
 ---
 
 To search Shovels Properties, use the [Search Properties](/api-reference/properties/search-properties) endpoint. Each result is one property with its permit history already summarized on the record—permit counts, work-type tags, latest activity dates, contractors, and job values—so you don't have to stitch individual permits together yourself.
@@ -69,13 +69,6 @@ Results are sorted most recently permitted first.
 - `size` — results per page (1–100, default 50)
 - `cursor` — pass the `next_cursor` from the previous response to fetch the next page
 - `include_total_count` — set to `true` on the first page (no cursor) to include `total_count`. The count is exact up to 10,000; above that it is reported as a "greater than or equal to" value.
-
-## CSV Export
-
-Set `download=true` to receive every matching property as a CSV attachment instead of a page. The same filters apply.
-
-- The export is capped at **50,000 rows**. A larger result set returns a 422 error rather than a silently truncated file—narrow your filters and retry.
-- Exports are billed per row. If your remaining credits don't cover the export, the API returns a **402** with `X-Credits-Required` and `X-Credits-Remaining` headers, and your balance is unchanged.
 
 ## Related Articles
 
