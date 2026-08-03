@@ -4,6 +4,165 @@ icon: "code-merge"
 description: "Find out what the Engineering team has been up to across our entire platform, including general announcements, updates, and bugfixes."
 ---
 
+<Update label="V2.1.11" description="2026-08-03">
+  <Tabs>
+    <Tab title="Online">
+      ### Introduction
+
+      Properties are now a first-class entity alongside permits and contractors: roughly **159M** US properties, each with its permit history already summarized on the record — including which properties have **no** permit on record for the work. This release also adds **+10,505,862** net permits, **377** newly covered jurisdictions, and more than **7x** the Michigan permit count.
+
+      ### ✨ New
+
+      **Properties API (Beta)**
+
+      Any US property — about **159,000,000** of them — returned with its permit history summarized on the record. The headline capability is absence search: homes with no solar permit on record are a prospect list, a roof with no roofing permit in decades is an underwriting signal, and a freshly renovated listing with no permit on record is a due-diligence flag. Absence is easy to get confidently wrong, so where coverage is too thin we drop those properties instead of guessing (and tell you how many), and every absence answer carries a confidence score. Also included: filtering for permits pulled but never finalized, nationwide owner search across up to **10** owner names, and attribute filters for market value, lot size, building area, unit count, year built, and residential vs commercial. Attribute data is present on roughly **60–70%** of properties.
+
+      **Michigan Coverage**
+
+      Michigan went from **679K** permits to over **5M** in a single release — **+4,357,815** permits (+641.9%) — alongside **267** newly covered Michigan jurisdictions, from Detroit suburbs like Brownstown, Northville Township, and Bloomfield to Muskegon in the west. If you filtered Michigan out of your analysis before, it's worth turning it back on.
+
+      ### 🏗️ Permits Dataset
+
+      **New Permits Added**
+      - **+11,136,248** new permits added this release
+      - Net permits: **+10,505,862** (+6.4%)
+      - Permits newly linked to an address: **+5,923,323**
+
+      **🗺️ Newly Covered Jurisdictions**
+
+      **377** new jurisdictions added this release (50+ permits each), **5.6M** records in total. Highlights:
+      - MN / Lakeville: **129,300**
+      - IA / Marion: **103,433**
+      - MI / Brownstown: **82,674**
+      - IL / Skokie: **77,159**
+      - MI / Northville Township: **75,229**
+      - MI / Bloomfield: **71,120**
+      - MN / Shoreview: **68,395**
+      - GA / Woodstock: **66,254**
+      - MI / Muskegon: **63,503**
+      - MI / Washington Charter: **62,731**
+      - Plus 367 more
+
+      ### 👷 Contractors
+
+      - Newly added: **+496,833**
+      - Net contractors: **+398,475** (+12.6%)
+
+      ### 🔧 Data Improvements
+
+      - Obvious typos in job values and fees now come back empty. When a source record carries an impossible number, we return an empty value instead, so your averages and totals aren't skewed by a single bad entry.
+      - Regenerated `description_derived` for **55,141** permits.
+    </Tab>
+    <Tab title="API">
+      ### Introduction
+
+      This release introduces the Properties API in beta — roughly **159M** US properties with permit history summarized on the record — plus **+10,505,862** net permits and **377** newly covered jurisdictions. Some permit IDs shifted this release when we enriched records with more fields, and a set of permits is temporarily missing its address link; review the **Data Changes** section before it trips up your integration.
+
+      ### ⚠️ Action Required: Data Changes
+
+      **628,949 permit IDs changed (~0.39%)**
+
+      These are the same permits — same `jurisdiction`, `state`, and `permit_number` — but a permit's `id` re-keys whenever we enrich it with more fields. An `old_id → new_id` changelog for the month is available in Parquet; contact support to receive it. A further **1,437** permits were removed.
+
+      **162,432 permits are temporarily missing their street address link**
+
+      These permits lost their `address_id` link while we finish a collection upgrade. We expect to restore them in an upcoming release. If your integration assumes a stable address link on these records, treat the gap as temporary rather than a deletion.
+
+      ### 🆕 New API: Properties (Beta)
+
+      Any US property — about **159,000,000** of them — returned with its permit history already summarized on the record, including the question a permit search can't answer well: which properties have **no** permit on record for the work.
+
+      - `GET /v2/properties/search` — search properties
+      - `GET /v2/properties` — batch lookup, up to **50** ids
+
+      **Absence search.** Homes with no solar permit on record are a prospect list, a roof with no roofing permit in decades is an underwriting signal, and a freshly renovated listing with no permit on record is a due-diligence flag. A property can look permit-free just because its permits never linked to an address, so where coverage is too thin we drop those properties instead of guessing (and report how many), and every absence answer carries a confidence score plus a page-level `expected_miss_rate`. See [Absence Queries](https://docs.shovels.ai/docs/knowledge-base/api/properties/absence-queries).
+
+      **Pulled, but never finalized.** Filter for properties where a permit was pulled and never finalized. It reads the permit's status, not a guessed date — the classic case being a solar permit left open after the installer went out of business. See [Unfinaled Permits](https://docs.shovels.ai/docs/knowledge-base/api/properties/unfinaled-permits).
+
+      **Who owns what, nationwide.** Ownership records live county by county, which makes portfolios painful to assemble. Give up to **10** owner names and get every property recorded to them across the US, no location required.
+
+      **Attribute filters.** Cut any of these lists down to your segment: market value, lot size, building area, unit count, year built, residential vs commercial. Attribute data is present on roughly **60–70%** of properties. See [Property Search](https://docs.shovels.ai/docs/knowledge-base/api/properties/property-search).
+
+      <Note>
+        The Properties API is in beta: query parameters, response fields, and the absence-trust surface may still change based on how it's used in practice.
+      </Note>
+
+      ### 🏗️ Permits Dataset
+
+      **New Permits Added**
+      - **+11,136,248** new permits added this release
+      - Net permits: **+10,505,862** (+6.4%)
+      - Permits newly linked to an address: **+5,923,323**
+
+      All changes are measured against the July 1 release. The "added" count includes IDs re-keyed by enrichment (~**629K** permits); "net" is the change in total dataset size.
+
+      **🗺️ Newly Covered Jurisdictions**
+
+      **377** new jurisdictions added this release (50+ permits each), **5.6M** records in total. Highlights:
+      - MN / Lakeville: **129,300**
+      - IA / Marion: **103,433**
+      - MI / Brownstown: **82,674**
+      - IL / Skokie: **77,159**
+      - MI / Northville Township: **75,229**
+      - MI / Bloomfield: **71,120**
+      - Plus 371 more
+
+      Michigan alone gained **+4,357,815** permits (+641.9%) and **267** new jurisdictions, taking the state from **679K** permits to over **5M**.
+
+      ### 👷 Contractors
+
+      - Newly added: **+496,833**
+      - Net contractors: **+398,475** (+12.6%)
+
+      ### 🔧 Data Improvements
+
+      - Obvious typos in job values and fees now come back empty. When a source record carries an impossible number, we return an empty value instead of a figure that would skew your averages and totals.
+      - Regenerated `description_derived` for **55,141** permits.
+
+      <Info>
+        ✅ **No breaking changes.** The Properties endpoints are additive and all existing integrations continue to work unchanged. The only action needed is a re-sync for the changed permit IDs above.
+      </Info>
+    </Tab>
+    <Tab title="EDL (Enterprise Data License)">
+      ### 🏗️ Permits Dataset
+
+      **New Permits Added**
+      - **+11,136,248** new permits added this release
+      - Net permits: **+10,505,862** (+6.4%)
+      - Permits newly linked to an address: **+5,923,323**
+
+      All changes are measured against the July 1 release. The "added" count includes IDs re-keyed by enrichment (~**629K** permits); "net" is the change in total dataset size.
+
+      **🗺️ Newly Covered Jurisdictions**
+
+      **377** new jurisdictions added this release (50+ permits each), **5.6M** records in total. Highlights:
+      - MN / Lakeville: **129,300**
+      - IA / Marion: **103,433**
+      - MI / Brownstown: **82,674**
+      - IL / Skokie: **77,159**
+      - MI / Northville Township: **75,229**
+      - MI / Bloomfield: **71,120**
+      - Plus 371 more
+
+      Michigan alone gained **+4,357,815** permits (+641.9%) and **267** new jurisdictions, taking the state from **679K** permits to over **5M**.
+
+      ### 👷 Contractors
+
+      - Newly added: **+496,833**
+      - Net contractors: **+398,475** (+12.6%)
+
+      ### 🔧 Data Improvements
+
+      - Obvious typos in job values and fees now come back empty, so a single impossible source figure no longer skews aggregates.
+      - Regenerated `description_derived` for **55,141** permits.
+
+      ### 🔁 Data Quality
+
+      **628,949** permit IDs changed (~0.39%) and **1,437** were removed as records were enriched with more fields — same permits, same `jurisdiction`, `state`, and `permit_number`. An `old_id → new_id` changelog for the month is available in Parquet on request. Separately, **162,432** permits are temporarily missing their street address link while we finish a collection upgrade; we expect to restore them in an upcoming release.
+    </Tab>
+  </Tabs>
+</Update>
+
 <Update label="V2.1.10" description="2026-07-01">
   <Tabs>
     <Tab title="Online">
