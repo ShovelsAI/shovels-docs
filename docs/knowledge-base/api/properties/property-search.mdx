@@ -1,0 +1,86 @@
+---
+title: "How to Search for Properties"
+description: "Learn how to use the Shovels API to search US properties with the /properties/search endpoint, including required parameters, filters, pagination, and CSV export."
+---
+
+To search Shovels Properties, use the [Search Properties](/api-reference/properties/search-properties) endpoint. Each result is one property with its permit history already summarized on the record—permit counts, work-type tags, latest activity dates, contractors, and job values—so you don't have to stitch individual permits together yourself.
+
+<Info>
+Properties are currently in **beta**. Query parameters, response fields, and the absence-trust surface may still change in response to how the endpoint is used in practice.
+</Info>
+
+## Required Parameters
+
+Every search needs a scope: a location **or** an owner (or both).
+
+| Parameter | Description |
+|-----------|-------------|
+| `geo_id` | A 2-letter state code, 5-digit ZIP, ZIP+4, or a Shovels geolocation ID for a state, county, city, or address |
+| `legal_owner` | A property owner name, matched on its canonical form. Pass up to 10 `legal_owner` parameters. Without a `geo_id`, this searches the owner's properties nationwide |
+
+Omitting both returns a [422 error](/docs/knowledge-base/api/errors/422-error). Jurisdiction geo_ids are not accepted—see [Properties vs Permits](/docs/knowledge-base/api/properties/properties-vs-permits) for why.
+
+```bash
+curl -X GET \
+  "https://api.shovels.ai/v2/properties/search?geo_id=94103&permit_tags=solar" \
+  -H "X-API-Key: YOUR_API_KEY_HERE"
+```
+
+<Tip>
+To turn a typed address into a `geo_id`, call [Search Addresses](/api-reference/addresses/search-addresses) first. See [Resolving addresses](/docs/knowledge-base/api/address-resolution/resolving-addresses).
+</Tip>
+
+## Permit Filters
+
+| Filter | Description |
+|--------|-------------|
+| `permit_tags` | Comma-separated canonical tags. A positive tag keeps properties with that work type on some permit; a `-` prefix (e.g. `-solar`) keeps properties with **no** permit of that type on record—see [Absence search](/docs/knowledge-base/api/properties/absence-queries) |
+| `permit_status` | Comma-separated statuses (`final`, `in_review`, `inactive`, `active`). Combined with positive tags, the tag and status must appear on the same permit |
+| `permit_from` | ISO date (`YYYY-MM-DD`). Positive filters match since this date; a pure-absence exclusion means "none since this date" |
+| `permit_tags_unfinaled` | Keeps properties with an unfinaled permit of each named tag—see [Unfinaled permits](/docs/knowledge-base/api/properties/unfinaled-permits) |
+
+<Warning>
+`permit_to` (and any other upper date bound) is **not supported** on properties. The property record keeps only the latest permit date per work type, so a closed date window can't be answered correctly. Use [Search Permits](/api-reference/permits/search-permits) for date-window queries.
+</Warning>
+
+<Info>
+With multiple positive tags, each tag must be present on the property but they may come from different permits. This differs from `/permits/search`, where multiple tags must appear on the same permit.
+</Info>
+
+## Property Attribute Filters
+
+| Filter | Description |
+|--------|-------------|
+| `property_type` | Repeatable: `residential`, `commercial`, `industrial`, `agricultural`, `vacant land`, `exempt`, `miscellaneous`, `office`, `recreational` |
+| `property_min_market_value` / `property_max_market_value` | Assessed market value range in **cents** (dollars × 100) |
+| `property_min_lot_size` / `property_max_lot_size` | Lot size range in square feet |
+| `property_min_building_area` / `property_max_building_area` | Building area range in square feet |
+| `property_min_unit_count` / `property_max_unit_count` | Unit count range |
+| `property_min_year_built` / `property_max_year_built` | Year built range |
+
+<Warning>
+Attribute data (value, size, year, units, type) is available for roughly 60–70% of properties. A property with no value for an attribute never matches a range filter on it, so attribute filters narrow results to the covered set.
+</Warning>
+
+## Pagination
+
+Results are sorted most recently permitted first.
+
+- `size` — results per page (1–100, default 50)
+- `cursor` — pass the `next_cursor` from the previous response to fetch the next page
+- `include_total_count` — set to `true` on the first page (no cursor) to include `total_count`. The count is exact up to 10,000; above that it is reported as a "greater than or equal to" value.
+
+## CSV Export
+
+Set `download=true` to receive every matching property as a CSV attachment instead of a page. The same filters apply.
+
+- The export is capped at **50,000 rows**. A larger result set returns a 422 error rather than a silently truncated file—narrow your filters and retry.
+- Exports are billed per row. If your remaining credits don't cover the export, the API returns a **402** with `X-Credits-Required` and `X-Credits-Remaining` headers, and your balance is unchanged.
+
+## Related Articles
+
+- [Get properties by ID](/docs/knowledge-base/api/properties/properties-by-id)
+- [Finding properties with no permit on record](/docs/knowledge-base/api/properties/absence-queries)
+- [Finding unfinaled permits](/docs/knowledge-base/api/properties/unfinaled-permits)
+- [Properties vs Permits: which endpoint?](/docs/knowledge-base/api/properties/properties-vs-permits)
+- [API Reference: Search Properties](/api-reference/properties/search-properties)

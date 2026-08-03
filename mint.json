@@ -214,6 +214,16 @@
               ]
             },
             {
+              "group": "Properties",
+              "pages": [
+                "docs/knowledge-base/api/properties/property-search",
+                "docs/knowledge-base/api/properties/properties-by-id",
+                "docs/knowledge-base/api/properties/absence-queries",
+                "docs/knowledge-base/api/properties/unfinaled-permits",
+                "docs/knowledge-base/api/properties/properties-vs-permits"
+              ]
+            },
+            {
               "group": "Decisions",
               "pages": [
                 "docs/knowledge-base/api/decisions/searching-decisions",
