@@ -5,7 +5,7 @@ description: All fields, parameters, and objects available in the **Shovels API*
 ---
 
 <Note>
-    Monetary fields (`job_value`, `fees`, `total_job_value`, `avg_job_value`, `property_assess_market_value`) are integers expressed **in cents** — divide by 100 for the dollar amount (e.g. `2500000` = $25,000).
+    Monetary fields (`job_value`, `fees`, `total_job_value`, `avg_job_value`, `property_assess_market_value`, `assess_market_value`) are integers expressed **in cents** — divide by 100 for the dollar amount (e.g. `2500000` = $25,000).
 </Note>
 
 <Accordion title="Permits">
@@ -45,6 +45,64 @@ description: All fields, parameters, and objects available in the **Shovels API*
     | property_unit_count | `integer` | The property's number of units | 1 | Shovels |
     | property_year_built | `integer` | The property's year built | 1978 | Shovels |
     | property_assess_market_value | `integer` | The property's assessed market value, in cents | 75000000 | Shovels |
+</Accordion>
+<Accordion title="Properties">
+    Served by the `/properties` endpoints (beta). One record per property, with its permit history summarized on the record. The `trust` object and its fields are present only on absence-class search responses (a `-`-prefixed tag in `permit_tags`).
+
+    | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Source</div> |
+    |:-----------|:----------|:------------|:---------|:--------|
+    | id | `string` | The property's ID (its address geolocation ID) | "cmVzMTIzNDU2" | Shovels |
+    | street_no | `string` | Street number of the address | "123" | Shovels |
+    | street | `string` | Street name of the address | "Main St" | Shovels |
+    | city | `string` | City of the address | "San Francisco" | Shovels |
+    | city_id | `string` | The city's geolocation ID | "Y2l0eTk4NzY" | Shovels |
+    | zip_code | `string` | ZIP code of the address | "94103" | Shovels |
+    | zip_code_ext | `string` | ZIP+4 extension of the address | "1234" | Shovels |
+    | county | `string` | County of the address | "San Francisco County" | Shovels |
+    | county_id | `string` | The county's geolocation ID | "Y291bnR5NTQz" | Shovels |
+    | state | `string` | State of the address | "CA" | Shovels |
+    | lat | `number` | Latitude of the address | 37.7749 | Shovels |
+    | long | `number` | Longitude of the address | -122.4194 | Shovels |
+    | permit_count | `integer` | Count of permits linked to the property | 12 | Shovels |
+    | untagged_permit_count | `integer` | Count of the property's permits carrying no canonical tag | 2 | Shovels |
+    | total_job_value | `integer` | Sum of permit job values, in cents | 250000000 | Shovels |
+    | contractor_count | `integer` | Distinct contractors across the property's permits | 5 | Shovels |
+    | tags | `array` | Distinct canonical tags present on the property's permits | `["solar", "roofing"]` | Shovels |
+    | statuses | `array` | Distinct permit statuses present, including `unknown` | `["final", "active"]` | Shovels |
+    | tag_status_pairs | `array` | Distinct tag:status pairs present | `["solar:final"]` | Shovels |
+    | tag_tally | `object` | Map of tag → permit count | `{"solar": 2}` | Shovels |
+    | last_date_by_tag | `object` | Map of tag → latest permit start_date | `{"solar": "2023-06-01"}` | Shovels |
+    | last_date_by_status | `object` | Map of status → latest permit start_date | `{"final": "2023-06-01"}` | Shovels |
+    | last_date_by_pair | `object` | Map of tag:status → latest permit start_date | `{"solar:final": "2023-06-01"}` | Shovels |
+    | last_unfinaled_date_by_tag | `object` | Map of tag → latest unfinaled permit start_date | `{"roofing": "2024-02-15"}` | Shovels |
+    | last_permit_date | `string` | Latest permit start_date across all the property's permits; null when never permitted | "2024-02-15" | Shovels |
+    | apn | `string` | Assessor parcel number (returned for mapping; not searchable) | "1234-056-789" | Shovels |
+    | property_type | `string` | The property's type | "residential" | Shovels |
+    | property_type_detail | `string` | The property's sub-classification | "Single Family Home" | Shovels |
+    | year_built | `integer` | Year the property was built | 1978 | Shovels |
+    | lot_size | `integer` | Lot size (in square feet) | 5000 | Shovels |
+    | building_area | `integer` | Building area (in square feet) | 1250 | Shovels |
+    | story_count | `integer` | Number of stories | 2 | Shovels |
+    | unit_count | `integer` | Number of units | 1 | Shovels |
+    | assess_market_value | `integer` | Assessed market value, in cents | 75000000 | Shovels |
+    | legal_owner | `string` | The property's legal owner | "Robert Johnson" | Shovels |
+    | owner_type | `string` | The property owner's classification | "individual" | Shovels |
+    | trust | `object` | Per-row absence-confidence fields; absence-class responses only | | Shovels |
+    | trust.coverage_tier | `string` | Permit coverage bucket for the row's jurisdiction: high, medium, low | "high" | Shovels |
+    | trust.unresolved_rate | `number` | Share of the jurisdiction's permits of the tag that never linked to an address (0–1) | 0.04 | Shovels |
+    | trust.data_horizon | `string` | Most recent date past which "no permit since D" is under-observed (YYYY-MM-DD) | "2026-03-15" | Shovels |
+    | trust.horizon_basis | `string` | How the horizon was estimated: measured, pooled, prior | "measured" | Shovels |
+    | trust.footprint_basis | `string` | Whether coverage suppression could resolve the row's geography: matched, unknown | "matched" | Shovels |
+    | trust.flags | `array` | Row-level caveats | `["since_d_beyond_horizon"]` | Shovels |
+
+    Absence-class search responses also carry a page-level `trust_summary` object:
+
+    | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Source</div> |
+    |:-----------|:----------|:------------|:---------|:--------|
+    | expected_miss_rate | `number` | Estimated probability that a returned "no permit" answer is wrong due to ingestion lag (0–1) | 0.02 | Shovels |
+    | rows_flagged | `integer` | Number of rows on the page carrying a trust flag | 3 | Shovels |
+    | row_weighted_unresolved_rate | `number` | Row-weighted mean unresolved_rate across the page (0–1) | 0.05 | Shovels |
+    | suppressed_scopes | `integer` | Number of coverage scopes removed from the result | 1 | Shovels |
 </Accordion>
 <Accordion title="Contractors">
     | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Source</div> |
