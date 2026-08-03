@@ -121,6 +121,25 @@ New construction permits are often filed before official addresses exist. These 
 
 ---
 
+## Properties
+
+### What is the Properties API?
+Two beta endpoints covering roughly 159 million US properties. Each record is one property with its permit history summarized on it: permit counts, work-type tags, latest activity dates, contractors, job values, and property attributes. See [How to search for properties](/docs/knowledge-base/api/properties/property-search).
+
+### How do I find properties with no permit of a given type?
+Prefix the tag with `-` in `permit_tags` (e.g. `permit_tags=-solar`). Every absence answer carries trust fields—including the page-level `expected_miss_rate`—that tell you how confident the "no permit on record" claim is. See [Absence search](/docs/knowledge-base/api/properties/absence-queries).
+
+### Can I search properties by a date window or "before" a date?
+No. A property record keeps only the latest permit date per work type, so only "ever" and "since date D" queries are supported. For date windows or upper bounds, use [Search Permits](/api-reference/permits/search-permits). See [Properties vs Permits](/docs/knowledge-base/api/properties/properties-vs-permits).
+
+### Can I search properties by owner?
+Yes—`legal_owner` is the one filter that works nationwide with no location. Pass up to 10 owner names to get their properties across the US.
+
+### Can I search properties by parcel number (APN)?
+No. APN is returned on every record for mapping into your own systems, but it's not searchable: APNs are county-specific, millions collide across counties, and about 30% of properties have none.
+
+---
+
 ## Decisions
 
 ### What are Shovels Decisions?
