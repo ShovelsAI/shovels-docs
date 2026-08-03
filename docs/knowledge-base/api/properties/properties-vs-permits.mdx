@@ -1,0 +1,39 @@
+---
+title: "Properties vs Permits: Which Endpoint?"
+description: "When to use the Shovels /properties endpoints and when to use /permits/search, including the queries properties deliberately don't support."
+---
+
+Properties and Permits expose the same underlying data in two shapes. Reach for **Properties** when the property is the unit of your answer; reach for **Permits** when an individual permit and its full timeline is.
+
+| You want to | Use |
+|-------------|-----|
+| Build a list of properties by location, owner, type, or attributes | [Search Properties](/api-reference/properties/search-properties) |
+| Ask "which properties have (or lack) work of type X" | [Search Properties](/api-reference/properties/search-properties) |
+| Pull full records for property IDs you already hold | [Get Properties By ID](/api-reference/properties/get-properties-by-id) |
+| Ask anything with an upper date bound or a date window | [Search Permits](/api-reference/permits/search-permits) |
+| See every individual permit and its full history | [Search Permits](/api-reference/permits/search-permits) |
+| Scope by parcel number (APN) or by permitting jurisdiction | [Search Permits](/api-reference/permits/search-permits) |
+
+## What Properties Deliberately Won't Answer
+
+A property record keeps only the **latest** permit date per work type. Some questions can't be answered correctly from that summary, so the API rejects them rather than returning a wrong answer. Each of them is an exact question on `/permits/search`, which holds every individual permit.
+
+| Query | Why it's not supported |
+|-------|------------------------|
+| "Permits before 2020" (`permit_to`, any upper bound) | Older permits hide behind newer ones—a property whose latest roofing permit is 2023 may or may not also have one from 2019 |
+| "No solar before 2020" | Two properties whose latest solar permit is 2023 are indistinguishable, even if one also had solar in 2016 |
+| "No roofing between 2018 and 2021" | A permit inside the window is hidden by a later one. Only "ever" and "since date D" are expressible |
+| "Has solar since 2022 **and** no roofing since 2022" | Only one date can be carried per query—in a mixed query, the exclusion means "never" |
+| Search by parcel number (APN) | APNs are county-specific, roughly 9.5M collide across counties, and ~30% of properties have none. APN is returned on every record for mapping, just not searchable |
+| Scope by permitting jurisdiction | Jurisdiction is recorded on a minority of property records, so scoping to it would silently drop properties that were never permitted |
+
+<Info>
+These aren't roadmap gaps—each is a question the property-level summary cannot answer correctly, so the API refuses it instead of returning a silently wrong result.
+</Info>
+
+## Related Articles
+
+- [How to search for properties](/docs/knowledge-base/api/properties/property-search)
+- [How to search for permits](/docs/knowledge-base/api/permits/permit-search)
+- [Finding properties with no permit on record](/docs/knowledge-base/api/properties/absence-queries)
+- [API Reference: Search Properties](/api-reference/properties/search-properties)

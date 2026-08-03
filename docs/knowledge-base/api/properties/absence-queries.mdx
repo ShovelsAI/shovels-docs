@@ -1,0 +1,82 @@
+---
+title: "Finding Properties With No Permit on Record"
+description: "Use absence filters on the Shovels /properties/search endpoint to find properties with no permit of a given type, and read the trust fields that score every absence answer."
+---
+
+The most valuable property question is often about what **hasn't** happened: which homes have no solar permit on record, which buildings were never re-roofed. The [Search Properties](/api-reference/properties/search-properties) endpoint answers this with a `-` prefix on `permit_tags`—and attaches a confidence score to every answer.
+
+<Info>
+Properties are currently in **beta**. The absence-trust surface in particular may still change in response to how the endpoint is used in practice.
+</Info>
+
+## Writing an Absence Query
+
+Prefix a tag with `-` to exclude it:
+
+```bash
+curl -X GET \
+  "https://api.shovels.ai/v2/properties/search?geo_id=94103&permit_tags=-solar" \
+  -H "X-API-Key: YOUR_API_KEY_HERE"
+```
+
+This returns properties with no resolved solar permit on record. You can combine absence with other filters—for example `permit_tags=roofing,-solar` finds properties with a roofing permit but no solar permit.
+
+Adding `permit_from` changes the meaning:
+
+- In a **pure-absence** query (`permit_tags=-solar&permit_from=2020-01-01`), the exclusion means "no solar permit since that date."
+- Combined with any **positive** filter, the exclusion means "never had a solar permit"—per-filter dates can't be composed on a property record.
+
+## Why Absence Answers Need a Confidence Score
+
+A property can look permit-free for reasons that have nothing to do with the property:
+
+- Its permits never linked to an address (they exist, but unresolved).
+- The work is recent and the permit simply hasn't arrived yet—permits reach Shovels a median of **84 days** after work starts (90% within 188 days).
+- The local jurisdiction's coverage for that work type is thin.
+
+Answered naively, "no permit here" would be confidently wrong. So the endpoint does two things instead:
+
+1. **Removes what can't be answered.** Where coverage for a work type in an area is too thin, those properties are dropped from the absence result entirely rather than returned as false negatives. The response reports how many scopes were removed (`suppressed_scopes`).
+2. **Scores what remains.** Every returned absence row carries a `trust` object, and the page carries a `trust_summary`.
+
+## Reading the Trust Fields
+
+Each row in an absence result includes a `trust` object:
+
+| Field | Description |
+|-------|-------------|
+| `coverage_tier` | Permit coverage bucket for the row's jurisdiction: `high`, `medium`, or `low` |
+| `unresolved_rate` | Share of that jurisdiction's permits of this type that never linked to an address (0–1) |
+| `data_horizon` | The most recent date past which "no permit since D" is under-observed for this row. If your `permit_from` is later than this date, the answer is a guess about data that hasn't arrived yet |
+| `horizon_basis` | How the horizon was estimated: `measured`, `pooled`, or `prior` |
+| `footprint_basis` | Whether coverage suppression could resolve this row's geography: `matched` or `unknown` |
+| `flags` | Row-level caveats, e.g. `since_d_beyond_horizon` |
+
+The page-level `trust_summary` aggregates across returned rows:
+
+| Field | Description |
+|-------|-------------|
+| `expected_miss_rate` | The headline number: the estimated probability that a returned "no permit" answer is actually wrong because the permit hasn't arrived yet |
+| `rows_flagged` | Number of rows on the page carrying a trust flag |
+| `row_weighted_unresolved_rate` | Row-weighted mean `unresolved_rate` across the page |
+| `suppressed_scopes` | Number of coverage scopes removed from the result |
+
+<Tip>
+For lead generation, filter your list by trust: rows with `coverage_tier=high`, no flags, and a `data_horizon` covering your date give the most reliable "no permit on record" answers.
+</Tip>
+
+<Warning>
+Shovels knows permits, not installations. "No solar permit on record" is not the same claim as "no solar panels"—unpermitted work exists. The trust fields quantify data coverage, not construction reality.
+</Warning>
+
+## What Absence Queries Can't Do
+
+- **"No permit before 2020"** or any closed date window—the property record keeps only the latest date per work type. Only "ever" and "since date D" are expressible. Use [Search Permits](/api-reference/permits/search-permits) instead.
+- **Presence-only searches carry no trust fields.** The `trust` object and `trust_summary` appear only when the query includes an absence filter.
+
+## Related Articles
+
+- [How to search for properties](/docs/knowledge-base/api/properties/property-search)
+- [Properties vs Permits: which endpoint?](/docs/knowledge-base/api/properties/properties-vs-permits)
+- [Why am I getting so few results?](/docs/knowledge-base/data/quality/few-results)
+- [API Reference: Search Properties](/api-reference/properties/search-properties)

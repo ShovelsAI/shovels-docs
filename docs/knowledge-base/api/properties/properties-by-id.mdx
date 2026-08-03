@@ -1,0 +1,34 @@
+---
+title: "Get Properties by ID"
+description: "Fetch full property records for up to 50 known property IDs in one call with the Shovels API /properties endpoint."
+---
+
+If you already hold property IDs, fetch their full records with the [Get Properties By ID](/api-reference/properties/get-properties-by-id) endpoint. Provide up to **50** `id` parameters in one call.
+
+<Info>
+Properties are currently in **beta**. Query parameters and response fields may still change in response to how the endpoint is used in practice.
+</Info>
+
+```bash
+curl -X GET \
+  "https://api.shovels.ai/v2/properties?id=FIRST_PROPERTY_ID&id=SECOND_PROPERTY_ID" \
+  -H "X-API-Key: YOUR_API_KEY_HERE"
+```
+
+## How It Behaves
+
+- A property's `id` is its **address geolocation ID**—the same `id` returned by [Search Properties](/api-reference/properties/search-properties) and [Search Addresses](/api-reference/addresses/search-addresses).
+- Results come back **in request order**.
+- Unknown IDs are simply omitted from the response—there is no per-ID 404. If you request 50 IDs and get 48 rows back, two IDs weren't found.
+- A non-address geolocation ID (city, county, or jurisdiction) is rejected with a [422 error](/docs/knowledge-base/api/errors/422-error).
+
+<Tip>
+Looking up a property by its assessor parcel number (APN)? APN is returned on every record for mapping into your own systems, but it is not searchable—APNs are county-specific, millions of them collide across counties, and roughly 30% of properties have none. Resolve the address to a `geo_id` instead.
+</Tip>
+
+## Related Articles
+
+- [How to search for properties](/docs/knowledge-base/api/properties/property-search)
+- [Resolving addresses](/docs/knowledge-base/api/address-resolution/resolving-addresses)
+- [Getting a geo_id](/docs/knowledge-base/api/address-resolution/geo-id-lookup)
+- [API Reference: Get Properties By ID](/api-reference/properties/get-properties-by-id)

@@ -1,0 +1,46 @@
+---
+title: "Finding Properties With Unfinaled Permits"
+description: "Use the permit_tags_unfinaled filter on the Shovels /properties/search endpoint to find properties where a permit was pulled but never finaled."
+---
+
+A permit that was pulled but never finaled often signals an opportunity: a job that was opened and left unfinished—for example, a solar installer that went out of business mid-project. The `permit_tags_unfinaled` filter on [Search Properties](/api-reference/properties/search-properties) finds these properties directly.
+
+<Info>
+Properties are currently in **beta**. Query parameters and response fields may still change in response to how the endpoint is used in practice.
+</Info>
+
+## Usage
+
+Pass one or more canonical tags, comma-separated. Each named tag must have an unfinaled permit at the property:
+
+```bash
+curl -X GET \
+  "https://api.shovels.ai/v2/properties/search?geo_id=94103&permit_tags_unfinaled=solar" \
+  -H "X-API-Key: YOUR_API_KEY_HERE"
+```
+
+With `permit_from`, the tag's latest unfinaled permit must be on or after that date.
+
+Each property record also includes `last_unfinaled_date_by_tag`, a map of work type to the latest unfinaled permit date, so you can see when the unfinished work was started.
+
+## How "Unfinaled" Is Determined
+
+The filter reads the permit's **status**, not its dates. That distinction matters:
+
+- A permit with `final` status carries no `final_date` about 15% of the time, so "missing final date" is not evidence of unfinished work.
+- Roughly 41% of permits with no `final_date` are in fact finaled by status. A date-based test would be wrong that often.
+
+A work type counts as unfinaled at a property only when its **latest non-final permit is more recent than its latest final permit** of that type (equal dates count as finaled). This removes the false positives a plain "any non-final permit" test would keep—a property that re-roofed in 2015 (unfinaled) and again in 2022 (finaled) is not an unfinished roofing job.
+
+A permit whose status is unknown counts as neither final nor unfinaled.
+
+<Tip>
+For what each permit status means (`active`, `in_review`, `inactive`, `final`), see [Permit statuses](/docs/knowledge-base/data/permits/permit-statuses).
+</Tip>
+
+## Related Articles
+
+- [How to search for properties](/docs/knowledge-base/api/properties/property-search)
+- [Permit statuses explained](/docs/knowledge-base/data/permits/permit-statuses)
+- [How is project completion determined?](/docs/knowledge-base/data/permits/project-completion)
+- [API Reference: Search Properties](/api-reference/properties/search-properties)
