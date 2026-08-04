@@ -256,6 +256,8 @@
             "docs/knowledge-base/cli/installation",
             "docs/knowledge-base/cli/authentication",
             "docs/knowledge-base/cli/commands-overview",
+            "docs/knowledge-base/cli/properties",
+            "docs/knowledge-base/cli/absence-and-trust",
             "docs/knowledge-base/cli/output-and-pagination",
             "docs/knowledge-base/cli/error-codes",
             "docs/knowledge-base/cli/scripting-and-agents"

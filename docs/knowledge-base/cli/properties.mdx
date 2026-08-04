@@ -1,0 +1,275 @@
+---
+title: "How Do I Query Properties from the CLI?"
+description: "Use shovels properties search and shovels properties get to query US properties with their permit history rolled up onto each record, including owner, attribute, and absence filters."
+sidebarTitle: "Properties"
+---
+
+**The `properties` command group returns one row per property, with that property's permit history already rolled up onto the record.** A single row answers "what has happened at this address" — permit counts, work-type tags, latest activity dates, contractors, job values, and property attributes.
+
+Added in CLI **v0.8.0**. Run `shovels version` to check yours; upgrade with `curl -LsSf https://shovels.ai/install.sh | sh`.
+
+<Info>
+Properties are currently in **beta**. Query parameters, response fields, and the absence-trust surface may still change. Treat the response shape as unstable.
+</Info>
+
+## Subcommands
+
+| Subcommand | Description | Key Flags |
+|---|---|---|
+| `properties search` | Search properties by geographic scope and/or legal owner | `--geo-id` **or** `--legal-owner` (at least one) |
+| `properties get` | Retrieve 1-50 properties by address ID | Positional IDs |
+
+## Required Scope
+
+Every search needs a scope: `--geo-id`, `--legal-owner`, or both. Omitting both fails locally before any API call:
+
+```bash
+$ shovels properties search --permit-tags solar
+{"error":"at least one of --geo-id or --legal-owner required","code":1,"error_type":"validation_error"}
+```
+
+### --geo-id
+
+| Format | Example | Notes |
+|---|---|---|
+| ZIP code | `92024` | Use directly |
+| ZIP+4 | `92024-1234` | Use directly |
+| State | `CA` | 2-letter code |
+| City, county, or address | `RMjg6rIIh2k` | Resolve first with a search command |
+
+```bash
+shovels properties search \
+  --geo-id "$(shovels counties search -q 'San Diego' | jq -r '.data[0].geo_id')" \
+  --permit-tags solar --permit-status final --limit 10
+```
+
+<Warning>
+Jurisdiction geo_ids are **rejected** by this endpoint. Jurisdiction is recorded on only a minority of property records, so scoping to it would silently drop properties that were never permitted. Scope by city, county, state, or address instead.
+</Warning>
+
+### --legal-owner
+
+Repeat the flag for up to 10 owners. Values are **never split on commas**, so `"SMITH, JOHN"` is one owner, not two. Matching is on the owner's canonical form, so casing variants collapse together.
+
+```bash
+# Owner portfolio nationwide — no geographic scope needed
+shovels properties search --legal-owner "INVITATION HOMES" --include-count --limit 2
+```
+
+```json
+{
+  "data": [
+    {
+      "id": "DWe15mBxY8Y",
+      "city": "HOFFMAN ESTATES",
+      "state": "IL",
+      "legal_owner": "Invitation Homes",
+      "owner_type": "company_owned",
+      "permit_count": 3
+    }
+  ],
+  "meta": {
+    "count": 2,
+    "has_more": true,
+    "total_count": { "value": 151, "relation": "eq" },
+    "credits_used": 2
+  }
+}
+```
+
+`--legal-owner` is the one filter that works nationwide with no location at all.
+
+## Permit Filters
+
+| Flag | Description |
+|---|---|
+| `--permit-tags` | Canonical tags as **one comma-separated value** (e.g. `"solar,-roofing"`). A bare tag keeps properties that have it; a `-` prefix keeps properties **without** it |
+| `--permit-status` | One comma-separated value: `final`, `in_review`, `inactive`, `active` |
+| `--permit-from` | Binds the tag, status, and absence filters to this date (`YYYY-MM-DD`) |
+| `--permit-tags-unfinaled` | Keeps properties with an **unfinaled** permit of each named tag |
+
+<Warning>
+**There is no `--permit-to` flag.** A property record keeps only the latest permit date per work type, so a closed date window can't be answered correctly. Passing it fails as an unknown flag. Use `shovels permits search` for date windows and upper bounds.
+</Warning>
+
+Note the flag-shape difference from `permits search`: properties takes tags as a single comma-separated string, where `permits search` uses a repeatable `--tags`.
+
+<Warning>
+`--permit-tags` is a single value, so **repeating it silently keeps only the last one**. `--permit-tags solar --permit-tags roofing` searches for `roofing` alone, with no error. Write `--permit-tags "solar,roofing"` instead.
+
+`--property-type` is different — it accepts both repetition and a comma-separated value, and both forms keep every value.
+</Warning>
+
+Use `--dry-run` to confirm what your flags actually resolved to:
+
+```bash
+$ shovels properties search --geo-id 92024 --permit-tags solar --permit-tags roofing --dry-run
+{"method":"GET","url":"...","params":{"geo_id":"92024","permit_tags":["roofing"],"size":50}}
+```
+
+### Finding unfinaled work
+
+A permit that was pulled but never finaled often signals an unfinished job — for example an installer that went out of business mid-project.
+
+```bash
+shovels properties search --geo-id CA \
+  --permit-tags-unfinaled solar --permit-from 2024-01-01 --limit 2
+```
+
+Each row's `last_unfinaled_date_by_tag` shows when the unfinished work started:
+
+```json
+{
+  "id": "BApEVBRuBBM",
+  "city": "PISMO BEACH",
+  "last_unfinaled_date_by_tag": { "solar": "2026-08-16" }
+}
+```
+
+<Tip>
+"Unfinaled" is determined from permit **status**, not from a missing `final_date`. See [Finding unfinaled permits](/docs/knowledge-base/api/properties/unfinaled-permits) for why that distinction matters.
+</Tip>
+
+## Property Attribute Filters
+
+Narrow by what the property **is** rather than what happened to it.
+
+| Flag | Unit |
+|---|---|
+| `--property-type` | Repeatable or comma-separated: `residential`, `commercial`, `industrial`, `agricultural`, `vacant land`, `exempt`, `miscellaneous`, `office`, `recreational` |
+| `--property-min-market-value` / `--property-max-market-value` | Integer **cents** (`50000000` = $500,000) |
+| `--property-min-lot-size` / `--property-max-lot-size` | Square feet |
+| `--property-min-building-area` / `--property-max-building-area` | Square feet |
+| `--property-min-unit-count` / `--property-max-unit-count` | Count |
+| `--property-min-year-built` / `--property-max-year-built` | Year (e.g. `1990`) |
+
+```bash
+# Older residential homes worth $500k-$1M with no solar permit
+shovels properties search --geo-id CA \
+  --permit-tags "-solar" \
+  --property-type residential \
+  --property-min-market-value 50000000 --property-max-market-value 100000000 \
+  --property-max-year-built 1989 \
+  --include-count --limit 10
+```
+
+<Warning>
+Attribute data covers roughly **60-70%** of properties, and a property with no value for an attribute never matches a range filter on it. Every attribute filter narrows results to the covered set — stacking several can empty a result that the same query returns rows for without them.
+</Warning>
+
+`story_count` is returned on every record but there is **no** `--property-*-story-count` filter; the Properties API has no story-count parameter. `permits search` does filter on story count.
+
+### Range validation
+
+Negative and inverted bounds are caught locally, before any API call or credit spend:
+
+```bash
+$ shovels properties search --geo-id 92024 --property-min-lot-size -5
+{"error":"--property-min-lot-size must not be negative, got -5","code":1,"error_type":"validation_error"}
+
+$ shovels properties search --geo-id 92024 \
+    --property-min-year-built 2000 --property-max-year-built 1990
+{"error":"--property-min-year-built (2000) must not exceed --property-max-year-built (1990)","code":1,"error_type":"validation_error"}
+```
+
+## Absence Searches
+
+Prefix a tag with `-` to find properties with **no** permit of that type on record. Every absence answer carries trust metadata scoring its reliability:
+
+```bash
+shovels properties search --geo-id 92024 --permit-tags "-solar" --limit 10
+```
+
+Absence is the highest-value property query and has its own article — see [CLI absence searches and trust fields](/docs/knowledge-base/cli/absence-and-trust).
+
+## properties get
+
+Fetch specific properties by address ID. Accepts 1-50 IDs as **positional arguments**, all in one request.
+
+```bash
+shovels properties get BJjCWAMtccQ DWe15mBxY8Y
+```
+
+<Info>
+ID is a positional argument, not a flag. `shovels properties get --id a_123` is wrong; `shovels properties get a_123` is right.
+</Info>
+
+A property's ID is its **address** geolocation ID — the same `id` returned by `properties search` and `addresses search`:
+
+```bash
+shovels properties get "$(shovels addresses search -q '1966 Olivenhain Rd, Encinitas CA' | jq -r '.data[0].geo_id')"
+```
+
+<Warning>
+`addresses search` exits `1` with `No addresses found.` when nothing matches, and the empty result then fails `properties get` with a decode error. In a script, check the resolved ID before passing it on.
+</Warning>
+
+### How get handles bad IDs
+
+The three failure modes are distinct, and only one of them is survivable:
+
+| Input | Behavior |
+|---|---|
+| Valid address ID with no property behind it | Row omitted from `data`, ID listed in `meta.missing`, exit `0` |
+| String that isn't a decodable address ID | **Whole request fails**, exit `1` |
+| City, county, or jurisdiction geo_id | **Whole request fails**, exit `1` |
+
+```bash
+$ shovels properties get BJjCWAMtccQ BJjCWAMtccX
+{"data":[{"id":"BJjCWAMtccQ", "...": "..."}],"meta":{"count":1,"missing":["BJjCWAMtccX"],"credits_used":1}}
+```
+
+`meta.missing` is absent entirely when every requested ID resolved. But one undecodable ID takes down the whole batch:
+
+```bash
+$ shovels properties get BJjCWAMtccQ NOT_A_REAL_ID
+{"error":"...Could not decode property id 'NOT_A_REAL_ID' at position 2. Each id must be an ADDRESS geolocation id...","code":1,"error_type":"validation_error"}
+```
+
+<Warning>
+Validate IDs before batching 50 of them. A single malformed ID costs you the entire request, while a merely-unknown ID costs you nothing.
+</Warning>
+
+Trust metadata is a **search-only** surface: rows returned by `properties get` carry no `trust` object, even though the generated schema lists the fields.
+
+## Response Fields
+
+`shovels schema properties search` prints all 45 response fields offline, with types and units, and needs no API key. The rollup fields are the ones with no equivalent in `permits search`:
+
+| Field | Description |
+|---|---|
+| `permit_count` / `untagged_permit_count` | Permits linked to the address; how many carry no canonical tag |
+| `tags` / `statuses` | Distinct canonical tags and permit statuses across the address's permits |
+| `tag_tally` | Map of tag to permit count |
+| `tag_status_pairs` | Distinct `tag:status` pairs (status folds to `unknown` when null) |
+| `last_permit_date` | Latest permit start date across all permits; `null` when never permitted |
+| `last_date_by_tag` / `last_date_by_status` / `last_date_by_pair` | Latest permit date keyed by tag, by status, and by `tag:status` |
+| `last_unfinaled_date_by_tag` | Latest non-final permit date per tag |
+| `total_job_value` | Sum of job values across the property's permits, in **cents** |
+| `contractor_count` | Distinct contractors across the address's permits |
+| `apn` | Assessor parcel number — returned for mapping, **not searchable** |
+
+<Tip>
+`apn` is on every record so you can join into your own systems, but you can't search by it: APNs are county-specific, millions collide across counties, and roughly 30% of properties have none. Resolve the address to a `geo_id` instead.
+</Tip>
+
+## Dry Run
+
+Add `--dry-run` to print the resolved HTTP request without calling the API or spending credits — useful for confirming how flags map to query parameters:
+
+```bash
+$ shovels properties search --geo-id 92024 --permit-tags "-solar" --limit 10 --dry-run
+{
+  "method": "GET",
+  "url": "https://api.shovels.ai/v2/properties/search",
+  "params": { "geo_id": "92024", "permit_tags": ["-solar"], "size": 10 }
+}
+```
+
+## Related Articles
+
+- [CLI absence searches and trust fields](/docs/knowledge-base/cli/absence-and-trust) — Reading `trust` and `meta.trust_summaries`
+- [CLI commands overview](/docs/knowledge-base/cli/commands-overview) — Full list of commands and flags
+- [How to search for properties](/docs/knowledge-base/api/properties/property-search) — The same data via the REST API
+- [Properties vs Permits: which endpoint?](/docs/knowledge-base/api/properties/properties-vs-permits) — What properties deliberately won't answer
+- [Finding unfinaled permits](/docs/knowledge-base/api/properties/unfinaled-permits) — How "unfinaled" is determined
