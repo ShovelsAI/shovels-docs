@@ -49,8 +49,10 @@ Each row in an absence result includes a `trust` object:
 | `unresolved_rate` | Share of that jurisdiction's permits of this type that never linked to an address (0–1) |
 | `data_horizon` | The most recent date past which "no permit since D" is under-observed for this row. If your `permit_from` is later than this date, the answer is a guess about data that hasn't arrived yet |
 | `horizon_basis` | How the horizon was estimated: `measured`, `pooled`, or `prior` |
+| `trust_jurisdiction_basis` | Whether the trust join used the row's own jurisdiction (`own`), its ZIP's dominant one (`dominant`), or none |
+| `trust_jurisdiction_error_bar` | Measured error rate of that join — `0` on an `own` basis, and the 6.13% ZIP-dominant estimate error on a `dominant` basis |
 | `footprint_basis` | Whether coverage suppression could resolve this row's geography: `matched` or `unknown` |
-| `flags` | Row-level caveats, e.g. `since_d_beyond_horizon` |
+| `flags` | Row-level caveats, e.g. `since_d_beyond_horizon`, `untagged_permits_present`, `trust_row_missing` |
 
 The page-level `trust_summary` aggregates across returned rows:
 
@@ -78,5 +80,6 @@ Shovels knows permits, not installations. "No solar permit on record" is not the
 
 - [How to search for properties](/docs/knowledge-base/api/properties/property-search)
 - [Properties vs Permits: which endpoint?](/docs/knowledge-base/api/properties/properties-vs-permits)
+- [Absence searches from the CLI](/docs/knowledge-base/cli/absence-and-trust) — Same surface, with per-page `trust_summaries`
 - [Why am I getting so few results?](/docs/knowledge-base/data/quality/few-results)
 - [API Reference: Search Properties](/api-reference/properties/search-properties)

@@ -19,8 +19,15 @@ curl -X GET \
 
 - A property's `id` is its **address geolocation ID**—the same `id` returned by [Search Properties](/api-reference/properties/search-properties) and [Search Addresses](/api-reference/addresses/search-addresses).
 - Results come back **in request order**.
-- Unknown IDs are simply omitted from the response—there is no per-ID 404. If you request 50 IDs and get 48 rows back, two IDs weren't found.
-- A non-address geolocation ID (city, county, or jurisdiction) is rejected with a [422 error](/docs/knowledge-base/api/errors/422-error).
+- A valid address ID with no property behind it is simply omitted from the response—there is no per-ID 404. If you request 50 IDs and get 48 rows back, two IDs weren't found.
+- A string that can't be **decoded** as an address ID is a different case: it fails the whole request with a [422 error](/docs/knowledge-base/api/errors/422-error), naming the offending value and its position.
+- A non-address geolocation ID (city, county, or jurisdiction) is likewise rejected with a [422 error](/docs/knowledge-base/api/errors/422-error).
+
+<Warning>
+Only *unknown* IDs degrade gracefully. A single malformed or non-address ID costs you the entire batch, so validate IDs before sending 50 of them.
+</Warning>
+
+Rows returned here carry **no** `trust` object—the absence-trust surface exists only on [Search Properties](/api-reference/properties/search-properties).
 
 <Tip>
 Looking up a property by its assessor parcel number (APN)? APN is returned on every record for mapping into your own systems, but it is not searchable—APNs are county-specific, millions of them collide across counties, and roughly 30% of properties have none. Resolve the address to a `geo_id` instead.
