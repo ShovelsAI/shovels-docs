@@ -14,13 +14,15 @@ The binary installs to `~/.shovels/bin` by default.
 
 ## Supported Platforms
 
-| OS | Architecture | Binary |
+| OS | Architecture | Release Asset |
 |---|---|---|
-| macOS | Apple Silicon (arm64) | `shovels-darwin-arm64` |
-| macOS | Intel (amd64) | `shovels-darwin-amd64` |
-| Linux | arm64 | `shovels-linux-arm64` |
-| Linux | amd64 | `shovels-linux-amd64` |
-| Windows | amd64 | `shovels-windows-amd64.exe` |
+| macOS | Apple Silicon (arm64) | `shovels_<version>_darwin_arm64.tar.gz` |
+| macOS | Intel (amd64) | `shovels_<version>_darwin_amd64.tar.gz` |
+| Linux | arm64 | `shovels_<version>_linux_arm64.tar.gz` |
+| Linux | amd64 | `shovels_<version>_linux_amd64.tar.gz` |
+| Windows | amd64 | `shovels_<version>_windows_amd64.zip` |
+
+Releases ship as compressed archives containing the `shovels` binary — for example `shovels_0.8.0_darwin_arm64.tar.gz`.
 
 ## Install Script Options
 
@@ -44,11 +46,12 @@ Download binaries directly from [GitHub Releases](https://github.com/ShovelsAI/s
 
 ```bash
 # Example: download and verify on macOS arm64
-curl -LO https://github.com/ShovelsAI/shovels-cli/releases/latest/download/shovels-darwin-arm64
-curl -LO https://github.com/ShovelsAI/shovels-cli/releases/latest/download/checksums.txt
+curl -LO https://github.com/ShovelsAI/shovels-cli/releases/download/v0.8.0/shovels_0.8.0_darwin_arm64.tar.gz
+curl -LO https://github.com/ShovelsAI/shovels-cli/releases/download/v0.8.0/checksums.txt
 sha256sum -c checksums.txt --ignore-missing
-chmod +x shovels-darwin-arm64
-mv shovels-darwin-arm64 /usr/local/bin/shovels
+tar -xzf shovels_0.8.0_darwin_arm64.tar.gz
+chmod +x shovels
+mv shovels /usr/local/bin/shovels
 ```
 
 ## Add to PATH
