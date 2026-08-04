@@ -24,23 +24,7 @@ sidebarTitle: "Output & Pagination"
 }
 ```
 
-### Single Object Responses (get commands with one ID)
-
-```json
-{
-  "data": {
-    "id": "...",
-    "name": "...",
-    "permit_count": 42
-  },
-  "meta": {
-    "credits_used": 1,
-    "credits_remaining": 9999
-  }
-}
-```
-
-### Batch Responses (get commands with multiple IDs)
+### Batch Responses (get commands)
 
 ```json
 {
@@ -57,7 +41,19 @@ sidebarTitle: "Output & Pagination"
 }
 ```
 
-The `missing` array lists any IDs that weren't found.
+The `missing` array lists any IDs that weren't found, and is **omitted entirely** when every requested ID resolved.
+
+<Info>
+`data` is always an **array** on `get` commands, including when you request a single ID. Write `jq '.data[0]'` rather than `jq '.data'` so a one-ID lookup and a fifty-ID batch parse the same way.
+</Info>
+
+### Credit Fields
+
+`credits_remaining` appears only when your account has a credit limit. On uncapped plans the key is absent while `credits_used` is still reported, so test for it before reading it:
+
+```bash
+jq '.meta.credits_remaining // "uncapped"'
+```
 
 ## Pagination with --limit
 
@@ -121,9 +117,32 @@ shovels permits search --geo-id 92024 \
 Total counts are exact up to 10,000 (`"relation": "eq"`). Above 10,000, the count is approximate (`"relation": "gte"` means "at least this many").
 </Info>
 
+## Per-Page Metadata: meta.trust_summaries
+
+Most `meta` fields are aggregated across the pages `--limit` fetched. One is not.
+
+Absence searches on `properties search` return a trust summary **per API page**, scoped to that page's rows. Since no single summary is correct for a merged result, the CLI collects them into a `meta.trust_summaries` array instead of combining them:
+
+```json
+{
+  "meta": {
+    "count": 205,
+    "has_more": true,
+    "credits_used": 205,
+    "trust_summaries": [
+      { "rows_flagged": 95,  "expected_miss_rate": 0.0416, "suppressed_scopes": 0 },
+      { "rows_flagged": 100, "expected_miss_rate": 0.0320, "suppressed_scopes": 0 },
+      { "rows_flagged": 5,   "expected_miss_rate": 0.0320, "suppressed_scopes": 0 }
+    ]
+  }
+}
+```
+
+Three entries because 205 records arrived as three pages (100 + 100 + 5). The key is omitted entirely when a query has no absence filter. See [CLI absence searches and trust fields](/docs/knowledge-base/cli/absence-and-trust).
+
 ## Credit Tracking
 
-Every response includes `credits_used` and `credits_remaining` in the `meta` object. This lets you monitor usage without making a separate API call.
+Every response includes `credits_used` in the `meta` object, plus `credits_remaining` on plans with a credit limit. This lets you monitor usage without making a separate API call.
 
 To check your overall credit status:
 
@@ -139,11 +158,18 @@ shovels usage
 | Money amounts | Integer cents | `150000` = $1,500.00 |
 | Ratings | Float 0-5 | `4.2` |
 | Pass rates | Integer 0-100 | `85` (percentage) |
-| Coordinates | `[lat, lng]` float array | `[32.87, -117.25]` |
+| Coordinates (permits, addresses) | `address.latlng` as `[lat, lng]` float array | `[33.071202, -117.300993]` |
+| Coordinates (properties) | Separate `lat` and `long` floats | `33.066977`, `-117.247426` |
 | geo_ids | Base64-encoded string | `"Q2l0eXxGTHxNaWFtaQ"` |
+| Rate fields (trust) | Float 0-1 | `0.0769` = 7.69% |
+
+<Tip>
+Run `shovels schema <command>` to get every field's type and unit for a specific command, offline and without spending credits.
+</Tip>
 
 ## Related Articles
 
 - [CLI commands overview](/docs/knowledge-base/cli/commands-overview) — Full list of commands and flags
+- [CLI absence searches and trust fields](/docs/knowledge-base/cli/absence-and-trust) — Reading `meta.trust_summaries`
 - [CLI error codes](/docs/knowledge-base/cli/error-codes) — Understanding error responses
 - [Scripting and AI agents](/docs/knowledge-base/cli/scripting-and-agents) — Piping CLI output into workflows
