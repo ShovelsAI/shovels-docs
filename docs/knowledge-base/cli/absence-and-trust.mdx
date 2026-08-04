@@ -1,0 +1,147 @@
+---
+title: "How Do I Run Absence Searches in the CLI?"
+description: "Find properties with no permit of a given type using the Shovels CLI, and read the per-row trust object and per-page meta.trust_summaries array that score every absence answer."
+sidebarTitle: "Absence & Trust"
+---
+
+**Prefix a permit tag with `-` to find properties that have no permit of that type on record.** Because a property can look permit-free due to data coverage rather than reality, every absence answer carries trust metadata scoring how far to believe it.
+
+```bash
+shovels properties search --geo-id 92024 --permit-tags "-solar" --limit 10
+```
+
+You can combine absence with presence — `--permit-tags "roofing,-solar"` finds properties with a roofing permit but no solar permit.
+
+<Info>
+Properties are in **beta**, and the absence-trust surface in particular may still change in response to how it's used in practice.
+</Info>
+
+## How --permit-from Changes the Meaning
+
+| Query | Meaning |
+|---|---|
+| `--permit-tags "-solar"` | Never had a solar permit |
+| `--permit-tags "-solar" --permit-from 2020-01-01` | No solar permit **since** that date |
+| `--permit-tags "roofing,-solar" --permit-from 2020-01-01` | Roofing since 2020, and **never** any solar |
+
+Once any positive filter is present, the exclusion reverts to "never" — a property record carries only one date per work type, so per-filter dates can't be composed.
+
+<Warning>
+There is no `--permit-to`. "No roofing between 2018 and 2021" and "no solar before 2020" are not expressible, because a permit inside a closed window is hidden by a later one. Only "ever" and "since date D" work. Use `shovels permits search` for windows.
+</Warning>
+
+## Reading the Per-Row trust Object
+
+Each absence row carries a `trust` object:
+
+```json
+{
+  "unresolved_rate": 0.0769,
+  "coverage_tier": "high",
+  "data_horizon": "2026-01-12",
+  "horizon_basis": "pooled",
+  "trust_jurisdiction_basis": "own",
+  "trust_jurisdiction_error_bar": 0.0,
+  "footprint_basis": "matched",
+  "flags": ["untagged_permits_present"]
+}
+```
+
+| Field | Description |
+|---|---|
+| `coverage_tier` | Permit coverage bucket for the row's jurisdiction: `high`, `medium`, or `low` |
+| `unresolved_rate` | Share of that jurisdiction's permits of this tag that never linked to an address (0-1) |
+| `data_horizon` | The most recent date past which "no permit since D" is under-observed. If your `--permit-from` is later than this, the answer is a guess about data that hasn't arrived yet |
+| `horizon_basis` | How the horizon was estimated: `measured`, `pooled`, or `prior` |
+| `trust_jurisdiction_basis` | Whether the trust join used the row's own jurisdiction (`own`), its ZIP's dominant one (`dominant`), or none |
+| `trust_jurisdiction_error_bar` | Measured error rate of that join — `0` on an `own` basis, and the 6.13% ZIP-dominant estimate error on a `dominant` basis |
+| `footprint_basis` | Whether coverage suppression could resolve the row's geography: `matched` or `unknown` |
+| `flags` | Row-level caveats, e.g. `since_d_beyond_horizon`, `untagged_permits_present`, `trust_row_missing` |
+
+<Tip>
+For lead generation, filter to rows with `coverage_tier == "high"`, an empty `flags` array, a `data_horizon` at or after your `--permit-from`, and `trust_jurisdiction_basis == "own"`:
+
+```bash
+shovels properties search --geo-id CA --permit-tags "-solar" --limit all \
+  | jq '.data[] | select(.trust.coverage_tier == "high"
+        and (.trust.flags | length) == 0
+        and .trust.trust_jurisdiction_basis == "own")'
+```
+</Tip>
+
+## meta.trust_summaries Is an Array, One Entry Per API Page
+
+This is the one place CLI output differs structurally from the REST API. The API returns a single `trust_summary` per page, scoped to that page's rows. The CLI's `--limit` merges pages — so it collects each page's summary into a **`meta.trust_summaries` array** rather than combining them:
+
+```bash
+shovels properties search --geo-id 92024 --permit-tags "-solar" --limit 205
+```
+
+```json
+{
+  "meta": {
+    "count": 205,
+    "has_more": true,
+    "credits_used": 205,
+    "trust_summaries": [
+      { "rows_flagged": 95,  "row_weighted_unresolved_rate": 0.0416, "expected_miss_rate": 0.0416, "suppressed_scopes": 0 },
+      { "rows_flagged": 100, "row_weighted_unresolved_rate": 0.0320, "expected_miss_rate": 0.0320, "suppressed_scopes": 0 },
+      { "rows_flagged": 5,   "row_weighted_unresolved_rate": 0.0320, "expected_miss_rate": 0.0320, "suppressed_scopes": 0 }
+    ]
+  }
+}
+```
+
+205 records came back as three API pages (100 + 100 + 5), so there are three summaries.
+
+<Warning>
+**The CLI does not aggregate these, and you shouldn't average them either.** Each rate is row-weighted over its own page, so a plain mean across pages of unequal size is wrong. The CLI has no basis on which to re-derive a correct merged figure, so it hands you the raw per-page values instead of inventing one.
+</Warning>
+
+| Field | Description |
+|---|---|
+| `expected_miss_rate` | The headline number: estimated probability that a returned "no permit" answer is wrong because the permit hasn't arrived yet |
+| `rows_flagged` | Rows on that page carrying a trust flag |
+| `row_weighted_unresolved_rate` | Row-weighted mean `unresolved_rate` across that page |
+| `suppressed_scopes` | Coverage scopes removed from the result by suppression |
+
+Read the worst page rather than the average when you need one number to act on:
+
+```bash
+shovels properties search --geo-id 92024 --permit-tags "-solar" --limit 205 \
+  | jq '[.meta.trust_summaries[].expected_miss_rate] | max'
+```
+
+An index in the array is **not** a page number: pages that carry no summary contribute no entry.
+
+## Presence-Only Searches Carry No Trust Surface
+
+Drop the `-` and both the row-level `trust` object and `meta.trust_summaries` disappear entirely:
+
+```bash
+$ shovels properties search --geo-id 92024 --permit-tags solar --limit 1
+{"data":[{"id":"...", "...": "..."}],"meta":{"count":1,"has_more":true,"credits_used":1}}
+```
+
+The key is omitted rather than returned empty, so in a script test for presence before reading it:
+
+```bash
+jq 'if .meta.trust_summaries then [.meta.trust_summaries[].expected_miss_rate] | max else null end'
+```
+
+## What Suppression Does to Your Result
+
+Where coverage for a work type in an area is too thin to answer honestly, those properties are **dropped from the result entirely** rather than returned as false negatives. `suppressed_scopes` reports how many scopes were removed.
+
+This means an absence search can legitimately return fewer rows — or zero rows — in a low-coverage area, while the same query returns plenty in a well-covered one. That's suppression working, not a bug.
+
+<Warning>
+Shovels knows permits, not installations. "No solar permit on record" is not the same claim as "no solar panels" — unpermitted work exists. Trust fields quantify data coverage, not construction reality.
+</Warning>
+
+## Related Articles
+
+- [Querying properties from the CLI](/docs/knowledge-base/cli/properties) — Full command and flag reference
+- [Finding properties with no permit on record](/docs/knowledge-base/api/properties/absence-queries) — The same surface via the REST API
+- [CLI output and pagination](/docs/knowledge-base/cli/output-and-pagination) — How `--limit` assembles pages
+- [Why am I getting so few results?](/docs/knowledge-base/data/quality/few-results) — Coverage and suppression
