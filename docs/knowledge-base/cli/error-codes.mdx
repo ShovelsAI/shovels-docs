@@ -66,6 +66,38 @@ Fix: Add the required `--permit-from` and `--permit-to` flags.
 
 Fix: Ensure your `--permit-from` date is earlier than `--permit-to`. Use `YYYY-MM-DD` format.
 
+**Properties search validation:**
+
+`properties search` validates locally before making any API call, so these cost no credits:
+
+| Error | Cause |
+|---|---|
+| `at least one of --geo-id or --legal-owner required` | No scope given |
+| `--legal-owner values must not be empty` | An empty string was passed to `--legal-owner` |
+| `maximum 10 --legal-owner values per request, got 11` | More than 10 owners |
+| `invalid date format for --permit-from: "08-2026" (expected YYYY-MM-DD)` | Malformed date |
+| `--property-min-lot-size must not be negative, got -5` | Negative range bound |
+| `--property-min-year-built (2000) must not exceed --property-max-year-built (1990)` | Inverted range pair |
+| `unknown flag: --permit-to` | `properties search` has no upper date bound — use `permits search` |
+
+<Info>
+Auth is checked **before** local flag validation, so a missing API key surfaces as exit `2` even when your flags are also invalid. Fix the key first, then the flags.
+</Info>
+
+**Properties get ID errors:**
+
+An ID that is well-formed but has no property behind it is *not* an error — the row is omitted and the ID appears in `meta.missing` with exit `0`. Two cases do fail the whole request with exit `1`:
+
+```bash
+$ shovels properties get BJjCWAMtccQ NOT_A_REAL_ID
+{"error":"...Could not decode property id 'NOT_A_REAL_ID' at position 2. Each id must be an ADDRESS geolocation id...","code":1,"error_type":"validation_error"}
+
+$ shovels properties get RMjg6rIIh2k
+{"error":"...Property id 'RMjg6rIIh2k' at position 0 is a city, county, or jurisdiction id, not an ADDRESS id...","code":1,"error_type":"validation_error"}
+```
+
+Fix: pass only address IDs, from a `properties search` row's `id` or from `addresses search`. One bad ID takes down the entire batch, so validate before sending 50.
+
 ### Exit 2: Auth Error
 
 ```json
@@ -137,5 +169,6 @@ esac
 ## Related Articles
 
 - [CLI authentication](/docs/knowledge-base/cli/authentication) — Configure your API key
+- [Querying properties from the CLI](/docs/knowledge-base/cli/properties) — Properties flags and ID rules
 - [API error handling](/docs/knowledge-base/api/errors/error-handling) — REST API error codes
 - [API credit limits](/docs/knowledge-base/api/basics/credit-limits) — Understanding credit consumption
