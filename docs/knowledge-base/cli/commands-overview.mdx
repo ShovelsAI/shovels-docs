@@ -4,7 +4,7 @@ description: "A complete overview of Shovels CLI commands for searching permits,
 sidebarTitle: "Commands Overview"
 ---
 
-**The CLI organizes commands into groups: permits, contractors, addresses, geographic lookups, tags, usage, and config.** Every command outputs JSON to stdout and supports `--help` for detailed usage.
+**The CLI organizes commands into groups: permits, properties, contractors, decisions, addresses, geographic lookups, tags, schema, usage, and config.** Every command outputs JSON to stdout and supports `--help` for detailed usage.
 
 ## Command Reference
 
@@ -28,6 +28,29 @@ shovels permits search \
   --property-type residential \
   --limit 50
 ```
+
+### properties
+
+Search properties with their permit history rolled up onto each record. Added in **v0.8.0**.
+
+| Subcommand | Description | Key Flags |
+|---|---|---|
+| `properties search` | Search properties by geographic scope and/or legal owner | `--geo-id` **or** `--legal-owner` (at least one) |
+| `properties get` | Retrieve 1-50 properties by address ID | Positional IDs |
+
+**Example: Properties with no solar permit**
+
+```bash
+shovels properties search \
+  --geo-id 92024 \
+  --permit-tags "-solar" \
+  --property-type residential \
+  --limit 10
+```
+
+<Info>
+Properties are in **beta**. Unlike `permits search`, there is no `--permit-to` flag and jurisdiction geo_ids are rejected. Tags are passed as one comma-separated value rather than a repeatable flag. See [Querying properties from the CLI](/docs/knowledge-base/cli/properties).
+</Info>
 
 ### contractors
 
@@ -56,17 +79,32 @@ shovels contractors search \
 Contractor search supports state, county, city, jurisdiction, and ZIP code geo_ids, but **not** address-level geo_ids. Use `permits search` for address-level queries.
 </Info>
 
+### decisions
+
+Search municipal zoning and land-use decisions. Added in **v0.7.0**.
+
+| Subcommand | Description | Key Flags |
+|---|---|---|
+| `decisions search` | Search decisions by location, date range, and category | `--decision-from`, `--decision-to` (both required) |
+| `decisions get` | Retrieve decisions by ID | Positional IDs |
+
+```bash
+shovels decisions search --geo-id CA \
+  --decision-from 2024-01-01 --decision-to 2024-12-31 \
+  --category Rezoning --asset-class Residential
+```
+
 ### addresses
 
-Search for addresses to resolve geo_ids.
+Search for addresses to resolve geo_ids, plus resident and metrics lookups.
 
 ```bash
 shovels addresses search -q "1600 Pennsylvania Ave"
 ```
 
-Returns matching addresses with their `geo_id`, formatted name, and coordinates.
+Returns matching addresses with their `geo_id`, formatted name, and coordinates. Also supports `addresses residents` and `addresses metrics current|monthly`.
 
-### cities, counties, jurisdictions
+### cities, counties, jurisdictions, states, zipcodes
 
 Resolve geographic names to geo_ids for use in search commands.
 
@@ -74,7 +112,35 @@ Resolve geographic names to geo_ids for use in search commands.
 shovels cities search -q "Miami Beach"
 shovels counties search -q "Los Angeles"
 shovels jurisdictions search -q "San Francisco"
+shovels states search -q "CA"
+shovels zipcodes search -q "941"
 ```
+
+<Info>
+`states search` matches on the 2-letter abbreviation (`CA`), not the full state name. `zipcodes search` matches on ZIP prefix and spans states, so filter the results if you need one state.
+</Info>
+
+Each group also exposes a `coverage` subcommand reporting which permit fields are reliably populated for that area. The geo_id is a **positional** argument here, and both dates are required. Cities, counties, and jurisdictions additionally support `metrics current` and `metrics monthly`.
+
+```bash
+shovels cities coverage Q2l0eXxGTHxNaWFtaSBCZWFjaA \
+  --coverage-from 2024-01-01 --coverage-to 2024-12-31
+```
+
+### schema
+
+Print the annotated JSON response schema for any data command — **offline, with no API call and no API key required**.
+
+```bash
+shovels schema                      # List all available command paths
+shovels schema properties search    # Full schema for one command
+```
+
+Each schema gives `response_fields` (type, description, unit, range, enum), `meta_fields` for commands whose meta carries more than the standard keys, a jq-ready `field_index`, and `filters` mapping each CLI flag to its type. Nested objects appear as dotted paths like `trust.coverage_tier`.
+
+<Tip>
+This is the cheapest way for an AI agent to learn a command's output shape before spending credits. Any data command also accepts `--schema` to print its own: `shovels properties search --schema`.
+</Tip>
 
 ### tags
 
@@ -113,7 +179,15 @@ shovels version
 
 ## Common Search Filters
 
-These flags are available on `permits search` and `contractors search`:
+These flags are available on `permits search` and `contractors search`. `properties search` uses a different flag shape — see [Querying properties from the CLI](/docs/knowledge-base/cli/properties):
+
+| Difference | `permits` / `contractors` | `properties` |
+|---|---|---|
+| Tag flag | `--tags`, repeatable or comma-separated | `--permit-tags`, one comma-separated value only — repeating it silently keeps just the last |
+| Date range | `--permit-from` **and** `--permit-to`, both required | `--permit-from` only; no upper bound exists |
+| Scope | `--geo-id` required | `--geo-id` **or** `--legal-owner` |
+| Attribute prefix | `--min-market-value` | `--property-min-market-value` |
+| Jurisdiction geo_ids | Accepted by `permits search` | Rejected |
 
 ### Tag Filters
 
@@ -171,6 +245,12 @@ These flags apply to all commands:
 | `--base-url` | Override API endpoint | Config or default |
 | `--no-retry` | Disable automatic retry on rate limits | `false` |
 | `--timeout` | Per-request timeout (Go duration format) | `30s` |
+| `--dry-run` | Print the resolved HTTP request as JSON without calling the API or spending credits | `false` |
+| `--schema` | Print this command's annotated response schema (offline, no auth) | `false` |
+
+<Tip>
+`--dry-run` and `--schema` both short-circuit before any network call, so they're free. Use `--dry-run` to confirm how your flags map to query parameters, and `--schema` to learn the response shape.
+</Tip>
 
 ## Getting Help
 
@@ -185,5 +265,7 @@ shovels permits search --help   # Detailed search flags and examples
 ## Related Articles
 
 - [CLI quickstart guide](/docs/shovels-cli-quickstart) — First query in under a minute
+- [Querying properties from the CLI](/docs/knowledge-base/cli/properties) — The `properties` command group
+- [CLI absence searches and trust fields](/docs/knowledge-base/cli/absence-and-trust) — Finding properties with no permit on record
 - [Output format and pagination](/docs/knowledge-base/cli/output-and-pagination) — Understanding JSON responses
 - [Scripting and AI agents](/docs/knowledge-base/cli/scripting-and-agents) — Composing CLI commands into workflows
