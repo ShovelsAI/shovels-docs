@@ -72,7 +72,28 @@ The CLI wraps the Shovels REST API but handles authentication headers, cursor pa
 Use `--limit all`. The CLI automatically handles pagination and fetches up to 10,000 records by default (configurable with `--max-records`).
 
 ### What commands are available?
-Main commands: `permits search`, `permits get`, `contractors search`, `contractors get`, `contractors permits`, `contractors employees`, `contractors metrics`, `addresses search`, `cities search`, `tags list`, `usage`, `config`. Run `shovels --help` for full list.
+Main commands: `permits search`, `permits get`, `properties search`, `properties get`, `contractors search`, `contractors get`, `contractors permits`, `contractors employees`, `contractors metrics`, `decisions search`, `decisions get`, `addresses search`, `cities search`, `tags list`, `schema`, `usage`, `config`. Run `shovels --help` for full list.
+
+### How do I query properties from the CLI?
+Use `shovels properties search` (added in v0.8.0). It needs `--geo-id`, `--legal-owner`, or both — not both a geo and a date range like `permits search`. Example: `shovels properties search --geo-id 92024 --permit-tags "-solar" --limit 10`. See [Querying properties from the CLI](/docs/knowledge-base/cli/properties).
+
+### How do I find properties with no permit of a given type in the CLI?
+Prefix the tag with `-` inside `--permit-tags`: `--permit-tags "-solar"`. Combine presence and absence in one value, e.g. `--permit-tags "roofing,-solar"`. Every absence row carries a `trust` object. See [Absence searches and trust fields](/docs/knowledge-base/cli/absence-and-trust).
+
+### Why does my properties result have several trust_summaries?
+Because each entry covers one API page. `--limit 205` fetches three pages, so you get three summaries. The CLI deliberately doesn't merge them — each rate is row-weighted over its own page, so averaging them would be wrong. Read the worst page instead: `jq '[.meta.trust_summaries[].expected_miss_rate] | max'`.
+
+### Why is there no --permit-to on properties search?
+A property record keeps only the latest permit date per work type, so a closed date window can't be answered correctly. Only "ever" and "since date D" (`--permit-from`) are expressible. Use `shovels permits search` for date windows.
+
+### How do I search one owner's properties nationwide?
+`shovels properties search --legal-owner "INVITATION HOMES"` — no `--geo-id` needed. Repeat the flag for up to 10 owners; values are never split on commas, so `"SMITH, JOHN"` stays one owner.
+
+### Why did properties get fail when only one ID was bad?
+An ID that's well-formed but unknown is fine — it's omitted and listed in `meta.missing` with exit `0`. But an ID that can't be decoded as an address ID, or a city/county/jurisdiction geo_id, fails the whole request with exit `1`. Validate before batching 50.
+
+### How do I see a command's response fields without spending credits?
+`shovels schema properties search` prints every field with its type, unit, and description, plus a jq-ready `field_index`. It runs offline and needs no API key. `--dry-run` similarly prints the resolved HTTP request without calling the API.
 
 ### Can I use the CLI with scripts and AI agents?
 Yes. The CLI outputs JSON to stdout and errors to stderr with meaningful exit codes (0=success, 1=client error, 2=auth error, 3=rate limited, 4=credits exhausted, 5=server error). Perfect for piping to `jq` or scripting.
@@ -137,6 +158,15 @@ Yes—`legal_owner` is the one filter that works nationwide with no location. Pa
 
 ### Can I search properties by parcel number (APN)?
 No. APN is returned on every record for mapping into your own systems, but it's not searchable: APNs are county-specific, millions collide across counties, and about 30% of properties have none.
+
+### Can I search properties by jurisdiction?
+No. Jurisdiction is recorded on only a minority of property records, so scoping to it would silently drop properties that were never permitted. Jurisdiction geo_ids are rejected — scope by city, county, state, ZIP, or address instead.
+
+### Why do my property attribute filters return nothing?
+Attribute data (value, size, year, units, type) covers roughly 60-70% of properties, and a property with no value for an attribute never matches a range filter on it. Stacking several filters can empty a result that returns plenty of rows without them. Loosen or drop one filter at a time.
+
+### Can I query properties from the CLI?
+Yes, as of CLI v0.8.0: `shovels properties search` and `shovels properties get`. See [Querying properties from the CLI](/docs/knowledge-base/cli/properties).
 
 ---
 
