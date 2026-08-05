@@ -19,7 +19,7 @@ curl -X GET \
   -H "X-API-Key: YOUR_API_KEY_HERE"
 ```
 
-This returns properties with no resolved solar permit on record. You can combine absence with other filters—for example `permit_tags=roofing,-solar` finds properties with a roofing permit but no solar permit.
+This returns properties with no resolved solar permit on record. You can combine absence with other filters by repeating the key—for example `permit_tags=roofing&permit_tags=-solar` finds properties with a roofing permit but no solar permit. A comma-joined value like `permit_tags=roofing,-solar` is rejected with a [422](/docs/knowledge-base/api/errors/422-error).
 
 Adding `permit_from` changes the meaning:
 

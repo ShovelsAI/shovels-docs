@@ -34,10 +34,16 @@ To turn a typed address into a `geo_id`, call [Search Addresses](/api-reference/
 
 | Filter | Description |
 |--------|-------------|
-| `permit_tags` | Comma-separated canonical tags. A positive tag keeps properties with that work type on some permit; a `-` prefix (e.g. `-solar`) keeps properties with **no** permit of that type on record—see [Absence search](/docs/knowledge-base/api/properties/absence-queries) |
-| `permit_status` | Comma-separated statuses (`final`, `in_review`, `inactive`, `active`). Combined with positive tags, the tag and status must appear on the same permit |
+| `permit_tags` | Canonical tags, one key per tag (`?permit_tags=roofing&permit_tags=-solar`). A positive tag keeps properties with that work type on some permit; a `-` prefix (e.g. `-solar`) keeps properties with **no** permit of that type on record—see [Absence search](/docs/knowledge-base/api/properties/absence-queries). Several positive tags require **every** tag, but not all on the same permit—matching is at address grain, a deliberate divergence from [Search Permits](/api-reference/permits/search-permits) |
+| `permit_status` | Statuses, one key per status (`?permit_status=final&permit_status=active`): `final`, `in_review`, `inactive`, `active`. On its own it keeps properties with a permit in any of the named statuses; combined with positive tags, the tag and status must appear on the same permit. `unknown` is not filterable |
 | `permit_from` | ISO date (`YYYY-MM-DD`). Positive filters match since this date; a pure-absence exclusion means "none since this date" |
-| `permit_tags_unfinaled` | Keeps properties with an unfinaled permit of each named tag—see [Unfinaled permits](/docs/knowledge-base/api/properties/unfinaled-permits) |
+| `permit_tags_unfinaled` | Keeps properties with an unfinaled permit of each named tag, one key per tag—see [Unfinaled permits](/docs/knowledge-base/api/properties/unfinaled-permits) |
+
+<Warning>
+These three filters take **repeated keys**, not one comma-joined value. `permit_tags=solar,-roofing` is rejected with a [422](/docs/knowledge-base/api/errors/422-error) naming the bad token—send `permit_tags=solar&permit_tags=-roofing` instead.
+
+An unrecognized tag is also a 422 rather than an empty result, so a typo fails loudly here. [Search Permits](/api-reference/permits/search-permits) returns 200 with zero items for the same typo, which is easy to misread as "no such properties."
+</Warning>
 
 <Warning>
 `permit_to` (and any other upper date bound) is **not supported** on properties. The property record keeps only the latest permit date per work type, so a closed date window can't be answered correctly. Use [Search Permits](/api-reference/permits/search-permits) for date-window queries.
