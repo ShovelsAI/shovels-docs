@@ -6,7 +6,7 @@ sidebarTitle: "Properties"
 
 **The `properties` command group returns one row per property, with that property's permit history already rolled up onto the record.** A single row answers "what has happened at this address" — permit counts, work-type tags, latest activity dates, contractors, job values, and property attributes.
 
-Added in CLI **v0.8.0**. Run `shovels version` to check yours; upgrade with `curl -LsSf https://shovels.ai/install.sh | sh`.
+Added in CLI **v0.8.0**; **v0.8.1** or newer is required for the permit filters below. Run `shovels version` to check yours; upgrade with `curl -LsSf https://shovels.ai/install.sh | sh`.
 
 <Info>
 Properties are currently in **beta**. Query parameters, response fields, and the absence-trust surface may still change. Treat the response shape as unstable.
@@ -83,29 +83,29 @@ shovels properties search --legal-owner "INVITATION HOMES" --include-count --lim
 
 | Flag | Description |
 |---|---|
-| `--permit-tags` | Canonical tags as **one comma-separated value** (e.g. `"solar,-roofing"`). A bare tag keeps properties that have it; a `-` prefix keeps properties **without** it |
-| `--permit-status` | One comma-separated value: `final`, `in_review`, `inactive`, `active` |
+| `--permit-tags` | Canonical tags — repeat the flag or comma-separate (e.g. `--permit-tags solar --permit-tags "-roofing"`, or `--permit-tags "solar,-roofing"`). A bare tag keeps properties that have it; a `-` prefix keeps properties **without** it. Several positive tags require **every** tag, though not all on the same permit |
+| `--permit-status` | Repeat the flag or comma-separate: `final`, `in_review`, `inactive`, `active`. An invalid status is caught locally, before any API call |
 | `--permit-from` | Binds the tag, status, and absence filters to this date (`YYYY-MM-DD`) |
-| `--permit-tags-unfinaled` | Keeps properties with an **unfinaled** permit of each named tag |
+| `--permit-tags-unfinaled` | Keeps properties with an **unfinaled** permit of each named tag — repeat the flag or comma-separate |
 
 <Warning>
 **There is no `--permit-to` flag.** A property record keeps only the latest permit date per work type, so a closed date window can't be answered correctly. Passing it fails as an unknown flag. Use `shovels permits search` for date windows and upper bounds.
 </Warning>
 
-Note the flag-shape difference from `permits search`: properties takes tags as a single comma-separated string, where `permits search` uses a repeatable `--tags`.
+<Tip>
+An unrecognized tag is an **error**, not an empty result: the API returns a 422 naming the bad tag. Run `shovels tags list --limit all` for the canonical set. `permits search` behaves differently — it returns zero rows for an unknown tag, which is easy to misread as "no such permits."
+</Tip>
 
-<Warning>
-`--permit-tags` is a single value, so **repeating it silently keeps only the last one**. `--permit-tags solar --permit-tags roofing` searches for `roofing` alone, with no error. Write `--permit-tags "solar,roofing"` instead.
-
-`--property-type` is different — it accepts both repetition and a comma-separated value, and both forms keep every value.
-</Warning>
-
-Use `--dry-run` to confirm what your flags actually resolved to:
+Both forms produce the same request. Use `--dry-run` to confirm what your flags resolved to:
 
 ```bash
 $ shovels properties search --geo-id 92024 --permit-tags solar --permit-tags roofing --dry-run
-{"method":"GET","url":"...","params":{"geo_id":"92024","permit_tags":["roofing"],"size":50}}
+{"method":"GET","url":"...","params":{"geo_id":"92024","permit_tags":["solar","roofing"],"size":50}}
 ```
+
+<Info>
+These three filters need CLI **v0.8.1** or newer. In v0.8.0 they were single-valued: repeating one silently kept just the last value, and the comma-separated form it documented now fails against the current API. Run `shovels version` and upgrade if you are below 0.8.1.
+</Info>
 
 ### Finding unfinaled work
 
