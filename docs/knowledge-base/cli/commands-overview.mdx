@@ -49,7 +49,7 @@ shovels properties search \
 ```
 
 <Info>
-Properties are in **beta**. Unlike `permits search`, there is no `--permit-to` flag and jurisdiction geo_ids are rejected. Tags are passed as one comma-separated value rather than a repeatable flag. See [Querying properties from the CLI](/docs/knowledge-base/cli/properties).
+Properties are in **beta**. Unlike `permits search`, there is no `--permit-to` flag and jurisdiction geo_ids are rejected. See [Querying properties from the CLI](/docs/knowledge-base/cli/properties).
 </Info>
 
 ### contractors
@@ -179,11 +179,12 @@ shovels version
 
 ## Common Search Filters
 
-These flags are available on `permits search` and `contractors search`. `properties search` uses a different flag shape — see [Querying properties from the CLI](/docs/knowledge-base/cli/properties):
+These flags are available on `permits search` and `contractors search`. `properties search` names and scopes several of them differently — see [Querying properties from the CLI](/docs/knowledge-base/cli/properties):
 
 | Difference | `permits` / `contractors` | `properties` |
 |---|---|---|
-| Tag flag | `--tags`, repeatable or comma-separated | `--permit-tags`, one comma-separated value only — repeating it silently keeps just the last |
+| Tag flag | `--tags`, repeatable or comma-separated | `--permit-tags`, same shape. Multiple positive tags match at address grain, not on one shared permit |
+| Unknown tag | Returns zero rows | Rejected with a 422 naming the tag |
 | Date range | `--permit-from` **and** `--permit-to`, both required | `--permit-from` only; no upper bound exists |
 | Scope | `--geo-id` required | `--geo-id` **or** `--legal-owner` |
 | Attribute prefix | `--min-market-value` | `--property-min-market-value` |
