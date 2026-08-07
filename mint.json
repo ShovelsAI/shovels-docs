@@ -13,19 +13,16 @@
       "family": "Poppins"
     },
     "body": {
-      "family": "Poppins"
+      "family": "IBM Plex Sans"
     }
   },
   "layout": "sidenav",
-  "background": {
-    "style": "gradient"
-  },
   "colors": {
     "primary": "#01654D",
     "light": "#e9be51",
     "dark": "#01654D",
     "background": {
-      "light": "#eae2cf",
+      "light": "#fcfbf8",
       "dark": "#101727"
     },
     "anchors": {
