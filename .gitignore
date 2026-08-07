@@ -3,3 +3,7 @@ venv
 .DS_Store
 .claude/settings.local.json
 .claude/worktrees/
+
+# `mintlify dev` generates this from mint.json; a committed docs.json
+# silently overrides mint.json at deploy time.
+docs.json
