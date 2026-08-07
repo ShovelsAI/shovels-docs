@@ -1,0 +1,74 @@
+/* Shovels docs: alignment with the app design system.
+   Every value mirrors shovels-online/app/globals.css. See
+   specs/2026-08-08-docs-design-alignment.md for the rationale. */
+
+/* Mintlify only requests the families named in mint.json (body and headings),
+   so the identifier tier has to be pulled in here or it falls back silently. */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  --shovels-ink:        #101727;
+  --shovels-ink-2:      #6b695c;
+  /* The app labels at #837e6c, which measures 3.93 on the page ground and
+     fails AA at 10.5px. Docs are read at reading distance, so labels take
+     the secondary ink instead. */
+  --shovels-label:      #6b695c;
+  --shovels-subtle:     #f0ecdf;
+  --shovels-rule:       #e2dcc9;
+  --shovels-rule-solid: #dad3bd;
+}
+
+/* ── Ink ─────────────────────────────────────────────────────────────
+   Mintlify's default body grey is #3E4140, a cold neutral that is not a
+   Shovels colour. */
+#content-area,
+#content-area p,
+#content-area li,
+#content-area td { color: var(--shovels-ink-2); }
+
+#content-area h1,
+#content-area h2,
+#content-area h3,
+#content-area h4,
+#content-area strong { color: var(--shovels-ink); }
+
+/* ── Type ────────────────────────────────────────────────────────────
+   Mintlify ships body at 18px/1.56, display size for a geometric face.
+   Plex Sans at 16px/1.65 suits the reference content. */
+#content-area p,
+#content-area li { font-size: 16px; line-height: 1.65; }
+
+/* Poppins stays on headings, but at the app's weight and tracking rather
+   than bold at default tracking. */
+#content-area h1,
+#content-area h2,
+#content-area h3,
+#content-area h4 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* Identifier tier: anything you would type, paste or match on. */
+code, pre, kbd, samp {
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ── Tables ──────────────────────────────────────────────────────────
+   The app's DataGrid: micro-label headers on the subtle band, 13px cells.
+   The rule is #DAD3BD rather than the app's #E2DCC9, which measures 1.33
+   against the page and disappears at this density. */
+#content-area table th {
+  font-family: Poppins, sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--shovels-label);
+  background: var(--shovels-subtle);
+  border-bottom: 1px solid var(--shovels-rule-solid);
+}
+
+#content-area table td {
+  font-size: 13px;
+  border-bottom: 1px solid var(--shovels-rule);
+}
