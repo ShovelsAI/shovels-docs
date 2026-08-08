@@ -406,6 +406,15 @@ span[style*="--mint-token-function"] {
   font-size: 13px;
 }
 
+/* Mintlify pads the header cell for its own type and aligns it to the bottom:
+   no padding above, six below. At the micro-label's 10.5px that leaves the
+   label sitting on the top edge of the band with all the space beneath it. */
+#content-area table th {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  vertical-align: middle;
+}
+
 /* Field names in the dictionaries are identifiers you paste into code. Those
    tables are the ones nested in accordions. */
 #content-area details table td:first-child {
