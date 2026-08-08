@@ -110,13 +110,30 @@ Mintlify config carries what it can express; the rest is a root stylesheet.
 
 `style.css` (new, repo root):
 
+- a warm replacement for Mintlify's grey ramp, scoped to light mode
 - `@import` for IBM Plex Mono, which Mintlify does not request because it is
   not named in config
-- ink and secondary ink, replacing Mintlify's cold `#3E4140`
 - reading size
 - heading weight and tracking
 - mono for `code`, `pre`, `kbd`, `samp`
 - micro-label table headers on the `#F0ECDF` band, 13px cells, `#DAD3BD` rule
+
+### Colour is set at the ramp, not at the element
+
+Mintlify resolves every text, border and fill colour through its own Tailwind
+ramp: `.text-gray-700 { color: rgb(var(--gray-700)) }`. Its default ramp is
+cold, biased green-cyan, which is exactly what the app's palette rule forbids.
+
+Redefining `--gray-50` through `--gray-950` at the root warms every element
+Mintlify colours, including components this stylesheet has never heard of.
+Selecting elements individually does not work: an earlier version of this file
+enumerated `p, li, td` and left 31 elements on the cold grey, among them the
+accordion titles on the data dictionary pages, which are the most prominent
+text on exactly the pages the change was aimed at.
+
+The override is scoped to `:root:not(.dark)`. The 300 and 400 steps carry
+dark-mode body text and 950 carries dark-mode borders, and dark mode is
+deliberately untouched.
 
 ## Verified
 
@@ -130,7 +147,11 @@ Run against the repo with `mintlify@4.2.771` before writing this document:
   imported in the stylesheet or it silently falls back.
 - Computed styles after the change: `th` at Poppins 10.5px/700/uppercase/0.08em
   on `#F0ECDF`, `td` at Plex Sans 13px, `code` at IBM Plex Mono, body at 16px
-  `#6B695C`.
+  `#6B695C`, headings at `#101727`.
+- Sweeping every element in the document for Mintlify's cold ramp values
+  returns zero matches, for both text and background, chrome included.
+- Toggling `.dark` leaves the ramp on Mintlify's defaults, confirming the
+  override does not reach dark mode.
 
 ## Out of scope
 
@@ -139,16 +160,35 @@ refresh uses `#101727` as a real surface with `#E9BE51` eyebrows and links, so
 the current config is closer to the brand's direction than to a mistake. It
 will be revisited with the refresh.
 
-**`docs.json` migration.** Not required for anything above. When it happens,
-the navigation restructure is safe: `mintlify dev` generates a `docs.json` with
-all 110 pages preserved in order, and the `docs/knowledge-base/*` versus
-`docs/*` prefix split handled correctly. The one casualty is the API Reference
-tab `description`, roughly 1,500 characters of API intro, auth notes and a curl
-example, which is silently dropped and must become an MDX page first.
+**`docs.json` migration.** Not required for anything above.
 
-Note that `mintlify dev` writes a `docs.json` into the repo root as a side
-effect. A committed `docs.json` overrides `mint.json` at deploy time, so it
-should be ignored until the migration is deliberate.
+The navigation restructure is safe: the generated `docs.json` keeps all 110
+pages in order and splits `docs/knowledge-base/*` from `docs/*` correctly.
+`topbarLinks`, `topbarCtaButton`, `footerSocials`, `anchors` and `metadata` all
+survive under new names.
+
+Four settings are silently lost, with no error:
+
+| Setting | `mint.json` | after migration |
+| --- | --- | --- |
+| `theme` | `prism` | `maple` |
+| `layout` | `sidenav` | dropped |
+| `feedback` | suggestEdit, thumbsRating, raiseIssue | dropped |
+| API tab `description` | ~1,500 chars of intro, auth, curl | dropped |
+
+The theme and layout changes are visible: the masthead logo and search move
+into the sidebar. Losing `feedback` removes the "Was this page helpful?" widget
+and the suggest-edit and raise-issue links. All four need restoring by hand
+after the migration runs.
+
+**`mintlify dev` does not preview production.** It writes a `docs.json` into
+the repo root on start and renders from it, so local preview shows the migrated
+v2 site while production still serves `mint.json`. Confirmed by editing the
+generated `docs.json`'s theme and watching the local render follow it while
+`mint.json` was unchanged. Local review is therefore accurate for colour and
+type, which come from this stylesheet and from config values that migrate
+cleanly, but not for layout or theme. `docs.json` is gitignored so it cannot
+reach production by accident.
 
 **Marketing refresh realignment.** Separate work, per the decision above.
 

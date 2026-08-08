@@ -1,36 +1,53 @@
 /* Shovels docs: alignment with the app design system.
    Every value mirrors shovels-online/app/globals.css. See
-   specs/2026-08-08-docs-design-alignment.md for the rationale. */
+   specs/2026-08-08-docs-design-alignment.md for the rationale.
+
+   The page ground is not set here. Mintlify owns it via
+   colors.background.light in mint.json. */
 
 /* Mintlify only requests the families named in mint.json (body and headings),
    so the identifier tier has to be pulled in here or it falls back silently. */
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap');
 
+/* ── Neutrals ────────────────────────────────────────────────────────
+   Mintlify resolves every text, border, and fill colour through its own
+   Tailwind ramp: `.text-gray-700 { color: rgb(var(--gray-700)) }`. Its
+   default ramp is cold, biased green-cyan, which is the one thing the
+   app's palette rule forbids. Redefining the ramp at the root warms
+   every element Mintlify colours, including components this file has
+   never heard of. Selecting the elements individually instead leaves
+   holes: accordion titles and inline spans keep the cold grey.
+
+   Values are space-separated RGB channels because Mintlify wraps them
+   in rgb().
+
+   Light mode only. The 300 and 400 steps carry dark-mode body text and
+   950 carries dark-mode borders, and dark mode is deliberately
+   untouched until it is realigned with the marketing refresh. */
+:root:not(.dark) {
+  --gray-50:  250 249 244;  /* #FAF9F4 */
+  --gray-100: 244 241 231;  /* #F4F1E7  hover fills */
+  --gray-200: 233 228 212;  /* #E9E4D4  borders */
+  --gray-300: 216 209 188;  /* #D8D1BC */
+  --gray-400: 189 182 160;  /* #BDB6A0 */
+  --gray-500: 162 156 136;  /* #A29C88  app foreground-muted */
+  --gray-600: 131 126 108;  /* #837E6C  app foreground-label */
+  --gray-700: 107 105 92;   /* #6B695C  app foreground-secondary, body text */
+  --gray-800: 63 61 53;     /* #3F3D35 */
+  --gray-900: 16 23 39;     /* #101727  app foreground, headings */
+  --gray-950: 10 15 26;     /* #0A0F1A */
+}
+
+/* Tokens for the rules below, which have no Mintlify equivalent to hook. */
 :root {
-  --shovels-ink:        #101727;
-  --shovels-ink-2:      #6b695c;
+  --shovels-subtle:     #f0ecdf;
+  --shovels-rule:       #e2dcc9;
+  --shovels-rule-solid: #dad3bd;
   /* The app labels at #837e6c, which measures 3.93 on the page ground and
      fails AA at 10.5px. Docs are read at reading distance, so labels take
      the secondary ink instead. */
   --shovels-label:      #6b695c;
-  --shovels-subtle:     #f0ecdf;
-  --shovels-rule:       #e2dcc9;
-  --shovels-rule-solid: #dad3bd;
 }
-
-/* ── Ink ─────────────────────────────────────────────────────────────
-   Mintlify's default body grey is #3E4140, a cold neutral that is not a
-   Shovels colour. */
-#content-area,
-#content-area p,
-#content-area li,
-#content-area td { color: var(--shovels-ink-2); }
-
-#content-area h1,
-#content-area h2,
-#content-area h3,
-#content-area h4,
-#content-area strong { color: var(--shovels-ink); }
 
 /* ── Type ────────────────────────────────────────────────────────────
    Mintlify ships body at 18px/1.56, display size for a geometric face.
