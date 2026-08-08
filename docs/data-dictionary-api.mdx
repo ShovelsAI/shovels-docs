@@ -8,7 +8,7 @@ description: All fields, parameters, and objects available in the **Shovels API*
 </Note>
 
 <Accordion title="Permits">
-    | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Source</div> |
+    | Field Name | Data Type | Description | Example | Source |
     |:-----------|:----------|:------------|:---------|:--------|
     | id | `string` | The permit identifier | "caf3b9d5ce317d53" | Shovels |
     | number | `string` | The permit number provided by the jurisdiction | "No-15837" | Permit Jurisdiction |
@@ -48,7 +48,7 @@ description: All fields, parameters, and objects available in the **Shovels API*
 <Accordion title="Properties">
     Served by the `/properties` endpoints (beta). One record per property, with its permit history summarized on the record. The `trust` object and its fields are present only on absence-class search responses (a `-`-prefixed tag in `permit_tags`).
 
-    | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Source</div> |
+    | Field Name | Data Type | Description | Example | Source |
     |:-----------|:----------|:------------|:---------|:--------|
     | id | `string` | The property's ID (its address geolocation ID) | "cmVzMTIzNDU2" | Shovels |
     | street_no | `string` | Street number of the address | "123" | Shovels |
@@ -96,7 +96,7 @@ description: All fields, parameters, and objects available in the **Shovels API*
 
     Absence-class search responses also carry a page-level `trust_summary` object:
 
-    | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Source</div> |
+    | Field Name | Data Type | Description | Example | Source |
     |:-----------|:----------|:------------|:---------|:--------|
     | expected_miss_rate | `number` | Estimated probability that a returned "no permit" answer is wrong due to ingestion lag (0–1) | 0.02 | Shovels |
     | rows_flagged | `integer` | Number of rows on the page carrying a trust flag | 3 | Shovels |
@@ -104,7 +104,7 @@ description: All fields, parameters, and objects available in the **Shovels API*
     | suppressed_scopes | `integer` | Number of coverage scopes removed from the result | 1 | Shovels |
 </Accordion>
 <Accordion title="Contractors">
-    | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Source</div> |
+    | Field Name | Data Type | Description | Example | Source |
     |:-----------|:----------|:------------|:---------|:--------|
     | id | `string` | The contractor ID | "c452b7d5cf317a76" | Shovels |
     | license | `string` | The contractor license number | "123456" | Permit Jurisdiction |
@@ -142,7 +142,7 @@ description: All fields, parameters, and objects available in the **Shovels API*
     | address | `object` | The contractor's address (street_no, street, city, jurisdiction, zip_code, zip_code_ext, state, latlng) | | Shovels |
 </Accordion>
 <Accordion title="Residents">
-    | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Source</div> |
+    | Field Name | Data Type | Description | Example | Source |
     |:-----------|:----------|:------------|:---------|:--------|
     | name | `string` | Name of the resident | "Jane Doe" | Shovels |
     | personal_emails | `string` | Email(s) of the resident | "jane.doe@example.com" | Shovels |
@@ -161,7 +161,7 @@ description: All fields, parameters, and objects available in the **Shovels API*
 <Accordion title="Metrics">
     Metrics are returned in **current** and **monthly** variants across geographies (address, city, county, jurisdiction, state) and contractors. Fields common to the metrics schemas are listed below; the notes column indicates where a field is variant-specific.
 
-    | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Notes</div> |
+    | Field Name | Data Type | Description | Example | Notes |
     |:-----------|:----------|:------------|:---------|:--------|
     | geo_id | `string` | Unique identifier for the entity | "CA" | |
     | tag | `string` | Specific tag or category for the metrics | "solar" | |
@@ -177,7 +177,7 @@ description: All fields, parameters, and objects available in the **Shovels API*
     | date | `string` | The month for which the metrics are calculated (YYYY-MM-DD) | "2024-01-01" | Monthly metrics only |
 </Accordion>
 <Accordion title="Geographies">
-    | Field Name | <div style={{width: "100px"}}>Data Type</div> | <div style={{width: "300px"}}>Description</div> | <div style={{width: "250px"}}>Example</div> | <div style={{width: "150px"}}>Source</div> |
+    | Field Name | Data Type | Description | Example | Source |
     |:-----------|:----------|:------------|:---------|:--------|
     | state | `string` | The state of the property. | "CA" | Shovels |
     | county | `string` | The county of the property. | "Santa Clara County" | Shovels |
