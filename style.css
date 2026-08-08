@@ -1,62 +1,121 @@
-/* Shovels docs: alignment with the app design system.
-   Every value mirrors shovels-online/app/globals.css. See
-   specs/2026-08-08-docs-design-alignment.md for the rationale.
+/* Shovels docs: the app's design system, applied to Mintlify.
+   Every value mirrors shovels-online/app/globals.css.
 
-   The page ground is not set here. Mintlify owns it via
-   colors.background.light in mint.json. */
+   specs/2026-08-08-docs-design-alignment.md  — the decision and the tokens
+   specs/2026-08-08-docs-element-inventory.md — every surface and who owns it
 
-/* Mintlify only requests the families named in mint.json (body and headings),
-   so the identifier tier has to be pulled in here or it falls back silently. */
+   Two rules govern this file:
+
+   1. Colour is set at the token ramp wherever Mintlify routes through it, and
+      by selector only where Mintlify hardcodes a value. Enumerating elements
+      leaves holes; an earlier version listed `p, li, td` and missed the
+      accordion titles that dominate the data dictionary pages.
+
+   2. Structure and colour are separate rules. Structural declarations apply in
+      both themes; colour is scoped to `:root:not(.dark)`. Mixing them once
+      painted a cream table header band across the dark theme.
+
+   Dark mode is deliberately untouched, pending the marketing refresh.
+
+   Mintlify requests only the families named in docs.json (heading and body),
+   and its schema has no slot for a third. The identifier tier is imported
+   here or it silently falls back. */
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap');
 
-/* ── Neutrals ────────────────────────────────────────────────────────
-   Mintlify resolves every text, border, and fill colour through its own
-   Tailwind ramp: `.text-gray-700 { color: rgb(var(--gray-700)) }`. Its
-   default ramp is cold, biased green-cyan, which is the one thing the
-   app's palette rule forbids. Redefining the ramp at the root warms
-   every element Mintlify colours, including components this file has
-   never heard of. Selecting the elements individually instead leaves
-   holes: accordion titles and inline spans keep the cold grey.
+/* ── Tokens ──────────────────────────────────────────────────────────
+   The app palette, verbatim. Rules below read these rather than repeating
+   literals, so a palette change is a single edit. */
+:root {
+  --shovels-ink:           #101727;
+  --shovels-ink-secondary: #6b695c;
+  --shovels-label:         #837e6c;
+  --shovels-muted:         #a29c88;
 
-   Values are space-separated RGB channels because Mintlify wraps them
-   in rgb().
+  --shovels-primary:       #01654d;
+  --shovels-primary-dark:  #014d3a;
+  --shovels-accent:        #e8bd51;
 
-   Light mode only. The 300 and 400 steps carry dark-mode body text and
-   950 carries dark-mode borders, and dark mode is deliberately
-   untouched until it is realigned with the marketing refresh. */
+  --shovels-surface:       #ffffff;
+  --shovels-panel:         #f9f7f1;
+  --shovels-subtle:        #f0ecdf;
+  --shovels-rule:          #e2dcc9;
+  --shovels-rule-strong:   #dad3bd;
+
+  --shovels-success-fill:  #e6f2ee;
+  --shovels-success-line:  #c6d7ce;
+  --shovels-success-ink:   #014d3a;
+  --shovels-warning-fill:  #fdfaf0;
+  --shovels-warning-line:  #ecd9a4;
+  --shovels-warning-ink:   #7a5b18;
+  --shovels-error-fill:    #fdf2ee;
+  --shovels-error-line:    #a63d27;
+  --shovels-error-ink:     #8a3b28;
+
+  /* Three faces, three jobs, never crossing. */
+  --shovels-structure:  Poppins, ui-sans-serif, system-ui, sans-serif;
+  --shovels-data:       'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+  --shovels-identifier: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* The app's shadow is warm and almost invisible: it separates a white card
+     from the cream ground at 1.03:1, where a neutral shadow would grey it. */
+  --shovels-lift: 0 1px 1px rgba(84, 72, 40, 0.04);
+}
+
+/* ── Neutral ramp ────────────────────────────────────────────────────
+   Mintlify resolves most colour through its own ramp, declared as
+   space-separated RGB channels: `.text-gray-700 { color: rgb(var(--gray-700)) }`.
+   Its default is biased green-cyan, which is the one thing the app's palette
+   rule forbids. Redefining the ramp warms every element Mintlify colours,
+   including components this file has never heard of.
+
+   Light mode only: 300 and 400 carry dark-mode body text, 950 carries
+   dark-mode borders. */
 :root:not(.dark) {
   --gray-50:  250 249 244;  /* #FAF9F4 */
   --gray-100: 244 241 231;  /* #F4F1E7  hover fills */
   --gray-200: 233 228 212;  /* #E9E4D4  borders */
   --gray-300: 216 209 188;  /* #D8D1BC */
   --gray-400: 189 182 160;  /* #BDB6A0 */
-  --gray-500: 162 156 136;  /* #A29C88  app foreground-muted */
-  --gray-600: 131 126 108;  /* #837E6C  app foreground-label */
-  --gray-700: 107 105 92;   /* #6B695C  app foreground-secondary, body text */
+  --gray-500: 162 156 136;  /* #A29C88  foreground-muted */
+  --gray-600: 131 126 108;  /* #837E6C  foreground-label */
+  --gray-700: 107 105 92;   /* #6B695C  foreground-secondary, body text */
   --gray-800: 63 61 53;     /* #3F3D35 */
-  --gray-900: 16 23 39;     /* #101727  app foreground, headings */
+  --gray-900: 16 23 39;     /* #101727  foreground, headings */
   --gray-950: 10 15 26;     /* #0A0F1A */
 }
 
-/* Tokens for the rules below, which have no Mintlify equivalent to hook. */
-:root {
-  --shovels-subtle:     #f0ecdf;
-  --shovels-rule:       #e2dcc9;
-  --shovels-rule-solid: #dad3bd;
-  /* The app labels at #837e6c, which measures 3.93 on the page ground and
-     fails AA at 10.5px. Docs are read at reading distance, so labels take
-     the secondary ink instead. */
-  --shovels-label:      #6b695c;
+/* ── Micro-label ─────────────────────────────────────────────────────
+   The app's most recognisable device, and the one that carries structure:
+   Poppins 10.5px/700, uppercase, 0.08em. Used on three surfaces that all
+   answer "what kind of thing is this" — the section eyebrow, the sidebar
+   group, the table header.
+
+   Colour separates them. The eyebrow names the section and keeps the primary,
+   the only brand colour on most pages. Structural labels take grey. */
+.eyebrow,
+#sidebar .sidebar-title,
+#content-area table th {
+  font-family: var(--shovels-structure);
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
 }
 
-/* ── Type ────────────────────────────────────────────────────────────
-   Mintlify ships body at 18px/1.56, display size for a geometric face.
-   Plex Sans at 16px/1.65 suits the reference content. */
-#content-area p,
-#content-area li { font-size: 16px; line-height: 1.65; }
+:root:not(.dark) .eyebrow            { color: var(--shovels-primary); }
+:root:not(.dark) #sidebar .sidebar-title,
+:root:not(.dark) #content-area table th { color: var(--shovels-ink-secondary); }
 
-/* Poppins stays on headings, but at the app's weight and tracking rather
-   than bold at default tracking. */
+/* ── Type ────────────────────────────────────────────────────────────
+   Mintlify sets body at 18px/1.56, a display size for a geometric face.
+   Plex Sans at 16px/1.65 suits reference content read at length. */
+#content-area p,
+#content-area li {
+  font-size: 16px;
+  line-height: 1.65;
+}
+
 #content-area h1,
 #content-area h2,
 #content-area h3,
@@ -65,89 +124,156 @@
   letter-spacing: -0.02em;
 }
 
-/* Identifier tier: anything you would type, paste or match on. */
+/* ── Identifier tier ─────────────────────────────────────────────────
+   Anything you would type, paste, or match on. */
 code, pre, kbd, samp {
-  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family: var(--shovels-identifier);
+}
+
+/* Inline code renders `#1E40AF` by default, a cold blue that appears nowhere
+   in the palette and 178 times on a single dictionary page. */
+:root:not(.dark) #content-area :not(pre) > code {
+  color: var(--shovels-ink);
+  background: var(--shovels-subtle);
+  border: 1px solid var(--shovels-rule);
+}
+
+/* ── Sidebar ─────────────────────────────────────────────────────────
+   Group labels carry the micro-label above; items take the data face. */
+#sidebar .sidebar-group a {
+  font-family: var(--shovels-data);
+}
+
+/* ── Chrome ──────────────────────────────────────────────────────────
+   Search and the assistant entry are filled with `bg-background-light`, so
+   moving the page ground to #FCFBF8 leaves them invisible against it. They
+   need the subtle fill and a hairline to stay legible as controls. */
+:root:not(.dark) #search-bar-entry,
+:root:not(.dark) #assistant-entry {
+  background: var(--shovels-subtle);
+  border: 1px solid var(--shovels-rule);
+}
+
+/* ── Cards ───────────────────────────────────────────────────────────
+   The app holds a white card on cream at 1.03:1 with a hairline and a warm
+   shadow. Mintlify uses a 16px radius and a cold translucent border. */
+#content-area .card {
+  border-radius: 10px;
+}
+
+:root:not(.dark) #content-area .card {
+  background: var(--shovels-surface);
+  border-color: var(--shovels-rule);
+  box-shadow: var(--shovels-lift);
 }
 
 /* ── Tables ──────────────────────────────────────────────────────────
    The app's DataGrid: micro-label headers on the subtle band, 13px cells.
-
-   Structure applies in both themes; colour does not. These are light-mode
-   values, and left unscoped they painted a cream header band and light
-   hairlines across the dark theme. */
-#content-area table th {
-  font-family: Poppins, sans-serif;
-  font-size: 10.5px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+   Header type is set with the micro-label rule above. */
+#content-area table td {
+  font-size: 13px;
 }
 
-#content-area table td { font-size: 13px; }
-
-/* Field names in the data dictionaries are identifiers you paste into code.
-   Those tables are the ones nested in accordions. */
+/* Field names in the dictionaries are identifiers you paste into code. Those
+   tables are the ones nested in accordions. */
 #content-area details table td:first-child {
-  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family: var(--shovels-identifier);
   font-weight: 500;
   white-space: nowrap;
 }
 
-:root:not(.dark) {
-  /* The rule is #DAD3BD rather than the app's #E2DCC9, which measures 1.33
-     against the page and disappears at this density. */
-  --shovels-th-color: #6b695c;
-  --shovels-th-bg: #f0ecdf;
-  --shovels-th-rule: #dad3bd;
-  --shovels-td-rule: #e2dcc9;
-}
-
 :root:not(.dark) #content-area table th {
-  color: var(--shovels-th-color);
-  background: var(--shovels-th-bg);
-  border-bottom: 1px solid var(--shovels-th-rule);
+  background: var(--shovels-subtle);
+  /* The app's #E2DCC9 measures 1.33 against the page and disappears at this
+     density, so the rule under a header is one step darker. */
+  border-bottom: 1px solid var(--shovels-rule-strong);
 }
 
 :root:not(.dark) #content-area table td {
-  border-bottom: 1px solid var(--shovels-td-rule);
+  border-bottom: 1px solid var(--shovels-rule);
 }
 
 /* ── Callouts ────────────────────────────────────────────────────────
-   Mintlify renders each variant with a Tailwind colour scale: Info on
-   neutral, Warning on yellow, Tip on green, Note on blue. Three of the
-   four are cold and the fourth is a lemon rather than the app's ochre.
-   Remapped to the app's feedback palette, keyed on the scale Mintlify
-   picked so no global colour scale is disturbed.
+   Mintlify keys each variant to a Tailwind scale rather than a component
+   name: Info on neutral, Note on blue, Tip on green, Warning on yellow,
+   Danger on red. Three of the four in common use are cold and the fourth is
+   a lemon rather than the app's ochre. Selectors key on the scale so no
+   global colour scale is disturbed.
 
-   The app's rule holds: red never marks caution. Coverage gaps and
-   partial fill are warnings; error stays reserved for a real failure. */
-:root:not(.dark) #content-area .callout[class*="bg-neutral-"] {
-  background: #f9f7f1;
-  border-color: #e2dcc9;
+   The app's rule holds: red never marks caution. Coverage gaps and partial
+   fill are warnings; error stays reserved for a real failure.
+
+   Each variant also carries a text colour, and Mintlify forces everything
+   nested inside to follow it with `[&_code]:text-current!`. Recolouring the
+   fill alone left blue code and blue links sitting on cream. Setting the
+   variant's own colour is what Mintlify expects, and the contents follow. */
+#content-area .callout {
+  border-radius: 10px;
 }
-:root:not(.dark) #content-area .callout[class*="bg-neutral-"] svg { color: #837e6c; }
+
+:root:not(.dark) #content-area .callout[class*="bg-neutral-"] {
+  background: var(--shovels-panel);
+  border-color: var(--shovels-rule);
+}
+:root:not(.dark) #content-area .callout[class*="bg-neutral-"] svg { color: var(--shovels-label); }
 
 :root:not(.dark) #content-area .callout[class*="bg-blue-"] {
-  background: #f0ecdf;
-  border-color: #dad3bd;
+  background: var(--shovels-subtle);
+  border-color: var(--shovels-rule-strong);
 }
-:root:not(.dark) #content-area .callout[class*="bg-blue-"] svg { color: #6b695c; }
+:root:not(.dark) #content-area .callout[class*="bg-blue-"] svg { color: var(--shovels-ink-secondary); }
 
 :root:not(.dark) #content-area .callout[class*="bg-green-"] {
-  background: #e6f2ee;
-  border-color: #c6d7ce;
+  background: var(--shovels-success-fill);
+  border-color: var(--shovels-success-line);
 }
-:root:not(.dark) #content-area .callout[class*="bg-green-"] svg { color: #01654d; }
+:root:not(.dark) #content-area .callout[class*="bg-green-"] svg { color: var(--shovels-primary); }
 
 :root:not(.dark) #content-area .callout[class*="bg-yellow-"] {
-  background: #fdfaf0;
-  border-color: #ecd9a4;
+  background: var(--shovels-warning-fill);
+  border-color: var(--shovels-warning-line);
 }
-:root:not(.dark) #content-area .callout[class*="bg-yellow-"] svg { color: #7a5b18; }
+:root:not(.dark) #content-area .callout[class*="bg-yellow-"] svg { color: var(--shovels-warning-ink); }
 
 :root:not(.dark) #content-area .callout[class*="bg-red-"] {
-  background: #fdf2ee;
-  border-color: #a63d27;
+  background: var(--shovels-error-fill);
+  border-color: var(--shovels-error-line);
 }
-:root:not(.dark) #content-area .callout[class*="bg-red-"] svg { color: #a63d27; }
+:root:not(.dark) #content-area .callout[class*="bg-red-"] svg { color: var(--shovels-error-line); }
+
+/* Info and Note carry the reading ink: between them they are 99 of the 166
+   callouts on the site, and they are read as prose. Tip, Warning and Danger
+   take the app's own feedback text tokens. */
+:root:not(.dark) #content-area .callout[class*="bg-neutral-"] .prose,
+:root:not(.dark) #content-area .callout[class*="bg-blue-"] .prose {
+  color: var(--shovels-ink-secondary);
+}
+:root:not(.dark) #content-area .callout[class*="bg-green-"] .prose {
+  color: var(--shovels-success-ink);
+}
+:root:not(.dark) #content-area .callout[class*="bg-yellow-"] .prose {
+  color: var(--shovels-warning-ink);
+}
+:root:not(.dark) #content-area .callout[class*="bg-red-"] .prose {
+  color: var(--shovels-error-ink);
+}
+
+/* ── Accordions ──────────────────────────────────────────────────────
+   Mintlify exposes component tokens, which survive its markup changes in a
+   way that utility-class selectors do not. */
+:root:not(.dark) {
+  --accordion-background-color: var(--shovels-panel);
+  --accordion-background-hover: var(--shovels-subtle);
+  --accordion-icon-color: var(--shovels-label);
+}
+
+/* ── API reference ───────────────────────────────────────────────────
+   Method badges ship in Tailwind greens (#2AB673, #15803D), neither of which
+   is the Shovels emerald. They are already micro-label sized; giving them the
+   casing completes the device. */
+#content-area [class*="method"],
+.api-method,
+[data-component-part*="method"] {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
