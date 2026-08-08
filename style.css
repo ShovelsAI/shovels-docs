@@ -179,28 +179,35 @@ code, pre, kbd, samp {
    not the `--shiki-*` names Shiki documents. Dark mode is carried separately
    by `--shiki-dark` values that github-dark inlines, and never reads these.
 
-   The tokens are ordered by lightness, not just by hue. A first pass gave the
-   key and the value neighbouring earth tones at 6.46 and 5.82, which differ
-   by hue alone: in a JSON response at 12px there was nothing to tell them
-   apart at a glance. Keys now sit a clear step above values, so the eye can
-   run down the left of a response and read structure before content.
+   Keys and values are separated by hue, not by lightness. Two earlier passes
+   got this wrong in opposite directions: first every token sat near 6 against
+   a 12px size, too faint against 16px body copy at 14.07; then everything was
+   darkened until the key and the value were both low-saturation warm darks
+   only 57 degrees apart, which at 12px reads as a single colour.
 
-   Everything here also had to come up. Code renders at 12px, smaller than the
-   16px body, and was carrying less than half the body's contrast. Smaller type
-   needs more, not less. Every token clears AA on all three grounds a code
-   block appears on: white cards, the page, and the subtle fill. */
+   Lightness cannot carry the distinction when both colours are desaturated
+   earth tones. Emerald against terracotta is 147 degrees apart and the only
+   real hue opposition the palette holds, so it does the work: emerald marks
+   the thing being named — a JSON key, a shell command — and terracotta marks
+   the value or argument given to it.
+
+   Contrast is then set per token rather than inherited, because code renders
+   at 12px and smaller type needs more, not less. Every token clears AA on all
+   three grounds a code block appears on: the white card, the page, and the
+   subtle fill. The figures below are against the subtle fill, the darkest of
+   the three. */
 :root:not(.dark) {
-  --mint-foreground:        #101727;  /* braces, structure        17.89 */
+  --mint-foreground:        #101727;  /* braces, structure          15.14 */
   --mint-background:        transparent;
-  --mint-token-keyword:     #502e1e;  /* keys, tag-envelope       12.00 */
-  --mint-token-string:      #465127;  /* values, tag-trade         8.51 */
-  --mint-token-string-expression: #465127;
-  --mint-token-constant:    #624913;  /* numbers, tag-power        8.46 */
-  --mint-token-function:    #015843;  /* booleans, null, primary   8.47 */
-  --mint-token-parameter:   #5f5a49;  /* tag-stone                 6.90 */
-  --mint-token-punctuation: #5f5a49;  /* tag-stone                 6.90 */
-  --mint-token-comment:     #696350;  /* quietest that still reads 6.00 */
-  --mint-token-link:        #015843;
+  --mint-token-keyword:     #015541;  /* keys, emerald               7.48 */
+  --mint-token-function:    #015541;  /* commands, emerald           7.48 */
+  --mint-token-string:      #73422b;  /* values, terracotta          6.99 */
+  --mint-token-string-expression: #73422b;
+  --mint-token-constant:    #634a13;  /* numbers, ochre              7.05 */
+  --mint-token-parameter:   #4b582a;  /* booleans, null, olive       6.51 */
+  --mint-token-punctuation: #625d4b;  /* stone                       5.58 */
+  --mint-token-comment:     #6c6753;  /* quietest that still reads   4.80 */
+  --mint-token-link:        #015541;
 }
 
 /* ── Sidebar ─────────────────────────────────────────────────────────
