@@ -91,9 +91,15 @@
   --gray-100: 244 241 231;  /* #F4F1E7  hover fills */
   --gray-200: 233 228 212;  /* #E9E4D4  borders */
   --gray-300: 216 209 188;  /* #D8D1BC */
-  --gray-400: 189 182 160;  /* #BDB6A0 */
-  --gray-500: 162 156 136;  /* #A29C88  foreground-muted */
-  --gray-600: 131 126 108;  /* #837E6C  foreground-label, micro-labels */
+  /* Mintlify puts real UI text on these steps: the search placeholder and
+     table-of-contents links on 500, navbar links and the feedback prompt on
+     600. The app's own muted and label tokens are lighter than that job
+     allows, because the app uses them on dense chrome at close range. Taking
+     them literally dropped the navbar below AA. These are the app's hues held
+     at the lightness the role needs. */
+  --gray-400: 148 142 122;  /* #948E7A  icons, non-text          3.17 */
+  --gray-500: 121 116 95;   /* #79745F  TOC links, placeholders  4.53 */
+  --gray-600: 107 105 92;   /* #6B695C  navbar links, prompts    5.34 */
   --gray-700: 30 41 62;     /* #1E293E  body copy, cells, sidebar items  14.07 */
   --gray-800: 23 32 50;     /* #172032  emphasis                        15.74 */
   --gray-900: 16 23 39;     /* #101727  headings                        17.29 */
@@ -200,6 +206,14 @@ code, pre, kbd, samp {
 :root:not(.dark) #assistant-entry {
   background: var(--shovels-subtle);
   border: 1px solid var(--shovels-rule);
+}
+
+/* Their labels and shortcut hints sit on the subtle fill rather than the page,
+   which costs about half a point of contrast. The ramp step they inherit
+   clears AA on the page but not on this fill, so they take the next one down. */
+:root:not(.dark) #search-bar-entry *,
+:root:not(.dark) #assistant-entry * {
+  color: var(--shovels-ink-secondary);
 }
 
 /* ── Cards ───────────────────────────────────────────────────────────
