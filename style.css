@@ -179,35 +179,55 @@ code, pre, kbd, samp {
    not the `--shiki-*` names Shiki documents. Dark mode is carried separately
    by `--shiki-dark` values that github-dark inlines, and never reads these.
 
-   Keys and values are separated by hue, not by lightness. Two earlier passes
-   got this wrong in opposite directions: first every token sat near 6 against
-   a 12px size, too faint against 16px body copy at 14.07; then everything was
-   darkened until the key and the value were both low-saturation warm darks
-   only 57 degrees apart, which at 12px reads as a single colour.
+   A response example is read for its keys. The values are synthetic, and
+   nobody reads "OAKLAND HOUSING AUTHORITY" — they scan for whether
+   `property_legal_owner` exists, then look it up in the dictionary. The key
+   column is the schema, so it leads.
 
-   Lightness cannot carry the distinction when both colours are desaturated
-   earth tones. Emerald against terracotta is 147 degrees apart and the only
-   real hue opposition the palette holds, so it does the work: emerald marks
-   the thing being named — a JSON key, a shell command — and terracotta marks
-   the value or argument given to it.
+   Two things carry that, and they carry it in different channels.
 
-   Contrast is then set per token rather than inherited, because code renders
-   at 12px and smaller type needs more, not less. Every token clears AA on all
-   three grounds a code block appears on: the white card, the page, and the
-   subtle fill. The figures below are against the subtle fill, the darkest of
-   the three. */
+   Hue tells key from value. Emerald against terracotta is 147 degrees apart
+   and the only real hue opposition in the palette. Emerald marks the thing
+   being named, a JSON key or a shell command; terracotta marks the value or
+   argument given to it. An earlier pass tried to separate them by lightness
+   alone and failed: both were desaturated warm darks 57 degrees apart, which
+   at 12px reads as one colour.
+
+   Weight tells which of the two matters more, and it survives what colour
+   does not — greyscale printing, poor displays, and most colour blindness.
+   The key is the only thing in a code block set in the medium weight.
+
+   Contrast is set per token rather than inherited, because code renders at
+   12px against 16px body copy and smaller type needs more, not less. Every
+   token clears AA on all four grounds a code block appears on: the white
+   card, the code surface, the page, and the subtle fill. The figures are
+   against the subtle fill, the darkest of them. */
 :root:not(.dark) {
   --mint-foreground:        #101727;  /* braces, structure          15.14 */
   --mint-background:        transparent;
-  --mint-token-keyword:     #015541;  /* keys, emerald               7.48 */
-  --mint-token-function:    #015541;  /* commands, emerald           7.48 */
-  --mint-token-string:      #73422b;  /* values, terracotta          6.99 */
-  --mint-token-string-expression: #73422b;
-  --mint-token-constant:    #634a13;  /* numbers, ochre              7.05 */
-  --mint-token-parameter:   #4b582a;  /* booleans, null, olive       6.51 */
-  --mint-token-punctuation: #625d4b;  /* stone                       5.58 */
+  --mint-token-keyword:     #014837;  /* keys, emerald               8.96 */
+  --mint-token-function:    #014837;  /* commands, emerald           8.96 */
+  --mint-token-string:      #874d33;  /* arguments, terracotta       5.66 */
+  --mint-token-string-expression: #874d33;  /* values, terracotta    5.66 */
+  --mint-token-constant:    #765817;  /* numbers, ochre              5.59 */
+  --mint-token-parameter:   #55622f;  /* booleans, null, olive       5.60 */
+  --mint-token-punctuation: #6b6652;  /* stone                       4.87 */
   --mint-token-comment:     #6c6753;  /* quietest that still reads   4.80 */
-  --mint-token-link:        #015541;
+  --mint-token-link:        #014837;
+}
+
+/* Shiki writes the token as an inline custom property rather than a class, so
+   the weight has to key on that.
+
+   Deliberately unscoped, for two reasons. Weight is structure, so the key
+   should lead in dark mode too, where github-dark supplies the colour. And
+   half the code blocks on an API reference page sit in `#content-side-layout`
+   rather than `#content-area` — the request and response panels are outside
+   the content column, which is why the colours above are set at the root and
+   not by selector. */
+span[style*="--mint-token-keyword"],
+span[style*="--mint-token-function"] {
+  font-weight: 500;
 }
 
 /* ── Sidebar ─────────────────────────────────────────────────────────
