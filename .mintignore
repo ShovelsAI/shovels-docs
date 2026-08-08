@@ -1,0 +1,6 @@
+# Files here are removed from the published site entirely, not merely hidden
+# from navigation. Hidden pages stay reachable by URL; these do not.
+
+# Internal design and decision records. Versioned with the docs they describe,
+# but not part of them.
+specs/
