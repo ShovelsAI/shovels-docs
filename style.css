@@ -416,11 +416,26 @@ span[style*="--mint-token-function"] {
 }
 
 /* Field names in the dictionaries are identifiers you paste into code. Those
-   tables are the ones nested in accordions. */
+   tables are the ones nested in accordions.
+
+   The cells have to be breakable or the tables cannot fit. Mintlify floors
+   every cell at 150px, and an accordion insets the column to about 600px on a
+   laptop, so four columns only fit if nothing forces a cell wider than its
+   share. `property_congressional_district` is a single unbreakable token that
+   claims 249px on its own, which is why holding the field name on one line
+   and letting cells break are the same decision rather than two: dropping
+   `nowrap` alone changes nothing, because the token still cannot break.
+
+   The cost is that the longest field names wrap across two lines. That is
+   worth it — a wrapped identifier is still readable and still copies, where a
+   table you have to scroll sideways hides the column you came to read. */
+#content-area details table td {
+  overflow-wrap: anywhere;
+}
+
 #content-area details table td:first-child {
   font-family: var(--shovels-identifier);
   font-weight: 500;
-  white-space: nowrap;
 }
 
 :root:not(.dark) #content-area table th {
