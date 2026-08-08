@@ -120,7 +120,26 @@ Three faces, three jobs, mirroring the app and never crossing:
 
 Both Plex faces are free Google fonts. Headings keep Poppins but at weight 600
 and `-0.02em` rather than bold at default tracking, matching the app's page
-titles. Body drops from 18px to 16px at 1.65.
+titles. Body drops from 18px to 15px at 1.65.
+
+### Why body is 15px
+
+The app pins its own scale at `--text-sm: 13px` and `--text-xs: 11.5px`,
+overriding Tailwind's 14 and 12, and its stylesheet names them the data and
+secondary steps. Usage follows: `text-sm` appears 167 times across the app
+against 15 for `text-base`. 13px is what the product treats as reading text.
+
+Docs are read at length rather than scanned on dense chrome at close range, so
+they take a step above the product rather than matching it. One step, not
+three: 16px sat above the app, above Stripe's API reference at 14px, and above
+every peer in the set, anchored to nothing but a round number.
+
+15px also makes the scale here self-consistent. The micro-label is the app's
+10.5px and table cells are the app's 13px; body is now the step above them
+rather than a size from a different system.
+
+The leading is unitless so it tracks the size: 24.75px here, and correct
+without further edits if the size moves again.
 
 ## Where each change lives
 
@@ -248,7 +267,7 @@ Run against the repo and against production with `mintlify@4.2.772`:
   `[&_code]:text-current!`. Recolouring the fill alone leaves blue code on a
   cream ground; the variant's own colour has to change.
 - Computed after the change: sidebar group, eyebrow and `th` at Poppins
-  10.5/700/uppercase/0.08em; `td` at Plex Sans 13px; body 16px `#6B695C`;
+  10.5/700/uppercase/0.08em; `td` at Plex Sans 13px; body 15px `#1E293E`;
   headings `#101727`; syntax entirely on-palette with zero off-palette values.
 
 ## Out of scope
