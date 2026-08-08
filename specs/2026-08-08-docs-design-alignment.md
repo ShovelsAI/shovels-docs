@@ -130,9 +130,12 @@ Mintlify config carries what it can express; the rest is a root stylesheet.
 - `fonts.body.family` to `IBM Plex Sans`
 - `background.color.light` to `#FCFBF8`
 - no `background.decoration` (the app has no gradients)
-- `styling.codeblocks.theme.light` to `css-variables`, so syntax colour comes
-  from the palette rather than from github-light
-- `logo.light` and `logo.dark` to the vector marks
+- `styling.codeblocks.theme` to `css-variables` in both modes, so syntax colour
+  comes from the palette rather than from a prebuilt theme
+- `logo.light` and `logo.dark` to the raster marks. The vectors are kept in
+  `assets/` as the source, but a 681px raster downsampled to the 28px the
+  navbar renders is supersampled, and a vector rasterised once at 28px is not.
+  The vector is visibly the rougher of the two at that size.
 - `theme` pinned, see below
 
 `style.css` (repo root):
@@ -248,11 +251,26 @@ Run against the repo and against production with `mintlify@4.2.772`:
 
 ## Out of scope
 
-**Dark mode.** Left as it is. It is not unanchored: the marketing refresh uses
-`#101727` as a real surface with `#E9BE51` eyebrows and links, so the current
-config is closer to the brand's direction than to a mistake. It will be
-revisited with the refresh. Every colour rule here is scoped to
-`:root:not(.dark)` and the code theme keeps `github-dark`.
+**Dark mode, apart from three defects.** Mostly left as it is, and not
+unanchored: the marketing refresh uses `#101727` as a real surface with
+`#E9BE51` eyebrows and links, so the current config is closer to the brand's
+direction than to a mistake. It will be revisited with the refresh.
+
+Three things could not wait, because they were wrong rather than merely
+uninherited, and each is scoped `:root.dark` in `style.css`:
+
+- the syntax palette, which put the key at `#79B8FF` and the value at `#9ECBFF`
+  — two light blues a few points apart, the same failure light mode had
+- the greens, which resolved to four different values on one page. All of them
+  now take `emerald-500` off the ramp `shovels-online` already uses, because
+  `#01654D` measures 2.53 against the dark page and cannot carry text there
+- the weight on code keys, which Mintlify's dual-theme Shiki output discards
+  unless `--shiki-dark-font-weight` is set alongside `font-weight`
+
+Everything else dark still renders Mintlify's own values. Two known gaps are
+recorded rather than fixed: inline code stays Tailwind `blue-300` (`#93C5FD`),
+and table headers stay pure white, which makes the micro-label the loudest
+thing in a dark table and the quietest in a light one.
 
 **`mintlify dev` still does not render production.** Config is no longer the
 difference — both now read the same committed `docs.json`. Navigation is: the
