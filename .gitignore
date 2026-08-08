@@ -3,3 +3,6 @@ venv
 .DS_Store
 .claude/settings.local.json
 .claude/worktrees/
+
+# Browser automation scratch output
+.playwright-mcp/
