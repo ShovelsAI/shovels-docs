@@ -290,12 +290,25 @@ code, pre, kbd, samp {
 }
 
 /* ── API reference ───────────────────────────────────────────────────
-   Method badges ship in Tailwind greens (#2AB673, #15803D), neither of which
-   is the Shovels emerald. They are already micro-label sized; giving them the
-   casing completes the device. */
-#content-area [class*="method"],
-.api-method,
-[data-component-part*="method"] {
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+   Method badges ship in `#2AB673`, a bright Tailwind green that is not the
+   Shovels emerald, on both the sidebar pill and the one in the page body.
+
+   Mintlify exposes no token for any of them, and the three are painted
+   differently: the sidebar pill and the Try It button carry the literal hex as
+   an arbitrary Tailwind value, while the pill in the page body uses the green
+   scale.
+
+   Both selectors are narrow on purpose. Matching the hex, or the green scale
+   specifically, means a POST or DELETE badge keeps its own colour; a looser
+   selector would repaint every method emerald and destroy the distinction.
+   If Mintlify changes a value the rule stops applying and the badge falls back
+   to their colour, which is the safe direction to fail in. */
+:root:not(.dark) .method-nav-pill [class*="2AB673"],
+:root:not(.dark) .tryit-button[class*="2AB673"] {
+  background-color: var(--shovels-primary);
+}
+
+:root:not(.dark) .method-pill[class*="bg-green-"] {
+  background-color: var(--shovels-success-fill);
+  color: var(--shovels-primary);
 }
