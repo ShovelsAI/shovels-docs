@@ -84,6 +84,23 @@
   --shovels-rule:          #e2dcc9;
   --shovels-rule-strong:   #dad3bd;
 
+  /* Dark counterparts for the roles above. The app has no dark theme — its
+     only `dark` token is `--primary-dark`, a green — so unlike every other
+     value in this file these are derived rather than copied. They hold the
+     ground's own hue and mirror the light relationships: the band lifts off
+     the page by about the step the light band drops below it, and the label
+     on that band lands at 4.71 where light lands at 4.68, so the micro-label
+     reads as the same weight of thing in both themes.
+
+     Reading ink is the warm off-white the code palette already uses for
+     structure, which is the same identity light has: there, inline code text
+     and code-block braces are both #101727. */
+  --shovels-dark-subtle:      #1a2338;
+  --shovels-dark-rule:        #2a3550;
+  --shovels-dark-rule-strong: #33415e;
+  --shovels-dark-ink:         #d6d0c1;
+  --shovels-dark-ink-secondary: #948d73;
+
   --shovels-success-fill:  #e6f2ee;
   --shovels-success-line:  #c6d7ce;
   --shovels-success-ink:   #014d3a;
@@ -165,6 +182,11 @@
 :root:not(.dark) #sidebar .sidebar-title,
 :root:not(.dark) #content-area table th { color: var(--shovels-ink-secondary); }
 
+/* The eyebrow keeps its own brand colour in dark: the config's `colors.light`
+   gold, which the marketing refresh uses on this exact ground. Only the table
+   header needs the structural grey relit. */
+:root.dark #content-area table th { color: var(--shovels-dark-ink-secondary); }
+
 /* ── Type ────────────────────────────────────────────────────────────
    Mintlify sets body at 18px/1.56, a display size for a geometric face.
    Plex Sans at 16px/1.65 suits reference content read at length. */
@@ -198,12 +220,20 @@ code, pre, kbd, samp {
   font-family: var(--shovels-identifier);
 }
 
-/* Inline code renders `#1E40AF` by default, a cold blue that appears nowhere
-   in the palette and 178 times on a single dictionary page. */
+/* Inline code renders `#1E40AF` in light and `#93C5FD` in dark by default:
+   a cold blue that appears nowhere in the palette, 178 times on a single
+   dictionary page. Both modes get the chip the identifier tier calls for —
+   reading ink on the band, hairline around it. */
 :root:not(.dark) #content-area :not(pre) > code {
   color: var(--shovels-ink);
   background: var(--shovels-subtle);
   border: 1px solid var(--shovels-rule);
+}
+
+:root.dark #content-area :not(pre) > code {
+  color: var(--shovels-dark-ink);
+  background: var(--shovels-dark-subtle);
+  border: 1px solid var(--shovels-dark-rule);
 }
 
 /* Syntax colour comes from the palette via Shiki's css-variables theme, which
@@ -246,7 +276,7 @@ code, pre, kbd, samp {
    runs Shiki in dual-theme mode either way, which is why the weight rule below
    has to set the dark weight variable as well. */
 :root:not(.dark) {
-  --mint-foreground:        #101727;  /* braces, structure          15.14 */
+  --mint-foreground:        var(--shovels-ink);  /* braces, structure  15.14 */
   --mint-background:        transparent;
   --mint-token-keyword:     #014837;  /* keys, emerald               8.96 */
   --mint-token-function:    #014837;  /* commands, emerald           8.96 */
@@ -268,7 +298,7 @@ code, pre, kbd, samp {
    the value at #9ECBFF, two light blues a few points apart, which is the
    same failure the light mode had. */
 :root.dark {
-  --mint-foreground:        #d6d0c1;  /* braces, structure          11.63 */
+  --mint-foreground:        var(--shovels-dark-ink);  /* braces, structure  11.63 */
   --mint-background:        transparent;
   --mint-token-keyword:     var(--shovels-emerald-dark);  /* keys      7.05 */
   --mint-token-function:    var(--shovels-emerald-dark);  /* commands  7.05 */
@@ -276,7 +306,7 @@ code, pre, kbd, samp {
   --mint-token-string-expression: #d98762;  /* values, terracotta    6.47 */
   --mint-token-constant:    #ba974a;  /* numbers, ochre              6.49 */
   --mint-token-parameter:   #90a653;  /* booleans, null, olive       6.61 */
-  --mint-token-punctuation: #948d73;  /* stone                       5.38 */
+  --mint-token-punctuation: var(--shovels-dark-ink-secondary);  /* stone  5.38 */
   --mint-token-comment:     #8c8670;  /* quietest that still reads   4.91 */
   --mint-token-link:        var(--shovels-emerald-dark);
 }
@@ -365,6 +395,19 @@ span[style*="--mint-token-function"] {
 
 :root:not(.dark) #content-area table td {
   border-bottom: 1px solid var(--shovels-rule);
+}
+
+/* Dark headers shipped pure white on no band, which made the micro-label the
+   loudest thing in the table where light makes it the quietest — the label
+   outranking the data it labels. The band and the stone label restore the
+   order the light table has. */
+:root.dark #content-area table th {
+  background: var(--shovels-dark-subtle);
+  border-bottom: 1px solid var(--shovels-dark-rule-strong);
+}
+
+:root.dark #content-area table td {
+  border-bottom: 1px solid var(--shovels-dark-rule);
 }
 
 /* ── Callouts ────────────────────────────────────────────────────────
