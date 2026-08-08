@@ -178,8 +178,17 @@ Four settings are silently lost, with no error:
 
 The theme and layout changes are visible: the masthead logo and search move
 into the sidebar. Losing `feedback` removes the "Was this page helpful?" widget
-and the suggest-edit and raise-issue links. All four need restoring by hand
-after the migration runs.
+and the suggest-edit and raise-issue links.
+
+`layout`, `feedback` and the tab description can be restored by hand. `theme`
+cannot. The v2 themes are `mint`, `maple`, `palm`, `willow`, `linden`,
+`almond`, `aspen`, `sequoia` and `luma`; `prism` is not among them and has no
+v2 equivalent. Production therefore runs a theme that no longer exists in the
+product, and migrating means choosing a replacement. `maple` is what the CLI
+picks on its own, not a decision anyone has made.
+
+This makes the migration a design choice rather than a port, and it should be
+scoped as one.
 
 **`mintlify dev` does not preview production.** It writes a `docs.json` into
 the repo root on start and renders from it, so local preview shows the migrated
