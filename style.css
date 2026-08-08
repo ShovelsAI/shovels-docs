@@ -15,23 +15,34 @@
       both themes; colour is scoped to `:root:not(.dark)`. Mixing them once
       painted a cream table header band across the dark theme.
 
-   Dark mode is deliberately untouched, pending the marketing refresh.
+   Light mode is designed here in full. Dark mode is inherited except where
+   inheriting it produced a defect: the syntax palette, the greens, and the
+   weight on code keys. Those three are marked `:root.dark` below. Everything
+   else dark still renders Mintlify's own values, which is a decision to
+   revisit with the marketing refresh, not a claim that it is finished.
 
    Mintlify requests only the families named in docs.json (heading and body),
    and its schema has no slot for a third. The identifier tier is imported
    here or it silently falls back.
 
-   Every weight the docs ask for has to be listed. Mintlify sets API reference
-   parameter names in mono at 600, and importing only 400 and 500 left the
-   browser synthesising that weight by smearing the outlines it had — which is
-   what made `permit_from` look blurred against the same text on the old
-   build. A synthesised face reports itself as the real family in the DOM, so
-   this is invisible unless the loaded set is compared with the set in use. */
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
+   Every weight the docs ask for has to be listed, and only those. Mintlify
+   sets API reference parameter names in mono at 600, and importing only 400
+   and 500 left the browser synthesising that weight by smearing the outlines
+   it had — which is what made `permit_from` look blurred against the same
+   text on the old build. A synthesised face reports itself as the real family
+   in the DOM, so this is invisible unless the loaded set is compared with the
+   set in use. Nothing renders mono above 600, so 700 is not fetched; adding a
+   rule that asks for it means adding it here too. */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 /* ── Tokens ──────────────────────────────────────────────────────────
-   The app palette, verbatim. Rules below read these rather than repeating
-   literals, so a palette change is a single edit. */
+   The app palette, verbatim, for the values this file sets by selector.
+
+   Values Mintlify routes through its own ramp are set there instead, so three
+   of these have a counterpart in the ramp below and both have to move
+   together: ink is also --gray-900, body ink --gray-700, secondary --gray-600.
+   Values docs.json owns — the brand primary and accent, the two page grounds,
+   the heading and body faces — are not repeated here. */
 :root {
   --shovels-ink:           #101727;
   /* Body copy is the app's ink lightened along its own hue, not the warm
@@ -44,11 +55,8 @@
   --shovels-ink-body:      #1e293e;
   --shovels-ink-secondary: #6b695c;
   --shovels-label:         #837e6c;
-  --shovels-muted:         #a29c88;
 
   --shovels-primary:       #01654d;
-  --shovels-primary-dark:  #014d3a;
-  --shovels-accent:        #e8bd51;
   /* The one emerald dark mode uses, for every green it has: code keys, method
      pills, the Try It button and the call to action. #01654D measures 2.53
      against the dark page and cannot carry text there, so dark needs a lighter
@@ -59,8 +67,16 @@
      lighter greens, not a new value. An earlier attempt lightened #01654D by
      dropping its saturation from 99% to 62%, which lands on a pastel teal
      rather than a brighter emerald. Holding the saturation at 91% keeps it
-     recognisably the brand green. */
-  --shovels-emerald-dark:  #10b981;
+     recognisably the brand green.
+
+     Held as channels because the inactive method pill needs the same colour at
+     18%. Restating it as a second literal is how the greens diverged the first
+     time, and `rgb(a b c / alpha)` is the form Mintlify's own ramp uses. */
+  --shovels-emerald-dark-rgb: 16 185 129;
+  --shovels-emerald-dark:  rgb(var(--shovels-emerald-dark-rgb));
+  /* Text sitting on a filled emerald: the dark code surface, dark enough to
+     carry the fill at 7:1 without going to pure black. */
+  --shovels-on-emerald:    #0e1420;
 
   --shovels-surface:       #ffffff;
   --shovels-panel:         #f9f7f1;
@@ -78,9 +94,10 @@
   --shovels-error-line:    #a63d27;
   --shovels-error-ink:     #8a3b28;
 
-  /* Three faces, three jobs, never crossing. */
+  /* Three faces, three jobs, never crossing. The data face is Plex Sans and is
+     set in docs.json as the body family, so only the two this file assigns by
+     selector are held here. */
   --shovels-structure:  Poppins, ui-sans-serif, system-ui, sans-serif;
-  --shovels-data:       'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
   --shovels-identifier: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* The app's shadow is warm and almost invisible: it separates a white card
@@ -189,14 +206,14 @@ code, pre, kbd, samp {
   border: 1px solid var(--shovels-rule);
 }
 
-/* Syntax colour comes from the palette via Shiki's css-variables theme,
-   selected in docs.json for light mode only. The categorical hues are the
-   app's tag families, which exist to carry exactly this kind of meaning.
+/* Syntax colour comes from the palette via Shiki's css-variables theme, which
+   docs.json selects for both modes. The categorical hues are the app's tag
+   families, which exist to carry exactly this kind of meaning.
 
    Mintlify renames Shiki's namespace: the emitted markup reads
    `color: var(--mint-token-function, #0068d6)`, so these are `--mint-*` and
-   not the `--shiki-*` names Shiki documents. Dark mode is carried separately
-   by `--shiki-dark` values that github-dark inlines, and never reads these.
+   not the `--shiki-*` names Shiki documents. Both modes read these variables;
+   the block below sets light, the one after it sets dark.
 
    A response example is read for its keys. The values are synthetic, and
    nobody reads "OAKLAND HOUSING AUTHORITY" — they scan for whether
@@ -222,12 +239,12 @@ code, pre, kbd, samp {
    card, the code surface, the page, and the subtle fill. The figures are
    against the subtle fill, the darkest of them.
 
-   docs.json names one theme, `css-variables`, for both modes rather than a
-   light and dark pair. A pair puts Shiki in dual-theme mode, where it inlines
-   the dark colour on every span as `--shiki-dark` and then forces
-   `font-weight` with `!important` to match. That silently discarded both the
-   palette and the key weight in dark mode. One theme, scoped per mode below,
-   keeps a single mechanism and lets the same rules govern both. */
+   docs.json names `css-variables` for both light and dark rather than pairing
+   it with a prebuilt dark theme. A prebuilt dark theme inlines its own colour
+   on every span and takes the palette back; naming css-variables on both sides
+   keeps one mechanism and lets these rules govern both modes. Mintlify still
+   runs Shiki in dual-theme mode either way, which is why the weight rule below
+   has to set the dark weight variable as well. */
 :root:not(.dark) {
   --mint-foreground:        #101727;  /* braces, structure          15.14 */
   --mint-background:        transparent;
@@ -268,8 +285,8 @@ code, pre, kbd, samp {
    the weight has to key on that.
 
    Deliberately unscoped, for two reasons. Weight is structure, so the key
-   should lead in dark mode too, where github-dark supplies the colour. And
-   half the code blocks on an API reference page sit in `#content-side-layout`
+   should lead in both modes. And half the code blocks on an API reference
+   page sit in `#content-side-layout`
    rather than `#content-area` — the request and response panels are outside
    the content column, which is why the colours above are set at the root and
    not by selector. */
@@ -462,12 +479,12 @@ span[style*="--mint-token-function"] {
 :root.dark .method-nav-pill [class*="2AB673"],
 :root.dark .tryit-button[class*="2AB673"] {
   background-color: var(--shovels-emerald-dark);
-  color: #0e1420;
+  color: var(--shovels-on-emerald);
 }
 
 :root.dark .method-nav-pill [class*="bg-green-"],
 :root.dark .method-pill[class*="bg-green-"] {
-  background-color: rgba(16, 185, 129, 0.18);
+  background-color: rgb(var(--shovels-emerald-dark-rgb) / 0.18);
   color: var(--shovels-emerald-dark);
 }
 
@@ -479,7 +496,7 @@ span[style*="--mint-token-function"] {
 }
 :root.dark #topbar-cta-button,
 :root.dark #topbar-cta-button * {
-  color: #0e1420;
+  color: var(--shovels-on-emerald);
 }
 
 /* The `required` marker ships `#DC2626` on `bg-red-100/50`. A required
