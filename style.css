@@ -177,19 +177,30 @@ code, pre, kbd, samp {
    Mintlify renames Shiki's namespace: the emitted markup reads
    `color: var(--mint-token-function, #0068d6)`, so these are `--mint-*` and
    not the `--shiki-*` names Shiki documents. Dark mode is carried separately
-   by `--shiki-dark` values that github-dark inlines, and never reads these. */
+   by `--shiki-dark` values that github-dark inlines, and never reads these.
+
+   The tokens are ordered by lightness, not just by hue. A first pass gave the
+   key and the value neighbouring earth tones at 6.46 and 5.82, which differ
+   by hue alone: in a JSON response at 12px there was nothing to tell them
+   apart at a glance. Keys now sit a clear step above values, so the eye can
+   run down the left of a response and read structure before content.
+
+   Everything here also had to come up. Code renders at 12px, smaller than the
+   16px body, and was carrying less than half the body's contrast. Smaller type
+   needs more, not less. Every token clears AA on all three grounds a code
+   block appears on: white cards, the page, and the subtle fill. */
 :root:not(.dark) {
-  --mint-foreground:        #101727;
+  --mint-foreground:        #101727;  /* braces, structure        17.89 */
   --mint-background:        transparent;
-  --mint-token-keyword:     #8a4f34;  /* tag-envelope */
-  --mint-token-string:      #5c6b33;  /* tag-trade */
-  --mint-token-string-expression: #5c6b33;
-  --mint-token-function:    #01654d;  /* primary */
-  --mint-token-constant:    #7a5b18;  /* tag-power */
-  --mint-token-parameter:   #6b695c;
-  --mint-token-comment:     #6b695c;  /* quieter by hue, not by contrast */
-  --mint-token-punctuation: #837e6c;
-  --mint-token-link:        #01654d;
+  --mint-token-keyword:     #502e1e;  /* keys, tag-envelope       12.00 */
+  --mint-token-string:      #465127;  /* values, tag-trade         8.51 */
+  --mint-token-string-expression: #465127;
+  --mint-token-constant:    #624913;  /* numbers, tag-power        8.46 */
+  --mint-token-function:    #015843;  /* booleans, null, primary   8.47 */
+  --mint-token-parameter:   #5f5a49;  /* tag-stone                 6.90 */
+  --mint-token-punctuation: #5f5a49;  /* tag-stone                 6.90 */
+  --mint-token-comment:     #696350;  /* quietest that still reads 6.00 */
+  --mint-token-link:        #015843;
 }
 
 /* ── Sidebar ─────────────────────────────────────────────────────────
