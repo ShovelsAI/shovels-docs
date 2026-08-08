@@ -372,6 +372,20 @@ span[style*="--mint-token-function"] {
   color: var(--shovels-ink-secondary);
 }
 
+/* Dark had the same fault from the other direction: the fill resolved to the
+   ground the config sets, so the controls had no edge at all and read as bare
+   text. Same fix, same band. */
+:root.dark #search-bar-entry,
+:root.dark #assistant-entry {
+  background: var(--shovels-dark-subtle);
+  border: 1px solid var(--shovels-dark-rule);
+}
+
+:root.dark #search-bar-entry *,
+:root.dark #assistant-entry * {
+  color: var(--shovels-dark-ink-secondary);
+}
+
 /* ── Cards ───────────────────────────────────────────────────────────
    The app holds a white card on cream at 1.03:1 with a hairline and a warm
    shadow. Mintlify uses a 16px radius and a cold translucent border. */
