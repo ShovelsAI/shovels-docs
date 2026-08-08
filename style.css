@@ -72,20 +72,82 @@ code, pre, kbd, samp {
 
 /* ── Tables ──────────────────────────────────────────────────────────
    The app's DataGrid: micro-label headers on the subtle band, 13px cells.
-   The rule is #DAD3BD rather than the app's #E2DCC9, which measures 1.33
-   against the page and disappears at this density. */
+
+   Structure applies in both themes; colour does not. These are light-mode
+   values, and left unscoped they painted a cream header band and light
+   hairlines across the dark theme. */
 #content-area table th {
   font-family: Poppins, sans-serif;
   font-size: 10.5px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--shovels-label);
-  background: var(--shovels-subtle);
-  border-bottom: 1px solid var(--shovels-rule-solid);
 }
 
-#content-area table td {
-  font-size: 13px;
-  border-bottom: 1px solid var(--shovels-rule);
+#content-area table td { font-size: 13px; }
+
+/* Field names in the data dictionaries are identifiers you paste into code.
+   Those tables are the ones nested in accordions. */
+#content-area details table td:first-child {
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-weight: 500;
+  white-space: nowrap;
 }
+
+:root:not(.dark) {
+  /* The rule is #DAD3BD rather than the app's #E2DCC9, which measures 1.33
+     against the page and disappears at this density. */
+  --shovels-th-color: #6b695c;
+  --shovels-th-bg: #f0ecdf;
+  --shovels-th-rule: #dad3bd;
+  --shovels-td-rule: #e2dcc9;
+}
+
+:root:not(.dark) #content-area table th {
+  color: var(--shovels-th-color);
+  background: var(--shovels-th-bg);
+  border-bottom: 1px solid var(--shovels-th-rule);
+}
+
+:root:not(.dark) #content-area table td {
+  border-bottom: 1px solid var(--shovels-td-rule);
+}
+
+/* ── Callouts ────────────────────────────────────────────────────────
+   Mintlify renders each variant with a Tailwind colour scale: Info on
+   neutral, Warning on yellow, Tip on green, Note on blue. Three of the
+   four are cold and the fourth is a lemon rather than the app's ochre.
+   Remapped to the app's feedback palette, keyed on the scale Mintlify
+   picked so no global colour scale is disturbed.
+
+   The app's rule holds: red never marks caution. Coverage gaps and
+   partial fill are warnings; error stays reserved for a real failure. */
+:root:not(.dark) #content-area .callout[class*="bg-neutral-"] {
+  background: #f9f7f1;
+  border-color: #e2dcc9;
+}
+:root:not(.dark) #content-area .callout[class*="bg-neutral-"] svg { color: #837e6c; }
+
+:root:not(.dark) #content-area .callout[class*="bg-blue-"] {
+  background: #f0ecdf;
+  border-color: #dad3bd;
+}
+:root:not(.dark) #content-area .callout[class*="bg-blue-"] svg { color: #6b695c; }
+
+:root:not(.dark) #content-area .callout[class*="bg-green-"] {
+  background: #e6f2ee;
+  border-color: #c6d7ce;
+}
+:root:not(.dark) #content-area .callout[class*="bg-green-"] svg { color: #01654d; }
+
+:root:not(.dark) #content-area .callout[class*="bg-yellow-"] {
+  background: #fdfaf0;
+  border-color: #ecd9a4;
+}
+:root:not(.dark) #content-area .callout[class*="bg-yellow-"] svg { color: #7a5b18; }
+
+:root:not(.dark) #content-area .callout[class*="bg-red-"] {
+  background: #fdf2ee;
+  border-color: #a63d27;
+}
+:root:not(.dark) #content-area .callout[class*="bg-red-"] svg { color: #a63d27; }
