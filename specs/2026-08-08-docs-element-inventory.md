@@ -97,8 +97,16 @@ renders on `neutral`, `<Note>` on `blue`, `<Tip>` on `green`, `<Warning>` on
 
 | Element | Hook | Before | Target | Owner |
 | --- | --- | --- | --- | --- |
-| Method badge | `span` with method text | Poppins 8.8/700, `#2AB673`, `#15803D` | `#01654D` family | css |
+| Sidebar method pill | `.method-nav-pill [class*="2AB673"]` | white on `#2AB673` | white on `#01654D` | css |
+| Body method pill | `.method-pill[class*="bg-green-"]` | `green-700` on `green-400/20` | `#01654D` on `#E6F2EE` | css |
+| Try It button | `.tryit-button[class*="2AB673"]` | white on `#2AB673` | white on `#01654D` | css |
 | Parameter name | `[class*="param"]` | paperMono 12 `#57534E` | Plex Mono | css |
+
+The three are painted differently. The sidebar pill and the Try It button carry
+the colour as an arbitrary Tailwind value with the hex written into the class
+name; the body pill uses the green scale. Both selectors are narrow so a POST
+or DELETE badge keeps its own colour, and so a Mintlify change makes the rule
+stop applying rather than repaint the wrong thing.
 
 ## Not reachable
 
