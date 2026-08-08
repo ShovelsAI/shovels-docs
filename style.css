@@ -19,8 +19,15 @@
 
    Mintlify requests only the families named in docs.json (heading and body),
    and its schema has no slot for a third. The identifier tier is imported
-   here or it silently falls back. */
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap');
+   here or it silently falls back.
+
+   Every weight the docs ask for has to be listed. Mintlify sets API reference
+   parameter names in mono at 600, and importing only 400 and 500 left the
+   browser synthesising that weight by smearing the outlines it had — which is
+   what made `permit_from` look blurred against the same text on the old
+   build. A synthesised face reports itself as the real family in the DOM, so
+   this is invisible unless the loaded set is compared with the set in use. */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
 
 /* ── Tokens ──────────────────────────────────────────────────────────
    The app palette, verbatim. Rules below read these rather than repeating
@@ -201,7 +208,14 @@ code, pre, kbd, samp {
    12px against 16px body copy and smaller type needs more, not less. Every
    token clears AA on all four grounds a code block appears on: the white
    card, the code surface, the page, and the subtle fill. The figures are
-   against the subtle fill, the darkest of them. */
+   against the subtle fill, the darkest of them.
+
+   docs.json names one theme, `css-variables`, for both modes rather than a
+   light and dark pair. A pair puts Shiki in dual-theme mode, where it inlines
+   the dark colour on every span as `--shiki-dark` and then forces
+   `font-weight` with `!important` to match. That silently discarded both the
+   palette and the key weight in dark mode. One theme, scoped per mode below,
+   keeps a single mechanism and lets the same rules govern both. */
 :root:not(.dark) {
   --mint-foreground:        #101727;  /* braces, structure          15.14 */
   --mint-background:        transparent;
@@ -216,6 +230,28 @@ code, pre, kbd, samp {
   --mint-token-link:        #014837;
 }
 
+/* Dark mode: the same hues and the same reading order, relit for a dark
+   ground. Figures are against #101727, the dimmest of the three dark surfaces
+   code sits on; all clear AA on every one of them.
+
+   This is the single place dark mode is designed rather than inherited. It
+   had to be: the palette Mintlify shipped there put the key at #79B8FF and
+   the value at #9ECBFF, two light blues a few points apart, which is the
+   same failure the light mode had. */
+:root.dark {
+  --mint-foreground:        #d6d0c1;  /* braces, structure          11.63 */
+  --mint-background:        transparent;
+  --mint-token-keyword:     #4eccae;  /* keys, emerald               9.01 */
+  --mint-token-function:    #4eccae;  /* commands, emerald           9.01 */
+  --mint-token-string:      #d98762;  /* arguments, terracotta       6.47 */
+  --mint-token-string-expression: #d98762;  /* values, terracotta    6.47 */
+  --mint-token-constant:    #ba974a;  /* numbers, ochre              6.49 */
+  --mint-token-parameter:   #90a653;  /* booleans, null, olive       6.61 */
+  --mint-token-punctuation: #948d73;  /* stone                       5.38 */
+  --mint-token-comment:     #8c8670;  /* quietest that still reads   4.91 */
+  --mint-token-link:        #4eccae;
+}
+
 /* Shiki writes the token as an inline custom property rather than a class, so
    the weight has to key on that.
 
@@ -228,12 +264,21 @@ code, pre, kbd, samp {
 span[style*="--mint-token-keyword"],
 span[style*="--mint-token-function"] {
   font-weight: 500;
+  /* Mintlify keeps Shiki in dual-theme mode even when both themes are the
+     same one, and its dark rule re-declares font-weight from this variable
+     with !important. Left unset it resolves to normal, which silently
+     discarded the weight in dark mode while light mode kept it. */
+  --shiki-dark-font-weight: 500;
 }
 
 /* ── Sidebar ─────────────────────────────────────────────────────────
-   Group labels carry the micro-label above; items take the data face. */
+   Navigation is structure, not data: a sidebar item names a place rather than
+   stating a fact, which is the structure tier's job and the tier the group
+   label above it already uses. Setting these in the data face split the
+   sidebar across two typefaces for no reason and read rougher at 14px than
+   the geometric face it replaced. */
 #sidebar .sidebar-group a {
-  font-family: var(--shovels-data);
+  font-family: var(--shovels-structure);
 }
 
 /* ── Chrome ──────────────────────────────────────────────────────────
