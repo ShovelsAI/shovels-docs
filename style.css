@@ -50,10 +50,17 @@
   --shovels-primary-dark:  #014d3a;
   --shovels-accent:        #e8bd51;
   /* The one emerald dark mode uses, for every green it has: code keys, method
-     pills, the Try It button. #01654D is too dark to read on a dark ground,
-     and leaving each component to pick its own lightened green is what put
-     four different ones on a single page. */
-  --shovels-emerald-dark:  #4eccae;
+     pills, the Try It button and the call to action. #01654D measures 2.53
+     against the dark page and cannot carry text there, so dark needs a lighter
+     step; leaving each component to pick its own is what put four different
+     greens on one page.
+
+     This is emerald-500 off the same ramp shovels-online already uses for its
+     lighter greens, not a new value. An earlier attempt lightened #01654D by
+     dropping its saturation from 99% to 62%, which lands on a pastel teal
+     rather than a brighter emerald. Holding the saturation at 91% keeps it
+     recognisably the brand green. */
+  --shovels-emerald-dark:  #10b981;
 
   --shovels-surface:       #ffffff;
   --shovels-panel:         #f9f7f1;
@@ -246,8 +253,8 @@ code, pre, kbd, samp {
 :root.dark {
   --mint-foreground:        #d6d0c1;  /* braces, structure          11.63 */
   --mint-background:        transparent;
-  --mint-token-keyword:     var(--shovels-emerald-dark);  /* keys      9.01 */
-  --mint-token-function:    var(--shovels-emerald-dark);  /* commands  9.01 */
+  --mint-token-keyword:     var(--shovels-emerald-dark);  /* keys      7.05 */
+  --mint-token-function:    var(--shovels-emerald-dark);  /* commands  7.05 */
   --mint-token-string:      #d98762;  /* arguments, terracotta       6.47 */
   --mint-token-string-expression: #d98762;  /* values, terracotta    6.47 */
   --mint-token-constant:    #ba974a;  /* numbers, ochre              6.49 */
@@ -460,7 +467,7 @@ span[style*="--mint-token-function"] {
 
 :root.dark .method-nav-pill [class*="bg-green-"],
 :root.dark .method-pill[class*="bg-green-"] {
-  background-color: rgba(78, 204, 174, 0.16);
+  background-color: rgba(16, 185, 129, 0.18);
   color: var(--shovels-emerald-dark);
 }
 
