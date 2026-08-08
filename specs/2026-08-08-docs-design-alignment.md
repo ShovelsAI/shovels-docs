@@ -62,8 +62,10 @@ rationed yellow accent, and uppercase letter-spaced micro-label eyebrows.
 
 ## Tokens
 
-Light mode only. Every value is copied from `globals.css`; nothing is invented.
-Ratios are WCAG 2.1 against the page ground.
+Light mode. Every value is copied from `globals.css`; nothing is invented. The
+dark surface values are the one exception and are set out under Out of scope,
+where the reason they had to be derived is given. Ratios are WCAG 2.1 against
+the page ground.
 
 | Role | Value | Contrast |
 | --- | --- | --- |
@@ -164,9 +166,9 @@ enumerated `p, li, td` and left 31 elements on the cold grey, among them the
 accordion titles on the data dictionary pages, which are the most prominent
 text on exactly the pages the change was aimed at.
 
-The override is scoped to `:root:not(.dark)`. The 300 and 400 steps carry
-dark-mode body text and 950 carries dark-mode borders, and dark mode is
-deliberately untouched.
+The override is scoped to `:root:not(.dark)`, because the 300 and 400 steps
+carry dark-mode body text and 950 carries dark-mode borders. Dark mode is
+corrected by selector where it was wrong, never through the ramp.
 
 ## The config was already migrated
 
@@ -251,12 +253,12 @@ Run against the repo and against production with `mintlify@4.2.772`:
 
 ## Out of scope
 
-**Dark mode, apart from six defects.** Mostly left as it is, and not
+**Dark mode, apart from seven defects.** Mostly left as it is, and not
 unanchored: the marketing refresh uses `#101727` as a real surface with
 `#E9BE51` eyebrows and links, so the current config is closer to the brand's
 direction than to a mistake. It will be revisited with the refresh.
 
-Six things could not wait, because they were wrong rather than merely
+Seven things could not wait, because they were wrong rather than merely
 uninherited, and each is scoped `:root.dark` in `style.css`:
 
 - the syntax palette, which put the key at `#79B8FF` and the value at `#9ECBFF`
@@ -286,9 +288,10 @@ at 4.68; the Tip callout's ink lands at 9.03 on its fill where light lands at
 8.62. Each feedback family is a single ink at 12% and 30% rather than three
 separate literals, so a family cannot drift apart the way the greens did.
 
-Everything else dark still renders Mintlify's own values. The known remaining
-gap is the search and assistant entries, which fill with the page ground and so
-have no visible edge in dark; the light rule that fixes this has no dark twin.
+Everything else dark still renders Mintlify's own values — cards, accordions
+and the sidebar among them. Nothing there is wrong in the way the six above
+were; it is simply Mintlify's palette rather than the app's, which is the state
+the marketing refresh will settle.
 
 **`mintlify dev` still does not render production.** Config is no longer the
 difference — both now read the same committed `docs.json`. Navigation is: the
