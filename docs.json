@@ -28,8 +28,8 @@
   },
   "favicon": "/assets/favicon.png",
   "logo": {
-    "light": "/assets/shovels-logo.svg",
-    "dark": "/assets/shovels-logo-dark.svg",
+    "light": "/assets/shovels-logo.png",
+    "dark": "/assets/shovels-logo-dark.png",
     "href": "https://www.shovels.ai"
   },
   "navbar": {
