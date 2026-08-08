@@ -95,11 +95,25 @@
      Reading ink is the warm off-white the code palette already uses for
      structure, which is the same identity light has: there, inline code text
      and code-block braces are both #101727. */
+  --shovels-dark-panel:       #161d2c;
   --shovels-dark-subtle:      #1a2338;
   --shovels-dark-rule:        #2a3550;
   --shovels-dark-rule-strong: #33415e;
   --shovels-dark-ink:         #d6d0c1;
   --shovels-dark-ink-secondary: #948d73;
+
+  /* The three feedback families, relit. Light fills these from six literals
+     because the app supplies them; dark has no such source, so each family is
+     one ink and the fill and border are that ink at 12% and 30% over the
+     ground. Two alphas rather than three literals keeps a family from drifting
+     apart the way the greens did.
+
+     The inks are values that already exist: emerald-300 off the ramp
+     shovels-online uses, the brand gold docs.json sets as `colors.light`, and
+     the terracotta the dark syntax palette gives strings. */
+  --shovels-dark-success-rgb: 110 231 183;
+  --shovels-dark-warning-rgb: 233 190 81;
+  --shovels-dark-error-rgb:   217 135 98;
 
   --shovels-success-fill:  #e6f2ee;
   --shovels-success-line:  #c6d7ce;
@@ -474,6 +488,57 @@ span[style*="--mint-token-function"] {
 }
 :root:not(.dark) #content-area .callout[class*="bg-red-"] .prose {
   color: var(--shovels-error-ink);
+}
+
+/* The same five variants in dark, and the reason inline code needed this pass:
+   `[&_code]:text-current!` forces every `code` inside a callout to the
+   callout's own colour with `!important`, so while dark callouts stayed on
+   Mintlify's blue every identifier inside one stayed blue too, whatever the
+   inline code rule said. Setting the variant is the only way to reach them. */
+:root.dark #content-area .callout[class*="bg-neutral-"] {
+  background: var(--shovels-dark-panel);
+  border-color: var(--shovels-dark-rule);
+}
+:root.dark #content-area .callout[class*="bg-neutral-"] svg { color: var(--shovels-dark-ink-secondary); }
+
+:root.dark #content-area .callout[class*="bg-blue-"] {
+  background: var(--shovels-dark-subtle);
+  border-color: var(--shovels-dark-rule-strong);
+}
+:root.dark #content-area .callout[class*="bg-blue-"] svg { color: var(--shovels-dark-ink-secondary); }
+
+:root.dark #content-area .callout[class*="bg-green-"] {
+  background: rgb(var(--shovels-dark-success-rgb) / 0.12);
+  border-color: rgb(var(--shovels-dark-success-rgb) / 0.30);
+}
+:root.dark #content-area .callout[class*="bg-green-"] svg { color: rgb(var(--shovels-dark-success-rgb)); }
+
+:root.dark #content-area .callout[class*="bg-yellow-"] {
+  background: rgb(var(--shovels-dark-warning-rgb) / 0.12);
+  border-color: rgb(var(--shovels-dark-warning-rgb) / 0.30);
+}
+:root.dark #content-area .callout[class*="bg-yellow-"] svg { color: rgb(var(--shovels-dark-warning-rgb)); }
+
+:root.dark #content-area .callout[class*="bg-red-"] {
+  background: rgb(var(--shovels-dark-error-rgb) / 0.12);
+  border-color: rgb(var(--shovels-dark-error-rgb) / 0.30);
+}
+:root.dark #content-area .callout[class*="bg-red-"] svg { color: rgb(var(--shovels-dark-error-rgb)); }
+
+/* Info and Note carry the reading ink here for the same reason they carry the
+   body ink in light: they are the two that are read as prose. */
+:root.dark #content-area .callout[class*="bg-neutral-"] .prose,
+:root.dark #content-area .callout[class*="bg-blue-"] .prose {
+  color: var(--shovels-dark-ink);
+}
+:root.dark #content-area .callout[class*="bg-green-"] .prose {
+  color: rgb(var(--shovels-dark-success-rgb));
+}
+:root.dark #content-area .callout[class*="bg-yellow-"] .prose {
+  color: rgb(var(--shovels-dark-warning-rgb));
+}
+:root.dark #content-area .callout[class*="bg-red-"] .prose {
+  color: rgb(var(--shovels-dark-error-rgb));
 }
 
 /* ── Accordions ──────────────────────────────────────────────────────
