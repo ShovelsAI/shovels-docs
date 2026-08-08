@@ -125,7 +125,17 @@
 }
 
 /* ── Identifier tier ─────────────────────────────────────────────────
-   Anything you would type, paste, or match on. */
+   Anything you would type, paste, or match on.
+
+   Mintlify routes every mono surface through its own `--font-paper-mono`, so
+   overriding that reaches all of them: code, the API reference parameter heads,
+   and the type chips beside them. Those chips are plain `span`s inside a
+   `font-mono` container, so an element rule on `code` never reaches them and
+   they kept rendering in paperMono while the code beside them did not. */
+:root {
+  --font-paper-mono: var(--shovels-identifier);
+}
+
 code, pre, kbd, samp {
   font-family: var(--shovels-identifier);
 }
@@ -311,4 +321,15 @@ code, pre, kbd, samp {
 :root:not(.dark) .method-pill[class*="bg-green-"] {
   background-color: var(--shovels-success-fill);
   color: var(--shovels-primary);
+}
+
+/* The `required` marker ships `#DC2626` on `bg-red-100/50`. A required
+   parameter is a constraint, not a failure, and the app's palette rule is
+   explicit that red never marks caution: error stays reserved for something
+   that actually went wrong. The warning family carries the same attention
+   without the claim. */
+:root:not(.dark) #content-area [class*="bg-red-100"] {
+  background-color: var(--shovels-warning-fill);
+  color: var(--shovels-warning-ink);
+  box-shadow: inset 0 0 0 1px var(--shovels-warning-line);
 }
