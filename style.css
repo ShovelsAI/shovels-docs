@@ -203,10 +203,20 @@
 
 /* ── Type ────────────────────────────────────────────────────────────
    Mintlify sets body at 18px/1.56, a display size for a geometric face.
-   Plex Sans at 16px/1.65 suits reference content read at length. */
+
+   15px anchors to the app rather than to a round number. The app pins its
+   scale at 13px for data and 11.5px for secondary, and uses 13px for almost
+   everything that gets read; 16px appears about a tenth as often. Docs are
+   read at length rather than scanned on dense chrome, so they take a step
+   above the product rather than matching it — but a step, not three. It also
+   makes the scale here internally consistent: the micro-label is the app's
+   10.5px, table cells are the app's 13px, and body is one step over.
+
+   The ratio stays 1.65 and stays unitless, so the leading tracks any future
+   change to the size on its own. */
 #content-area p,
 #content-area li {
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.65;
 }
 
