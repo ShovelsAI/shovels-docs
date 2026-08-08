@@ -138,6 +138,28 @@ code, pre, kbd, samp {
   border: 1px solid var(--shovels-rule);
 }
 
+/* Syntax colour comes from the palette via Shiki's css-variables theme,
+   selected in docs.json for light mode only. The categorical hues are the
+   app's tag families, which exist to carry exactly this kind of meaning.
+
+   Mintlify renames Shiki's namespace: the emitted markup reads
+   `color: var(--mint-token-function, #0068d6)`, so these are `--mint-*` and
+   not the `--shiki-*` names Shiki documents. Dark mode is carried separately
+   by `--shiki-dark` values that github-dark inlines, and never reads these. */
+:root:not(.dark) {
+  --mint-foreground:        #101727;
+  --mint-background:        transparent;
+  --mint-token-keyword:     #8a4f34;  /* tag-envelope */
+  --mint-token-string:      #5c6b33;  /* tag-trade */
+  --mint-token-string-expression: #5c6b33;
+  --mint-token-function:    #01654d;  /* primary */
+  --mint-token-constant:    #7a5b18;  /* tag-power */
+  --mint-token-parameter:   #6b695c;
+  --mint-token-comment:     #6b695c;  /* quieter by hue, not by contrast */
+  --mint-token-punctuation: #837e6c;
+  --mint-token-link:        #01654d;
+}
+
 /* ── Sidebar ─────────────────────────────────────────────────────────
    Group labels carry the micro-label above; items take the data face. */
 #sidebar .sidebar-group a {

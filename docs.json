@@ -21,6 +21,14 @@
       "family": "IBM Plex Sans"
     }
   },
+  "styling": {
+    "codeblocks": {
+      "theme": {
+        "light": "css-variables",
+        "dark": "github-dark"
+      }
+    }
+  },
   "favicon": "/assets/favicon.png",
   "logo": {
     "light": "/assets/shovels-logo.png",
