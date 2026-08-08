@@ -256,7 +256,7 @@ unanchored: the marketing refresh uses `#101727` as a real surface with
 `#E9BE51` eyebrows and links, so the current config is closer to the brand's
 direction than to a mistake. It will be revisited with the refresh.
 
-Three things could not wait, because they were wrong rather than merely
+Five things could not wait, because they were wrong rather than merely
 uninherited, and each is scoped `:root.dark` in `style.css`:
 
 - the syntax palette, which put the key at `#79B8FF` and the value at `#9ECBFF`
@@ -266,11 +266,21 @@ uninherited, and each is scoped `:root.dark` in `style.css`:
   `#01654D` measures 2.53 against the dark page and cannot carry text there
 - the weight on code keys, which Mintlify's dual-theme Shiki output discards
   unless `--shiki-dark-font-weight` is set alongside `font-weight`
+- inline code, which rendered Tailwind `blue-300` — the same cold blue the
+  light rule removes, and the one thing the app's palette rule forbids
+- table headers, which rendered pure white on no band, making the micro-label
+  the loudest thing in a dark table where light makes it the quietest
 
-Everything else dark still renders Mintlify's own values. Two known gaps are
-recorded rather than fixed: inline code stays Tailwind `blue-300` (`#93C5FD`),
-and table headers stay pure white, which makes the micro-label the loudest
-thing in a dark table and the quietest in a light one.
+The last two needed dark surface values, and the app has no dark theme to take
+them from: its only `dark` token is `--primary-dark`, a green. So the five
+`--shovels-dark-*` tokens are the one part of this palette that is derived
+rather than copied, and they are named and commented as such. They hold the
+ground's own hue and mirror the light relationships — the micro-label lands at
+4.71 on its band where light lands at 4.68.
+
+Everything else dark still renders Mintlify's own values. The known remaining
+gap is the search and assistant entries, which fill with the page ground and so
+have no visible edge in dark; the light rule that fixes this has no dark twin.
 
 **`mintlify dev` still does not render production.** Config is no longer the
 difference — both now read the same committed `docs.json`. Navigation is: the
