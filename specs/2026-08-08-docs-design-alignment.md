@@ -251,12 +251,12 @@ Run against the repo and against production with `mintlify@4.2.772`:
 
 ## Out of scope
 
-**Dark mode, apart from three defects.** Mostly left as it is, and not
+**Dark mode, apart from six defects.** Mostly left as it is, and not
 unanchored: the marketing refresh uses `#101727` as a real surface with
 `#E9BE51` eyebrows and links, so the current config is closer to the brand's
 direction than to a mistake. It will be revisited with the refresh.
 
-Five things could not wait, because they were wrong rather than merely
+Six things could not wait, because they were wrong rather than merely
 uninherited, and each is scoped `:root.dark` in `style.css`:
 
 - the syntax palette, which put the key at `#79B8FF` and the value at `#9ECBFF`
@@ -270,13 +270,21 @@ uninherited, and each is scoped `:root.dark` in `style.css`:
   light rule removes, and the one thing the app's palette rule forbids
 - table headers, which rendered pure white on no band, making the micro-label
   the loudest thing in a dark table where light makes it the quietest
+- callouts, which stayed on the Tailwind scales light replaces, and which held
+  the last seven inline identifiers blue on their own: Mintlify forces every
+  `code` inside a callout to the callout's colour with an important rule, so
+  the variant is the only hook that reaches them
 
-The last two needed dark surface values, and the app has no dark theme to take
-them from: its only `dark` token is `--primary-dark`, a green. So the five
+The last three needed dark surface values, and the app has no dark theme to
+take them from: its only `dark` token is `--primary-dark`, a green. So the
 `--shovels-dark-*` tokens are the one part of this palette that is derived
-rather than copied, and they are named and commented as such. They hold the
-ground's own hue and mirror the light relationships — the micro-label lands at
-4.71 on its band where light lands at 4.68.
+rather than copied, and they are named and commented as such.
+
+They hold the ground's own hue and mirror the light relationships rather than
+inventing new ones. The micro-label lands at 4.71 on its band where light lands
+at 4.68; the Tip callout's ink lands at 9.03 on its fill where light lands at
+8.62. Each feedback family is a single ink at 12% and 30% rather than three
+separate literals, so a family cannot drift apart the way the greens did.
 
 Everything else dark still renders Mintlify's own values. The known remaining
 gap is the search and assistant entries, which fill with the page ground and so
