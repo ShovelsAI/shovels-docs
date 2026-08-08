@@ -108,6 +108,14 @@ name; the body pill uses the green scale. Both selectors are narrow so a POST
 or DELETE badge keeps its own colour, and so a Mintlify change makes the rule
 stop applying rather than repaint the wrong thing.
 
+## Accepted as-is
+
+**Type annotations in the API reference** (`string`, `integer`, `header`) render
+`#57534E`, Tailwind's `stone-600`. It is not a Shovels value, but it is warm,
+it clears AA, and it sits outside the `--gray-*` ramp, so reaching it means
+matching Tailwind's stone scale directly. The collateral risk of that outweighs
+an imperceptible correction.
+
 ## Not reachable
 
 | Thing | Why |
