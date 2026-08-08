@@ -16,11 +16,11 @@ Dark:      #101727
 Light:     #EAE2CF
 ```
 
-`mint.json` maps `Light` to `colors.background.light` and `Dark` to
-`colors.background.dark`. In the brand list those words name pigments, a pale
-cream and a near-black ink. In Mintlify they mean "the background colour in
-light mode" and "in dark mode". The names collided, and the result is a theme
-that looks plausible but derives from nothing.
+The config mapped `Light` onto the background colour for light mode and `Dark`
+onto the background colour for dark mode. In the brand list those words name
+pigments, a pale cream and a near-black ink. In Mintlify they name surfaces.
+The names collided, and the result is a theme that looks plausible but derives
+from nothing.
 
 The evidence that `#EAE2CF` was never a surface: it appears in three files
 across the whole marketing repo (the Tailwind config that declares it, the
@@ -101,22 +101,30 @@ titles. Body drops from 18px to 16px at 1.65.
 ## Where each change lives
 
 Mintlify config carries what it can express; the rest is a root stylesheet.
+`specs/2026-08-08-docs-element-inventory.md` maps every surface to its owner.
 
-`mint.json`:
+`docs.json`:
 
-- `font.body.family` to `IBM Plex Sans`
-- `colors.background.light` to `#FCFBF8`
-- remove `background.style: gradient` (the app has no gradients)
+- `fonts.body.family` to `IBM Plex Sans`
+- `background.color.light` to `#FCFBF8`
+- no `background.decoration` (the app has no gradients)
+- `styling.codeblocks.theme.light` to `css-variables`, so syntax colour comes
+  from the palette rather than from github-light
+- `logo.light` and `logo.dark` to the vector marks
+- `theme` pinned, see below
 
-`style.css` (new, repo root):
+`style.css` (repo root):
 
 - a warm replacement for Mintlify's grey ramp, scoped to light mode
-- `@import` for IBM Plex Mono, which Mintlify does not request because it is
-  not named in config
-- reading size
-- heading weight and tracking
-- mono for `code`, `pre`, `kbd`, `samp`
-- micro-label table headers on the `#F0ECDF` band, 13px cells, `#DAD3BD` rule
+- `@import` for IBM Plex Mono. Mintlify requests only the families named in
+  config, and the schema has slots for `heading` and `body` only, with
+  `additionalProperties: false`. There is no way to declare a third.
+- the micro-label, on the section eyebrow, the sidebar group and the table
+  header
+- reading size, heading weight and tracking
+- mono for `code`, `pre`, `kbd`, `samp`, and for dictionary field names
+- the palette's syntax colours, under Mintlify's `--mint-*` namespace
+- callout, card, accordion, search and table surfaces
 
 ### Colour is set at the ramp, not at the element
 
@@ -135,93 +143,97 @@ The override is scoped to `:root:not(.dark)`. The 300 and 400 steps carry
 dark-mode body text and 950 carries dark-mode borders, and dark mode is
 deliberately untouched.
 
+## The config was already migrated
+
+`mint.json` was never what production ran. The hosted build migrates it to
+`docs.json` at deploy time, and the payload docs.shovels.ai serves carries
+`"$schema": "https://mintlify.com/docs.json"` with `"theme": "mint"`.
+
+That reframes the migration from a decision into a description. Committing the
+generated config changes which layer decides the settings, not what ships.
+
+The theme is why it could not wait. `prism` has no v2 equivalent — the enum is
+`mint`, `maple`, `palm`, `willow`, `linden`, `almond`, `aspen`, `sequoia`,
+`luma` — so the migrator substitutes one, and the two migrators disagree: the
+hosted build resolves `prism` to `mint`, `mintlify@4.2.772` resolves it to
+`maple`. The skin therefore depended on which migrator ran, and a change on
+Mintlify's side could have reskinned the docs with no commit here. `theme` is
+pinned to `mint`, which is what production already rendered, so the port is
+visually neutral.
+
+Owning the config also reaches `styling.codeblocks`, `icons.library` and
+`appearance`, none of which the v1 schema can express.
+
+What migration actually costs, measured rather than assumed:
+
+| Setting | `mint.json` | on production today |
+| --- | --- | --- |
+| `theme` | `prism` | `mint`, substituted |
+| `layout` | `sidenav` | absent |
+| `feedback` | suggestEdit, thumbsRating, raiseIssue | **renders anyway** |
+| API tab `description` | ~1,500 chars | absent |
+
+Only the tab description is a real loss, and it was already lost: v2 navigation
+has no `description` on a tab, so it cannot be restored in config. That intro,
+the authentication note and the curl example need to become a page.
+
+`feedback` was previously recorded here as dropped. It is not — `.feedback-toolbar`
+renders on production, because v2 enables it by default.
+
 ## Verified
 
-Run against the repo with `mintlify@4.2.771` before writing this document:
+Run against the repo and against production with `mintlify@4.2.772`:
 
-- A root `.css` file **is** applied on a `mint.json` project. Custom CSS does
-  not require migrating to `docs.json`.
-- `font.body.family` accepts arbitrary Google Font names; the dev server
-  requests `family=IBM+Plex+Sans`.
-- Mintlify only requests the families named in config, so the mono tier must be
-  imported in the stylesheet or it silently falls back.
-- Computed styles after the change: `th` at Poppins 10.5px/700/uppercase/0.08em
-  on `#F0ECDF`, `td` at Plex Sans 13px, `code` at IBM Plex Mono, body at 16px
-  `#6B695C`, headings at `#101727`.
-- Sweeping every element in the document for Mintlify's cold ramp values
-  returns zero matches, for both text and background, chrome included.
-- Toggling `.dark` leaves the ramp on Mintlify's defaults, confirming the
-  override does not reach dark mode.
+- Mintlify requests only the families named in config. `fonts` accepts
+  `heading` and `body` and sets `additionalProperties: false`, so the mono tier
+  must be imported in the stylesheet or it silently falls back.
+- The page ground is painted by `span#background-color`, bound to
+  `bg-background-light`, so config owns it and this stylesheet does not.
+- The ramp is necessary but not sufficient. Table headers render
+  `oklch(0.21 0.034 264.665)`, Tailwind's own `gray-900`, while the cells
+  beside them resolve through `--gray-700`. Hardcoded values need selectors.
+- Mintlify renames Shiki's css-variables namespace. The emitted markup reads
+  `color: var(--mint-token-function, #0068d6)`, so the variables are `--mint-*`.
+  Set under `--shiki-*` they are inert, which is how they were first written.
+- Callouts force their contents to the variant colour with
+  `[&_code]:text-current!`. Recolouring the fill alone leaves blue code on a
+  cream ground; the variant's own colour has to change.
+- Computed after the change: sidebar group, eyebrow and `th` at Poppins
+  10.5/700/uppercase/0.08em; `td` at Plex Sans 13px; body 16px `#6B695C`;
+  headings `#101727`; syntax entirely on-palette with zero off-palette values.
 
 ## Out of scope
 
-**Dark mode.** Left exactly as it is. It is not unanchored: the marketing
-refresh uses `#101727` as a real surface with `#E9BE51` eyebrows and links, so
-the current config is closer to the brand's direction than to a mistake. It
-will be revisited with the refresh.
+**Dark mode.** Left as it is. It is not unanchored: the marketing refresh uses
+`#101727` as a real surface with `#E9BE51` eyebrows and links, so the current
+config is closer to the brand's direction than to a mistake. It will be
+revisited with the refresh. Every colour rule here is scoped to
+`:root:not(.dark)` and the code theme keeps `github-dark`.
 
-**`docs.json` migration.** Not required for anything above.
-
-The navigation restructure is safe: the generated `docs.json` keeps all 110
-pages in order and splits `docs/knowledge-base/*` from `docs/*` correctly.
-`topbarLinks`, `topbarCtaButton`, `footerSocials`, `anchors` and `metadata` all
-survive under new names.
-
-Four settings are silently lost, with no error:
-
-| Setting | `mint.json` | after migration |
-| --- | --- | --- |
-| `theme` | `prism` | `maple` |
-| `layout` | `sidenav` | dropped |
-| `feedback` | suggestEdit, thumbsRating, raiseIssue | dropped |
-| API tab `description` | ~1,500 chars of intro, auth, curl | dropped |
-
-The theme and layout changes are visible: the masthead logo and search move
-into the sidebar. Losing `feedback` removes the "Was this page helpful?" widget
-and the suggest-edit and raise-issue links.
-
-`layout`, `feedback` and the tab description can be restored by hand. `theme`
-cannot. The v2 themes are `mint`, `maple`, `palm`, `willow`, `linden`,
-`almond`, `aspen`, `sequoia` and `luma`; `prism` is not among them and has no
-v2 equivalent. Production therefore runs a theme that no longer exists in the
-product, and migrating means choosing a replacement. `maple` is what the CLI
-picks on its own, not a decision anyone has made.
-
-This makes the migration a design choice rather than a port, and it should be
-scoped as one.
-
-**`mintlify dev` does not preview production.** It writes a `docs.json` into
-the repo root on start and renders from it, so local preview shows the migrated
-v2 site while production still serves `mint.json`. Confirmed by editing the
-generated `docs.json`'s theme and watching the local render follow it while
-`mint.json` was unchanged. Local review is therefore accurate for colour and
-type, which come from this stylesheet and from config values that migrate
-cleanly, but not for layout or theme. `docs.json` is gitignored so it cannot
-reach production by accident.
+**`mintlify dev` still does not render production.** Config is no longer the
+difference — both now read the same committed `docs.json`. Navigation is: the
+dev server server-renders every `/docs/*` page with the Knowledge Base tree,
+where production renders the correct eight Documentation groups. Colour and
+type are trustworthy locally; tab and sidebar structure must be checked on the
+deployed preview.
 
 **Marketing refresh realignment.** Separate work, per the decision above.
 
 ## Open
 
-- **Info callouts.** `#2563EB` is the app's own `--info` and is faithful, but it
-  is the only cold value in the system and reads loud as a full-width callout on
-  a warm ground. Docs lean on `<Info>` far harder than the app does. Keep, or
-  derive a warm Info from the primary.
-- **Mono field names.** Dictionary tables render field names as plain text
-  because the MDX does not backtick them. Either edit the tables, or scope
-  `td:first-child` to mono on those pages, which assumes column one is always
-  an identifier.
 - **Permit tag chips.** Approved in principle. Needs a decision on whether they
-  are worth the ongoing maintenance of keeping the tag families in sync with
-  the app.
-- **Sidebar icons.** Currently mixed metaphors at inconsistent weight. Unifying
-  them via `icons.library` requires the migration.
+  are worth keeping the tag families in sync with the app, and they have no
+  content home today: tags appear only as JSON literals inside code spans.
+- **Sidebar icons.** Mixed metaphors at inconsistent weight. `icons.library` is
+  now reachable, but it selects one library and the metaphors are per-item
+  choices in the navigation, so unifying them is a content pass.
+- **API tab description.** Needs to become a page, per above.
 - **Yellow drift.** The mark uses `#E8BD51` (`shovels-navbar-logo.svg`,
   `shovels-footer-logo.svg`, marketing `input.css`) and so does the app. The
   marketing Tailwind config, its README and the 2026 refresh all use `#E9BE51`.
   The difference is imperceptible but it is two values for one brand colour
-  across four repos. Left untouched here because it is a brand decision, not a
-  docs decision.
+  across four repos. Left untouched because it is a brand decision, not a docs
+  decision.
 
 ## Risks
 
