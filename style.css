@@ -27,6 +27,14 @@
    literals, so a palette change is a single edit. */
 :root {
   --shovels-ink:           #101727;
+  /* Body copy is the app's ink lightened along its own hue, not the warm
+     secondary. The app sets `body { color: var(--foreground) }` and reserves
+     every warm token for muted, secondary and label text, so reading text is
+     cool there too. Sharing the headings' hue also means the hierarchy is
+     carried by value alone, with no temperature shift under an h1.
+     14.07 against the page: above the 10-15 band peers occupy, below the
+     point where halation starts. */
+  --shovels-ink-body:      #1e293e;
   --shovels-ink-secondary: #6b695c;
   --shovels-label:         #837e6c;
   --shovels-muted:         #a29c88;
@@ -68,6 +76,14 @@
    rule forbids. Redefining the ramp warms every element Mintlify colours,
    including components this file has never heard of.
 
+   The ramp splits where the app's palette splits. Below 700 the steps are
+   warm, because they carry chrome, fills, borders and the muted and label
+   text the app keeps warm. From 700 up they are the cool ink family, because
+   they carry text that gets read.
+
+   The three top steps move together or not at all: setting 700 alone would
+   leave 800 lighter than it and invert the ramp.
+
    Light mode only: 300 and 400 carry dark-mode body text, 950 carries
    dark-mode borders. */
 :root:not(.dark) {
@@ -77,10 +93,10 @@
   --gray-300: 216 209 188;  /* #D8D1BC */
   --gray-400: 189 182 160;  /* #BDB6A0 */
   --gray-500: 162 156 136;  /* #A29C88  foreground-muted */
-  --gray-600: 131 126 108;  /* #837E6C  foreground-label */
-  --gray-700: 107 105 92;   /* #6B695C  foreground-secondary, body text */
-  --gray-800: 63 61 53;     /* #3F3D35 */
-  --gray-900: 16 23 39;     /* #101727  foreground, headings */
+  --gray-600: 131 126 108;  /* #837E6C  foreground-label, micro-labels */
+  --gray-700: 30 41 62;     /* #1E293E  body copy, cells, sidebar items  14.07 */
+  --gray-800: 23 32 50;     /* #172032  emphasis                        15.74 */
+  --gray-900: 16 23 39;     /* #101727  headings                        17.29 */
   --gray-950: 10 15 26;     /* #0A0F1A */
 }
 
@@ -273,12 +289,13 @@ code, pre, kbd, samp {
 }
 :root:not(.dark) #content-area .callout[class*="bg-red-"] svg { color: var(--shovels-error-line); }
 
-/* Info and Note carry the reading ink: between them they are 99 of the 166
-   callouts on the site, and they are read as prose. Tip, Warning and Danger
-   take the app's own feedback text tokens. */
+/* Info and Note carry the body ink: between them they are 99 of the 166
+   callouts on the site, and they are read as prose, so they take the same
+   colour as the paragraphs around them. Tip, Warning and Danger take the
+   app's own feedback text tokens. */
 :root:not(.dark) #content-area .callout[class*="bg-neutral-"] .prose,
 :root:not(.dark) #content-area .callout[class*="bg-blue-"] .prose {
-  color: var(--shovels-ink-secondary);
+  color: var(--shovels-ink-body);
 }
 :root:not(.dark) #content-area .callout[class*="bg-green-"] .prose {
   color: var(--shovels-success-ink);

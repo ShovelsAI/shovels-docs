@@ -72,14 +72,36 @@ Ratios are WCAG 2.1 against the page ground.
 | Subtle fill (code, table band) | `#F0ECDF` | — |
 | Hairline | `#E2DCC9` | — |
 | Table rule | `#DAD3BD` | — |
-| Ink | `#101727` | 17.29 AAA |
-| Secondary ink | `#6B695C` | 5.34 AA |
+| Ink (headings, inline code) | `#101727` | 17.29 AAA |
+| Body ink (prose, cells, sidebar) | `#1E293E` | 14.07 AAA |
+| Secondary ink (micro-labels) | `#6B695C` | 5.34 AA |
 | Primary | `#01654D` | 6.83 AA |
 | Accent | `#E8BD51` | decorative only |
 
-One deliberate deviation: micro-labels use `#6B695C` rather than the app's
-`#837E6C`, which measures 3.93 and fails AA at small sizes. Docs are read at
-reading distance; the app's dense chrome is not.
+### Why body copy is cool
+
+The app sets `body { color: var(--foreground) }`, and reserves every warm
+token — `--foreground-secondary`, `--foreground-muted`, `--foreground-label` —
+for muted, secondary and label text. So the palette rule that neutrals derive
+from the cream governs chrome and supporting text, not the ink that gets read.
+Reading text is cool in the app, and it is cool here.
+
+An earlier version of this document mapped body copy to `--foreground-secondary`
+and shipped it at 5.34. That is below the 8.00 it replaced, and well below the
+10–15 band peers occupy: Stripe 14.12, Tailwind 10.30, Mintlify's own docs
+10.32. WCAG's 4.5 is an accessibility floor, not a reading target.
+
+`#1E293E` is the ink lightened along its own hue. Sharing the headings' hue
+means the hierarchy is carried by value alone, with no temperature shift under
+an `h1`. It sits below roughly 15–16, where halation starts to cost more than
+the contrast gains.
+
+### Two deviations
+
+Micro-labels use `#6B695C` rather than the app's `#837E6C`, which measures 3.93
+and fails AA at small sizes. Docs are read at reading distance; the app's dense
+chrome is not. On the `#F0ECDF` band this measures 4.68, a 4% margin over AA and
+the tightest pair on the site — neither that ink nor that fill can lighten.
 
 The table rule is `#DAD3BD` rather than the app's `#E2DCC9` (1.33 against the
 page) for the same reason.
