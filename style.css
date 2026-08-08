@@ -49,6 +49,11 @@
   --shovels-primary:       #01654d;
   --shovels-primary-dark:  #014d3a;
   --shovels-accent:        #e8bd51;
+  /* The one emerald dark mode uses, for every green it has: code keys, method
+     pills, the Try It button. #01654D is too dark to read on a dark ground,
+     and leaving each component to pick its own lightened green is what put
+     four different ones on a single page. */
+  --shovels-emerald-dark:  #4eccae;
 
   --shovels-surface:       #ffffff;
   --shovels-panel:         #f9f7f1;
@@ -241,15 +246,15 @@ code, pre, kbd, samp {
 :root.dark {
   --mint-foreground:        #d6d0c1;  /* braces, structure          11.63 */
   --mint-background:        transparent;
-  --mint-token-keyword:     #4eccae;  /* keys, emerald               9.01 */
-  --mint-token-function:    #4eccae;  /* commands, emerald           9.01 */
+  --mint-token-keyword:     var(--shovels-emerald-dark);  /* keys      9.01 */
+  --mint-token-function:    var(--shovels-emerald-dark);  /* commands  9.01 */
   --mint-token-string:      #d98762;  /* arguments, terracotta       6.47 */
   --mint-token-string-expression: #d98762;  /* values, terracotta    6.47 */
   --mint-token-constant:    #ba974a;  /* numbers, ochre              6.49 */
   --mint-token-parameter:   #90a653;  /* booleans, null, olive       6.61 */
   --mint-token-punctuation: #948d73;  /* stone                       5.38 */
   --mint-token-comment:     #8c8670;  /* quietest that still reads   4.91 */
-  --mint-token-link:        #4eccae;
+  --mint-token-link:        var(--shovels-emerald-dark);
 }
 
 /* Shiki writes the token as an inline custom property rather than a class, so
@@ -426,15 +431,48 @@ span[style*="--mint-token-function"] {
    specifically, means a POST or DELETE badge keeps its own colour; a looser
    selector would repaint every method emerald and destroy the distinction.
    If Mintlify changes a value the rule stops applying and the badge falls back
-   to their colour, which is the safe direction to fail in. */
+   to their colour, which is the safe direction to fail in.
+
+   There are two states and it is easy to catch only one. The current
+   endpoint's pill and the Try It button carry the hex; every other pill uses
+   the green scale at 20% with green-scale text. Missing the second state left
+   a second green sitting in the sidebar.
+
+   Dark mode needs its own pass rather than inheriting light. Its brand accent
+   is the gold `colors.light`, so every green here is semantic rather than
+   brand, and all of them resolve to the one emerald the code blocks use. */
 :root:not(.dark) .method-nav-pill [class*="2AB673"],
 :root:not(.dark) .tryit-button[class*="2AB673"] {
   background-color: var(--shovels-primary);
 }
 
+:root:not(.dark) .method-nav-pill [class*="bg-green-"],
 :root:not(.dark) .method-pill[class*="bg-green-"] {
   background-color: var(--shovels-success-fill);
   color: var(--shovels-primary);
+}
+
+:root.dark .method-nav-pill [class*="2AB673"],
+:root.dark .tryit-button[class*="2AB673"] {
+  background-color: var(--shovels-emerald-dark);
+  color: #0e1420;
+}
+
+:root.dark .method-nav-pill [class*="bg-green-"],
+:root.dark .method-pill[class*="bg-green-"] {
+  background-color: rgba(78, 204, 174, 0.16);
+  color: var(--shovels-emerald-dark);
+}
+
+/* The primary call to action fills with `colors.primary` in both themes, so on
+   the dark ground it sits as a fifth green and a dim one: #01654D was drawn to
+   carry white text on cream, not to read as a button against near-black. */
+:root.dark [class*="bg-primary-dark"] {
+  background-color: var(--shovels-emerald-dark);
+}
+:root.dark #topbar-cta-button,
+:root.dark #topbar-cta-button * {
+  color: #0e1420;
 }
 
 /* The `required` marker ships `#DC2626` on `bg-red-100/50`. A required
