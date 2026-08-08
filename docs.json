@@ -89,7 +89,7 @@
         "tab": "Documentation",
         "groups": [
           {
-            "group": "",
+            "group": "Overview",
             "pages": [
               "docs/introduction"
             ]
