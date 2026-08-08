@@ -180,6 +180,28 @@ the authentication note and the curl example need to become a page.
 `feedback` was previously recorded here as dropped. It is not — `.feedback-toolbar`
 renders on production, because v2 enables it by default.
 
+### A group must be named
+
+The v1 navigation opened with `{"group": "", "pages": ["docs/introduction"]}`,
+an unnamed group holding the welcome page. Read directly from `docs.json`, an
+empty group name makes Mintlify drop **the entire tab**: the Documentation tab
+built with no groups at all, every `/docs/*` page fell through to Knowledge
+Base, and the sidebar showed one group where there should be eight.
+
+Three things about this are worth keeping:
+
+- `mintlify validate` passes. It reports `success build validation passed` with
+  the tab empty, so nothing catches it before deploy.
+- The hosted v1 migrator normalises it, which is why production was unaffected
+  and why the fault only appeared once the config was owned here.
+- Omitting the `group` key entirely fails the same way. Moving the page up to
+  tab-level `pages` fixes tab selection, but those pages never render in the
+  sidebar, so the welcome link disappears.
+
+The group is therefore named `Overview`. This is the one place the port is not
+visually neutral: production renders an empty `h3` above the welcome link, and
+that heading now reads `Overview`.
+
 ## Verified
 
 Run against the repo and against production with `mintlify@4.2.772`:
