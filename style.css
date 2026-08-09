@@ -685,3 +685,13 @@ span[style*="--mint-token-function"] {
   color: var(--shovels-warning-ink);
   box-shadow: inset 0 0 0 1px var(--shovels-warning-line);
 }
+
+/* Dark takes the same reading from the same family, built the way the dark
+   callouts are: one ink, with the fill and border that ink at 12% and 30%.
+   Scoping the rule above to light left the marker shipping red here, so the
+   same badge claimed constraint in one theme and failure in the other. */
+:root.dark #content-area [class*="bg-red-100"] {
+  background-color: rgb(var(--shovels-dark-warning-rgb) / 0.12);
+  color: rgb(var(--shovels-dark-warning-rgb));
+  box-shadow: inset 0 0 0 1px rgb(var(--shovels-dark-warning-rgb) / 0.30);
+}
