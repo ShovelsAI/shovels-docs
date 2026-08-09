@@ -299,10 +299,19 @@ code, pre, kbd, samp {
    The key is the only thing in a code block set in the medium weight.
 
    Contrast is set per token rather than inherited, because code renders at
-   12px against 16px body copy and smaller type needs more, not less. Every
-   token clears AA on all four grounds a code block appears on: the white
-   card, the code surface, the page, and the subtle fill. The figures are
-   against the subtle fill, the darkest of them.
+   12px against body copy and smaller type needs more, not less. Every token
+   clears AA on all four grounds a code block appears on: the white card, the
+   code surface, the page, and the subtle fill. The figures are against the
+   subtle fill, the darkest of them.
+
+   The key takes the brand green rather than a darker one drawn for this file.
+   Two greens on a page is the failure the dark palette below already had, and
+   there is no reading task that distinguishes a JSON key from the primary, so
+   the second green bought nothing that the hue opposition above does not
+   already carry. It costs contrast — 8.96 to 5.98 on the darkest ground — but
+   it lands the key in band with the tokens it sits beside rather than three
+   points clear of all of them, and it is still the highest of them, which is
+   the order the key column needs.
 
    docs.json names `css-variables` for both light and dark rather than pairing
    it with a prebuilt dark theme. A prebuilt dark theme inlines its own colour
@@ -313,15 +322,15 @@ code, pre, kbd, samp {
 :root:not(.dark) {
   --mint-foreground:        var(--shovels-ink);  /* braces, structure  15.14 */
   --mint-background:        transparent;
-  --mint-token-keyword:     #014837;  /* keys, emerald               8.96 */
-  --mint-token-function:    #014837;  /* commands, emerald           8.96 */
+  --mint-token-keyword:     var(--shovels-primary);  /* keys, emerald    5.98 */
+  --mint-token-function:    var(--shovels-primary);  /* commands         5.98 */
   --mint-token-string:      #874d33;  /* arguments, terracotta       5.66 */
   --mint-token-string-expression: #874d33;  /* values, terracotta    5.66 */
   --mint-token-constant:    #765817;  /* numbers, ochre              5.59 */
   --mint-token-parameter:   #55622f;  /* booleans, null, olive       5.60 */
   --mint-token-punctuation: #6b6652;  /* stone                       4.87 */
   --mint-token-comment:     #6c6753;  /* quietest that still reads   4.80 */
-  --mint-token-link:        #014837;
+  --mint-token-link:        var(--shovels-primary);
 }
 
 /* Dark mode: the same hues and the same reading order, relit for a dark
