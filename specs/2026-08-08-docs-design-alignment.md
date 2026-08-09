@@ -316,11 +316,13 @@ uninherited, and each is scoped `:root.dark` in `style.css`:
   the last seven inline identifiers blue on their own: Mintlify forces every
   `code` inside a callout to the callout's colour with an important rule, so
   the variant is the only hook that reaches them
+- the search and assistant controls, which resolved their fill to the ground
+  the config sets, so they had no edge at all and read as bare text
 - the `required` marker, which kept Mintlify's red because the rule moving it
   to the warning family was scoped to light. The same badge read as a
   constraint in one theme and a failure in the other
 
-The last four needed dark surface values, and the app has no dark theme to
+The last five needed dark surface values, and the app has no dark theme to
 take them from: its only `dark` token is `--primary-dark`, a green. So the
 `--shovels-dark-*` tokens are the one part of this palette that is derived
 rather than copied, and they are named and commented as such.
