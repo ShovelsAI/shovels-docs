@@ -213,9 +213,20 @@
    10.5px, table cells are the app's 13px, and body is one step over.
 
    The ratio stays 1.65 and stays unitless, so the leading tracks any future
-   change to the size on its own. */
-#content-area p,
-#content-area li {
+   change to the size on its own.
+
+   This sets the base on the prose block, not on a list of tags. Tailwind
+   Typography sizes everything inside a `.prose` block in `em` against that
+   block's base, and the MDX compiler does not guarantee which tag any given
+   paragraph becomes — inside a tab it is a bare `span`, not a `p`. Sizing
+   tags leaves those siblings on the block's own base, which is how a single
+   passage ends up rendering at two sizes. Moving the base keeps the block
+   proportional whatever the compiler emits, and keeps nested headings and
+   inline code tracking it.
+
+   `.text-sm` marks the blocks Mintlify deliberately sets at chrome size —
+   callout bodies, page footer. Those keep their own base. */
+#content-area .prose:not(.text-sm) {
   font-size: 15px;
   line-height: 1.65;
 }

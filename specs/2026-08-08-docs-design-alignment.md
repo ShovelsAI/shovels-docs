@@ -141,6 +141,19 @@ rather than a size from a different system.
 The leading is unitless so it tracks the size: 24.75px here, and correct
 without further edits if the size moves again.
 
+The size is set on the prose block, not on a list of tags. Tailwind Typography
+sizes a block's contents in `em` against that block's own base, and the MDX
+compiler does not guarantee the tag: a paragraph inside a `<Tabs>` renders as a
+bare `span`, and the same paragraph outside one renders as a `p`. Sizing tags
+therefore reaches some paragraphs and not others, and a single passage renders
+at two sizes — on the release notes the prose stayed at Mintlify's 16px while
+the bullets under it moved to 15px. Moving the block base covers whatever the
+compiler emits and keeps nested headings and inline code proportional to it.
+
+Blocks carrying `.text-sm` are excluded. That is Mintlify's marker for prose it
+deliberately sets at chrome size — callout bodies and the page footer — and
+those keep their own base.
+
 ## Where each change lives
 
 Mintlify config carries what it can express; the rest is a root stylesheet.
