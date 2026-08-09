@@ -279,18 +279,26 @@ Run against the repo and against production with `mintlify@4.2.772`:
 - Callouts force their contents to the variant colour with
   `[&_code]:text-current!`. Recolouring the fill alone leaves blue code on a
   cream ground; the variant's own colour has to change.
+- The code key takes the brand green rather than a darker emerald drawn for
+  it. The darker one bought contrast at 12px — 8.96 against 5.98 on the
+  darkest ground — but put a second green on the page, which is the failure
+  the dark palette was already fixed for, and no reading task tells a JSON key
+  apart from the brand. At 5.98 the key is still the highest-contrast token in
+  the block, so it keeps the order the key column needs while sitting in band
+  with the tokens beside it instead of three points clear of all of them.
 - Computed after the change: sidebar group, eyebrow and `th` at Poppins
   10.5/700/uppercase/0.08em; `td` at Plex Sans 13px; body 15px `#1E293E`;
-  headings `#101727`; syntax entirely on-palette with zero off-palette values.
+  headings `#101727`; syntax entirely on-palette with zero off-palette values,
+  and one green across the light theme.
 
 ## Out of scope
 
-**Dark mode, apart from seven defects.** Mostly left as it is, and not
+**Dark mode, apart from eight defects.** Mostly left as it is, and not
 unanchored: the marketing refresh uses `#101727` as a real surface with
 `#E9BE51` eyebrows and links, so the current config is closer to the brand's
 direction than to a mistake. It will be revisited with the refresh.
 
-Seven things could not wait, because they were wrong rather than merely
+Eight things could not wait, because they were wrong rather than merely
 uninherited, and each is scoped `:root.dark` in `style.css`:
 
 - the syntax palette, which put the key at `#79B8FF` and the value at `#9ECBFF`
@@ -308,8 +316,11 @@ uninherited, and each is scoped `:root.dark` in `style.css`:
   the last seven inline identifiers blue on their own: Mintlify forces every
   `code` inside a callout to the callout's colour with an important rule, so
   the variant is the only hook that reaches them
+- the `required` marker, which kept Mintlify's red because the rule moving it
+  to the warning family was scoped to light. The same badge read as a
+  constraint in one theme and a failure in the other
 
-The last three needed dark surface values, and the app has no dark theme to
+The last four needed dark surface values, and the app has no dark theme to
 take them from: its only `dark` token is `--primary-dark`, a green. So the
 `--shovels-dark-*` tokens are the one part of this palette that is derived
 rather than copied, and they are named and commented as such.
