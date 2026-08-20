@@ -83,6 +83,12 @@
       "server": "https://api.shovels.ai/v2"
     }
   },
+  "redirects": [
+    {
+      "source": "/docs/knowledge-base/getting-started/charlie-ai",
+      "destination": "/docs/knowledge-base/shovels-online/charlie"
+    }
+  ],
   "navigation": {
     "tabs": [
       {
@@ -199,8 +205,7 @@
                 "pages": [
                   "docs/knowledge-base/getting-started/free-trial-guide",
                   "docs/knowledge-base/getting-started/pricing-structure",
-                  "docs/knowledge-base/getting-started/key-differentiators",
-                  "docs/knowledge-base/getting-started/charlie-ai"
+                  "docs/knowledge-base/getting-started/key-differentiators"
                 ]
               },
               {
@@ -290,6 +295,7 @@
                 "group": "Shovels Online",
                 "pages": [
                   "docs/knowledge-base/shovels-online/how-it-works",
+                  "docs/knowledge-base/shovels-online/charlie",
                   "docs/knowledge-base/shovels-online/search-functionality",
                   "docs/knowledge-base/shovels-online/filters-and-sorting",
                   "docs/knowledge-base/shovels-online/permit-downloads",
