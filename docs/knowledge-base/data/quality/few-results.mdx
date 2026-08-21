@@ -3,7 +3,27 @@ title: "Why Am I Getting So Few Results?"
 description: "Common reasons Shovels searches return fewer results than expected: limited jurisdiction coverage, narrow filters, recent permits not yet indexed, or limited digitization."
 ---
 
-**If your search is returning fewer results than expected, the most common causes are limited jurisdiction coverage, filters that are too narrow, recent permits not yet indexed (1–2 month lag), or limited digitization in the local jurisdiction.** Most have easy workarounds.
+**If your search is returning fewer results than expected, the most common causes are limited jurisdiction coverage, filters that are too narrow, recent permits not yet indexed (1–2 month lag), or limited digitization in the local jurisdiction.** Most have easy workarounds, and Shovels Online flags the coverage-related ones before you run the search.
+
+## Check the Coverage Signals First
+
+When you pick a location and a complete date range, Shovels Online checks how well each filterable field is actually reported in that area for that period — and tells you before you run the search.
+
+| Signal | What it means | What to do |
+|--------|---------------|------------|
+| No warning | The field is reliably reported for this area and period | Filter normally |
+| A hint on the filter | Only some permits report this field; the hint gives the percentage | Still usable, but expect an incomplete result set |
+| The filter is disabled | Permits in this area don't report the field for the selected period | Applying it would exclude nearly every result, so it can't be applied |
+
+Disabled filters are left out of the search even when a value is still showing in the panel, so a greyed-out filter never quietly narrows your results.
+
+If the area and period contain no permits at all, Shovels Online blocks the search and asks you to change the location or dates instead of returning an empty list.
+
+When a banner appears above your results warning that matches may be incomplete, its **Review** action jumps straight to the filter responsible and highlights it.
+
+<Info>
+These signals are specific to the area *and* the date range you selected. The same filter can be reliable in one city and unavailable in another, or reliable for recent years and unavailable further back.
+</Info>
 
 ## 1. The Area Has Limited Coverage
 
@@ -30,10 +50,10 @@ The search system does not account for typos or terminology variations. Contract
 
 ## 3. Recent Permits May Not Be Indexed Yet
 
-Shovels data updates monthly, with a typical **1–2 month lag** between when a permit is issued and when it appears in Shovels. Permits filed in the last 4–8 weeks may not be visible yet.
+Shovels refreshes data twice a month, and there is a typical **1–2 month lag** between when a permit is issued and when it appears in Shovels. Permits filed in the last 4–8 weeks may not be visible yet.
 
 **What to do:**
-- If you're looking for very recent activity, check back next month
+- If you're looking for very recent activity, check back after the next refresh
 - For time-sensitive needs, contact [support@shovels.ai](mailto:support@shovels.ai) and we can check the pipeline
 
 ## 4. The Jurisdiction Uses Limited Digitization
