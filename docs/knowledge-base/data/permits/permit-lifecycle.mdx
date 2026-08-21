@@ -29,6 +29,8 @@ The permit lifecycle typically flows through several stages:
 
 For each status change, we update the corresponding date fields while maintaining the same unique identifier. This allows users to track a permit's complete history without piecing together fragments across multiple records.
 
+Status changes reach Shovels with the **twice-monthly** data refresh rather than in real time, so a permit carries its previous status until the refresh that captures the change. See [how often data is refreshed](/docs/knowledge-base/data/quality/refresh-frequency).
+
 ## Deduplication
 
 Our deduplication process ensures that even when jurisdictions report the same permit multiple times with different statuses, Shovels presents a single, up-to-date record with the most current information.
@@ -42,3 +44,4 @@ If a permit has a final status but no final date, it typically indicates an **ov
 - [Permit statuses explained](/docs/knowledge-base/data/permits/permit-statuses)
 - [Tracking multiple permits](/docs/knowledge-base/data/permits/permit-tracking)
 - [Understanding start and end dates](/docs/knowledge-base/data/permits/start-end-dates)
+- [How often is data refreshed?](/docs/knowledge-base/data/quality/refresh-frequency)
