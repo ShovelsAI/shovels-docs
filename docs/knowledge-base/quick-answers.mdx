@@ -11,10 +11,10 @@ Fast, concise answers to the most frequently asked questions about Shovels.
 ## Pricing & Plans
 
 ### How much does Shovels cost?
-Shovels Online and API pricing starts with a free tier. View current plans at [shovels.ai/pricing](https://www.shovels.ai/pricing). Enterprise Data License (EDL) pricing requires contacting [sales@shovels.ai](mailto:sales@shovels.ai).
+Shovels Online and API pricing starts with a Free plan. View current plans at [shovels.ai/pricing](https://www.shovels.ai/pricing). Enterprise Data License (EDL) pricing requires contacting [sales@shovels.ai](mailto:sales@shovels.ai).
 
-### Is there a free trial?
-Yes. Shovels Online free trials include access to the last 12 months of data. The API free trial includes 250 requests with access to the full historical dataset.
+### Is there a free plan?
+Yes. The Free plan has no time limit and needs no credit card. In Shovels Online it covers the last 12 months of data; through the API it covers the full historical dataset. See [shovels.ai/pricing](https://www.shovels.ai/pricing) for its monthly credit allowance.
 
 ### How do I cancel my subscription?
 Log in at [app.shovels.ai/account](https://app.shovels.ai/account) → **Manage subscription** → Cancel in the Stripe billing portal. Access continues until the end of the billing period. See [How to cancel](/docs/knowledge-base/shovels-online/cancel-subscription).
@@ -34,7 +34,7 @@ Internal business use: research, prospecting, lead generation, and product integ
 ## API Basics
 
 ### What is my API limit?
-The free trial includes **250 requests** (each API call = 1 request, regardless of records returned). Paid plans use a credit system with custom credit limits where each record returned counts against your credits. Contact [sales@shovels.ai](mailto:sales@shovels.ai) for details.
+Every plan is metered in credits, where one credit is one record returned. The Free plan includes **500 credits per month**; see [shovels.ai/pricing](https://www.shovels.ai/pricing) for paid plan allowances.
 
 ### How many records per API call?
 Search endpoints return up to 100 records per page (default: 10). Detail endpoints accept up to 50 IDs per call.
@@ -181,7 +181,7 @@ Depends on project complexity: 2-4 weeks for minor commercial renovations, 1-3 m
 Property location and coordinates, zoning changes (previous and new), involved parties (applicant, owner, developer, representative), project value and lot size, allowed uses, a "why it matters" summary, and a link to the source meeting record.
 
 ### Which plans include Decisions?
-All of them. Decisions are included in the API free trial and in every paid plan at no additional charge. Decisions are currently in beta.
+All of them. Decisions are included on every plan, Free and paid, at no additional charge. Decisions are currently in beta.
 
 ### How do I query Decisions in the API?
 Use the [Search Decisions](/docs/knowledge-base/api/decisions/searching-decisions) endpoint. It requires a date range (`decision_from`, `decision_to`) and a `geo_id`. To fetch specific records, use [Get Decisions By ID](/docs/knowledge-base/api/decisions/decisions-by-id) with up to 50 IDs.
@@ -206,7 +206,7 @@ No. The same contractor operating in multiple states has separate IDs per state.
 
 ## Shovels Online
 
-### What can I do with the free trial?
+### What can I do on the Free plan?
 Search permits and contractors, use filters, and explore the last 12 months of data. CSV downloads require a paid plan.
 
 ### What is Charlie?
