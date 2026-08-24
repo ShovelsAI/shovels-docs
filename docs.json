@@ -45,7 +45,7 @@
     "primary": {
       "type": "button",
       "label": "Free Trial",
-      "href": "https://app.shovels.ai"
+      "href": "https://app.shovels.ai/login?mode=register"
     }
   },
   "footer": {
