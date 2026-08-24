@@ -1,13 +1,13 @@
 ---
-title: "How Monthly EDL Deliveries Work"
-description: "Understand how Shovels delivers monthly data updates to EDL customers using the overwrite model while maintaining ID consistency."
+title: "How EDL Deliveries Work"
+description: "Understand how Shovels delivers twice-monthly data updates to EDL customers using the overwrite model while maintaining ID consistency."
 ---
 
 For Enterprise Data License (EDL) customers, Shovels employs an **overwrite approach** when pushing data to your data warehouse.
 
 ## How It Works
 
-Each monthly delivery is treated as a **fresh table**, completely replacing the previous month's data with the updated dataset.
+Each delivery is treated as a **fresh table**, completely replacing the previous delivery's data with the updated dataset.
 
 ### Benefits
 
@@ -23,7 +23,7 @@ This approach simplifies data management by:
 - Address IDs
 - Contractor IDs
 
-This consistency ensures that any scripts, analyses, or processes relying on these IDs won't be impacted by the monthly refresh.
+This consistency ensures that any scripts, analyses, or processes relying on these IDs won't be impacted by a refresh.
 
 <Info>
 The stability of our ID system allows customers to build reliable data pipelines and maintain referential integrity.
@@ -31,7 +31,7 @@ The stability of our ID system allows customers to build reliable data pipelines
 
 ## What's Included
 
-Each monthly delivery includes:
+Each delivery includes:
 - All historical data
 - New permits added since last delivery
 - Updates to existing records (status changes, etc.)
@@ -47,9 +47,7 @@ For customers who need to track changes between deliveries, we recommend:
 
 ## Delivery Schedule
 
-EDL data is refreshed on the same schedule as our main database:
-- 1st of the month
-- 15th of the month
+Standard delivery is **twice a month**, on the same schedule as our main database. Custom delivery cadences are available for enterprise contracts with specific SLA requirements — contact [sales@shovels.ai](mailto:sales@shovels.ai) to discuss one.
 
 ## Related Articles
 
