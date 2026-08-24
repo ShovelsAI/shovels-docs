@@ -129,7 +129,7 @@ Paginated responses use cursor-based pagination by default:
 ```json
 {
   "items": [...],
-  "size": 50,
+  "size": 10,
   "next_cursor": "eyJkYXR..." | null
 }
 ```
@@ -147,7 +147,7 @@ Cursor-based pagination uses an opaque cursor token to maintain your position in
 ```json
 {
  "items": [...],
- "size": 50,
+ "size": 10,
  "next_cursor": "eyJkYXR.lIjoiMjA.yMy0"
 }
 ```
@@ -156,11 +156,13 @@ To use cursor-based pagination:
 - For the first page: Simply make a request without any pagination parameters
 - For subsequent pages: Include the `next_cursor` value from the previous response using the `cursor` parameter
 
+Each page returns **10 records** by default. Set the `size` parameter to return up to **100** per page.
+
 Example:
 
 ```
-GET /v2/permits/search?size=10
-GET /v2/permits/search?size=10&cursor=eyJkYXR.lIjoiMjA.yMy0
+GET /v2/permits/search
+GET /v2/permits/search?cursor=eyJkYXR.lIjoiMjA.yMy0
 ```
 
 When there are no more results, the `next_cursor` value will be `null`.

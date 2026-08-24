@@ -66,7 +66,7 @@ All filters use AND logic—a decision must match every parameter you supply.
 
 Search responses are paginated:
 
-- `size` — results per page (1–100, default 50)
+- `size` — results per page (1–100, default 10)
 - `cursor` — pass the `next_cursor` from the previous response to fetch the next page
 - `include_count` — set to `true` on the first page (no cursor) to include `total_count`. The count is exact up to 10,000; above that it is reported as a "greater than or equal to" value.
 
