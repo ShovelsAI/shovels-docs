@@ -1,0 +1,59 @@
+---
+title: "Should I Use the API or an Enterprise Data License?"
+description: "The Shovels API retrieves records on demand and is metered per record. An Enterprise Data License delivers the full dataset to your warehouse on a schedule, with fields the API doesn't expose."
+sidebarTitle: "API vs EDL"
+---
+
+**Use the API when your application asks for records as it needs them. Use an Enterprise Data License (EDL) when your team wants the whole dataset sitting in your own warehouse.** The difference is not how much data you can get — it's whether Shovels answers your queries or hands you the tables.
+
+## The Short Version
+
+| | Shovels API | Enterprise Data License |
+|---|---|---|
+| **How you get data** | Request records as you need them | The full dataset delivered to your warehouse |
+| **Where it lives** | Shovels' servers | Snowflake, BigQuery, Databricks, or parquet files |
+| **How it's priced** | Credits, one per record | A contract sized to your needs |
+| **Fields** | The documented API schema | More, including fields the API doesn't expose |
+| **Freshness** | Current as of the last refresh, on request | Delivered twice a month, or a custom cadence |
+| **Best for** | Product features, lookups, automated workflows | Bulk analysis, modelling, joins against your own data |
+
+## Choose the API When
+
+- You are building a product feature and need permits for one address, contractor, or city at a time
+- Your queries are unpredictable — you don't know in advance which records you'll want
+- You want to start today without a contract, on any plan including Free
+- Your volumes are measured in thousands of records rather than the whole country
+
+The API is metered per record, so cost tracks usage. That works well when usage is spiky or narrow, and badly when you intend to pull everything.
+
+## Choose an EDL When
+
+- You need **every** record in a category — every contractor across a state, every permit in a metro — rather than a selection
+- You want to join Shovels data against your own tables in SQL
+- You need fields the API doesn't expose, such as applicant and owner email addresses and additional property detail
+- You are training models or running analysis where paging through an API would be the bottleneck
+- You want the data in Snowflake, BigQuery, Databricks, or as parquet files in your own object storage
+
+## The Practical Tells
+
+A few signals that usually settle it:
+
+- **If you find yourself planning to page through the API to download everything**, you want an EDL. That is the shape the API is worst at.
+- **If you need one record in response to a user action**, you want the API. A warehouse copy can't answer a live lookup.
+- **If you need a field you can't find in the API reference**, ask about an EDL — the delivered dataset is wider.
+- **If you're not sure yet**, start on the API. It costs nothing to try on the Free plan, and what you learn about your own access pattern is the best input to an EDL conversation.
+
+Plenty of customers use both: the API inside a product, and an EDL feeding the analytics that sit behind it.
+
+## Getting Started
+
+The API is available on every plan — [create an account](https://app.shovels.ai/login?mode=register) and your key is on the API key tab.
+
+An EDL is a contract, so it starts with a conversation. Email [sales@shovels.ai](mailto:sales@shovels.ai); a sample dataset can be delivered into your own warehouse environment so your team can evaluate coverage and schema before committing.
+
+## Related Articles
+
+- [What is Shovels EDL?](/docs/knowledge-base/edl/overview)
+- [How EDL deliveries work](/docs/knowledge-base/edl/monthly-deliveries)
+- [Which Shovels plan is right for me?](/docs/knowledge-base/getting-started/choosing-a-plan)
+- [How do API credits work?](/docs/knowledge-base/api/basics/request-counts)
