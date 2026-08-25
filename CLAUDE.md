@@ -282,6 +282,48 @@ code across route packages following three-level sharing convention.
 
 ---
 
+---
+
+## Generated Content: The API Reference Is Not In This Repo
+
+**Before searching this repository for API documentation, read this.**
+
+The entire **API Reference** tab of the docs site is generated at build time from the Shovels
+OpenAPI specification. It is configured in `docs.json`:
+
+```json
+"openapi": {
+  "source": "https://api.shovels.ai/spec/v2/openapi.production.yaml",
+  "directory": "api-reference"
+}
+```
+
+**No file in this repository backs those pages.** A grep for an endpoint path, a field name, a
+parameter default, or a response schema will return zero results even when the published docs
+plainly show it.
+
+**An empty grep result here does not mean the content is undocumented.** It usually means the
+content is in the spec.
+
+### What this means for a task
+
+- Asked to change an endpoint's parameters, defaults, types, descriptions, or response schema?
+  That is a **spec change on the API side**, not a change to this repo. Say so and stop rather
+  than editing prose pages that merely mention the field.
+- Asked to change a quickstart, tutorial, data dictionary, FAQ, troubleshooting, or release note?
+  That is hand-written MDX under `docs/` or `release-notes/` and is editable here.
+- A task may be **partly** each. Fix the hand-written pages, and report the spec portion as
+  out-of-scope for this repo instead of silently leaving it undone.
+
+### Verify before concluding
+
+To confirm whether something is spec-owned, fetch the spec directly rather than inferring from an
+empty grep:
+
+```bash
+curl -s https://api.shovels.ai/spec/v2/openapi.production.yaml | grep -n "field_name"
+```
+
 ## Repository Integration
 
 **Project documentation:**
