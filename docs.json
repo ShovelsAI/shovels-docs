@@ -175,10 +175,21 @@
       },
       {
         "tab": "API Reference",
-        "openapi": {
-          "source": "https://api.shovels.ai/spec/v2/openapi.production.yaml",
-          "directory": "api-reference"
-        }
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "docs/api-reference-about"
+            ]
+          },
+          {
+            "group": "Endpoints",
+            "openapi": {
+              "source": "https://api.shovels.ai/spec/v2/openapi.production.yaml",
+              "directory": "api-reference"
+            }
+          }
+        ]
       },
       {
         "tab": "Release Notes",
