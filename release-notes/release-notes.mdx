@@ -3,6 +3,180 @@ title: "Release Notes"
 description: "Find out what the Engineering team has been up to across our entire platform, including general announcements, updates, and bugfixes."
 ---
 
+<Update label="V2.1.12" description="2026-09-01">
+  <Tabs>
+    <Tab title="Online">
+      ### Introduction
+
+      The new Shovels app has launched, and Properties are already in it: **159M** property records searchable alongside permits and contractors, each opening on a profile with its permit history. This release also brings Miami-Dade County and Cook County into coverage — **3.8M** permits between them — plus **+9,865,649** net permits and congressional district on **20.8M** more permits.
+
+      ### ✨ New
+
+      **The New Shovels App**
+
+      [app.shovels.ai](https://app.shovels.ai) has moved off the WeWeb-hosted build onto our own Next.js app on Vercel, running on the same API behind your integration. Two releases have landed since the August 21 preview, the first of them the launch on August 24.
+
+      **Properties in the App**
+
+      A properties search tab puts **159,000,000** US property records next to permits and contractors, filterable by owner, property or building type, market value, building and lot size, unit count, and permit activity, and readable as a list, a grid, or a map. Every property opens on a profile carrying ownership and address, building and lot attributes, permit totals and statuses, yearly activity, the related permit history, and a map location. Permit addresses now open the property profile, and property results export to CSV.
+
+      **Coverage Disclosures**
+
+      Absence searches — properties with no permit for a given type of work — disclose measured coverage and the geographic areas we withhold. Rows that could be unreliable are flagged, recent date ranges carry an ingestion-lag hint, and a fully suppressed page no longer shows a misleading zero.
+
+      **Sign-in Protection and Clearer Errors**
+
+      Password sign-in, registration, and account recovery now carry a CAPTCHA challenge. A missing permit, contractor, or property is told apart from a loading failure, so you see the right action. Support chat lives in a dedicated tab on your Account page.
+
+      **Search That Holds Its Ground**
+
+      A failed search only clears its own tab, and result totals stay accurate while you page. Opening a contractor from a permit remembers the permit, so Back takes you straight to it. Date-only values no longer shift a day by timezone.
+
+      ### 🏗️ Permits Dataset
+
+      **New Permits Added**
+      - Net permits: **+9,865,649** (+5.7%)
+      - Permits newly linked to an address: **+9,897,495**
+      - Permits newly linked to a contractor: **+6,869,042**
+
+      All changes are measured against the August 1 release. "Net" is the change in total dataset size.
+
+      **🗺️ Newly Covered Jurisdictions**
+
+      **34** new jurisdictions added this release (50+ permits each), **3.9M** records in total. Two of the ten most populous counties in the US are among them:
+      - FL / Miami-Dade County: **3,246,460**
+      - IL / Cook County: **568,237**
+      - NC / Lexington: **87,458**
+      - OR / Hillsboro: **7,339**
+      - MA / Sudbury: **5,251**
+      - CT / Norwich: **3,281**
+      - VA / Isle of Wight County: **3,008**
+      - MA / South Hadley: **2,152**
+      - Plus 26 more
+
+      <Note>
+        Only about a third of Miami-Dade permits carry a linked address in this release. We expect address coverage there to increase substantially over the following releases.
+      </Note>
+
+      ### 👷 Contractors
+
+      - Net contractors: **+174,333** (+4.9%)
+      - Net addresses: **+440,586**
+
+      ### 🔧 Data Improvements
+
+      - Congressional district now sits on **20.8M** more permits, taking coverage from **51.5%** to **60.0%** after we moved to our own parcel data. Far fewer permits fall into the unknown bucket when you cut activity by district.
+      - `start_date` is now populated on every permit, up from **97.7%**.
+      - New York City filing dates are fixed. They now come from the filing itself rather than the work permit, which previously left them empty on every NYC record. Plan-approval dates are also no longer reported as the issue date.
+      - Address linkage rose from **73.9%** to **75.3%** of permits.
+    </Tab>
+    <Tab title="API">
+      ### Introduction
+
+      This release brings Miami-Dade County and Cook County into coverage — **3.8M** permits between them — alongside **+9,865,649** net permits and congressional district on **20.8M** more permits. First-seen dates moved earlier on roughly **43%** of permits and a further **1,262,026** permit IDs were re-keyed; review the **Data Changes** section before it trips up your integration.
+
+      ### ⚠️ Action Required: Data Changes
+
+      **First-seen dates are now earlier on 74,506,884 permits (~43%)**
+
+      `start_date` takes `first_seen_date` into account, so it moved earlier on the same permits and is now populated on every permit. If you sync incrementally on either field, permits you have already ingested will re-qualify for date windows they previously fell outside. Expect a larger pull on your next sync.
+
+      **1,262,026 permit IDs changed (~0.7%)**
+
+      Two causes. For **565,939** permits we populated or corrected `file_date`, which the `id` is derived from — the usual enrichment re-key, as jurisdictions move onto data collection that captures more fields, plus the New York City filing-date fix. The other **696,087** permits, across **7** jurisdictions, had mislabeled geographic information and are now corrected: the permit data itself is unchanged, but if you filter by `state` or `jurisdiction` you will now find these records under the corrected values. Both groups are in the `old_id → new_id` changelog (Parquet); contact support to receive it.
+
+      **734,283 permits are temporarily missing their street address**
+
+      Concentrated in VA/Chesapeake, GA/Atlanta, CA/Contra Costa County, and CA/Oakland, which together account for three quarters of them. These records are being reprocessed as part of the collection upgrade and their address links will be restored as it completes — the same cause as the smaller gap flagged last release. Overall address coverage still rose this release.
+
+      ### 🏗️ Permits Dataset
+
+      **New Permits Added**
+      - Net permits: **+9,865,649** (+5.7%)
+      - Permits newly linked to an address: **+9,897,495**
+      - Permits newly linked to a contractor: **+6,869,042**
+
+      All changes are measured against the August 1 release. "Net" is the change in total dataset size.
+
+      **🗺️ Newly Covered Jurisdictions**
+
+      **34** new jurisdictions added this release (50+ permits each), **3.9M** records in total. Two of the ten most populous counties in the US are among them:
+      - FL / Miami-Dade County: **3,246,460**
+      - IL / Cook County: **568,237**
+      - NC / Lexington: **87,458**
+      - OR / Hillsboro: **7,339**
+      - MA / Sudbury: **5,251**
+      - CT / Norwich: **3,281**
+      - VA / Isle of Wight County: **3,008**
+      - MA / South Hadley: **2,152**
+      - Plus 26 more
+
+      <Note>
+        Only about a third of Miami-Dade permits carry a linked address in this release. We expect address coverage there to increase substantially over the following releases.
+      </Note>
+
+      ### 👷 Contractors
+
+      - Net contractors: **+174,333** (+4.9%)
+      - Net addresses: **+440,586**
+
+      ### 🔧 Data Improvements
+
+      - Congressional district now sits on **20.8M** more permits, taking coverage from **51.5%** to **60.0%** after we moved to our own parcel data.
+      - `start_date` is now populated on every permit, up from **97.7%**.
+      - New York City filing dates are fixed. They now come from the filing itself rather than the work permit, which previously left them empty on every NYC record. Plan-approval dates are also no longer reported as the issue date.
+      - Address linkage rose from **73.9%** to **75.3%** of permits.
+
+      <Info>
+        ✅ **No breaking changes.** No endpoint, parameter, or response field changed, and all existing integrations continue to work unchanged. The action needed is on the data side: a re-sync for the changed permit IDs, and a wider incremental pull for the shifted first-seen dates above.
+      </Info>
+    </Tab>
+    <Tab title="EDL (Enterprise Data License)">
+      ### 🏗️ Permits Dataset
+
+      **New Permits Added**
+      - Net permits: **+9,865,649** (+5.7%)
+      - Permits newly linked to an address: **+9,897,495**
+      - Permits newly linked to a contractor: **+6,869,042**
+
+      All changes are measured against the August 1 release. "Net" is the change in total dataset size.
+
+      **🗺️ Newly Covered Jurisdictions**
+
+      **34** new jurisdictions added this release (50+ permits each), **3.9M** records in total. Two of the ten most populous counties in the US are among them:
+      - FL / Miami-Dade County: **3,246,460**
+      - IL / Cook County: **568,237**
+      - NC / Lexington: **87,458**
+      - OR / Hillsboro: **7,339**
+      - MA / Sudbury: **5,251**
+      - CT / Norwich: **3,281**
+      - VA / Isle of Wight County: **3,008**
+      - MA / South Hadley: **2,152**
+      - Plus 26 more
+
+      <Note>
+        Only about a third of Miami-Dade permits carry a linked address in this release. We expect address coverage there to increase substantially over the following releases.
+      </Note>
+
+      ### 👷 Contractors
+
+      - Net contractors: **+174,333** (+4.9%)
+      - Net addresses: **+440,586**
+
+      ### 🔧 Data Improvements
+
+      - Congressional district now sits on **20.8M** more permits, taking coverage from **51.5%** to **60.0%** after we moved to our own parcel data.
+      - `start_date` is now populated on every permit, up from **97.7%**.
+      - New York City filing dates are fixed. They now come from the filing itself rather than the work permit, which previously left them empty on every NYC record. Plan-approval dates are also no longer reported as the issue date.
+      - Address linkage rose from **73.9%** to **75.3%** of permits.
+
+      ### 🔁 Data Quality
+
+      First-seen dates moved earlier on **74,506,884** permits (~**43%**), and `start_date` moved with them, so incremental syncs on either field will re-qualify records you have already ingested. A further **1,262,026** permit IDs changed (~**0.7%**): **565,939** from populated or corrected `file_date`, and **696,087** across **7** jurisdictions whose mislabeled geographic information is now corrected — the permit data is unchanged, but these records now sit under corrected `state` and `jurisdiction` values. Both groups are in the `old_id → new_id` changelog (Parquet) on request. Separately, **734,283** permits are temporarily missing their street address while a collection upgrade completes, concentrated in VA/Chesapeake, GA/Atlanta, CA/Contra Costa County, and CA/Oakland.
+    </Tab>
+  </Tabs>
+</Update>
+
 <Update label="V2.1.11" description="2026-08-03">
   <Tabs>
     <Tab title="Online">
