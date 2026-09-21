@@ -92,8 +92,9 @@ Interpreting its output requires care:
 
 - Links under `/api-reference/*` are reported as broken but are **false positives**. Those pages
   are generated remotely, so the validator cannot resolve them. Ignore them.
-- The baseline on a clean `main` is **66 flagged links**, of which exactly one is genuine:
-  `/foundations-permit-availability` (tracked separately).
+- The baseline on a clean `main` is **65 flagged links**, every one of them under
+  `/api-reference`. There is no genuine broken link in the baseline, so any flagged path
+  outside `/api-reference` is a real one your branch introduced.
 - What matters is **the count relative to the baseline, not zero.** If your branch reports more
   than `main` does, you introduced a broken link. Run the command on `main` to compare rather
   than assuming.
