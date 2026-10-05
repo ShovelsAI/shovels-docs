@@ -3,6 +3,147 @@ title: "Release Notes"
 description: "Find out what the Engineering team has been up to across our entire platform, including general announcements, updates, and bugfixes."
 ---
 
+<Update label="V2.1.13" description="2026-10-01">
+  <Tabs>
+    <Tab title="Online">
+      ### Introduction
+
+      Charlie no longer queries your data directly — it now builds and refines your search, answers questions from the Shovels documentation, and drafts a support ticket when something breaks. This release also links **+7,548,433** more permits to an address and adds **+4,936,265** net permits (+2.6%), a lighter month as September activity settles in.
+
+      ### ✨ New
+
+      **Charlie's New Job**
+
+      At launch, Charlie answered questions by querying the data directly. It now builds and refines your searches, answers questions from the Shovels documentation, and handles support. Open it with the Agent button in search results. The support chat tab on your Account page is now Charlie AI as well.
+
+      Describe what you're looking for and Charlie prepares the search, then opens it in the normal results view with the filters set. It sees your current tab and filters, so it can refine the search already on screen, and it asks when a location is ambiguous. Product and API questions get an answer from the Shovels documentation with a link to the source; if something is broken, Charlie checks the docs first, then drafts a support ticket with the error details attached for you to review and confirm.
+
+      Charlie no longer queries the data or analyzes a result set for you — it builds the search, and the search returns the results, with the same plan limits as a search you set up yourself.
+
+      **Export Cost Preview**
+
+      The export dialog shows the credit cost and your balance before you confirm. Repeat the same export within an hour at no extra charge.
+
+      **Smaller Fixes**
+      - Pro shows more contractor employees, loaded page by page
+      - Printed profiles fit the page
+      - Shared search links open on the tab they were shared from
+      - Property type filters apply correctly, including vacant land
+      - Free accounts can export with their credits — a bug had limited exports to Pro
+      - New paid plans start with the full credit allowance
+
+      ### 🏗️ Permits Dataset
+
+      **New Permits Added**
+      - Net permits: **+4,936,265** (+2.6%)
+
+      All changes are measured against the September 1 release. "Net" is the change in total dataset size.
+
+      Permits filed in September 2026: **307,934**
+      Permits issued in September 2026: **124,281**
+
+      ### 👷 Contractors
+
+      - Net contractors: **+64,987** (+1.7%)
+      - Net addresses: **+3,533,672**
+
+      ### 📍 Geocoding Improvements
+
+      **More Permits Linked to an Address**
+      - Permits newly linked to an address: **+7,548,433**
+
+      We improved our address data and the algorithm that matches permits to addresses, measured against the September 1 release. A newly linked permit now counts in its property's permit history. A stricter match also withdrew links it couldn't confirm from a smaller group of permits this release.
+    </Tab>
+    <Tab title="API">
+      ### Introduction
+
+      This release links **+7,548,433** more permits to an address and adds **+4,936,265** net permits (+2.6%). **857,085** permit IDs were re-keyed and **105,876** non-permit records were removed from eight jurisdictions; review the **Data Changes** section before it trips up your integration.
+
+      ### ⚠️ Action Required: Data Changes
+
+      **857,085 permit IDs changed (~0.45%)**
+
+      The usual enrichment re-key: we now capture more fields for permits in several jurisdictions, including `file_date`, which the `id` is derived from. Populating or correcting it changed the `id`. The permits are otherwise unchanged. The `old_id → new_id` changelog (Parquet) is available on request.
+
+      **105,876 non-permit records removed from eight jurisdictions**
+
+      These records were not building permits — code enforcement, planning and zoning, business licenses, business tax receipts, and special events served by the same portal — and had no address or permit date. Building permits in these jurisdictions are unaffected.
+
+      | Jurisdiction | Removed | What was removed |
+      |---|---|---|
+      | CA / City of Orange | 62,337 | Code enforcement, fire enforcement, conditional use, design review, variances, zoning, special events |
+      | FL / Plant City | 15,255 | Public nuisances, property maintenance, zoning, planning cases, tree removal |
+      | CA / Alameda County | 10,189 | Code enforcement cases, planning cases |
+      | FL / Palm Springs | 8,318 | Business tax receipts, property maintenance, rentals, nuisance, zoning |
+      | CA / Novato | 4,190 | Design review, tree removal, use permits, subdivisions, zoning amendments |
+      | CO / Mesa County | 2,921 | Pre-applications, site plans, subdivisions, property line adjustments, rezoning |
+      | IL / Waukegan | 2,399 | Business licenses |
+      | CA / La Mesa | 267 | Planning projects, zoning letters, cannabis compliance reviews |
+
+      **229,362 permits no longer show an address**
+
+      The previous match for these permits could not be confirmed under the improved matching. They now show no address rather than an uncertain one. If you join on `address_id`, expect these permits to drop out of the join.
+
+      **Some newly added permits are not tagged yet**
+
+      Some permits added this release do not yet carry work-type tags (`new_construction`, `roofing`, `solar`, and the rest). The tagging model is being updated, and these permits will be tagged in the next release. Tags on existing permits are unaffected. If you filter new permits by tag, this month's counts will read low.
+
+      ### 🏗️ Permits Dataset
+
+      **New Permits Added**
+      - Net permits: **+4,936,265** (+2.6%)
+
+      All changes are measured against the September 1 release. "Net" is the change in total dataset size.
+
+      Permits filed in September 2026: **307,934**
+      Permits issued in September 2026: **124,281**
+
+      ### 👷 Contractors
+
+      - Net contractors: **+64,987** (+1.7%)
+      - Net addresses: **+3,533,672**
+
+      ### 📍 Geocoding Improvements
+
+      **More Permits Linked to an Address**
+      - Permits newly linked to an address: **+7,548,433**
+
+      We improved our address data and the algorithm that matches permits to addresses, measured against the September 1 release. A newly linked permit now counts in its property's permit history. A stricter match also withdrew links it couldn't confirm from a smaller group of permits this release.
+
+      <Info>
+        ✅ **No breaking changes.** No endpoint, parameter, or response field changed, and all existing integrations continue to work unchanged. The action needed is on the data side: a re-sync for the re-keyed permit IDs, and accounting for the removed non-permit records and address-link changes above.
+      </Info>
+    </Tab>
+    <Tab title="EDL (Enterprise Data License)">
+      ### 🏗️ Permits Dataset
+
+      **New Permits Added**
+      - Net permits: **+4,936,265** (+2.6%)
+
+      All changes are measured against the September 1 release. "Net" is the change in total dataset size.
+
+      Permits filed in September 2026: **307,934**
+      Permits issued in September 2026: **124,281**
+
+      ### 👷 Contractors
+
+      - Net contractors: **+64,987** (+1.7%)
+      - Net addresses: **+3,533,672**
+
+      ### 📍 Geocoding Improvements
+
+      **More Permits Linked to an Address**
+      - Permits newly linked to an address: **+7,548,433**
+
+      We improved our address data and the algorithm that matches permits to addresses, measured against the September 1 release. A newly linked permit now counts in its property's permit history. A stricter match also withdrew links it couldn't confirm from a smaller group of permits this release.
+
+      ### 🔁 Data Quality
+
+      **857,085** permit IDs changed (~**0.45%**) in the usual enrichment re-key, where populating or correcting `file_date` changed the derived `id`; the permits are otherwise unchanged, and the `old_id → new_id` changelog (Parquet) is available on request. Separately, **105,876** non-permit records — code enforcement, planning and zoning, business licenses, business tax receipts, and special events — were removed from eight jurisdictions where they had no address or permit date; building permits in those jurisdictions are unaffected. The improved address matching also withdrew unconfirmed links from **229,362** permits, which now show no address rather than an uncertain one. Finally, some permits added this release do not yet carry work-type tags; the tagging model is being updated and they will be tagged in the next release.
+    </Tab>
+  </Tabs>
+</Update>
+
 <Update label="V2.1.12" description="2026-09-01">
   <Tabs>
     <Tab title="Online">
