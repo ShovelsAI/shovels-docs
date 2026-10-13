@@ -44,6 +44,19 @@ These refer to what kind of project the permit is for, such as `heat pump` or `s
 
 This is where we put the majority of the "ai" in "shovels.ai": by pumping all of the data through our purpose-built and specifically trained LLMs to ensure that we capture every angle of the permit. Even obscure abbreviations or misspellings are corrected and categorized appropriately. 
 
+### Decisions
+
+Before a permit is ever filed, a development project usually appears first in front of a city council or planning board. Decisions are structured records of the zoning and land use actions those local governments take, extracted from municipal meeting records across the United States. 
+
+Each decision record captures the action taken (such as a rezoning, variance, plat, site plan, or special use permit), the governing body responsible, the property location, the zoning change details, and the parties involved (applicants, developers, and owners), along with a link to the source document. 
+
+Decisions connect to the rest of the dataset in two ways: 
+
+- **Permits.** A zoning approval typically precedes a permit application by weeks or months, so decisions are the earliest signal of construction activity. Decisions and permits share the same Shovels address IDs, so a project can be tracked from its first council discussion through to its issued permits. 
+- **Geographies.** Every decision carries the Shovels geo IDs of its address, city, county, and jurisdiction, the same geography handles used across the rest of the platform. 
+
+For more on what decisions capture and where they are available, see [What are Shovels Decisions?](/docs/knowledge-base/data/decisions/overview) and [Where Decisions Are Available](/docs/knowledge-base/api/decisions/decisions-availability). 
+
 ### Contractors
 
 This can vary widely by permit type and jurisdiction, but most permits applications are submitted by the contractor doing the project, which allows us to create a database of all the permits submitted by individual contractors or contracting companies. 
