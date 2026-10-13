@@ -117,7 +117,7 @@ shovels zipcodes search -q "941"
 ```
 
 <Info>
-`states search` matches on the 2-letter abbreviation (`CA`), not the full state name. `zipcodes search` matches on ZIP prefix and spans states, so filter the results if you need one state.
+`states search` matches both the 2-letter abbreviation and the state name, and lists an exact match first. `-q "CA"` returns California, then North Carolina and South Carolina; `-q "California"` returns California alone. `zipcodes search` matches on ZIP prefix and spans states, so filter the results if you need one state.
 </Info>
 
 Each group also exposes a `coverage` subcommand reporting which permit fields are reliably populated for that area. The geo_id is a **positional** argument here, and both dates are required. Cities, counties, and jurisdictions additionally support `metrics current` and `metrics monthly`.
