@@ -1,0 +1,76 @@
+---
+title: "What Formulas Does the Shovels Add-on Provide?"
+description: "Reference for the six Shovels formulas in Google Sheets: arguments, defaults, date formats, and what each formula returns."
+sidebarTitle: "Formulas"
+---
+
+**The add-on provides six formulas: three return permits and contractors, and three return the IDs that those formulas take.** Type `=SHOVELS` in any cell to list them. Google Sheets describes each argument as you type it.
+
+## Formula Reference
+
+Arguments in square brackets are optional.
+
+| Formula | Arguments | Returns |
+|---|---|---|
+| `SHOVELS_PERMITS_BY_GEO` | `where`, `[from]`, `[to]`, `[property_type]`, `[max_rows]` | Permits for a location, one per row, with a header row |
+| `SHOVELS_PERMITS_BY_CONTRACTOR` | `contractor_id`, `[from]`, `[to]`, `[property_type]`, `[max_rows]` | Permits of one contractor, one per row, with a header row |
+| `SHOVELS_CONTRACTOR` | `name`, `state` | One row of contractor details |
+| `SHOVELS_CONTRACTOR_ID` | `name`, `state` | The contractor's Shovels ID |
+| `SHOVELS_COUNTY` | `county` | The county's geo_id |
+| `SHOVELS_ADDRESS` | `address` | The address's geo_id |
+
+## Permit Formulas
+
+`SHOVELS_PERMITS_BY_GEO` and `SHOVELS_PERMITS_BY_CONTRACTOR` share the same optional arguments.
+
+| Argument | Default | Notes |
+|---|---|---|
+| `where` | Required | `SHOVELS_PERMITS_BY_GEO` only. An address, a ZIP code, a 2-letter state code, or any geo_id |
+| `contractor_id` | Required | `SHOVELS_PERMITS_BY_CONTRACTOR` only. A 10-character Shovels contractor ID |
+| `from` | `1990-01-01` for locations, no limit for contractors | The earliest permit date |
+| `to` | The day the formula is fetched for locations, no limit for contractors | The latest permit date |
+| `property_type` | All types | One type, or several separated by commas, such as `"residential, commercial"` |
+| `max_rows` | `2,500` | The most permits the formula returns |
+
+To skip an optional argument, leave it empty:
+
+```
+=SHOVELS_PERMITS_BY_GEO("78701", , , , 100)
+```
+
+Each argument takes one value or one cell. A range such as `A1:A5` returns an error.
+
+## Dates
+
+A date argument can be any of these:
+
+- Text in the form `"YYYY-MM-DD"`, in quotation marks: `"2026-01-01"`
+- A cell that holds a date, such as `A1` when A1 shows 1/1/2026
+- The `DATE` function: `DATE(2026, 1, 1)`
+
+<Warning>
+A date typed without quotation marks is a subtraction in Google Sheets: `2026-01-01` becomes `2024`. The formula then returns the error `Shovels: dates must look like 2026-08-24; got "2024"`.
+</Warning>
+
+## Contractor Formulas
+
+`SHOVELS_CONTRACTOR` and `SHOVELS_CONTRACTOR_ID` both take a name of at least 3 characters and a 2-letter state code. The state is required because businesses in different states often share a name.
+
+`SHOVELS_CONTRACTOR_ID` returns an ID only for an exact name match. The comparison ignores upper and lower case, punctuation, and company suffixes such as Inc, LLC, and Corp. When several contractor records have exactly that name, it returns the ID of the record with the most permits. When only similar names exist, the error names the closest contractor and its ID.
+
+See [How do I look up contractors by name?](/docs/knowledge-base/sheets/contractor-lookups) for the columns `SHOVELS_CONTRACTOR` returns.
+
+## Location Formulas
+
+`SHOVELS_COUNTY` takes a county name, a comma, and a state code, such as `"Harris, TX"`. The word "County" is optional. The state is optional too, but a county name that exists in several states returns an error that asks for the state.
+
+`SHOVELS_ADDRESS` takes a street address that starts with the house number, such as `"3500 Gaston Ave, Dallas, TX"`. City and state make the match more precise, and the ZIP code is optional. The formula returns the geo_id of the first address found.
+
+`SHOVELS_COUNTY` and `SHOVELS_ADDRESS` spend no credits.
+
+## Related Articles
+
+- [How do I get permits for an address, ZIP code, county, or state?](/docs/knowledge-base/sheets/permits-by-location)
+- [How do I look up contractors by name?](/docs/knowledge-base/sheets/contractor-lookups)
+- [How do credits, caching and refreshing work?](/docs/knowledge-base/sheets/credits-and-refreshing)
+- [What is a geo_id?](/docs/knowledge-base/api/address-resolution/geo-id-lookup)

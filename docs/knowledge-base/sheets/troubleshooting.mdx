@@ -1,0 +1,91 @@
+---
+title: "Why Does a Cell Show \"Shovels: fetching…\" or an Error?"
+description: "What each Shovels add-on message in Google Sheets means and how to fix it, from a cell stuck on fetching to date, address, and contractor errors."
+sidebarTitle: "Troubleshooting"
+---
+
+**A cell shows "Shovels: fetching…" until the add-on fetches its result after an edit in the Sheet.** It stays on "fetching…" when the Sheet has no key, the key was refused or is out of credits, or the result needs more than one fetch. Choose **Extensions → Shovels → Fetch waiting formulas** to try again, and read the message it shows.
+
+## Why "Fetching…" Stays
+
+A Shovels formula doesn't call the API itself. It marks its cell as waiting. After an edit in the Sheet, the edit trigger of the user who set the key fetches every waiting cell.
+
+| Cause | What you see | Fix |
+|---|---|---|
+| The Sheet has no API key | Menu items say "Shovels: set the API key for this Sheet first with Set API key in the Shovels menu under Extensions." | [Set the API key](/docs/knowledge-base/sheets/api-key) |
+| The key was refused | "Shovels: the API key was refused. Set it again with Set API key in the Shovels menu under Extensions." | Copy the key again from your account and set it |
+| The key is out of credits | "Shovels: the API key is out of credits for this month." | Wait for your credits to reset, or [upgrade your plan](https://www.shovels.ai/pricing) |
+| The API rate limit | "Shovels: hit the API rate limit. Wait a minute, then choose Extensions → Shovels → Fetch waiting formulas." | Wait a minute, then choose **Fetch waiting formulas** |
+| A large result | "… 2 need more time and continue on the next edit or Fetch waiting formulas." | Choose **Fetch waiting formulas** again |
+
+After a refused key, no credits left, the rate limit, or a server error, edits leave the cell alone for 10 minutes. **Fetch waiting formulas** tries again at once.
+
+## Messages in a Cell
+
+Errors show as `#ERROR!` in the cell. Point at the cell to read the message.
+
+### Permit formulas
+
+| Message | Cause and fix |
+|---|---|
+| No permits match. | No permit matches the arguments. Widen the dates or the location |
+| Showing 2500 of 8410 permits. Narrow the dates or raise max_rows. | More permits match than `max_rows`. Raise `max_rows` or narrow the dates |
+| Showing 2500 permits; stopped before the end of this contractor's 8410. Narrow the dates or raise max_rows. | The contractor has more permits than `max_rows` |
+| Shovels: say where: an address, a ZIP code, a state code or a geo_id. | The first argument of `SHOVELS_PERMITS_BY_GEO` is empty |
+| Shovels: dates must look like 2026-08-24; got "2024". | A date in another format, or a date typed without quotation marks. See [Dates](/docs/knowledge-base/sheets/formulas#dates) |
+| Shovels: the end date is before the start date. | `to` is earlier than `from` |
+| Shovels: max_rows must be a whole number of 1 or more; got "0". | Fix the fifth argument |
+| Shovels: give each argument one cell or value, not a range. | An argument is a range such as `A1:A5`. Point at one cell |
+| Shovels: an argument is too long to send to the API. | Shorten the argument |
+| Shovels: 0123456789 is a contractor id. Use SHOVELS_PERMITS_BY_CONTRACTOR. | `SHOVELS_PERMITS_BY_GEO` got a contractor ID |
+| Shovels: "Harris, TX" is not a contractor id. Use the shovels_id column of SHOVELS_CONTRACTOR, or SHOVELS_CONTRACTOR_ID. | `SHOVELS_PERMITS_BY_CONTRACTOR` needs a 10-character contractor ID |
+| Shovels: this formula reads more permits than one run can fetch and the Sheet can keep between runs. Narrow it with a later from date or a lower max_rows. | The result is too large. Use a later `from` date or a lower `max_rows` |
+
+### Location formulas
+
+| Message | Cause and fix |
+|---|---|
+| Shovels: type an address. | `SHOVELS_ADDRESS` got an empty cell |
+| Shovels: "Main St, Austin, TX" is not a street address. Start it with the house number, such as "3500 Gaston Ave, Dallas, TX". | Add the house number. A city name alone also returns this error. See [By City or Jurisdiction](/docs/knowledge-base/sheets/permits-by-location#by-city-or-jurisdiction) |
+| Shovels: no address matches "1 Nowhere Rd". | The address search found nothing. Check the spelling and add the city and state |
+| Shovels: name a county, e.g. "Harris, TX". | `SHOVELS_COUNTY` got an empty cell |
+| Shovels: no county named Harris in CA. | No county has that name in that state |
+| Shovels: several counties match. Add the state: Washington County, AL; Washington County, AR; … | Add the state code, such as `"Washington, AR"` |
+
+### Contractor formulas
+
+| Message | Cause and fix |
+|---|---|
+| Shovels: give a two-letter state code, such as "CA". | The state argument is missing or not a 2-letter code |
+| Shovels: type a contractor name of at least 3 characters. | Use a longer name |
+| Shovels: no contractor named "…" in CA. | No similar name in that state. Try another spelling. See [When a Name Returns No Match](/docs/knowledge-base/sheets/contractor-lookups#when-a-name-returns-no-match) |
+| Shovels: no contractor named exactly "…" in CA; the closest is … (ID). | Only similar names exist. Check the closest contractor, or use its ID |
+
+`SHOVELS_CONTRACTOR` shows its result in the `match` column instead of an error. See [Match Values](/docs/knowledge-base/sheets/contractor-lookups#match-values).
+
+### Messages from the API or Google Sheets
+
+| Message | Cause and fix |
+|---|---|
+| "Shovels:" followed by the API's own message, or "Shovels: the API answered 422." | The API refused the request for a reason the add-on doesn't check first. Read the message and adjust the arguments |
+| #REF! Array result was not expanded because it would overwrite data in A5. | Google Sheets shows this when a result would overlap other cells. Clear the cells below the formula or move it |
+
+## Messages in Dialogs
+
+| Message | Cause and fix |
+|---|---|
+| Shovels refused this API key, so it was not saved. Copy the key again from app.shovels.ai. | Set API key… got a key the API refuses |
+| An API error message, followed by "The key was not saved." | The add-on couldn't check the key, for example because of a server error. Try again |
+| Google's error, followed by "The key was not saved. To free a trigger, choose Remove API key in a Sheet that needs no new results." | You have keys in 20 Sheets. See [The 20-Sheet Limit](/docs/knowledge-base/sheets/api-key#the-20-sheet-limit) |
+| Fetched 3 formula results. | Fetch waiting formulas or Refresh all formulas finished |
+| … 1 failed and still wait. | A fetch failed with an error that can pass. The message names the error |
+
+## Still Stuck?
+
+Email [support@shovels.ai](mailto:support@shovels.ai) with the formula, the message, and what you expected.
+
+## Related Articles
+
+- [How does the API key work in Google Sheets?](/docs/knowledge-base/sheets/api-key)
+- [How do credits, caching and refreshing work?](/docs/knowledge-base/sheets/credits-and-refreshing)
+- [What formulas does the add-on provide?](/docs/knowledge-base/sheets/formulas)

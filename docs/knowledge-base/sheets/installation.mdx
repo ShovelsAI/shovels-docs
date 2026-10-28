@@ -1,0 +1,44 @@
+---
+title: "How Do I Install the Shovels Add-on for Google Sheets?"
+description: "Install the Shovels add-on from the Google Workspace Marketplace, approve its four permissions, and find the Shovels menu under Extensions."
+sidebarTitle: "Installation"
+---
+
+**Install Shovels from the [Google Workspace Marketplace](https://workspace.google.com/marketplace/app/shovels/946108628231).** The add-on is free to install. Anyone with a Google account can install it, and anyone with a Shovels API key can use it.
+
+After the install, every Sheet has a **Shovels** menu under **Extensions**.
+
+## Permissions
+
+Google asks you to approve four permissions when you click **Install**. It does not ask again when you first open the Shovels menu.
+
+| Permission | Why the add-on needs it |
+|---|---|
+| View and manage spreadsheets that this application has been installed in | Writes formula results into the Sheet and keeps them in two hidden tabs, **Shovels results** and **Shovels pages** |
+| Connect to an external service | Calls the Shovels API |
+| Display and run third-party web content in prompts and sidebars | Shows the Set API key dialog and the other dialogs |
+| Allow this application to run when you are not present | Creates an edit trigger that fetches results when anyone edits the Sheet |
+
+<Warning>
+Don't delete the hidden **Shovels results** and **Shovels pages** tabs. They hold the stored results, so the formulas don't spend credits again each time the Sheet opens.
+</Warning>
+
+## What the Add-on Sends to Shovels
+
+The add-on sends requests only to `https://api.shovels.ai/v2`. Each request carries your API key in a header and the formula's arguments as query parameters. Some requests also carry values the add-on adds itself, such as today's date as the default end date and page cursors.
+
+The add-on does not send your email address, the Sheet's name, or any cell other than the formula's arguments.
+
+## Google Workspace Accounts
+
+On a Google Workspace account, your administrator controls which Marketplace apps you can install. If the install is blocked, ask your administrator to allow Shovels. An administrator can also install it for everyone in the organization.
+
+## Next Step
+
+[Set your API key](/docs/knowledge-base/sheets/api-key) in the Sheet, then type a formula.
+
+## Related Articles
+
+- [Shovels for Google Sheets quickstart](/docs/shovels-sheets-quickstart)
+- [How does the API key work in Google Sheets?](/docs/knowledge-base/sheets/api-key)
+- [How do I access my API key?](/docs/knowledge-base/api/basics/api-key-access)

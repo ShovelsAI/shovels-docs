@@ -1,0 +1,62 @@
+---
+title: "How Do Credits, Caching, and Refreshing Work in Google Sheets?"
+description: "Shovels formulas spend API credits only for new argument values. Results are stored in the Sheet, and Refresh all formulas fetches them again."
+sidebarTitle: "Credits & Refreshing"
+---
+
+**The add-on stores every result in the Sheet, so a formula spends credits only the first time it runs with a set of argument values.** Opening, sorting, or filtering the Sheet spends nothing. Results stay as they are until someone chooses **Refresh all formulas**.
+
+## What Each Formula Costs
+
+The add-on uses the same credits as the Shovels API: 1 credit per record returned.
+
+| Formula | Credits |
+|---|---|
+| `SHOVELS_PERMITS_BY_GEO` | 1 per permit returned, plus 1 for the count of matching permits. 120 permits cost 121 credits |
+| `SHOVELS_PERMITS_BY_CONTRACTOR` | 1 per permit the API returns, including permits the date and property-type filters then leave out |
+| `SHOVELS_CONTRACTOR` | Up to 5 per name, 1 per candidate contractor |
+| `SHOVELS_CONTRACTOR_ID` | Up to 5 per name, 1 per candidate contractor |
+| `SHOVELS_COUNTY` | Free |
+| `SHOVELS_ADDRESS` | Free |
+
+`SHOVELS_PERMITS_BY_CONTRACTOR` filters by date and property type after it reads the contractor's permits, in pages of 100. It stops reading at the first permit older than the `from` date. A `from` date keeps the cost close to the permits you get back.
+
+**Set API key…** and **Show credits used** are free.
+
+## When a Formula Spends Credits
+
+The add-on keeps each result under the formula's name and its argument values.
+
+- **A new formula, or a formula with new argument values:** fetches and spends credits.
+- **The same formula with the same arguments in another cell:** shows the stored result for free.
+- **Changing an argument back to a value the Sheet already fetched:** free. Change A1 from "Harris, TX" to "Travis, TX" and back, and only Travis costs credits.
+- **Opening, sorting, filtering, or editing other cells:** free.
+- **Refresh all formulas:** fetches every formula again and spends credits again.
+
+## Keeping Results Current
+
+Stored results don't update by themselves. A formula with the default end date keeps the permits of the day it was fetched.
+
+To get current data, choose **Extensions → Shovels → Refresh all formulas**. Every formula in the Sheet runs again against the latest Shovels data and spends credits again.
+
+## The Shovels Menu
+
+| Menu item | What it does |
+|---|---|
+| Set API key… | Saves an API key in this Sheet. See [How does the API key work?](/docs/knowledge-base/sheets/api-key) |
+| Remove API key… | Removes the key. Stored results stay |
+| Fetch waiting formulas | Fetches formulas that still show "Shovels: fetching…" |
+| Refresh all formulas | Fetches every formula in the Sheet again. This spends credits again |
+| Show credits used | Shows the credits used this month by the Sheet's key, for example "120 of 500 credits used this month" |
+
+## Plans and Credit Limits
+
+The add-on works on every Shovels plan, including Free. The Free plan includes 500 credits per month. The add-on draws on the same monthly allowance as your API, CLI, and Shovels Online exports. See [shovels.ai/pricing](https://www.shovels.ai/pricing) for paid plan allowances.
+
+When the key runs out of credits, formulas keep showing "Shovels: fetching…" and the menu items say "Shovels: the API key is out of credits for this month."
+
+## Related Articles
+
+- [How do API credits work?](/docs/knowledge-base/api/basics/request-counts)
+- [What's included in the Free plan?](/docs/knowledge-base/getting-started/free-trial-guide)
+- [How does the API key work in Google Sheets?](/docs/knowledge-base/sheets/api-key)
