@@ -96,6 +96,31 @@ Exit code 2 is an authentication error—your API key is missing or invalid. Set
 
 ---
 
+## Google Sheets Add-on
+
+### Is the Google Sheets add-on free?
+Yes. The add-on is free to install from the [Google Workspace Marketplace](https://workspace.google.com/marketplace/app/shovels/946108628231), and it works on every plan, including Free. The formulas spend API credits from the key's plan. See [Credits and refreshing](/docs/knowledge-base/sheets/credits-and-refreshing).
+
+### Where is my API key stored?
+In the Sheet, not in your Google account. Set it once per Sheet with **Extensions → Shovels → Set API key…** A copy of the Sheet doesn't carry the key. See [How the API key works](/docs/knowledge-base/sheets/api-key).
+
+### Can people I share a Sheet with use my credits?
+Yes. Anyone who edits a Shovels formula in a Sheet that holds your key spends your credits. Share such a Sheet only with people who may use them.
+
+### Does reopening a Sheet spend credits?
+No. Results are stored in the Sheet. Only a formula with new argument values, or **Refresh all formulas**, spends credits.
+
+### Why does a cell say "Shovels: fetching…"?
+The add-on hasn't fetched the result yet. Choose **Extensions → Shovels → Fetch waiting formulas**; the message it shows names the problem, such as a missing key or no credits left. See [Troubleshooting](/docs/knowledge-base/sheets/troubleshooting).
+
+### Why does a contractor name return no match?
+Names are matched as they appear on permits, including punctuation. Try another spelling, such as "DR Horton" instead of "D.R. Horton". See [Contractor lookups](/docs/knowledge-base/sheets/contractor-lookups).
+
+### Does the add-on work in Excel?
+No. The add-on is available for Google Sheets only.
+
+---
+
 ## Data Coverage
 
 ### What areas does Shovels cover?
