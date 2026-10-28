@@ -1,0 +1,72 @@
+---
+title: "How Do I Look Up Contractors by Name in Google Sheets?"
+description: "Fill SHOVELS_CONTRACTOR down a column of contractor names to add license, company size, contact details, and permit counts to a list."
+sidebarTitle: "Contractor Lookups"
+---
+
+**Put contractor names in one column and fill `SHOVELS_CONTRACTOR` down the next.** Each row returns one contractor's license, company size, contact details, and permit count. This turns a CRM export, an event attendee list, or a vendor roster into an enriched contractor list.
+
+## Enrich a List of Names
+
+1. Type `contractor_name` in A1 and the names below it, one per row.
+2. In B1, type `=SHOVELS_CONTRACTOR(A1, "TX")`.
+3. Fill B1 down to the last name.
+
+Because A1 holds `contractor_name`, the formula in row 1 returns a header row. Every other row returns one contractor.
+
+![SHOVELS_CONTRACTOR filled down a list of five Texas homebuilders](/assets/screenshots/sheets-contractor-details.png)
+
+## Columns Returned
+
+| Column | Contents |
+|---|---|
+| `matched_name` | The contractor name Shovels matched |
+| `match` | How the name matched. See the next table |
+| `permits` | The contractor's permit count |
+| `company_size` | Company size |
+| `license` | License number |
+| `license_expiry_date` | License expiry date |
+| `license_note` | A note about the license, such as "no expiry on file" |
+| `city` | The contractor's city |
+| `shovels_id` | The Shovels contractor ID |
+| `phone`, `email`, `website`, `linkedin_url` | Contact details, when Shovels has them |
+
+## Match Values
+
+| `match` | Meaning |
+|---|---|
+| Exact | One contractor record has exactly the searched name |
+| Exact · 3 records | 3 contractor records have exactly the searched name. The row shows the record with the most permits |
+| Partial · check | No record has exactly the searched name. The row shows the record with the most permits among the names that contain the searched text. Check that it is the right contractor |
+| No match | No contractor in that state with a permit since 2000 has a name that contains the searched text |
+| Name too short | The name has fewer than 3 characters |
+
+"Exact" ignores upper and lower case, punctuation, and company suffixes such as Inc, LLC, and Corp.
+
+## When a Name Returns No Match
+
+**Contractor names are matched as they appear on permits, including punctuation.** The search keeps punctuation inside a name, so "D.R. Horton" returns No match while "DR Horton" finds DR HORTON INC. If a name returns no match, try another spelling.
+
+The formula looks at no more than 5 contractors per name. When more than 5 names contain the searched text, the exact match can be missing from those 5, and the row shows "Partial · check" with another contractor. A longer, more specific name usually fixes this.
+
+## Get a Contractor's Permits
+
+The `shovels_id` column is the contractor ID that `SHOVELS_PERMITS_BY_CONTRACTOR` takes. Put the ID in a cell, then point the formula at it:
+
+```
+=SHOVELS_PERMITS_BY_CONTRACTOR(A1)
+```
+
+![SHOVELS_PERMITS_BY_CONTRACTOR returning one contractor's permits](/assets/screenshots/sheets-contractor-permits.png)
+
+Each result fills many rows, so give it room below or its own tab. To get only the ID for a name, use `SHOVELS_CONTRACTOR_ID(name, state)`.
+
+## Credits
+
+`SHOVELS_CONTRACTOR` and `SHOVELS_CONTRACTOR_ID` each spend up to 5 credits per name: 1 per candidate contractor the search returns. See [How do credits, caching and refreshing work?](/docs/knowledge-base/sheets/credits-and-refreshing)
+
+## Related Articles
+
+- [What formulas does the add-on provide?](/docs/knowledge-base/sheets/formulas)
+- [How does contractor search work in the API?](/docs/knowledge-base/api/contractors/contractor-search)
+- [Contractor data overview](/docs/knowledge-base/data/contractors/contractor-data-overview)

@@ -1,0 +1,80 @@
+---
+title: Shovels for Google Sheets Quickstart Guide
+description: Install the Shovels add-on for Google Sheets, set your API key, and pull building permits into a spreadsheet with one formula.
+---
+
+**The Shovels add-on for Google Sheets adds six formulas that return building permit and contractor data from the Shovels API.** Type a formula in a cell and the results fill the rows below it, ready for filters, pivot tables, and charts.
+
+<Info>
+**Sheets vs. CLI vs. API:** The add-on calls the same Shovels REST API and uses the same API key and credits. Use it when your work happens in spreadsheets. Use the [CLI](/docs/shovels-cli-quickstart) for terminals, scripts, and AI agents, and the [API](/docs/shovels-api-introduction) for product integrations.
+</Info>
+
+## Install
+
+Install **Shovels** from the [Google Workspace Marketplace](https://workspace.google.com/marketplace/app/shovels/946108628231). The add-on is free to install. The formulas spend API credits from your Shovels plan.
+
+During the install, Google asks you to approve four permissions. The add-on needs them to write results into your spreadsheet, call the Shovels API, show its dialogs, and fetch results when someone edits the Sheet. See [How do I install the add-on?](/docs/knowledge-base/sheets/installation) for the full list.
+
+After the install, every Sheet has a **Shovels** menu under **Extensions**.
+
+## Set Your API Key
+
+You need a Shovels API key. If you don't have one, [create a free account](https://app.shovels.ai/login?mode=register) to get a key on the Free plan.
+
+1. Copy your key from the [API key tab of your account](https://app.shovels.ai/account?tab=apikey).
+2. In your Sheet, choose **Extensions → Shovels → Set API key…**
+3. Paste the key and click **OK**.
+
+![Shovels API key dialog in Google Sheets](/assets/screenshots/sheets-api-key-dialog.png)
+
+The add-on checks the key and shows how many credits it has used this month. The key is saved in this Sheet, so you set it once per Sheet.
+
+<Warning>
+Everyone who can edit the Sheet spends your key's credits when they add or change a Shovels formula. Share a Sheet that holds your key only with people who may use your credits. See [How does the API key work?](/docs/knowledge-base/sheets/api-key)
+</Warning>
+
+## Run Your First Formula
+
+Type this formula in cell A1:
+
+```
+=SHOVELS_PERMITS_BY_GEO("78701")
+```
+
+The cell shows **Shovels: fetching…** for a moment, then the permits for ZIP code 78701 in Austin, TX fill the Sheet, one permit per row, with a header row.
+
+![Permits for ZIP code 78701 in Google Sheets](/assets/screenshots/sheets-permits-by-zip.png)
+
+<Tip>
+Type `=SHOVELS` in any cell to list the formulas. Once you pick one, Google Sheets describes each argument as you type it.
+</Tip>
+
+## Narrow the Results
+
+`SHOVELS_PERMITS_BY_GEO` takes four optional arguments after the location: a start date, an end date, a property type, and the maximum number of rows. This formula returns residential permits in 78701 from 2026:
+
+```
+=SHOVELS_PERMITS_BY_GEO("78701", "2026-01-01", , "residential")
+```
+
+Leave an argument empty to use its default. Type dates as text in quotation marks, or point to a cell that holds a date. A formula returns up to 2,500 permits unless you set the fifth argument.
+
+## The Six Formulas
+
+| Formula | Returns |
+|---|---|
+| `SHOVELS_PERMITS_BY_GEO` | Permits for an address, a ZIP code, a state code, or a geo_id |
+| `SHOVELS_PERMITS_BY_CONTRACTOR` | Permits of one contractor, by Shovels contractor ID |
+| `SHOVELS_CONTRACTOR` | One row of contractor details for a name and a state |
+| `SHOVELS_CONTRACTOR_ID` | The Shovels ID of a contractor name in a state |
+| `SHOVELS_COUNTY` | The geo_id of a county, such as `"Harris, TX"` |
+| `SHOVELS_ADDRESS` | The geo_id of a street address |
+
+See [What formulas does the add-on provide?](/docs/knowledge-base/sheets/formulas) for every argument and default.
+
+## Next Steps
+
+- [Look up a list of contractors by name](/docs/knowledge-base/sheets/contractor-lookups)
+- [Get permits for an address, ZIP code, county, or state](/docs/knowledge-base/sheets/permits-by-location)
+- [Understand credits, caching, and refreshing](/docs/knowledge-base/sheets/credits-and-refreshing)
+- [Fix a cell that shows "fetching…" or an error](/docs/knowledge-base/sheets/troubleshooting)

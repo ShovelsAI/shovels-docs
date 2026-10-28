@@ -1,0 +1,48 @@
+---
+title: "How Does the API Key Work in Google Sheets?"
+description: "The Shovels add-on saves your API key in each Sheet, not in your Google account. Anyone who edits a Shovels formula in that Sheet spends the key's credits."
+sidebarTitle: "API Key"
+---
+
+**The add-on saves your API key in the Sheet, not in your Google account.** You set the key once in each Sheet, and every Shovels formula in that Sheet uses it.
+
+## Set the Key
+
+1. Copy your key from the [API key tab of your account](https://app.shovels.ai/account?tab=apikey). No account yet? [Create one for free](https://app.shovels.ai/login?mode=register).
+2. In the Sheet, choose **Extensions → Shovels → Set API key…**
+3. Paste the key and click **OK**.
+
+The add-on checks the key with the Shovels API before it saves it. When the key works, a notice shows the credits it has used this month, for example "120 of 500 credits used this month."
+
+If the API refuses the key, the dialog says "Shovels refused this API key, so it was not saved." Copy the key again from your account and try once more.
+
+## Who Spends Your Credits
+
+<Warning>
+Every edit to a Shovels formula in the Sheet spends the key's credits, **whoever makes the edit**. Share a Sheet that holds your key only with people who may use your credits.
+</Warning>
+
+Viewers who can't edit the Sheet see the stored results and spend nothing.
+
+## Copying a Sheet
+
+**File → Make a copy** copies the results already in the Sheet, but not the API key. Set the key again in the copy before you add or change formulas.
+
+## Replace or Remove the Key
+
+- **Replace:** choose **Set API key…** again and paste the new key. The new key replaces the old one. Results already in the Sheet stay and are not fetched again.
+- **Remove:** choose **Extensions → Shovels → Remove API key…** Results already in the Sheet stay. New and changed formulas show "Shovels: fetching…" until someone sets a key again.
+
+## The 20-Sheet Limit
+
+One Google user can set a key in at most 20 Sheets.
+
+Each Sheet with a key holds one edit trigger of the user who set the key, and Google allows each user 20 triggers per add-on. At the 21st Sheet, the Set API key dialog shows an error and does not save the key.
+
+To set a key in another Sheet, open a Sheet that needs no new results and choose **Remove API key…** there. That frees one of your 20 slots.
+
+## Related Articles
+
+- [How do I access my API key?](/docs/knowledge-base/api/basics/api-key-access)
+- [How do credits, caching and refreshing work?](/docs/knowledge-base/sheets/credits-and-refreshing)
+- [Why does a cell show "fetching…" or an error?](/docs/knowledge-base/sheets/troubleshooting)

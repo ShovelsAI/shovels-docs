@@ -1,0 +1,62 @@
+---
+title: "How Do I Get Permits for an Address, ZIP Code, County, or State in Google Sheets?"
+description: "Use SHOVELS_PERMITS_BY_GEO with an address, ZIP code, or state code, or chain SHOVELS_COUNTY into it to pull a county's permits."
+sidebarTitle: "Permits by Location"
+---
+
+**`SHOVELS_PERMITS_BY_GEO` takes an address, a ZIP code, a state code, or a geo_id directly.** For a county, get its geo_id with `SHOVELS_COUNTY` first, then point `SHOVELS_PERMITS_BY_GEO` at that cell.
+
+## By Address, ZIP Code, or State
+
+| Location | Example |
+|---|---|
+| Street address | `=SHOVELS_PERMITS_BY_GEO("3500 Gaston Ave, Dallas, TX")` |
+| ZIP code | `=SHOVELS_PERMITS_BY_GEO("78701")` |
+| State | `=SHOVELS_PERMITS_BY_GEO("TX", "2026-01-01")` |
+| geo_id | `=SHOVELS_PERMITS_BY_GEO(A1)`, where A1 holds a geo_id |
+
+An address must start with the house number. City and state make the match more precise.
+
+## By County
+
+1. In A1, type `=SHOVELS_COUNTY("Harris, TX")`. The cell shows the county's geo_id.
+2. In A3, type `=SHOVELS_PERMITS_BY_GEO(A1)`.
+
+![SHOVELS_COUNTY returns a geo_id that SHOVELS_PERMITS_BY_GEO uses](/assets/screenshots/sheets-county-permits.png)
+
+`SHOVELS_COUNTY` spends no credits. Change A1 to another county and A3 fetches that county's permits.
+
+## By City or Jurisdiction
+
+`SHOVELS_PERMITS_BY_GEO` accepts a city or jurisdiction geo_id, but no formula looks one up by name. A city name such as `"Austin, TX"` contains a comma, so the formula treats it as an address and returns an error that asks for a house number.
+
+To use a city or jurisdiction, get its geo_id from [Shovels Online](https://app.shovels.ai) or the [Shovels API](/docs/knowledge-base/api/address-resolution/geo-id-lookup), then paste it into the formula.
+
+## Leave Room for the Results
+
+Each result fills many rows and columns. A second formula inside that area makes the results overlap, and Google Sheets shows `#REF! Array result was not expanded because it would overwrite data`.
+
+Give each location its own tab, or leave enough empty rows below each formula. Don't fill `SHOVELS_PERMITS_BY_GEO` down a column of addresses: each result would run into the next.
+
+## How Many Permits a Formula Returns
+
+A formula returns up to 2,500 permits by default. Set the fifth argument, `max_rows`, to return more or fewer:
+
+```
+=SHOVELS_PERMITS_BY_GEO("TX", "2026-01-01", , , 10000)
+```
+
+When more permits match than `max_rows`, the last row says so, for example "Showing 2500 of 8410 permits. Narrow the dates or raise max_rows."
+
+Large results take longer. One fetch stops after 4 minutes, and a formula that needs more time continues on the next edit or on **Fetch waiting formulas**. The key does not pay again for the pages already read. A result too large for the Sheet to keep between fetches returns an error that asks for a later `from` date or a lower `max_rows`.
+
+## Credits
+
+`SHOVELS_PERMITS_BY_GEO` spends 1 credit per permit returned, plus 1 for the count of matching permits. 120 permits cost 121 credits.
+
+## Related Articles
+
+- [What formulas does the add-on provide?](/docs/knowledge-base/sheets/formulas)
+- [How do credits, caching and refreshing work?](/docs/knowledge-base/sheets/credits-and-refreshing)
+- [What is a geo_id?](/docs/knowledge-base/api/address-resolution/geo-id-lookup)
+- [What is a jurisdiction?](/docs/knowledge-base/data/geographic/jurisdictions)

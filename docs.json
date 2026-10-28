@@ -119,6 +119,12 @@
             ]
           },
           {
+            "group": "Shovels for Google Sheets",
+            "pages": [
+              "docs/shovels-sheets-quickstart"
+            ]
+          },
+          {
             "group": "Tutorials",
             "pages": [
               {
@@ -302,6 +308,18 @@
                   "docs/knowledge-base/cli/output-and-pagination",
                   "docs/knowledge-base/cli/error-codes",
                   "docs/knowledge-base/cli/scripting-and-agents"
+                ]
+              },
+              {
+                "group": "Google Sheets Add-on",
+                "pages": [
+                  "docs/knowledge-base/sheets/installation",
+                  "docs/knowledge-base/sheets/api-key",
+                  "docs/knowledge-base/sheets/formulas",
+                  "docs/knowledge-base/sheets/contractor-lookups",
+                  "docs/knowledge-base/sheets/permits-by-location",
+                  "docs/knowledge-base/sheets/credits-and-refreshing",
+                  "docs/knowledge-base/sheets/troubleshooting"
                 ]
               },
               {
