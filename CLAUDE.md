@@ -90,19 +90,31 @@ mintlify dev --port 3333
 mintlify broken-links
 ```
 
-**Before committing, run `mintlify broken-links`.**
+**Before committing, run the check below. It must print `0`.**
 
-Interpreting its output requires care:
+```bash
+mintlify broken-links | sed -n 's|.*⎿[^/]*||p' | grep -vE '^/api-reference(/|$)' | wc -l
+```
 
-- Links under `/api-reference/*` are reported as broken but are **false positives**. Those pages
-  are generated remotely, so the validator cannot resolve them. Ignore them.
-- The baseline on a clean `main` is **16 flagged links**, every one of them under
-  `/api-reference`. There is no genuine broken link in the baseline, so any flagged path
-  outside `/api-reference` is a real one your branch introduced. This count moves as pages
-  are added and removed, so treat it as indicative and compare against `main` yourself.
-- What matters is **the count relative to the baseline, not zero.** If your branch reports more
-  than `main` does, you introduced a broken link. Run the command on `main` to compare rather
-  than assuming.
+Run `mintlify broken-links` on its own to read the full output.
+
+The `sed` reduces each reported line to its bare path. It keys on the leading `/` rather than on
+whitespace because the validator pads its output with non-breaking spaces, which `[[:space:]]`
+does not match — a filter written against `[[:space:]]` silently passes every line through and
+reports the unfiltered count.
+
+**Why the filter.** Every link the validator flags today is `/api-reference`, written across 13
+files. The API Reference pages are generated at build time from the OpenAPI spec, so nothing on
+disk backs that path and the validator cannot resolve it. The link itself is sound:
+`https://docs.shovels.ai/api-reference` returns 200 and redirects to the first endpoint page.
+
+The filter drops every path under `/api-reference`, not just the bare one, because none of them
+resolve locally. A typo inside a generated path therefore passes this check — verify any link
+you write into the API Reference tab against the rendered preview instead.
+
+The CLI has no ignore list, so the filter lives in the command rather than in `docs.json`. Any
+non-zero result is a real broken link your branch introduced; there is no baseline to compare
+against.
 
 **Verify rendered output, not just the build.** A page can build cleanly, return HTTP 200, and
 still be wrong — navigation in particular. Changes to `docs.json` navigation, Mintlify
