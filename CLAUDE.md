@@ -75,33 +75,38 @@ curl -s https://api.shovels.ai/spec/v2/openapi.production.yaml | grep -n "field_
 This repository has **no unit tests**. Do not look for a test suite, and do not stop to ask
 which tests to run — there are none. Validation is the two commands below.
 
+The CLI installed by `npm i -g mintlify` runs as `mintlify`; there is no `mint` binary. It
+refuses to start on Node 25 and above, so invoke it under an LTS Node — `nvm use --lts`, or
+prefix the call with a Homebrew LTS path such as `/opt/homebrew/opt/node@22/bin`.
+
 ```bash
 # Local preview at http://localhost:3000
-mint dev
+mintlify dev
 
 # On a custom port
-mint dev --port 3333
+mintlify dev --port 3333
 
 # Link validation
-mint broken-links
+mintlify broken-links
 ```
 
-**Before committing, run `mint broken-links`.**
+**Before committing, run `mintlify broken-links`.**
 
 Interpreting its output requires care:
 
 - Links under `/api-reference/*` are reported as broken but are **false positives**. Those pages
   are generated remotely, so the validator cannot resolve them. Ignore them.
-- The baseline on a clean `main` is **65 flagged links**, every one of them under
+- The baseline on a clean `main` is **16 flagged links**, every one of them under
   `/api-reference`. There is no genuine broken link in the baseline, so any flagged path
-  outside `/api-reference` is a real one your branch introduced.
+  outside `/api-reference` is a real one your branch introduced. This count moves as pages
+  are added and removed, so treat it as indicative and compare against `main` yourself.
 - What matters is **the count relative to the baseline, not zero.** If your branch reports more
   than `main` does, you introduced a broken link. Run the command on `main` to compare rather
   than assuming.
 
 **Verify rendered output, not just the build.** A page can build cleanly, return HTTP 200, and
 still be wrong — navigation in particular. Changes to `docs.json` navigation, Mintlify
-components, or anything under the API Reference tab must be checked in a running `mint dev`
+components, or anything under the API Reference tab must be checked in a running `mintlify dev`
 preview by actually looking at the page. Programmatic checks alone are not sufficient evidence.
 
 ---
