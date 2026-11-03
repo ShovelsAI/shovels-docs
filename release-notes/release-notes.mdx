@@ -3,6 +3,260 @@ title: "Release Notes"
 description: "Find out what the Engineering team has been up to across our entire platform, including general announcements, updates, and bugfixes."
 ---
 
+<Update label="V2.1.14" description="2026-11-01">
+  <Tabs>
+    <Tab title="Online">
+      ### Introduction
+
+      Shovels data now works inside Google Sheets, and you can regenerate your own API key from your Account page. On the data side this was a cleanup month: **3.84M** invalid records were removed while the dataset still grew by **+5,674,526** net permits (+2.9%), and permits with a linked address rose from 77.8% to **81.7%**.
+
+      ### ✨ New
+
+      **Shovels for Google Sheets**
+
+      The Shovels add-on is live in the [Google Workspace Marketplace](https://workspace.google.com/marketplace/app/shovels/946108628231). Six formulas bring permits into any spreadsheet: permits for an address, ZIP code, county or state, permits by contractor, and contractor details by name. The add-on is free to install and works on every plan, and formulas spend the API credits of the key you set.
+
+      To start, open Extensions → Shovels → Set API key… in a Sheet and paste your key, then type a formula such as `SHOVELS_PERMITS_BY_GEO` in any cell. The [Quickstart guide](/docs/shovels-sheets-quickstart) walks through every formula.
+
+      Results are cached to save credits, so newly added permits appear after Shovels → Refresh all formulas, and a refresh spends credits again. Anyone who edits a Shovels formula in your Sheet spends your key's credits, so share those Sheets with care.
+
+      **Regenerate Your API Key**
+
+      Replace your API key from Account → API Key, with a confirmation step before the key is issued. Before you regenerate, list every integration and Google Sheet that uses your key, and put the replacement in each one right away. In Google Sheets that is Extensions → Shovels → Set API key… in each Sheet. The old key stops working within five minutes.
+
+      **Telecom Search Filter**
+
+      The telecom tag applied to the data in July is now one of the category filters, and it shows on permit results and profiles.
+
+      **Smaller Fixes**
+      - Clear filters clears filters, location and previous results, without restoring defaults
+      - States can be found by their two-letter code, for example "TX"
+      - Searches flag invalid fields before they run, with messages that match the field labels
+      - Empty searches in withheld areas explain why the area's results can't be included
+      - Search tabs sit below the toolbar on small screens, and narrow tables keep the main columns
+      - Calendars and dialogs behave when you scroll or use the keyboard
+      - Free plans see why the related-permit list stops, with a link to upgrade
+
+      ### 🏗️ Permits Dataset
+
+      **New Permits Added**
+      - Net permits: **+5,674,526** (+2.9%)
+
+      All changes are measured against the October 1 release. "Net" is the change in total dataset size.
+
+      Permits filed in October 2026: **395,709**
+      Permits issued in October 2026: **167,983**
+
+      ### 👷 Contractors
+
+      - Net contractors: **+223,480** (+5.7%)
+      - Net addresses: **+133,785**
+      - Permits newly linked to a contractor: **+3,510,663**
+
+      **Contractor Classification**
+
+      Contractors carrying a classification rose from 6.5% to **33.4%**. If you segment contractors by classification, a third of them now carry one.
+
+      ### 📍 Geocoding Improvements
+
+      **More Permits Linked to an Address**
+      - Permits newly linked to an address: **+12,162,332**
+      - Permits newly carrying coordinates: **+11,756,286**
+
+      Permits with a linked address rose from 77.8% to **81.7%**, measured against the October 1 release. Each newly linked permit now shows up in its property's permit history and in address and map searches. If you left unlinked permits out of an analysis, run it again.
+
+      ### 🗺️ Newly Covered Jurisdictions
+
+      Bellevue, WA joins Shovels this release with **353,546** permits. In total **42** jurisdictions reached 50 or more permits, **438,352** permits between them, and **10** of those jurisdictions are new to Shovels. The largest:
+
+      | Jurisdiction | Permits |
+      |---|---|
+      | WA / Bellevue | 353,546 |
+      | NC / Wake Forest | 30,194 |
+      | IL / Schaumburg | 8,215 |
+      | FL / Hillsboro Beach | 7,802 |
+      | MA / Reading | 6,541 |
+      | NY / Mamaroneck | 5,341 |
+      | NC / Clayton | 4,967 |
+      | PA / Scranton | 3,318 |
+
+      A further **34** jurisdictions are not listed here. The full list is available on request.
+
+      ### 🔙 Following Up on Earlier Releases
+
+      **Miami-Dade addresses**
+
+      Miami-Dade permits with a linked address rose from 31.8% to **57.1%**.
+
+      **Addresses missing after the collection upgrade**
+
+      Of the roughly **734,000** permits that lost their street address in the September release, **80%** have it back. Chesapeake, Contra Costa County and Oakland are restored on all but a few dozen permits, and Atlanta is at 92%. About 19% still have no address, including all **16,485** permits in Ocala, FL. Of the roughly **162,000** permits affected in the August release, **75%** have their address back, a further 12% are no longer in the dataset, and 13% still have no address.
+
+      **Untagged permits**
+
+      Of the permits added in the October release without work-type tags, **81%** carry them now. Across the whole dataset **99.2%** of permits have been through work-type tagging, up from 96.3% on October 1.
+    </Tab>
+    <Tab title="API">
+      ### Introduction
+
+      This release adds **+5,674,526** net permits (+2.9%) and links **+12,162,332** more permits to an address. It also re-keys **780,721** permit IDs, moves first-seen dates earlier on **3,064,584** permits, and removes **3.84M** invalid records; review the **Action Required** section before it trips up your integration.
+
+      ### ⚠️ Action Required: Data Changes
+
+      **780,721 permit IDs changed (~0.4%)**
+
+      We populated or corrected `file_date`, which the `id` is derived from, so the `id` changed. **716,234** of them are in TX / Fort Worth, where filing dates are now captured. The permits are otherwise unchanged. The `old_id → new_id` changes are in two changelogs (Parquet), one from the October 15 release and one from the November 1 release. If your copy is from October 1, apply both in that order. If you already applied the October 15 changelog, apply only the November 1 one. Both are available on request.
+
+      **First-seen dates moved earlier on 3,064,584 permits**
+
+      We processed a backlog of older collected data, so these permits now show the earliest date we actually saw them, between May 2025 and September 2026. The largest groups are in MA / Boston, AZ / Phoenix, TX / Fort Worth, AZ / Scottsdale and CA / Long Beach. If you sync incrementally on `first_seen_date` or `start_date`, these permits fall in date windows you have already synced, so a forward sync misses them. Re-pull those windows, or upsert by `id`.
+
+      **3.84M invalid records removed**
+
+      These records carried no permit data, or combined data from different permits. Fewer than 3% were filed in 2026. If you hold them from an earlier sync, they no longer exist in Shovels. The nine jurisdictions with the most removals:
+
+      | Jurisdiction | Records removed |
+      |---|---|
+      | FL / Seminole County | 1,316,301 |
+      | CA / Bakersfield | 448,022 |
+      | FL / Punta Gorda | 370,019 |
+      | FL / St. Petersburg | 334,112 |
+      | TX / Killeen | 216,485 |
+      | FL / Fort Pierce | 178,906 |
+      | NC / Cary | 149,552 |
+      | FL / Oviedo | 143,981 |
+      | CA / Davis | 124,923 |
+
+      **114,775 duplicate records removed in Cambridge, MA**
+
+      These records carried an internal row number from the city's source data instead of the permit number, and repeated permits already in Shovels under their real permit number. No Cambridge permit was lost.
+
+      **320,225 permits no longer show an issue date**
+
+      90% of them showed their filing date as the issue date, which came from a bug in how we read one of our data sources. That bug was fixed in June, and newer records have replaced the wrong values. About half of the rest are in the jurisdictions of the cleanup above. The largest groups are in CO / Denver, NC / Mecklenburg County and CA / Sacramento. Issued counts by `issue_date` drop accordingly, mostly for May and June 2026.
+
+      **84,209 Philadelphia permits no longer show a final date**
+
+      Our Philadelphia data source sets `final_date` only when a permit is completed. Expired and withdrawn permits that carried their expiration date as the final date now have an empty `final_date`.
+
+      ### ✨ New
+
+      **Shovels for Google Sheets**
+
+      The Shovels add-on is live in the [Google Workspace Marketplace](https://workspace.google.com/marketplace/app/shovels/946108628231). Six formulas return permits for an address, ZIP code, county or state, permits by contractor, and contractor details by name. Formulas spend the API credits of the key set in the Sheet, and cached results spend credits again on refresh. The [Quickstart guide](/docs/shovels-sheets-quickstart) covers every formula.
+
+      **Regenerate Your API Key**
+
+      API keys can be replaced from Account → API Key, with a confirmation step before the key is issued. The old key stops working within five minutes, so put the replacement into every integration and Google Sheet that uses it right away.
+
+      ### 🏗️ Permits Dataset
+
+      **New Permits Added**
+      - Net permits: **+5,674,526** (+2.9%)
+
+      All changes are measured against the October 1 release. "Net" is the change in total dataset size.
+
+      Permits filed in October 2026: **395,709**
+      Permits issued in October 2026: **167,983**
+
+      ### 👷 Contractors
+
+      - Net contractors: **+223,480** (+5.7%)
+      - Net addresses: **+133,785**
+      - Permits newly linked to a contractor: **+3,510,663**
+
+      Contractors carrying a classification rose from 6.5% to **33.4%**.
+
+      ### 📍 Geocoding Improvements
+
+      **More Permits Linked to an Address**
+      - Permits newly linked to an address: **+12,162,332**
+      - Permits newly carrying coordinates: **+11,756,286**
+
+      Permits with a linked address rose from 77.8% to **81.7%**, measured against the October 1 release. If you join on `address_id`, expect these permits to enter the join for the first time.
+
+      ### 🗺️ Newly Covered Jurisdictions
+
+      Bellevue, WA joins Shovels this release with **353,546** permits. In total **42** jurisdictions reached 50 or more permits, **438,352** permits between them, and **10** of those jurisdictions are new to Shovels. The largest:
+
+      | Jurisdiction | Permits |
+      |---|---|
+      | WA / Bellevue | 353,546 |
+      | NC / Wake Forest | 30,194 |
+      | IL / Schaumburg | 8,215 |
+      | FL / Hillsboro Beach | 7,802 |
+      | MA / Reading | 6,541 |
+      | NY / Mamaroneck | 5,341 |
+      | NC / Clayton | 4,967 |
+      | PA / Scranton | 3,318 |
+
+      A further **34** jurisdictions are not listed here. The full list is available on request.
+
+      ### 🔙 Following Up on Earlier Releases
+
+      Miami-Dade permits with a linked address rose from 31.8% to **57.1%**. Of the roughly **734,000** permits that lost their street address in the September release, **80%** have it back, with Chesapeake, Contra Costa County and Oakland restored on all but a few dozen and Atlanta at 92%; all **16,485** permits in Ocala, FL are still without one. Of the roughly **162,000** permits affected in the August release, **75%** have their address back. Of the permits added in the October release without work-type tags, **81%** carry them now, and **99.2%** of the whole dataset has been through work-type tagging, up from 96.3% on October 1.
+
+      <Info>
+        ✅ **No breaking changes.** No endpoint, parameter, or response field changed, and all existing integrations continue to work unchanged. The action needed is on the data side: the re-keyed permit IDs, the earlier first-seen dates, and the removed records above.
+      </Info>
+    </Tab>
+    <Tab title="EDL (Enterprise Data License)">
+      ### 🏗️ Permits Dataset
+
+      **New Permits Added**
+      - Net permits: **+5,674,526** (+2.9%)
+
+      All changes are measured against the October 1 release. "Net" is the change in total dataset size.
+
+      Permits filed in October 2026: **395,709**
+      Permits issued in October 2026: **167,983**
+
+      ### 👷 Contractors
+
+      - Net contractors: **+223,480** (+5.7%)
+      - Net addresses: **+133,785**
+      - Permits newly linked to a contractor: **+3,510,663**
+
+      Contractors carrying a classification rose from 6.5% to **33.4%**.
+
+      ### 📍 Geocoding Improvements
+
+      **More Permits Linked to an Address**
+      - Permits newly linked to an address: **+12,162,332**
+      - Permits newly carrying coordinates: **+11,756,286**
+
+      Permits with a linked address rose from 77.8% to **81.7%**, measured against the October 1 release. Miami-Dade rose from 31.8% to **57.1%** over the same period.
+
+      ### 🗺️ Newly Covered Jurisdictions
+
+      Bellevue, WA joins Shovels this release with **353,546** permits. In total **42** jurisdictions reached 50 or more permits, **438,352** permits between them, and **10** of those jurisdictions are new to Shovels. The largest:
+
+      | Jurisdiction | Permits |
+      |---|---|
+      | WA / Bellevue | 353,546 |
+      | NC / Wake Forest | 30,194 |
+      | IL / Schaumburg | 8,215 |
+      | FL / Hillsboro Beach | 7,802 |
+      | MA / Reading | 6,541 |
+      | NY / Mamaroneck | 5,341 |
+      | NC / Clayton | 4,967 |
+      | PA / Scranton | 3,318 |
+
+      A further **34** jurisdictions are not listed here. The full list is available on request.
+
+      ### 🔁 Data Quality
+
+      This release is a cleanup. **3.84M** invalid records were removed, either carrying no permit data or combining data from different permits, with fewer than 3% of them filed in 2026; the heaviest were FL / Seminole County (**1,316,301**), CA / Bakersfield (**448,022**) and FL / Punta Gorda (**370,019**). A further **114,775** duplicate records were removed in Cambridge, MA, where they carried an internal row number instead of the permit number, and no Cambridge permit was lost.
+
+      **780,721** permit IDs changed (~**0.4%**) in the usual enrichment re-key, where populating or correcting `file_date` changed the derived `id`; **716,234** of them are in TX / Fort Worth. The `old_id → new_id` changes are in two changelogs (Parquet), one from the October 15 release and one from the November 1 release, both available on request; apply both in order to a copy taken on October 1.
+
+      First-seen dates moved earlier on **3,064,584** permits as a backlog of older collected data was processed, so these permits now show the earliest date we actually saw them, between May 2025 and September 2026. A sync that runs incrementally on `first_seen_date` or `start_date` misses them, since they fall in windows already synced; re-pull those windows, or upsert by `id`.
+
+      Two date fields were corrected. **320,225** permits no longer show an issue date, 90% of which had shown their filing date there because of a source-reading bug fixed in June, so issued counts by `issue_date` drop for May and June 2026. **84,209** Philadelphia permits no longer show a final date, because the Philadelphia source sets `final_date` only on completion rather than carrying the expiration date of expired and withdrawn permits.
+    </Tab>
+  </Tabs>
+</Update>
+
 <Update label="V2.1.13" description="2026-10-01">
   <Tabs>
     <Tab title="Online">
