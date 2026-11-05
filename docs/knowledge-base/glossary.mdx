@@ -55,10 +55,10 @@ A permit coverage bucket for a jurisdiction—`high`, `medium`, or `low`—repor
 The most recent date past which "no permit since D" is under-observed for a given row (`trust.data_horizon`). If your `permit_from` / `--permit-from` is later than the horizon, the absence answer is a guess about data that hasn't arrived yet. Never null.
 
 ### Decision (Shovels Decision)
-A structured record of a municipal zoning or land use decision extracted from city council and planning department meetings. Decisions capture rezoning approvals, special use permits, variances, and zoning code modifications—often months before permits are filed.
+A structured record of a municipal zoning or land use decision extracted from city council and planning department meetings. Decisions capture rezonings, special use permits, zoning code modifications, plat approvals, annexations, infrastructure projects, and other local government actions—often months before permits are filed.
 
 ### Decision Category
-The classification of a zoning action type. Primary categories include Spot Rezoning, Area Rezoning, Zoning Code Modification, and Special Use Permit. Subcategories provide additional context such as Inclusionary Zoning, Variance, or Planned Unit Development (PUD).
+The classification of a decision's action type. Shovels uses twelve categories, including Spot Rezoning, Area Rezoning, Zoning Code Modification, Final Plat, Annexation, and Infrastructure Development. Subcategories provide additional context such as Special Use Permit, Inclusionary Zoning, or Planned Unit Development (PUD). See [Decision categories](/docs/knowledge-base/data/decisions/decision-categories).
 
 ### Decision Date
 The date a municipal zoning or land use decision was made (`decision_date` in the API). Decisions are filtered by date range using the required `decision_from` and `decision_to` parameters when searching.

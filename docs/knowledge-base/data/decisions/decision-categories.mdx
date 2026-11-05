@@ -1,26 +1,32 @@
 ---
 title: "Decision Categories"
-description: "Understanding the different types of zoning and land use decisions tracked by Shovels, from spot rezonings to zoning code modifications."
+description: "Understanding the twelve categories of zoning, land use, and municipal decisions tracked by Shovels, from spot rezonings to infrastructure development and city property transactions."
 ---
 
 Shovels Decisions are categorized by the type of municipal action they represent. Understanding these categories helps you filter for the decisions most relevant to your use case.
 
-## Primary Categories
+Every decision has one category and may have a subcategory that narrows it down. The subcategories listed below are the common ones for each category, not a complete list.
+
+## Zoning Categories
 
 ### Spot Rezoning
 
 A zoning change applied to a specific property or small group of parcels. Spot rezonings are typically initiated by property owners or developers seeking to change what can be built on their land.
 
+**Subcategories include:** Mixed-Use Rezoning, Residential Rezoning, Special Use Permit
+
 **Examples:**
 - Changing a single-family residential lot to allow multifamily development
 - Converting a commercial parcel to mixed-use
-- Rezoning an industrial site for residential development
+- Approving a special use permit for a specific activity at a known location
 
 **Why it matters:** Spot rezonings often signal imminent development activity on that specific property.
 
 ### Area Rezoning
 
 A zoning change applied to a larger geographic area, often initiated by the municipality as part of a comprehensive planning effort.
+
+**Subcategories include:** Mixed-Use Rezoning, Commercial Rezoning, Industrial Rezoning, Retail Rezoning, Downtown Rezoning, Planned Unit Development (PUD)
 
 **Examples:**
 - Rezoning an entire corridor for transit-oriented development
@@ -33,46 +39,100 @@ A zoning change applied to a larger geographic area, often initiated by the muni
 
 Changes to the zoning regulations themselves, rather than the zoning designation of specific properties. These modify what's allowed within existing zones.
 
+**Subcategories include:** Limitations, Process Updates, Accessory Dwelling Units (ADUs), Definitions Update, Short-term Rental, Extended Stay
+
 **Examples:**
 - Adjusting height limits in commercial zones
 - Adding accessory dwelling units (ADUs) as a permitted use
-- Modifying parking requirements citywide
+- Changing the rules for short-term rentals citywide
 
 **Why it matters:** Code modifications can unlock development potential across all properties in affected zones without individual rezonings.
 
-### Special Use Permit
+## Land and Development Categories
 
-Permission to conduct a specific activity that isn't automatically allowed in a zone but may be approved with conditions. Also called conditional use permits in some jurisdictions.
+### Annexation
 
-**Examples:**
-- Operating a restaurant with outdoor seating in a residential area
-- Building a cell tower in a commercial zone
-- Running a daycare facility in a mixed-use building
+A city or town extending its boundary to take in land that was previously outside it, such as unincorporated county land.
 
-**Why it matters:** Special use permits often precede specific business or development activity at a known location.
+**Why it matters:** Annexed land often comes under new zoning and gains access to city services, which can make it buildable.
 
-## Subcategories
+### Final Plat
 
-Decisions may also include subcategories that provide additional context:
+Approval of a plat that divides land into lots, often the last planning step before a subdivision is built.
 
-| Subcategory | Description |
-|-------------|-------------|
-| **Inclusionary Zoning** | Requirements or incentives for affordable housing units |
-| **Conditional Use** | Approval contingent on meeting specific conditions |
-| **Planned Unit Development (PUD)** | Flexible zoning for master-planned projects |
-| **Variance** | Exception to specific zoning requirements |
-| **Historic Overlay** | Special regulations for historic preservation |
+**Subcategories include:** Subdivision, Platting, Development Approval
+
+**Why it matters:** A final plat approval is one of the clearest signals that new homes or lots are coming to a specific site.
+
+### Project Amendment
+
+A change to a development project that was already approved, such as a revised development plan.
+
+**Subcategories include:** Development Plan Amendment
+
+**Why it matters:** Amendments show that a known project is still moving, and often change its size, use, or timeline.
+
+### Land Use Planning
+
+Long-range planning decisions, including general plan amendments and the siting of schools and parks.
+
+**Subcategories include:** General Plan Amendment, Elementary School, Middle School, High School, Education Center, Parks & Recreation
+
+**Why it matters:** Plan amendments set the direction for future rezonings, and new schools and parks often draw residential development nearby.
+
+## Public Investment Categories
+
+### Affordable Housing
+
+Decisions that create, fund, or require affordable housing.
+
+**Subcategories include:** Affordable Housing Development, Inclusionary Zoning, Supportive Housing, Rent Assistance, Office-to-Affordable-Housing
+
+**Why it matters:** These decisions often come with public funding attached, which moves housing projects forward.
+
+### Infrastructure Development
+
+Public infrastructure projects approved by the local government.
+
+**Subcategories include:** Transportation, Water/Sewer, Water Management, Fire Department, Police Department, General Infrastructure
+
+**Why it matters:** New roads, utilities, and public facilities open land for development and point to construction work for contractors in those trades.
+
+### Economic Development Incentives
+
+Grants, tax incentives, special districts, and business licenses the local government uses to encourage investment.
+
+**Subcategories include:** Grants, Tax Increment Financing, Special Improvement Districts, Neighborhood Enterprise Zone (NEZ), Brownfield, Housing Program, Cannabis License, Liquor License
+
+**Why it matters:** Incentives show where a city wants growth, and often attach to a specific project or business.
+
+### City Properties
+
+Transactions involving land or buildings the local government owns.
+
+**Subcategories include:** Property Sale, Property Purchase, Property Lease, Property Transfer, Land Donation, Property Repurposing
+
+**Why it matters:** City-owned sites that are sold, leased, or repurposed are often redeveloped soon after.
+
+### Contract
+
+Contracts the local government approves or amends, such as professional services agreements.
+
+**Subcategories include:** Contract Amendment, Professional Services
+
+**Why it matters:** Contracts identify the firms working for a city and the projects it is paying for.
 
 ## Filtering by Category
 
 When searching for decisions, you can filter by category to focus on the types most relevant to your needs:
 
-- **Development tracking:** Focus on Spot Rezoning and Special Use Permits
-- **Market analysis:** Include Area Rezoning and Zoning Code Modifications
+- **Development tracking:** Spot Rezoning, Final Plat, and Project Amendment
+- **Market analysis:** Area Rezoning, Zoning Code Modification, Annexation, and Land Use Planning
+- **Public investment:** Infrastructure Development, Affordable Housing, Economic Development Incentives, and City Properties
 - **Comprehensive monitoring:** Include all categories
 
 <Info>
-Category names may vary slightly by jurisdiction. Shovels normalizes these into consistent categories while preserving the original terminology in the decision details.
+Shovels Online shows categories as readable labels, such as Spot Rezoning. The API returns them as lowercase keys with underscores, such as `spot_rezoning`, and the API's category filter takes the same keys.
 </Info>
 
 ## Related Articles
@@ -80,3 +140,4 @@ Category names may vary slightly by jurisdiction. Shovels normalizes these into 
 - [What are Shovels Decisions?](/docs/knowledge-base/data/decisions/overview)
 - [Decision data fields](/docs/knowledge-base/data/decisions/data-fields)
 - [From decision to permit](/docs/knowledge-base/data/decisions/decision-to-permit)
+- [How to search Decisions in Shovels Online](/docs/knowledge-base/shovels-online/searching-decisions)
