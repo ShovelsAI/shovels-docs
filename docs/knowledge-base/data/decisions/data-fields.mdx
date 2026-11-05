@@ -17,7 +17,7 @@ This page documents the full Decisions **dataset**, a superset of what the API r
 | `when` | Date the decision was made |
 | `city` | Municipality where the decision applies |
 | `state` | State (full name or abbreviation) |
-| `category` | Decision type (Spot Rezoning, Area Rezoning, etc.) |
+| `category` | Decision type (e.g. `spot_rezoning`); see [Decision categories](/docs/knowledge-base/data/decisions/decision-categories) |
 | `subcategory` | More specific categorization |
 | `link` | URL to the official source document |
 
@@ -58,8 +58,8 @@ Geographic coordinates enable mapping and spatial analysis. The geographic ident
 |-------|-------------|
 | `size_ac` | Property size in acres |
 | `size_sf` | Property size in square feet |
-| `asset_class` | Property type (Residential, Commercial, Industrial, Multifamily, etc.) |
-| `property_type` | More specific type (Retail, Office, Warehouse, etc.) |
+| `asset_class` | Broad asset type (Commercial, Mixed-Use, Multifamily, etc.) |
+| `property_type` | More specific type (Retail, Townhomes, vacant land, etc.) |
 
 ## Regulatory Parameters
 
