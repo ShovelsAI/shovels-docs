@@ -14,7 +14,7 @@ description: This guide will help you get started with Shovels Online, the web-b
   />
 </div>
 
-**Shovels Online**, compared with our other platform offerings of the **Shovels API** and **Shovels EDL** (Enterprise Data License), is best for ad hoc and codeless exploration of US construction data, specifically **Contractors** and the **Related Permits**. 
+**Shovels Online**, compared with our other platform offerings of the **Shovels API** and **Shovels EDL** (Enterprise Data License), is best for ad hoc and codeless exploration of US construction data: **Contractors**, **Permits**, **Properties**, and zoning and land use **Decisions**. 
 
 Our coverage and data is not perfect, and we're reliant on individual permit jurisdictions all over the country to digitize their records. We're always working to improve the coverage and data fidelity, so if you're looking for a specific record (and you are certain that there's a permit record for it), then please get in touch and we'll do our best to help.
 
@@ -34,7 +34,7 @@ Once you've verified your email, you'll be directed to log in. Once successful, 
 
 New accounts start on the Free plan. It doesn't expire and needs no credit card, so you can explore the platform, gather sample data, and get a feel for the data at your own pace.
 
-On the Free plan you can search permits and contractors across the last 12 months, apply every filter, open individual records, and use the map. Paid plans unlock the full history, raise how many results you can page through, and enable CSV export. See [Which plan is right for me?](/docs/knowledge-base/getting-started/choosing-a-plan) if you're weighing an upgrade.
+On the Free plan you can search permits, contractors, properties, and decisions across the last 12 months, apply every filter, open individual records, use the map, and export to CSV with your 500 monthly credits. Paid plans unlock the full history, raise how many results you can page through, and include more credits. See [Which plan is right for me?](/docs/knowledge-base/getting-started/choosing-a-plan) if you're weighing an upgrade.
 
 #### Free Plan API Key
 
@@ -56,29 +56,22 @@ When you reach the Search page, you'll see the left-side panel with a variety of
 
 <Info>
 
-Search results are limited to 50 per page. This limit carries over to the Map View, so the results will not dynamically adjust based on zooming out or panning around. 
+The Free plan lets you browse the first 10 results of a search, and paid plans the first 100. The Map View shows the results on the current page, so it will not dynamically adjust based on zooming out or panning around. 
 
 </Info>
 
-Across the top, there will be two tabs labeled "Contractors" and "Related Permits". These tabs allow you to switch between returning top-level contractors, which will include a summary of permit counts, job types, and other company data, and individual permits.
+### Search Tabs
 
-### Contractors vs Permits
+Above the results are four tabs: "Contractors", "Permits", "Properties", and "Decisions". Each tab returns a different kind of record:
 
-Across the top of the page, there will be two tabs labeled "Contractors" and "Related Permits". These tabs allow you to switch between returning top-level contractors, which will include a summary of permit counts, job types, and other company data, and individual permits.
+- **Contractors** returns top-level contractors, with a summary of permit counts, job types, and other company data.
+- **Permits** returns individual permit records.
+- **Properties** returns individual properties and their permit history.
+- **Decisions** returns zoning and land use decisions from city councils and planning boards. It has its own filters; see [How to search Decisions in Shovels Online](/docs/knowledge-base/shovels-online/searching-decisions).
 
 Simply defined, **Contractors** are individuals or companies that file permits and do the underlying work for the project. Our search allows you to filter for contractors by a wide range of factors, including business name, project type and scale, geographical area of work, and more. 
 
 On the other hand, **Permits** are the actual permit records, which can be submitted (and linked to) a Contractor, or could be done by a non-contractor (such as homeowner).
-
-### Saved Profiles
-
-On the upper right-side of the page, you'll see a button for "Saved Profiles". This is where you can save your previous search queries, filters, and results for future use or reference.
-
-There are a wide variety of single objects that you can save, including Contractors, Permits, States, Jurisdictions, Counties, and Cities. 
-
-You can also save entire search queries, so you can easily find and re-run a set of filters that you've used previously.
-
-Finally, even if you haven't saved the Search explicitly, a "Search History" of previous searches will be available to you for convenience. 
 
 ### Map View
 
@@ -140,45 +133,37 @@ We'll go with `Min Total Permits Count = 10`, which specifies that we want contr
 
 ### Getting Results
 
-Now that we've fine-tuned our filters, click "Apply Filters" at the bottom of the panel and wait for the results. 
+Now that we've fine-tuned our filters, click "Search" at the bottom of the panel and wait for the results. 
 
 In this case, we've made a very narrow search, in a small geographical area. As of time of writing, we see 3 results for Contractors that meet our criteria (`10` permits, with at least one in `New Construction`, in the `last 12 months` in `Hampden County, MA`). 
 
-Each **Contractor** is represented by a row in the results, and if you want more information you can click "View Details" to drill down further. 
+Each **Contractor** is represented by a row in the results. Click a row to expand it, or open the contractor's full profile to drill down further. 
 
-## Searching for Related Permits
+## Searching for Permits
 
-Thus far, we've been searching for Contractors only. By switching to the "Related Permits" tab, we can instead return a list of all qualifying permits that match our existing and relevant criteria. In this case, Contractor filters aren't applicable. 
+Thus far, we've been searching for Contractors only. By switching to the "Permits" tab, we can instead return a list of all qualifying permits that match our existing and relevant criteria. In this case, Contractor filters aren't applicable. 
 
 ### Difference between Contractors and Permits
 
-There are a few key differences in returned results between Contractors and Related Permits. 
+There are a few key differences in returned results between Contractors and Permits. 
 
 * **Contractors** always roll-up their entire job history, so not every permit on their record will necessarily meet all criteria. As long as each criteria is met by at least one or more of their permits, they'll be returned in the search results. 
     * For more detailed and controlled results, you'll want to explore our API or EDL platforms. 
-* **Related Permits** do not necessarily have an associated **Contractor**, as homeowners may submit permits without hiring a contractor for the project. 
+* **Permits** do not necessarily have an associated **Contractor**, as homeowners may submit permits without hiring a contractor for the project. 
 
 ## Next Steps
 
 Now we have our results, and it's time to do something with them.  
 
-### Saving Filters
-
-If this is a set query that you'll want to return to frequently, then you can save this search for future use. Click the "<Icon icon="heart" /> Save" button on the top of the Filters panel to save the existing filter. 
-
-### Saving Profiles
-
-If one of the Contractors is of specific interest, then you could save their profile directly. Click the bookmark icon (<Icon icon="bookmark" />) to save the current object. 
-
 ### Exporting Results
 
 Most commonly, you'll want to export this data somehow. In this example, it may be easier to simply take down the information by hand for the three contractors we found. Using their contact details, we can add them to a sales or marketing pipeline to get in contact directly.
 
-For larger search results, as might be the case in a wider geographical or construction-heavy zone, you can use the "Download List <Icon icon="arrow-down-to-line" />" button to save a CSV of the top 1000 results. 
+For larger search results, as might be the case in a wider geographical or construction-heavy zone, you can use the "Download CSV" button to save a CSV of up to the first 5,000 results. Each exported record spends one credit, on every plan including Free. 
 
 <Important>
 
-Shovels Online doesn't support more than 1000 results for a given search. If you need more, then we recommend either narrowing your search further (such as smaller geographical filter), or using Shovels API to get your data. If you have any questions, please don't hesitate to reach out to [Support](mailto:support@shovels.ai).
+Shovels Online can't export a search that matches more than 10,000 records. If you need more, then we recommend either narrowing your search further (such as smaller geographical filter), or using Shovels API to get your data. If you have any questions, please don't hesitate to reach out to [Support](mailto:support@shovels.ai).
 
 </Important>
 
