@@ -1,0 +1,81 @@
+---
+title: "How to Search Decisions in Shovels Online"
+description: "Search zoning and land use decisions in Shovels Online by location and date, filter by category, asset class, and project value, open the full record, and export results to CSV."
+sidebarTitle: "Searching Decisions"
+---
+
+**The Decisions tab in [Shovels Online](https://app.shovels.ai) lets you search zoning and land use decisions from city councils and planning boards without writing code.** It sits alongside the Contractors, Permits, and Properties tabs and is included on every plan.
+
+Decisions often come months before a permit is filed, so this tab is where to look for projects that haven't reached construction yet. See [What are Shovels Decisions?](/docs/knowledge-base/data/decisions/overview) for background on the dataset.
+
+## Location and Dates
+
+Every Decisions search needs a location and a decision date range.
+
+- **Location:** an address, city, county, state, or jurisdiction.
+- **Decision dates:** the date the decision was made. A new search starts with the last 12 months, and the calendar offers shortcuts for the last 1, 3, 6, or 12 months and all time.
+
+<Warning>
+ZIP codes are not supported on the Decisions tab. Search by city, county, or jurisdiction instead.
+</Warning>
+
+On the Free plan, Decisions searches cover the last 12 months. If a search starts earlier, Shovels Online moves the start date forward and says so above the results. Paid plans can search the full history.
+
+## Filters
+
+Each filter you add narrows the results further.
+
+| Filter | What it matches |
+|--------|-----------------|
+| **Keywords** | Words in the decision's title and description, up to 100 characters |
+| **Asset class** | The kind of asset involved, such as Commercial or Mixed-Use |
+| **Category** | The kind of decision, such as Spot Rezoning or Infrastructure Development |
+| **Subcategory** | A more specific classification recorded on the decision |
+| **Property type** | The type of property, such as vacant land |
+| **Project value** | A minimum and maximum project value, in dollars |
+
+The asset class, category, and subcategory lists suggest values from the decisions you have loaded, so they are not a complete list. You can type any value from a decision record to filter on it. See [Decision categories](/docs/knowledge-base/data/decisions/decision-categories) for the categories Shovels uses.
+
+## Results and Decision Records
+
+Results appear as a table, with a map view available from the same toggle as the other tabs. Expand a row to see the full record, or open the decision on its own page. Each decision page has its own link, so you can bookmark it or send it to a teammate who has a Shovels account.
+
+A decision record includes:
+
+- **Decision:** date, category, subcategory, and asset class
+- **Description** and a short **Why it matters** summary
+- **Location:** the address, shown on a map where coordinates are available
+- **Project:** property type, project value, lot size, previous and new zoning, and allowed uses
+- **People:** applicant, owner, representative, and developer
+- **Source:** a link to the official meeting record the decision came from
+
+Not every decision includes every field. A value appears only when the source meeting record contains it.
+
+The Decisions tab uses the same [browsing limits](/docs/knowledge-base/shovels-online/how-it-works#how-many-results-can-i-browse) as the other tabs.
+
+## Exporting Decisions to CSV
+
+Select **Download CSV** above the results to export a Decisions search. Export is available on every plan, including Free.
+
+- Each download includes up to **1,000** decisions. If more match, the file contains the first 1,000.
+- Each exported row spends one credit from the monthly balance you share with the API.
+- If a search matches more than 10,000 decisions, narrow the location or date range before exporting.
+- The Free plan's 12-month limit applies to exports too.
+
+For larger pulls, use the [Search Decisions](/docs/knowledge-base/api/decisions/searching-decisions) endpoint in the API.
+
+## Asking Charlie About Decisions
+
+[Charlie](/docs/knowledge-base/shovels-online/charlie) can set up a Decisions search for you. Ask something like "Show me rezoning decisions in Austin from the last six months", and Charlie replies with a button that opens the Decisions tab with the location, dates, and filters already applied. Charlie prepares the search; the records themselves appear on the Decisions tab.
+
+## Coverage
+
+Decisions coverage is smaller than permit coverage, so a location with permit data may not have decisions yet. Shovels collects new decisions daily and adds them to the dataset twice a month. Check the [Coverage Dashboard](https://www.shovels.ai/coverage) before you build a search around a specific area.
+
+## Related Articles
+
+- [What are Shovels Decisions?](/docs/knowledge-base/data/decisions/overview)
+- [Decision categories](/docs/knowledge-base/data/decisions/decision-categories)
+- [Decision data fields](/docs/knowledge-base/data/decisions/data-fields)
+- [Where Decisions are available](/docs/knowledge-base/api/decisions/decisions-availability)
+- [How Shovels Online works](/docs/knowledge-base/shovels-online/how-it-works)
