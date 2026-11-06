@@ -21,12 +21,15 @@
 
    `colorScheme: light` is deliberate. The demo is a screen recording of the
    light-mode app, so letting the iframe inherit a dark scheme only repaints
-   Arcade's chrome around an image that stays light. */
+   Arcade's chrome around an image that stays light.
 
-export const ArcadeDemo = ({ id, title, aspect }) => (
-  <div style={{position: "relative", paddingBottom: `calc(${aspect}% + 41px)`, height: 0, width: "100%"}}>
+   Set `video` for an Arcade video export, whose embed URL has a `/video/`
+   path. A video export has no chrome bar, so it gets no extra 41px. */
+
+export const ArcadeDemo = ({ id, title, aspect, video = false }) => (
+  <div style={{position: "relative", paddingBottom: video ? `${aspect}%` : `calc(${aspect}% + 41px)`, height: 0, width: "100%"}}>
     <iframe
-      src={`https://demo.arcade.software/${id}?embed&embed_mobile=tab&embed_desktop=inline&show_copy_link=true`}
+      src={`https://demo.arcade.software/${video ? "video/" : ""}${id}?embed&embed_mobile=tab&embed_desktop=inline&show_copy_link=true`}
       title={title}
       frameBorder="0"
       loading="lazy"
