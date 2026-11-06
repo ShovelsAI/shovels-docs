@@ -61,7 +61,7 @@ A structured record of a municipal zoning or land use decision extracted from ci
 The classification of a decision's action type. Shovels uses twelve categories, including Spot Rezoning, Area Rezoning, Zoning Code Modification, Final Plat, Annexation, and Infrastructure Development. Subcategories provide additional context such as Special Use Permit, Inclusionary Zoning, or Planned Unit Development (PUD). See [Decision categories](/docs/knowledge-base/data/decisions/decision-categories).
 
 ### Decision Date
-The date a municipal zoning or land use decision was made (`decision_date` in the API). Decisions are filtered by date range using the required `decision_from` and `decision_to` parameters when searching.
+The date of the final vote or action on a municipal zoning or land use decision (`decision_date` in the API). It is not the date Shovels published the record. Decisions are filtered by date range using the required `decision_from` and `decision_to` parameters when searching.
 
 ### Decision ID
 A unique identifier assigned by Shovels to each decision record (`id` in the API). Use it with the Get Decisions By ID endpoint to retrieve specific decisions.
