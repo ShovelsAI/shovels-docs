@@ -1,9 +1,9 @@
 ---
 title: "Where Does Shovels Get Its Data?"
-description: "Shovels collects permit data directly from city and county jurisdictions through government relationships, online portals, and public records requests—never from third parties."
+description: "Shovels collects permit data directly from city and county jurisdictions through government relationships, online portals, and records requested from the jurisdiction—never from third parties."
 ---
 
-**Shovels collects permit data directly from city and county jurisdictions—we don't purchase data from third-party vendors.** We gather data through relationships with local governments, integration with online permitting portals, and public records requests. This direct sourcing ensures data quality and freshness.
+**Shovels collects permit data directly from city and county jurisdictions—we don't purchase data from third-party vendors.** We gather data through relationships with local governments, integration with online permitting portals, and records requested from the jurisdiction directly. This direct sourcing ensures data quality and freshness.
 
 ## Primary Collection Methods
 
@@ -12,16 +12,28 @@ description: "Shovels collects permit data directly from city and county jurisdi
 We collect data through:
 - **Relationships with local governments**
 - **Integration with online permitting portals**
-- **Public records requests** where needed
+- **Records requested from the jurisdiction** where permits aren't published online
 
 ### Digital Methods
 - Jurisdiction website scraping
 - Municipal open data portal integration
 - Building department API connections
 
-### Offline Methods
-- Calling jurisdiction offices
-- Submitting formal records requests
+### Permits Not Published Online
+
+Thousands of jurisdictions issue building permits without making them publicly available online. Some have no permit portal at all; others keep their records in a system the public can't search. Either way the data has to come from the jurisdiction directly.
+
+For each of these jurisdictions we:
+
+1. **Confirm the records aren't already online.** If they are, they go through our online pipeline instead.
+2. **Find the right office and its procedure.** Some offices take an informal request straight to the building department. Others require a formal public records request under their state's own law. The route differs for every jurisdiction.
+3. **Set up a recurring delivery.** We agree with the office on how records will be sent and whether a fee applies. Requests go out by email, form, records portal, or occasionally fax. Some jurisdictions simply add us to a distribution list and send on their own schedule, with no request needed.
+4. **Review each delivery.** Records arrive by email or are posted to a portal, as spreadsheets, PDFs, and occasionally paper. We check every delivery against what we asked for and follow up on anything missing.
+5. **Standardize and check.** Each jurisdiction's records are mapped to the Shovels schema and put through quality checks before publication.
+
+Most of these jurisdictions send new records monthly, though the cadence ranges from weekly to twice a year. A permit typically reaches the dataset about a month after it is issued.
+
+These permits carry the same schema as every other permit and appear in the same searches, exports, and API responses. Most include a permit number, address, status, and description; permit type, valuation, contractor, and parcel details are included where the jurisdiction provides them. Field completeness varies by jurisdiction.
 
 <Info>
 We get data straight from the source—we don't purchase permit data from other vendors.
