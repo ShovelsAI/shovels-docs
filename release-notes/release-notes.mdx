@@ -3,6 +3,185 @@ title: "Release Notes"
 description: "Find out what the Engineering team has been up to across our entire platform, including general announcements, updates, and bugfixes."
 ---
 
+<Update label="V2.1.15" description="2026-11-15">
+  <Tabs>
+    <Tab title="Online">
+      ### Introduction
+
+      This mid-month data release brings permits from **364** jurisdictions that don't publish their permits online, and adds **+8,892,474** net permits (+4.4%). Permits with a linked address rose from 81.7% to **84.4%**, Shovels now covers **3,594** jurisdictions, and resident data is refreshed through October 2026.
+
+      ### 📬 Permits From 364 Offline Jurisdictions
+
+      Shovels now includes **1,492,476** permits from **364** jurisdictions that don't make their permits searchable online. We request them directly from those jurisdictions. **915,486** of them arrive in this release from jurisdictions in **38** states, and **352** of those jurisdictions are new to Shovels. [Read more about offline permit data](https://www.shovels.ai/blog/offline-permit-data-364-jurisdictions/).
+
+      ### 🏗️ Permits Dataset
+
+      **New Permits Added**
+      - Net permits: **+8,892,474** (+4.4%)
+
+      All changes are measured against the November 1 release. "Net" is the change in total dataset size.
+
+      ### 🗺️ Newly Covered Jurisdictions
+
+      Shovels now covers **3,594** jurisdictions, up from 3,210. **345** jurisdictions appear in Shovels for the first time with 50 or more permits, **1,957,673** permits between them. Three of them, Roseville, CA, McHenry County, IL and Laramie County, WY, are jurisdictions we already covered under another name (see the API tab). The largest new jurisdictions:
+
+      - OR / Salem: **325,891**
+      - MI / Detroit: **169,178**
+      - MN / Minneapolis: **99,958**
+      - CA / San Diego County: **77,973**
+      - WA / Renton: **73,006**
+      - NC / Greensboro: **69,375**
+      - WA / Snohomish County: **50,025**
+      - GA / Roswell: **47,910**
+
+      The full list is available on request.
+
+      ### 👷 Contractors
+
+      - Net contractors: **+211,078** (+5.1%)
+      - Permits linked to a contractor rose from 45.7% to **46.7%**
+
+      ### 📍 Geocoding Improvements
+
+      Permits with a linked address rose from 81.7% to **84.4%**, and permits carrying coordinates from 74.8% to **77.7%**.
+
+      ### 🏷️ Permit Tags and Descriptions
+
+      **Permit Tags**
+
+      Permit tags now come from a new model. The `addition`, `telecom` and `adu` tags are on fewer permits than before, so searches filtered by them return fewer results.
+
+      **Derived Descriptions**
+
+      The derived description now comes from a new model and covers **138.3M** permits (**66.0%**), up from 99.8M (49.7%). Permits whose description the model marks as unclear no longer carry one.
+
+      ### 🏠 Residents
+
+      Resident data is refreshed, with the newest records updated in October 2026, and now updates every month. Residents rose from 37.1M to **47.6M**.
+    </Tab>
+    <Tab title="API">
+      ### Introduction
+
+      This mid-month data release adds **+8,892,474** net permits (+4.4%), including permits from **364** jurisdictions that don't publish their permits online. It also re-keys **736,644** permit IDs, renames **7** jurisdictions, and puts permit tags and derived descriptions on new models; review the **Action Required** section before your next sync.
+
+      ### ⚠️ Action Required: Data Changes
+
+      **736,644 permit IDs changed (~0.4%)**
+
+      **749,665** permit IDs from the November 1 release are gone. **736,644** of those permits are still in Shovels under a new `id`:
+      - About **403K** had their `file_date` populated or corrected, which the `id` is derived from.
+      - About **319K** moved to a renamed jurisdiction, and about **15K** were merged into a permit we already had under the new name.
+
+      The `old_id → new_id` changes are in a changelog (Parquet), available on request.
+
+      **7 jurisdictions renamed**
+
+      Permits now under the new name:
+
+      - CA / Concord → CA / Roseville: **209,300**
+      - IL / McHenry → IL / McHenry County: **67,020**
+      - WY / Laramie → WY / Laramie County: **26,323**
+      - CA / Ventura County → CA / Ventura: **19,892**
+      - GA / Commerce → GA / Jackson County: **10,858**
+      - FL / Oakdale and FL / Town of Oakdale → FL / Oakland: **20**
+
+      If you filter or group by `jurisdiction`, update these names.
+
+      **13,019 permits removed without a new ID**
+
+      **13,018** of them are TN / Nashville permits that the city renumbered at the source, so the changelog cannot link their old IDs to new ones.
+
+      **Permit tags from a new model**
+
+      **6,895,314** permits lost at least one tag they had in the last release. The `addition`, `telecom` and `adu` tags are on fewer permits than before. If you filter or count by tag, expect different results.
+
+      **Derived descriptions from a new model**
+
+      `description_derived` now covers **138.3M** permits (**66.0%**), up from 99.8M (49.7%). **7,642,969** permits that had one no longer do, because the model marks their description as unclear.
+
+      ### 🏗️ Permits Dataset
+
+      **New Permits Added**
+      - Net permits: **+8,892,474** (+4.4%)
+
+      All changes are measured against the November 1 release. "Net" is the change in total dataset size.
+
+      **Permits From 364 Offline Jurisdictions**
+
+      Shovels now includes **1,492,476** permits from **364** jurisdictions that don't make their permits searchable online, requested directly from those jurisdictions. **915,486** of them arrive in this release from jurisdictions in **38** states, and **352** of those jurisdictions are new to Shovels.
+
+      ### 🗺️ Newly Covered Jurisdictions
+
+      Shovels now covers **3,594** jurisdictions, up from 3,210. **345** jurisdictions appear in Shovels for the first time with 50 or more permits, **1,957,673** permits between them, including the renamed Roseville, McHenry County and Laramie County above. The largest new jurisdictions:
+
+      - OR / Salem: **325,891**
+      - MI / Detroit: **169,178**
+      - MN / Minneapolis: **99,958**
+      - CA / San Diego County: **77,973**
+      - WA / Renton: **73,006**
+      - NC / Greensboro: **69,375**
+      - WA / Snohomish County: **50,025**
+      - GA / Roswell: **47,910**
+
+      The full list is available on request.
+
+      ### 👷 Contractors
+
+      - Net contractors: **+211,078** (+5.1%)
+      - Permits linked to a contractor rose from 45.7% to **46.7%**
+
+      ### 📍 Geocoding Improvements
+
+      Permits with a linked address rose from 81.7% to **84.4%**, and permits carrying coordinates from 74.8% to **77.7%**. If you join on `address_id`, expect these permits to enter the join for the first time.
+
+      ### 🏠 Residents
+
+      Resident data is refreshed, with the newest records updated in October 2026, and now updates every month. Residents rose from 37.1M to **47.6M**.
+
+      <Info>
+        ✅ **No breaking changes.** No endpoint, parameter, or response field changed, and all existing integrations continue to work unchanged. The action needed is on the data side: the re-keyed permit IDs, the renamed jurisdictions, the removed Nashville permits, and the new tag and description models above.
+      </Info>
+    </Tab>
+    <Tab title="EDL (Enterprise Data License)">
+      ### 🏗️ Permits Dataset
+
+      **New Permits Added**
+      - Net permits: **+8,892,474** (+4.4%)
+
+      All changes are measured against the November 1 release. "Net" is the change in total dataset size.
+
+      **Permits From 364 Offline Jurisdictions**
+
+      Shovels now includes **1,492,476** permits from **364** jurisdictions that don't make their permits searchable online, requested directly from those jurisdictions. **915,486** of them arrive in this release from jurisdictions in **38** states, and **352** of those jurisdictions are new to Shovels.
+
+      ### 🗺️ Newly Covered Jurisdictions
+
+      Shovels now covers **3,594** jurisdictions, up from 3,210. **345** jurisdictions appear in Shovels for the first time with 50 or more permits, **1,957,673** permits between them, including the renamed Roseville, CA, McHenry County, IL and Laramie County, WY. The largest new jurisdictions are OR / Salem (**325,891**), MI / Detroit (**169,178**), MN / Minneapolis (**99,958**) and CA / San Diego County (**77,973**). The full list is available on request.
+
+      ### 👷 Contractors
+
+      - Net contractors: **+211,078** (+5.1%)
+      - Permits linked to a contractor rose from 45.7% to **46.7%**
+
+      ### 📍 Geocoding Improvements
+
+      Permits with a linked address rose from 81.7% to **84.4%**, and permits carrying coordinates from 74.8% to **77.7%**.
+
+      ### 🏠 Residents
+
+      `residents` is refreshed and now updates every month. Residents rose from 37.1M to **47.6M**, and the newest `last_updated` moved from 2024-11-04 to 2026-10-29.
+
+      ### 🔁 Data Quality
+
+      **749,665** permit IDs from the November 1 release are gone, and **736,644** of those permits are still in Shovels under a new `id`. About **403K** had their `file_date` populated or corrected, which the `id` is derived from. About **319K** moved to a renamed jurisdiction and about **15K** were merged into a permit already held under the new name. The `old_id → new_id` changes are in a changelog (Parquet), available on request. A further **13,019** permits were removed without a new ID, **13,018** of them TN / Nashville permits that the city renumbered at the source.
+
+      **7** jurisdictions were renamed: CA / Concord to CA / Roseville (**209,300** permits), IL / McHenry to IL / McHenry County (**67,020**), WY / Laramie to WY / Laramie County (**26,323**), CA / Ventura County to CA / Ventura (**19,892**), GA / Commerce to GA / Jackson County (**10,858**), and FL / Oakdale and FL / Town of Oakdale to FL / Oakland (**20**).
+
+      Permit tags now come from a new model: **6,895,314** permits lost at least one tag, and `addition`, `telecom` and `adu` are on fewer permits than before. `description_derived` now comes from a new model and covers **138.3M** permits (**66.0%**), up from 99.8M (49.7%); **7,642,969** permits lost their value because the model marks their description as unclear.
+    </Tab>
+  </Tabs>
+</Update>
+
 <Update label="V2.1.14" description="2026-11-01">
   <Tabs>
     <Tab title="Online">
