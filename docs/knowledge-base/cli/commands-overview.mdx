@@ -240,7 +240,7 @@ Each command accepts only the global flags it honors, and its `--help` lists the
 
 | Flag | Description | Default |
 |---|---|---|
-| `--limit` | Max records to return (1-100000 or `all`) on paginated commands and capped searches | `50` |
+| `--limit` | Max records to return (1-100000 or `all`) on paginated commands and capped searches; a capped search stops at its own cap | `50` |
 | `--max-records` | Cap when using `--limit all` | `10000` |
 | `--base-url` | Override API endpoint | Config or default |
 | `--no-retry` | Disable automatic retry on rate limits | `false` |
