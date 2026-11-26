@@ -236,21 +236,19 @@ Tags support a `-` prefix for exclusion. Mix includes and excludes as needed.
 
 ## Global Flags
 
-These flags apply to all commands:
+Each command accepts only the global flags it honors, and its `--help` lists them under **Global Flags**. Passing one it does not honor, such as `shovels usage --limit 10`, exits with code 1 and names the flag rather than ignoring it.
 
 | Flag | Description | Default |
 |---|---|---|
-| `--limit` | Max records to return (1-100000 or `all`) | `50` |
+| `--limit` | Max records to return (1-100000 or `all`) on paginated commands and capped searches | `50` |
 | `--max-records` | Cap when using `--limit all` | `10000` |
-| `--include-count` | Include total result count in response | `false` |
 | `--base-url` | Override API endpoint | Config or default |
 | `--no-retry` | Disable automatic retry on rate limits | `false` |
 | `--timeout` | Per-request timeout (Go duration format) | `30s` |
 | `--dry-run` | Print the resolved HTTP request as JSON without calling the API or spending credits | `false` |
-| `--schema` | Print this command's annotated response schema (offline, no auth) | `false` |
 
 <Tip>
-`--dry-run` and `--schema` both short-circuit before any network call, so they're free. Use `--dry-run` to confirm how your flags map to query parameters, and `--schema` to learn the response shape.
+`--dry-run` and `--schema`, a flag every data command accepts, both short-circuit before any network call, so they're free. Use `--dry-run` to confirm how your flags map to query parameters, and `--schema` to learn the response shape.
 </Tip>
 
 ## Getting Help
