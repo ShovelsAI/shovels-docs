@@ -236,13 +236,12 @@ Tags support a `-` prefix for exclusion. Mix includes and excludes as needed.
 
 ## Global Flags
 
-These flags apply to all commands:
+Each command's `--help` lists which of these it accepts.
 
 | Flag | Description | Default |
 |---|---|---|
 | `--limit` | Max records to return (1-100000 or `all`) | `50` |
 | `--max-records` | Cap when using `--limit all` | `10000` |
-| `--include-count` | Include total result count in response | `false` |
 | `--base-url` | Override API endpoint | Config or default |
 | `--no-retry` | Disable automatic retry on rate limits | `false` |
 | `--timeout` | Per-request timeout (Go duration format) | `30s` |
