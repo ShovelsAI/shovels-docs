@@ -89,7 +89,7 @@ shovels permits search --geo-id CA \
 
 ### --include-count
 
-Add `--include-count` to include the total number of matching records in the response:
+Add `--include-count` to include the total number of matching records in the response. It is accepted by `permits search`, `contractors search`, `contractors permits`, `properties search`, and `decisions search`; the `metrics` commands reject it as an unknown flag.
 
 ```bash
 shovels permits search --geo-id 92024 \
